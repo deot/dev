@@ -1,0 +1,85 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "custom devs",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "init": "npm install && npm run bootstrap && npm run link",
+    "bootstrap": "lerna clean --yes && lerna bootstrap --loglevel silly",
+    "pub": "npm run build && lerna publish",
+    "pub:no-tag": "npm run pub -- --no-git-tag-version",
+    "lint": "esw packages --ext .js,.ts,.jsx,.tsx,.md --color",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:watch": "npm run lint -- --watch --fix",
+    "link": "node ./scripts/link.js",
+    "dev": "node ./scripts/dev.js",
+    "build": "node --max_old_space_size=8192 ./scripts/build.js",
+    "test": "node ./scripts/unit-test.js",
+    "add": "node ./scripts/add.js"
+  },
+  "scripts-info": {
+    "init": "首次安装",
+    "link": "依赖包关联",
+    "add": "创建新包或者给包添加依赖",
+    "dev": "开发模式",
+    "build": "打包模式",
+    "test": "执行测试, 可选择单个包或全部"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deot/dev.git"
+  },
+  "author": "deot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deot/dev/issues"
+  },
+  "homepage": "https://github.com/deot/dev#readme",
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.34.4",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "11.0.0",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.0.1",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-watch": "^8.0.0",
+    "fs-extra": "^10.0.0",
+    "husky": "^4.3.8",
+    "inquirer": "^9.1.4",
+    "inquirer-autocomplete-prompt": "^3.0.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "lerna": "^6.5.1",
+    "lint-staged": "^11.1.2",
+    "ora": "^6.1.2",
+    "rollup": "^3.18.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.5",
+    "upath": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "node ./scripts/commit-lint"
+    }
+  },
+  "lint-staged": {
+    "{packages}/**/*.{js,ts,jsx,tsx,md}": [
+      "esw --ext '.js,.ts,.jsx,.tsx,.md' --fix",
+      "git add"
+    ]
+  }
+}
