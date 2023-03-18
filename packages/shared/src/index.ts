@@ -1,5 +1,10 @@
-export * from './global.types';
+/**
+ * "export * as ___" syntax is not supported yet (API Extractor@7.x)
+ */
 
-export { Utils } from './utils';
-export { Logger } from './logger';
-export { Shell } from './shell';
+export * from './global.types';
+import * as Utils from './utils';
+import * as Logger from './logger';
+import * as Shell from './shell';
+
+export { Utils, Logger, Shell };

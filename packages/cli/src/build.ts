@@ -1,22 +1,33 @@
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'fs-extra';
 import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+import { createRequire } from "node:module";
 import { rollup as rollupBuilder } from 'rollup';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import chalk from 'chalk';
 import ora from 'ora';
-import { Utils, Logger } from './shared/index.js';
+import { Utils, Logger, Shell } from '@deot/dev-shared';
+import { Shared } from './shared';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+export const require$ = createRequire(import.meta.url);
 
 class Builder {
-	constructor(config) {
-		this.packageDir = path.resolve(__dirname, `../packages/${config.name}`);
-		this.packageName = config.name === 'index' ? '@deot/dev' : `@deot/dev-${config.name}`;
+	packageDir: string;
+
+	packageName: string;
+
+	packageOptions: any;
+
+	config: any;
+
+	constructor(config: any) {
+		const { directory, packageName } = Shared.impl();
+		this.packageDir = path.resolve(directory, `./${config.name}`);
+		this.packageName = config.name === 'index' ? packageName : `${packageName}-${config.name}`;
+		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.config = config;
 	}
 
@@ -40,27 +51,36 @@ class Builder {
 
 	async buildSourceAsES() {
 		const { name, input, output } = this.config;
+		const { packageOptions } = this;
+		const external = Object
+			.keys({ 
+				...packageOptions.dependencies, 
+				...packageOptions.peerDependencies 
+			})
+			.map(i => new RegExp(`^${i}$`));
+
 		const builder = await rollupBuilder({
 			input,
 			external: [
-				/^lodash/,
-				/^@deot\/dev-/,
-				/^node:/
+				/^node:/,
+				/^[a-zA-Z@]/,
+				...external
 			],
 			plugins: [
 				typescript({
 					include: [`packages/${name}/**/*`, 'packages/shims.d.ts'],
 					exclude: ['dist'],
 					compilerOptions: {
-						paths: null, // 设置为空编译不会被影响
+						rootDir: '.',
 						outDir: `packages/${name}/dist`,
-						declaration: true,
-						declarationDir: './src' // packages/dist/src
+						declaration: true
 					}
 				}),
 				commonjs({ extensions: ['.js', '.ts'] }),
 				nodeResolve(),
 				replace({
+					__VERSION__: `'${packageOptions.version}'`,
+					__TEST__: 'false',
 					preventAssignment: true
 				})
 			]
@@ -91,14 +111,16 @@ class Builder {
 			process.exitCode = 1;
 		}
 
-		await fs.remove(`${packageDir}/dist/src`);
+		await fs.remove(`${packageDir}/dist/packages`);
 	}
 }
 
-Utils.autoCatch(async () => {
-	const directory = path.resolve(__dirname, '../packages/');
+export const run = () => Utils.autoCatch(async () => {
+	const { directory } = Shared.impl();
 	const files = ['shared', ...fs.readdirSync(directory)]
 		.filter((i, index, source) => !['index'].includes(i) && source.indexOf(i) === index);
+
+	if (process.env.NODE_ENV === 'UNIT') return Shell.spawn(`echo ${[...files, 'index'].join(' ')}`);
 
 	// 打包顺序调整
 	await [...files, 'index'].reduce((preProcess, file) => {
@@ -115,7 +137,7 @@ Utils.autoCatch(async () => {
 						file: fullpath + '/dist/index.js',
 						format: 'es',
 						exports: 'named',
-						sourcemap: true
+						sourcemap: false
 					} 
 				});
 				return builder.process();

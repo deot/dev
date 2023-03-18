@@ -1,5 +1,5 @@
 {
-  "name": "@deot/dev-shared",
+  "name": "@deot/dev-cli",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,5 +12,10 @@
     "access": "public"
   },
   "dependencies": {
+    "commander": "^10.0.0",
+  	"@deot/dev-shared": "*"
+  },
+  "bin": {
+    "ddc": "bin/cli.js"
   }
 }

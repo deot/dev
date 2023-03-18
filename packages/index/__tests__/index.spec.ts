@@ -1,9 +1,9 @@
-import { Utils, Logger, Shell } from '../src';
+import { Utils, Logger, Shell } from '@deot/dev';
 
 describe('index.ts', () => {
 	it('any', () => {
-		expect(typeof Utils).toBe('function');
+		expect(typeof Utils).toBe('object');
 		expect(typeof Logger).toBe('object');
-		expect(typeof Shell).toBe('function');
+		expect(typeof Shell).toBe('object');
 	});
 });

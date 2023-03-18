@@ -1,3 +1,5 @@
+const { resolve } = require('path');
+
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
 const { packageName } = options;
 
@@ -9,17 +11,23 @@ module.exports = {
 			'ts-jest',
 			{
 				tsconfig: {
+					module: 'esnext',
 					target: 'esnext',
 					sourceMap: true
 				}
 			}
-		]
+		],
+		// 这里主要用于编译node_modules内的js
+		'^.+\\.jsx?$': 'babel-jest'
 	},
-	setupFiles: [],
+	// node_modules也需要编译，如import inquirer from 'inquirer'的模块需要被编译;
+	transformIgnorePatterns: [],
+	setupFiles: [resolve(__dirname, `./scripts/jest.setup.js`)],
 	testEnvironment: 'jsdom', // or node
 	// 匹配相关
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
 	moduleNameMapper: {
+		'^@deot/dev$': '<rootDir>/packages/index/src',
 		'^@deot/dev-(.*?)$': '<rootDir>/packages/$1/src'
 	},
 	// 匹配规则很重要
@@ -35,7 +43,8 @@ module.exports = {
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	collectCoverageFrom: [
-		`packages/${packageName || '*'}/src/**/*.ts`
+		`packages/${packageName || '*'}/src/**/*.ts`,
+		`!packages/cli/src/**/*.ts`
 	],
 	coverageThreshold: {
 		global: {
@@ -45,6 +54,9 @@ module.exports = {
 			statements: 95,
 		}
 	},
-	globals: {},
+	globals: {
+		__VERSION__: 'test',
+		__TEST__: true
+	},
 	...userConfig
 };

@@ -1,4 +1,4 @@
-import { Shell } from '../src';
+import { Shell } from '@deot/dev-shared';
 
 describe('shell.ts', () => {
 	it('exec', async () => {

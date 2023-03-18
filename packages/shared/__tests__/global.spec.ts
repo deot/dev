@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../src';
+import type { AnyFunction } from '@deot/dev-shared';
 
 describe('global.types.ts', () => {
 	it('dts', () => {

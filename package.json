@@ -14,11 +14,12 @@
     "lint": "esw packages --ext .js,.ts,.jsx,.tsx,.md --color",
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "npm run lint -- --watch --fix",
-    "link": "node ./scripts/link.js",
-    "dev": "node ./scripts/dev.js",
-    "build": "node --max_old_space_size=8192 ./scripts/build.js",
-    "test": "node ./scripts/unit-test.js",
-    "add": "node ./scripts/add.js"
+    "link": "tsx ./packages/cli/src/index.ts link",
+    "dev": "tsx ./packages/cli/src/index.ts dev",
+    "build": "tsx ./packages/cli/src/index.ts build",
+    "test": "tsx ./packages/cli/src/index.ts test",
+    "add": "tsx ./packages/cli/src/index.ts add",
+    "bin": "ddc"
   },
   "scripts-info": {
     "init": "首次安装",
@@ -26,7 +27,8 @@
     "add": "创建新包或者给包添加依赖",
     "dev": "开发模式",
     "build": "打包模式",
-    "test": "执行测试, 可选择单个包或全部"
+    "test": "执行测试, 可选择单个包或全部",
+    "bin": "调试packages/cli相关指令"
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,8 @@
   },
   "homepage": "https://github.com/deot/dev#readme",
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
     "@microsoft/api-extractor": "^7.34.4",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
@@ -67,6 +71,7 @@
     "ora": "^6.1.2",
     "rollup": "^3.18.0",
     "ts-jest": "^29.0.5",
+    "tsx": "^3.12.5",
     "typescript": "^4.9.5",
     "upath": "^2.0.1"
   },

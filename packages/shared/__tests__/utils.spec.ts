@@ -1,4 +1,4 @@
-import { Utils } from '../src';
+import { Utils } from '@deot/dev-shared';
 
 describe('utils.ts', () => {
 	it('getHost', () => {

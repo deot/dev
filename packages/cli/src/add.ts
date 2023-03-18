@@ -1,26 +1,26 @@
-import { fileURLToPath } from 'node:url';
-import { resolve, dirname } from 'node:path';
+import { Utils, Shell } from '@deot/dev-shared';
+import { resolve } from 'node:path';
 import ora from 'ora';
 import fs from 'fs-extra';
-import { Prompt } from './add/prompt.js';
-import { Shell, Utils } from './shared/index.js';
+import { getOptions } from './add/prompt';
+import { Shared } from './shared';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-Utils.autoCatch(async () => {
-	const { mode, dependentName, args, packageName, $packageName } = await new Prompt().run();
-
+export const run = () => Utils.autoCatch(async () => {
+	const { mode, dependentName, args, packageName, $packageName } = await getOptions();
+	const { directory } = Shared.impl();
 	let command = mode === 'dependent' 
 		? `lerna add ${dependentName} ${args.join(' ')} --scope=${$packageName}`
 		: `lerna create ${$packageName}`;
-		
+	
+	if (process.env.NODE_ENV === 'UNIT') return Shell.spawn(`echo "${command}"`);
+
 	const spinner = ora(command).start();
 	await Shell.spawn(command);
 	spinner.stop();
 
 	// 包名修改
 	if (mode === 'package') {
-		let dir = resolve(__dirname, `../packages`);
+		let dir = resolve(directory);
 		fs.renameSync(
 			`${dir}/dev-${packageName}`,
 			`${dir}/${packageName}`
@@ -36,6 +36,11 @@ Utils.autoCatch(async () => {
 			name: $packageName,
 			version: '1.0.0',
 			main: 'dist/index.js',
+			types: "dist/index.d.ts",
+			type: "module",
+			files: [
+			  "dist"
+			],
 			license: 'MIT',
 			publishConfig: {
 				access: 'public'
