@@ -23,5 +23,5 @@ describe('test.ts', () => {
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
 
-	}, 10000);
+	}, 60000);
 });

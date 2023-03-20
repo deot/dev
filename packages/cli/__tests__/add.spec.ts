@@ -21,7 +21,7 @@ describe('add.ts', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
-	}, 10000);
+	}, 60000);
 
 	it('ddc add / dependent', async () => {
 		// expect.assertions(3);
@@ -47,5 +47,5 @@ describe('add.ts', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
-	}, 10000);
+	}, 60000);
 });

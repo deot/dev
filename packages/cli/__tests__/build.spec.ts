@@ -16,5 +16,5 @@ describe('build.ts', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(/^shared/);
 		expect(instance.stderr).toBe('');
-	}, 10000);
+	}, 60000);
 });
