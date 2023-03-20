@@ -22,6 +22,11 @@ global.Command = class Command {
 
 		this.emitter = this.start(command, args);
 		this.isClose = false;
+
+		this.schedule = {
+			target: Promise.resolve(),
+			complete: () => {}
+		};
 	}
 
 	_handleEnd(fn) {
@@ -47,9 +52,10 @@ global.Command = class Command {
 			.split(SPACE)
 			.filter(i => !!i);
 
-		const emitter = childProcess.spawn(command$, args$, { stdio: [null, null, null] });
-		emitter.stdin.setEncoding('utf-8');
-
+		const emitter = childProcess.spawn(command$, args$, { 
+			stdio: ['pipe', 'pipe', 'pipe'] 
+		});
+		emitter.stdin.setEncoding('utf8');
 		emitter.on('close', (code) => {
 			if (code !== 0) {
 				this.reject({ code });
@@ -63,17 +69,19 @@ global.Command = class Command {
 			this.reject({ code: process.exitCode, error });
 		});
 
-		emitter.stderr.on('data', data => {
-			this.stderr += data;
+		emitter.stdout.on('data', e => {
+			this.stdout += e.toString();
+			this.schedule.complete(); // 主要node其他子任务执行时，这个回调会延迟，导致下一个按钮直接键入
 		});
-		emitter.stdout.on('data', data => {
-			this.stdout += data;
-		});
+
+		emitter.stderr.on('data', e => this.stderr += e.toString());
 
 		return emitter;
 	}
 
 	async stop() {
+		await this.schedule.target;
+
 		if (!this.isClose) {
 			this.emitter.stdin.end();
 			this.isClose = true;
@@ -83,10 +91,24 @@ global.Command = class Command {
 		return response;
 	}
 
-	async press(key, timeout = 600) {
+	async press(key, timeout = 200) {
 		if (!key || this.isClose) return;
-		this.emitter.stdin.write(this.KEY_MAP[key.toUpperCase()] || key);
+
+		await this.schedule.target;
+		this.schedule.target = new Promise(resolve => {
+			this.schedule.complete = resolve;
+		});
+
+		await new Promise(resolve => {
+			this.emitter.stdin.write(
+				this.KEY_MAP[key.toUpperCase()] || key,
+				'utf8',
+				resolve
+			);
+		});
+
 		await new Promise(_ => setTimeout(_, timeout)); // eslint-disable-line
 	}
 };
+
 
