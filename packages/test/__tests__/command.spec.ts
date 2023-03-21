@@ -1,14 +1,13 @@
 import { Command } from '@deot/dev-test';
 import { resolve } from 'node:path';
 
-describe('add.ts', () => {
-	it('ddc add / package', async () => {
+describe('command.ts', () => {
+	it('package', async () => {
 		expect.assertions(3);
 		const instance = new Command(
-			'cross-env NODE_ENV=UNIT tsx',
+			'node',
 			[
-				resolve(__dirname, '../src/index.ts'), 
-				'add'
+				resolve(__dirname, './fixtures/command-prompt.js') 
 			]
 		);
 
@@ -17,20 +16,19 @@ describe('add.ts', () => {
 		await instance.press('package');
 		await instance.stop();
 
-		const command = 'lerna create @deot/dev-package';
+		const command = 'create package';
 
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
-	}, 60000);
+	}, 10000);
 
-	it('ddc add / dependent', async () => {
+	it('dependent', async () => {
 		expect.assertions(3);
 		const instance = new Command(
-			'cross-env NODE_ENV=UNIT tsx',
+			'node',
 			[
-				resolve(__dirname, '../src/index.ts'), 
-				'add'
+				resolve(__dirname, './fixtures/command-prompt.js') 
 			]
 		);
 
@@ -43,10 +41,32 @@ describe('add.ts', () => {
 
 		await instance.stop();
 
-		const command = 'lerna add dependent --dev --peer --exact --no-bootstrap --scope=@deot/dev';
+		const command = 'add dependent --dev --peer --exact --no-bootstrap --scope=index';
 		
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
-	}, 60000);
+	}, 10000);
+
+	it('close', async () => {
+		expect.assertions(2);
+		const instance = new Command(
+			'node',
+			[
+				resolve(__dirname, './fixtures/command-prompt.js') 
+			]
+		);
+
+		await instance.press('enter');
+		await instance.press('enter');
+		await instance.press('enter');
+		try {
+			await instance.stop();
+		} catch (e) {
+			instance.press('enter'); // 无效
+			expect(instance.code).toBe(null);
+			expect(instance.stderr).toBe('');
+		}
+	}, 10000);
 });
+

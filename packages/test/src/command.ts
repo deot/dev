@@ -1,7 +1,39 @@
+import type { Nullable } from '@deot/dev-shared';
 import * as childProcess from 'child_process';
 
-global.Command = class Command {
-	constructor(command, args) {
+const KEY_MAP = {
+	DOWN: '\x1b\x5b\x42',
+	UP: '\x1b\x5b\x41',
+
+	ENTER: '\x0d', // return;
+	SPACE: '\x7f'
+};
+
+export class Command {
+	target: Promise<any>;
+
+	code: Nullable<any>;
+
+	error: any;
+
+	resolve: any;
+
+	reject: any;
+
+	stdout: string;
+
+	stderr: string;
+
+	emitter: childProcess.ChildProcessWithoutNullStreams;
+
+	isClose: boolean;
+
+	schedule: { 
+		target: Promise<void>; 
+		complete: () => void;
+    };
+
+	constructor(command: string, args: string[]) {
 		this.target = new Promise((resolve, reject) => {
 			this.resolve = this._handleEnd(resolve);
 			this.reject = this._handleEnd(reject);
@@ -12,28 +44,19 @@ global.Command = class Command {
 		this.stdout = '';
 		this.stderr = '';
 
-		this.KEY_MAP = {
-			DOWN: '\x1b\x5b\x42',
-			UP: '\x1b\x5b\x41',
-
-			ENTER: '\x0d', // return;
-			SPACE: '\x7f'
-		};
-
 		this.emitter = this.start(command, args);
 		this.isClose = false;
 
 		this.schedule = {
 			target: Promise.resolve(),
+			/* istanbul ignore next */
 			complete: () => {}
 		};
 	}
 
-	_handleEnd(fn) {
-		return (e) => {
-			if (!this.isClose) return;
+	_handleEnd(fn: any) {
+		return (e: any) => {
 			this.isClose = true;
-
 			const { code, error } = e;
 			this.code = code;
 			this.error = error;
@@ -45,7 +68,7 @@ global.Command = class Command {
 		};
 	}
 
-	start(command, args) {
+	start(command: string, args: string[]) {
 		const SPACE = ' ';
 		const [command$, ...args$] = (command + SPACE + args.join(SPACE))
 			.replace(/\s+/g, SPACE)
@@ -55,7 +78,7 @@ global.Command = class Command {
 		const emitter = childProcess.spawn(command$, args$, { 
 			stdio: ['pipe', 'pipe', 'pipe'] 
 		});
-		emitter.stdin.setEncoding('utf8');
+
 		emitter.on('close', (code) => {
 			if (code !== 0) {
 				this.reject({ code });
@@ -64,16 +87,18 @@ global.Command = class Command {
 			}
 		});
 
+		/* istanbul ignore next */
 		emitter.on('error', (error) => {
 			!process.exitCode && (process.exitCode = 1);
 			this.reject({ code: process.exitCode, error });
 		});
-
+		 
 		emitter.stdout.on('data', e => {
 			this.stdout += e.toString();
 			this.schedule.complete(); // 主要node其他子任务执行时，这个回调会延迟，导致下一个按钮直接键入
 		});
 
+		/* istanbul ignore next */
 		emitter.stderr.on('data', e => this.stderr += e.toString());
 
 		return emitter;
@@ -91,7 +116,7 @@ global.Command = class Command {
 		return response;
 	}
 
-	async press(key, timeout = 200) {
+	async press(key: string, timeout = 200) {
 		if (!key || this.isClose) return;
 
 		await this.schedule.target;
@@ -101,7 +126,7 @@ global.Command = class Command {
 
 		await new Promise(resolve => {
 			this.emitter.stdin.write(
-				this.KEY_MAP[key.toUpperCase()] || key,
+				KEY_MAP[key.toUpperCase()] || key,
 				'utf8',
 				resolve
 			);
@@ -109,6 +134,6 @@ global.Command = class Command {
 
 		await new Promise(_ => setTimeout(_, timeout)); // eslint-disable-line
 	}
-};
+}
 
 

@@ -48,6 +48,9 @@
     "typescript": "^4.9.5",
     "upath": "^2.0.1"
   },
+  "devDependencies": {
+    "@deot/dev-test": "*"
+  },
   "bin": {
     "ddc": "bin/cli.js"
   }
