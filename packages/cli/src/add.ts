@@ -10,7 +10,7 @@ export const run = () => Utils.autoCatch(async () => {
 	const { directory } = Shared.impl();
 	let command = mode === 'dependent' 
 		? `lerna add ${dependentName} ${args.join(' ')} --scope=${$packageName}`
-		: `lerna create ${$packageName}`;
+		: `lerna create ${$packageName} --yes`;
 	
 	if (process.env.NODE_ENV === 'UNIT') return Shell.spawn(`echo "${command}"`);
 
@@ -22,7 +22,7 @@ export const run = () => Utils.autoCatch(async () => {
 	if (mode === 'package') {
 		let dir = resolve(directory);
 		fs.renameSync(
-			`${dir}/dev-${packageName}`,
+			`${dir}/${$packageName.split('/')[1]}`,
 			`${dir}/${packageName}`
 		);
 
@@ -31,7 +31,7 @@ export const run = () => Utils.autoCatch(async () => {
 		fs.removeSync(`${dir}/${packageName}/lib`);
 
 		fs.outputFileSync(`${dir}/${packageName}/README.md`, '// TODO');
-		fs.outputFileSync(`${dir}/${packageName}/index.ts`, '// TODO');
+		fs.outputFileSync(`${dir}/${packageName}/src/index.ts`, '// TODO');
 		fs.outputFileSync(`${dir}/${packageName}/package.json`, JSON.stringify({
 			name: $packageName,
 			version: '1.0.0',
@@ -46,6 +46,14 @@ export const run = () => Utils.autoCatch(async () => {
 				access: 'public'
 			},
 			dependencies: {}
+		}, null, '\t'));
+
+		fs.outputFileSync(`${dir}/${packageName}/api-extractor.json`, JSON.stringify({
+			extends: "../../api-extractor.json",
+			mainEntryPointFilePath: `./dist/packages/${packageName}/src/index.d.ts`,
+			dtsRollup: {
+				publicTrimmedFilePath: "./dist/index.d.ts"
+			}
 		}, null, '\t'));
 	}
 });
