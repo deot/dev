@@ -3,7 +3,7 @@ import { Utils, Shell, Logger } from '@deot/dev-shared';
 import { getOptions } from './unit-test/prompt';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	if (!options.packageName) {
+	if (!options || !options.packageName) {
 		options = await getOptions();
 	}
 

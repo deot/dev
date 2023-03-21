@@ -19,7 +19,8 @@
     "build": "tsx ./packages/cli/src/index.ts build",
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
-    "bin": "ddc"
+    "bin:link": "lerna exec --scope @deot/dev-cli -- npm link",
+    "bin:unlink": "lerna exec --scope @deot/dev-cli -- npm unlink"
   },
   "scripts-info": {
     "init": "首次安装",
