@@ -5,7 +5,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "config"
   ],
   "license": "MIT",
   "publishConfig": {
