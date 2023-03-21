@@ -49,6 +49,7 @@ program
 	.command('test')
 	.alias('t')
 	.description('unit-test')
+	.option('-p, --packageName <packageName>', 'select packageName')
 	.action(Test.run);
 
 program.parse(process.argv);

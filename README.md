@@ -1,1 +1,1 @@
-TODO
+# deot/dev [![build status](https://github.com/deot/dev/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/deot/dev/actions/workflows/ci.yml)

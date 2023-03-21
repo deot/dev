@@ -1,8 +1,11 @@
+import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger } from '@deot/dev-shared';
 import { getOptions } from './unit-test/prompt';
 
-export const run = () => Utils.autoCatch(async () => {
-	const options = await getOptions();
+export const run = (options: Options) => Utils.autoCatch(async () => {
+	if (!options.packageName) {
+		options = await getOptions();
+	}
 
 	const { packageName, watch } = options;
 
