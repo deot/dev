@@ -1,6 +1,8 @@
 import type { Nullable } from '@deot/dev-shared';
+import { Shell } from '@deot/dev-shared';
 import * as childProcess from 'child_process';
 
+const { LOCAL_COMMAND_MAP } = Shell;
 const KEY_MAP = {
 	DOWN: '\x1b\x5b\x42',
 	UP: '\x1b\x5b\x41',
@@ -73,7 +75,8 @@ export class Command {
 		const [command$, ...args$] = (command + SPACE + args.join(SPACE))
 			.replace(/\s+/g, SPACE)
 			.split(SPACE)
-			.filter(i => !!i);
+			.filter(i => !!i)
+			.map(i => LOCAL_COMMAND_MAP[i] || i);
 
 		const emitter = childProcess.spawn(command$, args$, { 
 			stdio: ['pipe', 'pipe', 'pipe'] 

@@ -1,13 +1,31 @@
+import path from 'node:path';
 import * as childProcess from 'node:child_process';
 import util from 'node:util';
+import fs from 'node:fs';
 
 const SPACE = ' ';
+const binDirectory = path.resolve(process.cwd(), './node_modules/.bin');
+export const LOCAL_COMMAND_MAP = fs
+	.readdirSync(binDirectory)
+	.reduce((pre: any, file: string) => {
+		const fullpath = path.resolve(binDirectory, file);
+		// 获取文件信息
+		const stat = fs.statSync(fullpath);
+		if (stat.isFile()) {
+			pre[file] = `./node_modules/.bin/${file}`;
+		}
+		return pre;
+	}, {});
+
+
 export const exec = util.promisify(childProcess.exec);
 export const spawn = (command: string, args: string[] = []) => {
 	const [command$, ...args$] = (command + SPACE + args.join(SPACE))
 		.replace(/\s+/g, SPACE)
 		.split(SPACE)
-		.filter(i => !!i);
+		.filter(i => !!i)
+		.map(i => LOCAL_COMMAND_MAP[i] || i);
+
 	return new Promise((resolve, reject) => {
 		const emit = childProcess.spawn(
 			command$,
