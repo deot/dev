@@ -1,9 +1,6 @@
-const { resolve } = require('path');
-
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
 const { packageName } = options;
 
-const userConfig = {};
 module.exports = {
 	preset: 'ts-jest',
 	transform: {
@@ -22,7 +19,6 @@ module.exports = {
 	},
 	// node_modules也需要编译，如import inquirer from 'inquirer'的模块需要被编译;
 	transformIgnorePatterns: [],
-	setupFiles: [resolve(__dirname, `./scripts/jest.setup.js`)],
 	testEnvironment: 'jsdom', // or node
 	// 匹配相关
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
@@ -57,6 +53,5 @@ module.exports = {
 	globals: {
 		__VERSION__: 'test',
 		__TEST__: true
-	},
-	...userConfig
+	}
 };
