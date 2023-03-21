@@ -1,1 +1,11 @@
-# 测试辅助工具
+# @deot/dev-cli
+
+包管理命令行
+
+## `ddc <cmd>`
+
+- `dev`
+- `build`
+- `link`
+- `test`
+- `add`
