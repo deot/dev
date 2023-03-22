@@ -51,7 +51,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "commit-msg": "node ./scripts/commit-lint"
+      "commit-msg": "node ./packages/cli/config/commit-lint"
     }
   },
   "lint-staged": {
