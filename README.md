@@ -10,11 +10,11 @@
 所有的相关的开发环境，统一更新，升级时如果有多仓库，仅更新此仓库即可，无需同时更新太多依赖性，以追求最新且稳定的开发环境
 
 > 不完全的`zero-config`, 需要依赖当前的`tsconfig.json`, `jest.config.mjs`, `.eslintrc.cjs`, `api-extractor.json`等
-> 相关的`[config](packages/cli/config)`可以通过`extends`方式引入, 具体可以参考以下`demo`
+> 相关的[config](packages/cli/config)可以通过`extends`方式引入, 具体可以参考以下`demo`
 
 
-[demo by @deot/dev](https://github.com/deot/dev-demo)
-[demo by self](https://github.com/deot/dev-self-demo)：这个最终演变成`@deot/dev`，方便`@deot/dev`了解具体运作
+- [demo by @deot/dev](https://github.com/deot/dev-demo)
+- [demo by self](https://github.com/deot/dev-self-demo)：这个最终演变成`@deot/dev`，方便`@deot/dev`了解具体运作
 
 ## Monorepo
 
