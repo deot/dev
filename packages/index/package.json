@@ -11,6 +11,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@deot/dev-test": "*",
   	"@deot/dev-shared": "*"
   }
 }

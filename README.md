@@ -17,7 +17,7 @@
 | [cli](packages/cli)                                 | 开发指令集`dev`、`build`、`test`、`link`、`add`         |
 | [test](packages/test)                               | 测试工具                                              |
 | [shared](packages/shared)                           | 公共方法                                              |
-| [index](packages/index)                             | 主包(未来可能合并cli包)                                 |
+| [index](packages/index)                             | 除cli外其他仓库的集成                                   |
 
 ## Contributing
 
