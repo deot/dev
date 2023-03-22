@@ -1,7 +1,7 @@
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
 const { packageName } = options;
 
-module.exports = {
+export default {
 	preset: 'ts-jest',
 	transform: {
 		'^.+\\.tsx?$': [
@@ -17,15 +17,10 @@ module.exports = {
 		// 这里主要用于编译node_modules内的js
 		'^.+\\.jsx?$': 'babel-jest'
 	},
-	// node_modules也需要编译，如import inquirer from 'inquirer'的模块需要被编译;
-	transformIgnorePatterns: [],
+
 	testEnvironment: 'jsdom', // or node
 	// 匹配相关
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
-	moduleNameMapper: {
-		'^@deot/dev$': '<rootDir>/packages/index/src',
-		'^@deot/dev-(.*?)$': '<rootDir>/packages/$1/src'
-	},
 	// 匹配规则很重要
 	rootDir: process.cwd(),
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
@@ -39,8 +34,7 @@ module.exports = {
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	collectCoverageFrom: [
-		`packages/${packageName || '*'}/src/**/*.ts`,
-		`!packages/cli/src/**/*.ts`
+		`packages/${packageName || '*'}/src/**/*.ts`
 	],
 	coverageThreshold: {
 		global: {
