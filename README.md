@@ -1,7 +1,7 @@
 [ci-image]: https://github.com/deot/dev/actions/workflows/ci.yml/badge.svg?branch=main
 [ci-url]: https://github.com/deot/dev/actions/workflows/ci.yml
 
-[![build status][ci-image]](ci-url)
+[![build status][ci-image]][ci-url]
 
 # deot/dev
 
