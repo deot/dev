@@ -1,4 +1,4 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import fs from 'fs-extra';
 import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';

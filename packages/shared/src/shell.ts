@@ -1,7 +1,7 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import * as childProcess from 'node:child_process';
-import util from 'node:util';
-import fs from 'node:fs';
+import * as util from 'node:util';
+import * as fs from 'node:fs';
 
 const SPACE = ' ';
 const binDirectory = path.resolve(process.cwd(), './node_modules/.bin');
