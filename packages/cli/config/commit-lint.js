@@ -3,7 +3,7 @@ import fs from 'fs';
 const commitRE = /^(revert: )?(fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
 const mergeRE = /Merge branch /;
 
-const gitParams = process.env.HUSKY_GIT_PARAMS;
+const gitParams = process.env.HUSKY_GIT_PARAMS || process.argv.pop(); // 兼容husky@v4和husky@v8
 const commitMsg = fs.readFileSync(gitParams, 'utf-8').trim();
 
 if (!commitRE.test(commitMsg) && !mergeRE.test(commitMsg)) {

@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "description": "custom devs",
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
+  "packageManager": "pnpm@8.x.x",
   "scripts": {
-    "init": "npm install && npm run bootstrap && npm run link",
-    "bootstrap": "lerna clean --yes && lerna bootstrap --loglevel silly",
-    "pub": "npm run build && lerna publish",
-    "pub:no-tag": "npm run pub -- --no-git-tag-version",
+    "prepare": "husky install",
+    "init": "npx pnpm install",
+    "init:force": "rm -rf ./node_modules pnpm-lock.yaml ./packages/*/node_modules && npm run init",
     "lint": "esw packages --ext .js,.ts,.jsx,.tsx,.md --color",
     "lint:fix": "npm run lint -- --fix",
     "lint:watch": "npm run lint -- --watch --fix",
@@ -19,8 +16,9 @@
     "build": "tsx ./packages/cli/src/index.ts build",
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
-    "bin:link": "lerna exec --scope @deot/dev-cli -- npm link",
-    "bin:unlink": "lerna exec --scope @deot/dev-cli -- npm unlink"
+    "release": "tsx ./scripts/release.ts --dry",
+    "bin:link": "cd ./packages/cli && npm link",
+    "bin:unlink": "cd ./packages/cli && npm unlink -g"
   },
   "scripts-info": {
     "init": "首次安装",
@@ -42,22 +40,9 @@
   },
   "homepage": "https://github.com/deot/dev#readme",
   "devDependencies": {
-    "lerna": "^6.5.1",
     "tsx": "^3.12.5"
   },
   "devDependencies-info": {
     "*": "为了实现0配置，大部分依赖移入cli中"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "node ./packages/cli/config/commit-lint"
-    }
-  },
-  "lint-staged": {
-    "{packages}/**/*.{js,ts,jsx,tsx,md}": [
-      "esw --ext '.js,.ts,.jsx,.tsx,.md' --fix",
-      "git add"
-    ]
   }
 }

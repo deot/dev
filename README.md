@@ -18,12 +18,12 @@
 
 ## Monorepo
 
-| 包名                                                 | 说明                                                 |
-| --------------------------------------------------- | ---------------------------------------------------- |
-| [cli](packages/cli)                                 | 开发指令集`dev`、`build`、`test`、`link`、`add`         |
-| [test](packages/test)                               | 测试工具                                              |
-| [shared](packages/shared)                           | 公共方法                                              |
-| [index](packages/index)                             | 除cli外其他仓库的集成                                   |
+| 包名                        | 说明                                     |
+| ------------------------- | -------------------------------------- |
+| [cli](packages/cli)       | 开发指令集`dev`、`build`、`test`、`link`、`add` |
+| [test](packages/test)     | 测试工具                                   |
+| [shared](packages/shared) | 公共方法                                   |
+| [index](packages/index)   | 除cli外其他仓库的集成                           |
 
 ## Contributing
 
