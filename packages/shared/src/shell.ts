@@ -20,20 +20,24 @@ export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory)
 		}, {})
 	: {};
 
-export const exec = util.promisify(childProcess.exec);
-export const spawn = (command: string, args: string[] = []) => {
-	const [command$, ...args$] = (command + SPACE + args.join(SPACE))
+export const exec = (command: string, args?: string[]) => {
+	return util.promisify(childProcess.exec)(
+		(command + SPACE + (args || []).join(SPACE)).replace(/\s+/g, SPACE)
+	);
+};
+export const spawn = (command: string, args?: string[], options?: any) => {
+	const [command$, ...args$] = (command + SPACE + (args || []).join(SPACE))
 		.replace(/\s+/g, SPACE)
 		.split(SPACE)
-		.filter(i => !!i)
-		.map(i => LOCAL_COMMAND_MAP[i] || i);
+		.filter(i => !!i);
 
 	return new Promise((resolve, reject) => {
 		const emit = childProcess.spawn(
 			command$,
 			args$, 
 			{ 
-				stdio: 'inherit'
+				stdio: 'inherit',
+				...options
 			}
 		);
 		emit.on('close', (code) => {
