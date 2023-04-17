@@ -51,8 +51,7 @@ export class Command {
 
 		this.schedule = {
 			target: Promise.resolve(),
-			/* istanbul ignore next */
-			complete: () => {}
+			complete: /* istanbul ignore next */ () => {}
 		};
 	}
 
