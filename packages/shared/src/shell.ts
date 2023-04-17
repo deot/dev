@@ -20,20 +20,26 @@ export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory)
 		}, {})
 	: {};
 
-export const exec = (command: string, args?: string[]) => {
-	return util.promisify(childProcess.exec)(
-		(command + SPACE + (args || []).join(SPACE)).replace(/\s+/g, SPACE)
-	);
+
+export const command = (command$: string, args?: string[]) => {
+	const v = (command$ + SPACE + (args || []).join(SPACE))
+		.match(/[^\s'"]+|'[^']*'|"[^"]*"/g);
+
+	return v || [];
 };
-export const spawn = (command: string, args?: string[], options?: any) => {
-	const [command$, ...args$] = (command + SPACE + (args || []).join(SPACE))
-		.replace(/\s+/g, SPACE)
-		.split(SPACE)
-		.filter(i => !!i);
+
+export const exec = (command$: string, args?: string[]) => {
+	return util.promisify(childProcess.exec)(command(command$, args).join(SPACE));
+};
+
+// 如果args某个参数中有空格且不要求被分离，需要''或者""包裹
+export const spawn = (command$: string, args?: string[], options?: any) => {
+	let [command$$, ...args$] = command(command$, args).map((i: string) => LOCAL_COMMAND_MAP[i] || i);
+	args$ = args$.map((i: string) => i.replace(/^['"]|['"]$/g, ''));
 
 	return new Promise((resolve, reject) => {
 		const emit = childProcess.spawn(
-			command$,
+			command$$,
 			args$, 
 			{ 
 				stdio: 'inherit',
