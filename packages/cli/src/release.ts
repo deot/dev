@@ -72,7 +72,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	} else if (options.dryRun || !options.commit) {
 		Logger.log(chalk.magenta(`COMMIT: `) + chalk.yellow(`Skipping Git Commit`) + `\n${message}`);	
 	} else {
-		Logger.log(chalk.magenta(`COMMIT: `) + `CHANGELOG.md, package.json`);
+		Logger.log(chalk.magenta(`CHANGED: `) + `pnpm-lock.yaml`);
+		await Shell.spawn('npx', ['pnpm', 'install', '--lockfile-only']);
+
+		Logger.log(chalk.magenta(`COMMIT: `) + `CHANGELOG.md, package.json, pnpm-lock.yaml`);
 		await Shell.spawn('git', ['add', process.cwd()]);
 		await Shell.spawn('git', ['commit', '--m', `'${message}'`]);
 	}
