@@ -1,5 +1,14 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.3
+
+_2023-04-19_
+
+### Bugfixes
+
+- fix: pnpm-lock will changed by run release ([f4a3a00](https://github.com/deot/dev/commit/f4a3a0036d9123e14f41a2559715ffcc55801394))
+- fix: tags isn't pushed ([971033c](https://github.com/deot/dev/commit/971033cae0d77e112878858fff473b7ca26436a8))
+
 ## v1.0.2
 
 _2023-04-19_
