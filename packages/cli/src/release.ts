@@ -99,6 +99,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	} else {
 		// 提交到远程仓库或自行提交
 		await Shell.spawn('git', ['push']);
+		await Shell.spawn('git', ['push', '--tags']);
 	}
 
 	if (options.dryRun) {
