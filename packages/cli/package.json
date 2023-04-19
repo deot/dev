@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -16,7 +16,7 @@
     "@babel/core": "^7.21.4",
     "@babel/eslint-plugin": "^7.19.1",
     "@babel/preset-env": "^7.21.4",
-    "@deot/dev-shared": "^1.0.1",
+    "@deot/dev-shared": "^1.0.2",
     "@microsoft/api-extractor": "^7.34.4",
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
@@ -50,7 +50,7 @@
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "@deot/dev-test": "^1.0.1",
+    "@deot/dev-test": "^1.0.2",
     "conventional-commits-parser": "^3.2.4"
   },
   "bin": {

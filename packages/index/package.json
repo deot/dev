@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^1.0.1",
-    "@deot/dev-test": "^1.0.1"
+    "@deot/dev-shared": "^1.0.2",
+    "@deot/dev-test": "^1.0.2"
   }
 }
