@@ -8,7 +8,8 @@ describe('add.ts', () => {
 			'cross-env NODE_ENV=UNIT tsx',
 			[
 				resolve(__dirname, '../src/index.ts'), 
-				'add'
+				'add',
+				'--dry-run'
 			]
 		);
 
@@ -17,7 +18,7 @@ describe('add.ts', () => {
 		await instance.press('package');
 		await instance.stop();
 
-		const command = 'lerna create @deot/dev-package';
+		const command = 'npx pnpm link ./packages/package';
 
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
@@ -30,7 +31,8 @@ describe('add.ts', () => {
 			'cross-env NODE_ENV=UNIT tsx',
 			[
 				resolve(__dirname, '../src/index.ts'), 
-				'add'
+				'add',
+				'--dry-run'
 			]
 		);
 
@@ -39,11 +41,11 @@ describe('add.ts', () => {
 		await instance.press('enter');
 		await instance.press('dependent');
 		await instance.press('enter');
-		await instance.press('a');
+		await instance.press('enter');
 
 		await instance.stop();
 
-		const command = 'lerna add dependent --dev --peer --exact --no-bootstrap --scope=@deot/dev';
+		const command = 'npx pnpm add --filter @deot/dev dependent -S';
 		
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));

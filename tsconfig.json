@@ -16,7 +16,6 @@
     "packages/*/src"
   ],
   "exclude": [
-    "node_modules/**/*",
-    "scripts/**/*"
+    "node_modules/**/*"
   ]
 }

@@ -1,4 +1,9 @@
 name: 'ci'
+
+# Manually （手动执行）
+# on:
+#   workflow_dispatch:
+
 on:
   push:
     branches:
@@ -31,5 +36,5 @@ jobs:
       - run: pnpm install
 
       - name: Run unit tests
-        run: npm run test -- --packageName '**'
+        run: npm run test -- --package-name '**'
 

@@ -8,7 +8,8 @@ describe('test.ts', () => {
 			'cross-env NODE_ENV=UNIT tsx',
 			[
 				resolve(__dirname, '../src/index.ts'), 
-				'test'
+				'test',
+				'--dry-run'
 			]
 		);
 
@@ -18,7 +19,7 @@ describe('test.ts', () => {
 		await instance.press('enter', 0);
 		await instance.stop();
 
-		const command = 'cross-env NODE_ENV=UNIT TEST_OPTIONS=%7B%22watch%22%3Atrue%7D (./node_modules/.bin/)?jest --passWithNoTests --watchAll';
+		const command = 'cross-env NODE_ENV=UNIT TEST_OPTIONS=%7B(.*)?%22watch%22%3Atrue%7D (./node_modules/.bin/)?jest --passWithNoTests --watchAll';
 
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));

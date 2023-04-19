@@ -1,0 +1,49 @@
+name: Release Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Set node version to 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Checkout main
+        run: git checkout main
+
+      - name: Sanity check
+        run: |
+          echo branch `git branch --show-current`;
+          echo node `node -v`;
+          echo node `pnpm -v`;
+
+      - name: Set git config
+        run: |
+          git config pull.rebase false
+          git config --global user.email "release-workflow@*.*"
+          git config --global user.name "Release Workflow"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Set npm config
+        run: npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+
+      - name: Run init
+        run: npm run init
+
+      - name: Run release
+        run: npm run release -- --no-dry-run

@@ -9,6 +9,7 @@
 - `link`
 - `test`
 - `add`
+- `release`: [与本仓库相同](./README.md#changelog)
 
 ## 其他
 

@@ -8,7 +8,8 @@ describe('dev.ts', () => {
 			'cross-env NODE_ENV=UNIT tsx',
 			[
 				resolve(__dirname, '../src/index.ts'), 
-				'dev'
+				'dev',
+				'--dry-run'
 			]
 		);
 

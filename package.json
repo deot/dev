@@ -16,7 +16,7 @@
     "build": "tsx ./packages/cli/src/index.ts build",
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
-    "release": "tsx ./scripts/release.ts --dry",
+    "release": "tsx ./packages/cli/src/index.ts release",
     "bin:link": "cd ./packages/cli && npm link",
     "bin:unlink": "cd ./packages/cli && npm unlink -g"
   },
@@ -26,6 +26,7 @@
     "add": "创建新包或者给包添加依赖",
     "dev": "开发模式",
     "build": "打包模式",
+    "release": "测试/打包/生成ChangeLog/发布NPM/提交Git(Tag|Commit|Push)",
     "test": "执行测试, 可选择单个包或全部",
     "bin": "调试packages/cli相关指令"
   },
@@ -40,7 +41,7 @@
   },
   "homepage": "https://github.com/deot/dev#readme",
   "devDependencies": {
-    "tsx": "^3.12.5"
+    "tsx": "^3.12.6"
   },
   "devDependencies-info": {
     "*": "为了实现0配置，大部分依赖移入cli中"

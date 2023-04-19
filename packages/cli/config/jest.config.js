@@ -1,5 +1,5 @@
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { packageName } = options;
+const { packageFolderName } = options;
 
 export default {
 	preset: 'ts-jest',
@@ -28,13 +28,13 @@ export default {
 		'/node_modules/'
 	],
 	testMatch: [
-		`<rootDir>/packages/${packageName || '**'}/__tests__/**.(spec|test).[jt]s?(x)`
+		`<rootDir>/packages/${packageFolderName || '**'}/__tests__/**.(spec|test).[jt]s?(x)`
 	],
 
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	collectCoverageFrom: [
-		`packages/${packageName || '*'}/src/**/*.ts`
+		`packages/${packageFolderName || '*'}/src/**/*.ts`
 	],
 	coverageThreshold: {
 		global: {

@@ -26,10 +26,10 @@ module.exports = {
 		"airbnb-base"
 	],
 	"plugins": [
+		"@babel",
 		"@typescript-eslint",
 		"markdown",
-		"jsdoc",
-		"babel"
+		"jsdoc"
 	],
 	"settings": {
 		"import/resolver": {
