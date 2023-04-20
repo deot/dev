@@ -110,12 +110,22 @@ export class Releaser {
 		let {
 			stdout
 		} = await Shell.exec('git', params);
-		if (!stdout) {
-			if (latestTag) params.splice(2, 1, `${latestTag}`);
-			else params.splice(2, 1, 'HEAD');
-			({
-				stdout
-			} = await Shell.exec('git', params));
+
+		let skipGetLog = false;
+		if (latestTag) {
+			const log1 = await Shell.exec('git', ['rev-parse', latestTag]);
+			const log2 = await Shell.exec('git', ['--no-pager', 'log', '-1', '--format=%H']);
+			if (log1.stdout === log2.stdout) {
+				skipGetLog = true;
+			}
+		}
+		if (!skipGetLog && !stdout) {
+			if (latestTag) {
+				params.splice(2, 1, `${latestTag}`); // 该latestTag前所有commit
+			} else {
+				params.splice(2, 1, 'HEAD'); // 所有commit
+			}
+			({ stdout } = await Shell.exec('git', params));
 		}
 
 		const commits = stdout
@@ -271,6 +281,14 @@ export class Releaser {
 				notes.updates.push(message);
 			}
 		}
+
+		// 过滤已存在的commit
+		Object.keys(notes).forEach(i => {
+			notes[i] = notes[i].filter((j: string) => {
+				return !logFile.includes(j);
+			});
+		});
+
 		const parts = [
 			notes.breaking.length ? `### Breaking Changes\n\n- ${notes.breaking.join('\n- ')}`.trim() : '',
 			notes.fixes.length ? `### Bugfixes\n\n- ${notes.fixes.join('\n- ')}`.trim() : '',

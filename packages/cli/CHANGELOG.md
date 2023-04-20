@@ -22,3 +22,7 @@ _2023-04-19_
 - feat: lerna -> pnpm & release mode & cmd option with `--dry-run` ([d9e9bbe](https://github.com/deot/dev/commit/d9e9bbec3d5a3cd1915f7b4eb80110ed0c609957))
 - feat(shared): add command method to validate ([22e4940](https://github.com/deot/dev/commit/22e4940efcc8439ca4e41ca54f2e9d4616206755))
 - feat(shared): support spawn options & exec args ([c1b5699](https://github.com/deot/dev/commit/c1b56990828841177dc6828d708d058cae4f3c02))
+
+### Updates
+
+- docs: update desc ([fea25a7](https://github.com/deot/dev/commit/fea25a72d07de366610bd49f6955760b653bb5b8))
