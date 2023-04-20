@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.5
+
+_2023-04-20_
+
+### Bugfixes
+
+- fix: `conventional-commits-parser` to dependencies ([b5fc605](https://github.com/deot/dev/commit/b5fc605ad0d966bc0dd979947ff02e7c3962f75b))
+
 ## v1.0.4
 
 _2023-04-20_
