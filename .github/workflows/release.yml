@@ -96,12 +96,15 @@ jobs:
         run: npm run init
 
       - name: Run release
-        run: npm run release -- \
-          --${{ inputs.version }} \
-          ${{ !inputs.dryRun  && ' --no-dry-run ' || '' }} \
-          ${{ !inputs.push && ' --no-push ' || '' }} \
-          ${{ !inputs.publish && ' --no-publish ' || '' }} \
-          ${{ !inputs.tag && ' --no-tag ' || '' }} \
-          ${{ !inputs.commit && ' --no-commit ' || '' }} \
-          ${{ inputs.forceUpdatePackage && format(' --force-update-package "{0}" ', inputs.forceUpdatePackage) || ''}} \
-          ${{ inputs.skipUpdatePackage && format(' --skip-update-package "{0}" ', inputs.skipUpdatePackage) || ''}}
+        run: >-
+          npm run release --
+          --${{ inputs.version }}
+          ${{ !inputs.dryRun  && '--no-dry-run' || '' }}
+          ${{ !inputs.push && '--no-push' || '' }}
+          ${{ !inputs.publish && '--no-publish' || '' }}
+          ${{ !inputs.tag && '--no-tag' || '' }}
+          ${{ !inputs.commit && '--no-commit' || '' }}
+          ${{ inputs.forceUpdatePackage && format('--force-update-package "{0}"', inputs.forceUpdatePackage) || ''}}
+          ${{ inputs.skipUpdatePackage && format('--skip-update-package "{0}"', inputs.skipUpdatePackage) || ''}}
+
+
