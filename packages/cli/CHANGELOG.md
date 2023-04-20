@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.4
+
+_2023-04-20_
+
+### Bugfixes
+
+- fix: commit repeats when run release again ([17e7af0](https://github.com/deot/dev/commit/17e7af03f4b216799b875a9576823a88ae9421c1))
+
 ## v1.0.3
 
 _2023-04-19_
