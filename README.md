@@ -18,12 +18,24 @@
 
 ## Monorepo
 
-| 包名                        | 说明                                     |
-| ------------------------- | -------------------------------------- |
-| [cli](packages/cli)       | 开发指令集`dev`、`build`、`test`、`link`、`add` |
-| [test](packages/test)     | 测试工具                                   |
-| [shared](packages/shared) | 公共方法                                   |
-| [index](packages/index)   | 除cli外其他仓库的集成                           |
+[npm-cli-image]: https://img.shields.io/npm/v/@deot/dev-cli.svg
+[npm-cli-url]: https://www.npmjs.com/package/@deot/dev-cli
+
+[npm-test-image]: https://img.shields.io/npm/v/@deot/dev-test.svg
+[npm-test-url]: https://www.npmjs.com/package/@deot/dev-test
+
+[npm-shared-image]: https://img.shields.io/npm/v/@deot/dev-shared.svg
+[npm-shared-url]: https://www.npmjs.com/package/@deot/dev-shared
+
+[npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
+[npm-url]: https://www.npmjs.com/package/@deot/dev
+
+| 包名                        | 版本                                         | 说明                                     |
+| ------------------------- | ------------------------------------------ | -------------------------------------- |
+| [cli](packages/cli)       | [![npm][npm-cli-image]][npm-cli-url]       | 开发指令集`dev`、`build`、`test`、`link`、`add` |
+| [test](packages/test)     | [![npm][npm-test-image]][npm-test-url]     | 测试工具                                   |
+| [shared](packages/shared) | [![npm][npm-shared-image]][npm-shared-url] | 公共方法                                   |
+| [index](packages/index)   | [![npm][npm-image]][npm-url]               | 除cli外其他仓库的集成                           |
 
 ## Contributing
 
