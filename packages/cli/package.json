@@ -25,9 +25,10 @@
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",    
     "chalk": "^5.2.0",
     "commander": "^10.0.1",
+    "conventional-commits-parser": "^3.2.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -50,8 +51,7 @@
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "@deot/dev-test": "^1.0.2",
-    "conventional-commits-parser": "^3.2.4"
+    "@deot/dev-test": "^1.0.2"
   },
   "bin": {
     "ddc": "bin/cli.js"
