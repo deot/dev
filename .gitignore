@@ -60,4 +60,4 @@ user.config.js
 
 # lock
 yarn.lock
-# package-lock.json ci need
+package-lock.json
