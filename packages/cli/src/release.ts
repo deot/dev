@@ -6,6 +6,7 @@ import { releaser, Releaser } from './release/releaser';
 import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	const locals = Shared.impl();
 	if (options.dryRun) {
 		Logger.log(
 			chalk.magenta(`DRY RUN: `) 
@@ -13,10 +14,16 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		);
 	}
 
-	const { normalizePackageFolderNames } = Shared.impl();
+	let inputs: string[] = [];
+	if (locals.workspace) {
+		inputs = locals.normalizePackageFolderNames;
+	} else {
+		inputs = [''];
+	}
+
 	const instances: { [key: string]: Releaser } = {};
 
-	await normalizePackageFolderNames
+	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
 				preProcess = preProcess
@@ -34,7 +41,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	let message = `chore(release): publish\n\n`;
 	let relationVerisons = {};
 	// 如果仅shared更新了, index因为引用了此包，也需要更新，且需要重新打包. 确保相互间关联的包都是最新的;
-	await normalizePackageFolderNames.reduce(
+	await inputs.reduce(
 		(preProcess, packageFolderName) => {
 			const instance = instances[packageFolderName];
 			instance.packageRelation.forEach(i => {
@@ -81,7 +88,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	// 发包和tag
-	await normalizePackageFolderNames
+	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
 				const instance = instances[packageFolderName];

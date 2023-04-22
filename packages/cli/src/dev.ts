@@ -10,5 +10,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	
 	if (options.dryRun) return Shell.spawn(`echo development`);
 	process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+	options.watch = true;
 	await Test.run(options);
 });

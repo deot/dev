@@ -87,7 +87,7 @@ export class Releaser {
 		this.packageName = Shared.getPackageName(config.name);
 		this.packageFolderName = config.name;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
-		this.packageRelation = packageRelation[this.packageName];
+		this.packageRelation = packageRelation[this.packageName] || [];
 		this.config = config;
 
 		this.commits = [];
@@ -98,6 +98,7 @@ export class Releaser {
 	}
 
 	private async parseCommits() {
+		const { workspace } = Shared.impl();
 		const { packageFolderName, packageName, commandOptions } = this;
 		let params = ['tag', '--list', `'${packageName}@*'`, '--sort', '-v:refname'];
 		const {
@@ -106,7 +107,6 @@ export class Releaser {
 		const [latestTag] = tags.split('\n');
 		Logger.log(chalk.yellow(`Last Release Tag`) + `: ${latestTag || '<none>'}`);
 		params = ['--no-pager', 'log', `${latestTag}..HEAD`, `--format=%B%n${HASH}%n%H${SUFFIX}`];
-		const rePlugin = new RegExp(`^[\\w\\!]+\\(([\\w,-]+)?${packageFolderName}([\\w,-]+)?\\)`, 'i');
 		let {
 			stdout
 		} = await Shell.exec('git', params);
@@ -128,11 +128,12 @@ export class Releaser {
 			({ stdout } = await Shell.exec('git', params));
 		}
 
+		const rePlugin = new RegExp(`^[\\w\\!]+\\(([\\w,-]+)?${packageFolderName}([\\w,-]+)?\\)`, 'i');
 		const commits = stdout
 			.split(SUFFIX)
 			.filter((commit: string) => {
 				const chunk = commit.trim();
-				return chunk && rePlugin.test(chunk);
+				return chunk && (!workspace || rePlugin.test(chunk));
 			})
 			.map((commit) => {
 				const node = parser.sync(commit);
@@ -216,7 +217,7 @@ export class Releaser {
 				this.commits = [
 					{
 						type: 'chore',
-						header: `chore(${this.packageFolderName}): force-publish ${versionChanged}`,
+						header: `chore(${this.packageFolderName || 'release'}): force-publish ${versionChanged}`,
 						hash: '',
 						effect: false,
 						breaking: false,
@@ -231,7 +232,7 @@ export class Releaser {
 
 	private rebuildChangeLog(commits: Releaser["commits"]) {
 		const { packageDir } = this;
-		const { homepage } = Shared.impl();
+		const { homepage, workspace } = Shared.impl();
 		const logPath = path.resolve(packageDir, './CHANGELOG.md');
 		const logFile = fs.existsSync(logPath) ? fs.readFileSync(logPath, 'utf-8') : '';
 		const notes: Notes = {
@@ -265,7 +266,7 @@ export class Releaser {
 
 			// eslint-disable-next-line no-unsafe-optional-chaining
 			let message = header?.trim();
-			if (!effect) {
+			if (workspace && !effect) {
 				message = message.replace(/\(.+\)!?:/, ':');
 			}
 			message = message
@@ -526,12 +527,13 @@ export class Releaser {
 	}
 
 	async process() {
+		const { workspace } = Shared.impl();
 		const { packageName, packageDir, packageFolderName } = this;
 		if (!packageDir || !fs.pathExists(packageDir)) {
 			throw new RangeError(`Could not find directory for package: ${packageFolderName}`);
 		}
 
-		Logger.log(chalk.cyan(`Releasing ${packageName}`) + ' from ' + chalk.grey(`packages/${packageFolderName}`));
+		Logger.log(chalk.cyan(`Releasing ${packageName}`) + ' from ' + chalk.grey(`${workspace}/${packageFolderName}`));
 
 		await this.parseCommits();
 		return this;

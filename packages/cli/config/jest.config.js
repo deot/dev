@@ -1,5 +1,14 @@
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { packageFolderName } = options;
+const { workspace, packageFolderName } = options;
+const rootDir = process.cwd();
+
+const testDirPrefix = workspace 
+	? `<rootDir>/${workspace}/${packageFolderName || '*'}/__tests__` 
+	: `<rootDir>/__tests__`;
+
+const collectDirPrefix = workspace 
+	? `<rootDir>/${workspace}/${packageFolderName || '*'}/src`
+	: `<rootDir>/src`;
 
 export default {
 	preset: 'ts-jest',
@@ -22,19 +31,19 @@ export default {
 	// 匹配相关
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
 	// 匹配规则很重要
-	rootDir: process.cwd(),
+	rootDir,
 	watchPathIgnorePatterns: ['/node_modules/', '/dist/', '/.git/'],
 	testPathIgnorePatterns: [
 		'/node_modules/'
 	],
 	testMatch: [
-		`<rootDir>/packages/${packageFolderName || '**'}/__tests__/**.(spec|test).[jt]s?(x)`
+		`${testDirPrefix}/**.(spec|test).[jt]s?(x)`
 	],
 
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	collectCoverageFrom: [
-		`packages/${packageFolderName || '*'}/src/**/*.ts`
+		`${collectDirPrefix}/**/*.ts`
 	],
 	coverageThreshold: {
 		global: {

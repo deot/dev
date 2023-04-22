@@ -29,7 +29,7 @@ class Builder {
 	};
 
 	constructor(config: any) {
-		const { packageDir, packageName } = Shared.impl();
+		const { workspace, packageDir, packageName } = Shared.impl();
 
 		if (typeof config === 'string') {
 			let packageFolderName = config;
@@ -37,7 +37,7 @@ class Builder {
 
 			config = {
 				dir: packageDir$,
-				name: packageFolderName,
+				name: packageFolderName || 'index',
 				input: packageDir$ + '/src/index.ts',
 				output: {
 					file: packageDir$ + '/dist/index.js',
@@ -48,8 +48,10 @@ class Builder {
 			};
 		}
 
-		this.packageDir = path.resolve(packageDir, `./${config.name}`);
-		this.packageName = config.name === 'index' ? packageName : `${packageName}-${config.name}`;
+		this.packageDir = path.resolve(packageDir, workspace ? `./${config.name}` : '');
+		this.packageName = config.name === 'index' 
+			? packageName 
+			: `${packageName}-${config.name}`;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.config = config;
 	}
@@ -73,6 +75,7 @@ class Builder {
 	}
 
 	async buildSourceAsES() {
+		const { workspace } = Shared.impl();
 		const { name, input, output } = this.config;
 		const { packageOptions } = this;
 		const external = Object
@@ -82,6 +85,9 @@ class Builder {
 			})
 			.map(i => new RegExp(`^${i}$`));
 
+		const source = workspace ? `${workspace}/${name}/**/*` : 'src/**/*';
+		const shims = workspace ? `${workspace}/shims.d.ts` : 'shims.d.ts';
+		const outDir = workspace ? `${workspace}/${name}/dist` : 'dist';
 		const builder = await rollupBuilder({
 			input,
 			external: [
@@ -91,11 +97,11 @@ class Builder {
 			],
 			plugins: [
 				typescript({
-					include: [`packages/${name}/**/*`, 'packages/shims.d.ts'],
+					include: [source, shims],
 					exclude: ['dist'],
 					compilerOptions: {
 						rootDir: '.',
-						outDir: `packages/${name}/dist`,
+						outDir,
 						declaration: true
 					}
 				}),
@@ -115,26 +121,29 @@ class Builder {
 	}
 
 	async buildTypes() {
+		const { workspace } = Shared.impl();
 		const { packageDir } = this;
 
 		// build types
 		const config = path.resolve(packageDir, `api-extractor.json`);
-		const result = Extractor.invoke(
-			ExtractorConfig.loadFileAndPrepare(config), 
-			{
-				localBuild: true,
-				showVerboseMessages: false
-			}
-		);
-
-		if (!result.succeeded) {
-			Logger.error(
-				`API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`
+		if (fs.existsSync(config)) {
+			const result = Extractor.invoke(
+				ExtractorConfig.loadFileAndPrepare(config), 
+				{
+					localBuild: true,
+					showVerboseMessages: false
+				}
 			);
-			process.exitCode = 1;
+
+			if (!result.succeeded) {
+				Logger.error(
+					`API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`
+				);
+				process.exitCode = 1;
+			}			
 		}
 
-		await fs.remove(`${packageDir}/dist/packages`);
+		await fs.remove(`${packageDir}/dist/${workspace || 'src'}`);
 	}
 }
 

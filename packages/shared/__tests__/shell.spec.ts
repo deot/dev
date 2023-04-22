@@ -11,7 +11,7 @@ describe('shell.ts', () => {
 
 	it('spawn', async () => {
 		expect.assertions(1);
-		const response = await Shell.spawn(`echo`, ['any']);
+		const response = await Shell.spawn(`echo`);
 		expect(response).toBe(0);
 	});
 
@@ -19,7 +19,7 @@ describe('shell.ts', () => {
 		expect.assertions(1);
 
 		try {
-			await Shell.spawn(`NOCOMMAND`);
+			await Shell.spawn(`NOCOMMAND`, ['any']);
 		} catch (response) {
 			expect(typeof response).toBe('object');
 		}

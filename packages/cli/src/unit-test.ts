@@ -4,11 +4,12 @@ import { getOptions } from './unit-test/prompt';
 import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	const locals = Shared.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
 
-	if (!options.packageName) {
+	if (locals.workspace && !options.packageName) {
 		const promptOptions = await getOptions();
 		options = {
 			...options,
@@ -19,7 +20,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const { packageName, watch, dryRun } = options;
 
 	options.packageFolderName = Shared.getPackageFolderName(options.packageName) || options.packageFolderName;
+	options.workspace = locals.workspace;
+	
 	if (!options.packageFolderName) delete options.packageFolderName; 
+	if (!options.workspace) delete options.workspace; 
 	delete options.packageName;
 
 	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} jest ` 

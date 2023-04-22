@@ -1,0 +1,27 @@
+{
+  "name": "@demo/helper",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "description": "custom helpers",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "cli": "../../../../../node_modules/.bin/tsx ../../../src/index.ts",
+    "build": "npm run cli -- build",
+    "test": "npm run cli -- test --package-name '**'",
+    "release": "npm run cli -- release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deot/dev-demo.git"
+  },
+  "devDependencies": {
+    "@deot/dev-cli": "*"
+  }
+}

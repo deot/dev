@@ -1,20 +1,27 @@
 import type { Options } from '@deot/dev-shared';
-import { Utils, Shell } from '@deot/dev-shared';
+import { Utils, Shell, Logger } from '@deot/dev-shared';
 import { resolve } from 'node:path';
 import ora from 'ora';
 import fs from 'fs-extra';
+
 import { getOptions } from './add/prompt';
 import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	const locals = Shared.impl();
+	const { workspace, packageDir } = locals;
+	
+	if (!workspace) {
+		return Logger.log(`<add> Monorepo Supported Only.`);
+	}
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
 	const { mode, dependentName, args, packageFolderName, packageName } = await getOptions();
-	const { packageDir } = Shared.impl();
+	
 	let command = mode === 'dependent' 
 		? `npx pnpm add --filter ${packageName} ${dependentName} ${args.join(' ')}`
-		: `npx pnpm link ./packages/${packageFolderName}`;
+		: `npx pnpm link ./${workspace}/${packageFolderName}`;
 	
 	if (options.dryRun) return Shell.spawn(`echo "${command}"`);
 
@@ -46,7 +53,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 		fs.outputFileSync(`${dir}/${packageFolderName}/api-extractor.json`, JSON.stringify({
 			extends: "../../api-extractor.json",
-			mainEntryPointFilePath: `./dist/packages/${packageFolderName}/src/index.d.ts`,
+			mainEntryPointFilePath: `./dist/${workspace}/${packageFolderName}/src/index.d.ts`,
 			dtsRollup: {
 				publicTrimmedFilePath: "./dist/index.d.ts"
 			}

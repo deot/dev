@@ -39,6 +39,7 @@ program
 	.command('dev')
 	.alias('d')
 	.description('dev')
+	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Dev.run);
 

@@ -4,6 +4,7 @@ import { Shared } from './shared';
 import { builder } from './build/builder';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	const locals = Shared.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
@@ -12,7 +13,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	let packageFolderName = Shared.getPackageFolderName(options.packageName || '**');
 
 	let inputs: string[] = [];
-	if (packageFolderName === '**') {
+	if (locals.workspace && packageFolderName === '**') {
 		inputs = normalizePackageFolderNames;
 	} else {
 		inputs = [packageFolderName];

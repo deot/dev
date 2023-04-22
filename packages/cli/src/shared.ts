@@ -12,6 +12,7 @@ interface PackageOptions {
 }
 
 interface Config {
+	workspace: string;
 	homepage: string; 
 	packageFolderName: string;
 	packageDir: string;
@@ -83,16 +84,22 @@ export class Shared {
 	};
 
 	static getPackageName = (packageFolderName$: string) => {
-		const { packageFolderName, packageName } = Shared.impl();
-		if (!packageFolderName$ || packageFolderName$ === packageFolderName) {
-			return `${packageName}`;
+		const { workspace, packageFolderName, packageName } = Shared.impl();
+		if (
+			!workspace 
+			|| !packageFolderName$ 
+			|| packageFolderName$ === packageFolderName
+		) {
+			return packageName;
 		} else {
 			return `${packageName}-${packageFolderName$.replace(new RegExp(`${packageName}-?`), '')}`;
 		}
 	};
 
 	static getPackageFolderName = (packageName$: string) => {
-		const { packageFolderName, packageName } = Shared.impl();
+		const { workspace, packageFolderName, packageName } = Shared.impl();
+		if (!workspace) return '';
+
 		if (packageName$ === packageName) return packageFolderName;
 		return packageName$?.replace(new RegExp(`${packageName}-?`), '');
 	};
@@ -100,14 +107,19 @@ export class Shared {
 	static impl() {
 		if (Shared.config) return Shared.config;
 		const rootPackageOptions = require$(`${cwd}/package.json`);
-		const packageFolderName = 'index';
-		const packageDir = path.resolve(cwd, './packages');
-		const packageOptions = require$(`${cwd}/packages/${packageFolderName}/package.json`);
+		
+		let workspace = 'packages';
+		let isMonorepo = fs.existsSync(path.resolve(cwd, workspace));
+		workspace = isMonorepo ? workspace : '';
+
+		const packageFolderName = isMonorepo ? 'index' : '';
+		const packageDir = path.resolve(cwd, workspace);
+		const packageOptions = require$(path.resolve(packageDir, packageFolderName, 'package.json'));
 		const packageName = packageOptions.name;
 		const packageVersion = packageOptions.version;
 
 		// 所有包的路径
-		const packageFolderNames: string[] = fs
+		const packageFolderNames: string[] = !isMonorepo ? [] : fs
 			.readdirSync(packageDir)
 			.reduce((pre: string[], file: string) => {
 				const fullpath = path.resolve(packageDir, file);
@@ -122,13 +134,13 @@ export class Shared {
 			}, []);
 
 		// 所有包的package.json
-		const packageOptionsMap = packageFolderNames.reduce((pre, packageFolderDir) => {
-			pre[packageFolderDir] = require$(`${cwd}/packages/${packageFolderDir}/package.json`);
+		const packageOptionsMap = packageFolderNames.reduce((pre, packageFolderName$) => {
+			pre[packageFolderName$] = require$(path.resolve(packageDir, packageFolderName$, 'package.json'));
 			return pre;
 		}, {});
 
-		const packageRelation = packageFolderNames.reduce((pre, packageFolderDir) => {
-			let packagesOptions = packageOptionsMap[packageFolderDir];
+		const packageRelation = packageFolderNames.reduce((pre, packageFolderName$) => {
+			let packagesOptions = packageOptionsMap[packageFolderName$];
 			let deps = {
 				...(packagesOptions.dependencies || {}),
 				...(packagesOptions.devDependencies || {}),
@@ -143,8 +155,10 @@ export class Shared {
 			.map(i => i.replace(new RegExp(`${packageName}-?`), '') || packageFolderName);
 
 
+		const homepage = (rootPackageOptions.repository || packageOptions.repository || {}).url || '';
 		const config = {
-			homepage: (rootPackageOptions.homepage || packageOptions.homepage).replace(/(#.+)/, ''),
+			workspace,
+			homepage: homepage.replace(/(.*)(https?:\/\/.*)(#|\.git)/, '$2'),
 			packageFolderName,
 			packageDir,
 			packageOptions,
