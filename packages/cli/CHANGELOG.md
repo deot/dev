@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.6
+
+_2023-04-22_
+
+### Features
+
+- feat: support single package ([47c1cb3](https://github.com/deot/dev/commit/47c1cb3fab07f5728776009c764a95ce9bcd171d))
+
 ## v1.0.5
 
 _2023-04-20_
