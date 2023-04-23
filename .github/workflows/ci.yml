@@ -14,6 +14,8 @@ permissions:
 
 jobs:
   unit-test:
+    # let's ignore release commits, otherwise it'll try to run twice
+    if: ${{ !startsWith(github.event.head_commit.message , 'chore(release):') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
