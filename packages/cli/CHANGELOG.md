@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.7
+
+_2023-04-23_
+
+### Features
+
+- feat: changeLog collect limit ([81acbe0](https://github.com/deot/dev/commit/81acbe0852feb0539dbedba777cc33ff7f1afd65))
+
 ## v1.0.6
 
 _2023-04-22_
