@@ -128,12 +128,13 @@ export class Releaser {
 			({ stdout } = await Shell.exec('git', params));
 		}
 
-		const rePlugin = new RegExp(`^[\\w\\!]+\\(([\\w,-]+)?${packageFolderName}([\\w,-]+)?\\)`, 'i');
-		const commits = stdout
-			.split(SUFFIX)
+		const allowTypes = ['feat', `fix`, `break change`, `style`, `perf`, `types`, `refactor`, `chore`];
+		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(${packageFolderName}\\)` : '(\\(.+\\))?'}: .*`, 'i');
+		const allCommits = stdout.split(SUFFIX);
+		const commits = allCommits
 			.filter((commit: string) => {
 				const chunk = commit.trim();
-				return chunk && (!workspace || rePlugin.test(chunk));
+				return chunk && rePlugin.test(chunk);
 			})
 			.map((commit) => {
 				const node = parser.sync(commit);
@@ -150,7 +151,13 @@ export class Releaser {
 		if (!commits.length) {
 			Logger.log(chalk.red(`No Commits Found.`));
 		} else {
-			Logger.log(chalk.yellow(`Found `) + chalk.bold(`${commits.length}`) + ` Commits`);
+			Logger.log(
+				chalk.yellow(`Found `) 
+				+ chalk.bold(`${allCommits.length}`) 
+				+ ` Commits, ` 
+				+ chalk.bold(`${commits.length}`) 
+				+ ' Commits Valid'
+			);
 		}
 
 		const { skipUpdatePackage } = commandOptions;

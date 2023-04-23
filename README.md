@@ -117,7 +117,16 @@ $ npm run release
 
 ##### `Commit`收录的格式
 
-> 自动增加`PR`和`issue`的地址, `Breaking Change`会自动把版本改为`major`
+- `break change`
+- `feat`
+- `fix`
+- `style`
+- `perf`
+- `types`
+- `refactor`
+- `chore`
+
+> 自动增加`PR`和`issue`的地址, `commit`内含`Breaking Change`会自动把版本改为`major`
 
 ```shell
 refactor(index): remove deprecated \n BREAKING CHANGE: any

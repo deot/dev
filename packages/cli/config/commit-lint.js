@@ -1,6 +1,7 @@
 import fs from 'fs';
 
-const commitRE = /^(revert: )?(fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
+// eslint-disable-next-line max-len
+const commitRE = /^(revert: )?(void|fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
 const mergeRE = /Merge branch /;
 
 const gitParams = process.env.HUSKY_GIT_PARAMS || process.argv.pop(); // 兼容husky@v4和husky@v8
@@ -30,6 +31,7 @@ if (!commitRE.test(commitMsg) && !mergeRE.test(commitMsg)) {
 		- build：影响构建系统或外部依赖项的更改
 		- ci: 持续集成相关
 		- breaking change：破坏性修改
+		- void：无类型，通常用于初始化
 		- Merge branch 'foo' into 'bar'
 		`
 	);
