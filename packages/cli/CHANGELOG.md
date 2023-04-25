@@ -1,5 +1,15 @@
 # @deot/dev-cli ChangeLog
 
+## v1.0.8
+
+_2023-04-25_
+
+### Features
+
+- feat: avoid command loop ([d2eb332](https://github.com/deot/dev/commit/d2eb3320bf167c3b7ea0dfc7700dcf7bdb57f65c))
+- feat: build by output arg(es,cjs,iife) ([7c19187](https://github.com/deot/dev/commit/7c191879317a407199da071888c211c5748c1610))
+- feat: use command script when subpackage exist ([8f1efc6](https://github.com/deot/dev/commit/8f1efc62d743c03f56fc38bc5e2e13121dcaec23))
+
 ## v1.0.7
 
 _2023-04-23_
