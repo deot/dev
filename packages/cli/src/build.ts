@@ -23,7 +23,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	await inputs
 		.reduce(
 			(preProcess: Promise<any>, packageFolderName$: any) => {
-				preProcess = preProcess.then(() => builder(packageFolderName$).process());
+				preProcess = preProcess.then(() => builder(packageFolderName$, options).process());
 				return preProcess;
 			}, 
 			Promise.resolve()

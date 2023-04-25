@@ -49,6 +49,7 @@ program
 	.alias('b')
 	.description('build')
 	.option('-p, --package-name <string>', 'Select packageName')
+	.option('--output <string>', 'Output', 'es,cjs')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Build.run);
 

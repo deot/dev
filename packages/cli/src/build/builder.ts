@@ -4,7 +4,9 @@ import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+// import terser from '@rollup/plugin-terser';
 import { createRequire } from "node:module";
+import type { OutputOptions } from 'rollup';
 import { rollup as rollupBuilder } from 'rollup';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import chalk from 'chalk';
@@ -24,11 +26,16 @@ class Builder {
 	config: {
 		dir: string;
 		name: string;
-		input: any;
-		output: any;
+		input: string;
+		output: OutputOptions[];
 	};
 
-	constructor(config: any) {
+	commandOptions: {
+		dryRun: boolean;
+		output: string;
+	};
+
+	constructor(config: any, commandOptions: Builder['commandOptions']) {
 		const { workspace, packageDir, packageName } = Shared.impl();
 
 		if (typeof config === 'string') {
@@ -39,12 +46,27 @@ class Builder {
 				dir: packageDir$,
 				name: packageFolderName || 'index',
 				input: packageDir$ + '/src/index.ts',
-				output: {
-					file: packageDir$ + '/dist/index.es.js',
-					format: 'es',
-					exports: 'named',
-					sourcemap: false
-				} 
+				output: [
+					{
+						file: packageDir$ + '/dist/index.es.js',
+						format: 'es',
+						exports: 'named',
+						sourcemap: false
+					},
+					// TODO: 这个需要解决依赖问题
+					{
+						file: packageDir$ + '/dist/index.iife.js',
+						format: 'iife',
+						name: packageName,
+						// plugins: [terser()]
+					},
+					{
+						file: packageDir$ + '/dist/index.cjs.js',
+						format: 'cjs'
+					} 
+				].filter(i => {
+					return commandOptions.output.includes(i.format);
+				})
 			};
 		}
 
@@ -54,6 +76,8 @@ class Builder {
 			: `${packageName}-${config.name}`;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.config = config;
+
+		this.commandOptions = commandOptions;
 	}
 
 	async process() {
@@ -73,18 +97,22 @@ class Builder {
 			spinner.start();
 			await fs.emptyDir(`${packageDir}/dist`);
 
-			const stat = await this.buildSourceAsES();
+			const stats = await this.buildSources();
 			await this.buildTypes();
 
 			spinner.stop();
-			Logger.log(`${chalk.cyan(`${packageName}`)} ${chalk.green('Success')} ES: ${Utils.formatBytes(stat.size)}`); // eslint-disable-line
+			Logger.log(`${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')}`);
+
+			stats.forEach((stat) => {
+				Logger.log(`${chalk.green(stat.format.toUpperCase())}: ${Utils.formatBytes(stat.size)}`);
+			});
 		} catch (e) {
 			Logger.log('Error!', e);
 			throw e;
 		}
 	}
 
-	async buildSourceAsES() {
+	async buildSources() {
 		const { workspace } = Shared.impl();
 		const { name, input, output } = this.config;
 		const { packageOptions } = this;
@@ -124,10 +152,21 @@ class Builder {
 				})
 			]
 		});
-		await builder.write(output);
-		const stat = await fs.stat(output.file);
+		await Promise.all(output.map(builder.write));
+		const stats: Array<{ format: string; size: number }> = [];
+		await output.reduce((pre: Promise<any>, cur: OutputOptions, index: number) => {
+			pre
+				.then(() => fs.stat(cur.file))
+				.then((stat: any) => {
+					stats[index] = {
+						format: cur.format as string,
+						size: stat.size
+					};
+				});
+			return pre;
+		}, Promise.resolve());
 
-		return stat;
+		return stats;
 	}
 
 	async buildTypes() {
@@ -165,6 +204,6 @@ class Builder {
 	}
 }
 
-export const builder = (options: any) => {
-	return new Builder(options);
+export const builder = (options: any, commandOptions?: any) => {
+	return new Builder(options, commandOptions);
 };
