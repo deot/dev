@@ -81,11 +81,15 @@ class Builder {
 	}
 
 	async process() {
-		const { workspace } = Shared.impl();
+		const { cwd, workspace } = Shared.impl();
 		const { packageOptions, packageName, packageDir } = this;
 
 		// 子包含有自己的build则自行执行
-		if (workspace && packageOptions?.scripts?.build) {
+		if (
+			workspace
+			&& packageOptions?.scripts?.build
+			&& packageDir !== cwd
+		) {
 			await Shell.spawn(`npm`, ['run', 'build'], {
 				cwd: packageDir
 			});

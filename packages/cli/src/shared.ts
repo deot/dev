@@ -12,6 +12,7 @@ interface PackageOptions {
 }
 
 interface Config {
+	cwd: string;
 	workspace: string;
 	homepage: string; 
 	packageFolderName: string;
@@ -21,6 +22,9 @@ interface Config {
 	packageVersion: string;
 	packageFolderNames: string[];
 	packageOptionsMap: {
+		[key: string]: PackageOptions;
+	};
+	packageDirsMap: {
 		[key: string]: PackageOptions;
 	};
 	packageRelation: {
@@ -139,6 +143,11 @@ export class Shared {
 			return pre;
 		}, {});
 
+		const packageDirsMap = packageFolderNames.reduce((pre, packageFolderName$) => {
+			pre[packageFolderName$] = path.resolve(packageDir, packageFolderName$);
+			return pre;
+		}, {});
+
 		const packageRelation = packageFolderNames.reduce((pre, packageFolderName$) => {
 			let packagesOptions = packageOptionsMap[packageFolderName$];
 			let deps = {
@@ -157,6 +166,7 @@ export class Shared {
 
 		const homepage = (rootPackageOptions.repository || packageOptions.repository || {}).url || '';
 		const config = {
+			cwd,
 			workspace,
 			homepage: homepage.replace(/(.*)(https?:\/\/.*)(#|\.git)/, '$2'),
 			packageFolderName,
@@ -166,6 +176,7 @@ export class Shared {
 			packageVersion,
 			packageFolderNames,
 			packageOptionsMap,
+			packageDirsMap,
 			packageRelation,
 			normalizePackageNames,
 			normalizePackageFolderNames

@@ -10,17 +10,19 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	
 	if (options.dryRun) return Shell.spawn(`echo development`);
 
-	const { workspace, packageOptionsMap } = locals;
+	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
 	const { packageName } = options;
 
 	const getPackageFolderName = Shared.getPackageFolderName(packageName);
 	const packageOptions = packageOptionsMap[getPackageFolderName];
+	const packageDir = packageDirsMap[getPackageFolderName];
 	options.watch = true;
 
 	if (
 		!workspace 
 		&& packageName
 		&& packageName !== '**'
+		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['dev']
 	) {
 		await Shell.spawn(`npm`, ['run', 'dev']);

@@ -1,0 +1,8 @@
+{
+  "name": "@demo/helper-self-scripts",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo",
+    "build": "echo"
+  }
+}
