@@ -33,12 +33,12 @@ Monorepo
 │    │    ├─ __tests__
 │    │    ├─ src
 │    │    ├─ api-extractor.json
-│    │    └─ package.json
+│    │    └─ package.json            # 如果含build/build:types会跳过执行内部的
 │    └─ shims.d.ts
 ├─ .eslintignore
 ├─ .eslintrc.cjs
 ├─ .lintstagedrc.json
-├─ .npmrc
+├─ .npmrc                            # shamefully-hoist = true
 ├─ jest.config.js
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml

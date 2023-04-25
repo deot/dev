@@ -1,7 +1,8 @@
 {
   "name": "@deot/dev-cli",
-  "version": "1.0.7",
-  "main": "dist/index.js",
+  "version": "1.0.6",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [

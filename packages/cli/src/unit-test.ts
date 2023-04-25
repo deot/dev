@@ -17,14 +17,25 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		};
 	}
 
+	const { workspace, packageOptionsMap } = locals;
 	const { packageName, watch, dryRun } = options;
 
 	options.packageFolderName = Shared.getPackageFolderName(options.packageName) || options.packageFolderName;
-	options.workspace = locals.workspace;
+	options.workspace = workspace;
+	
+	const packageOptions = packageOptionsMap[options.packageFolderName];
 	
 	if (!options.packageFolderName) delete options.packageFolderName; 
 	if (!options.workspace) delete options.workspace; 
 	delete options.packageName;
+
+	if (
+		!workspace 
+		&& packageOptions?.scripts?.['test']
+	) {
+		await Shell.spawn(`npm`, ['run', 'test']);
+		return;
+	}
 
 	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} jest ` 
 		+ ([

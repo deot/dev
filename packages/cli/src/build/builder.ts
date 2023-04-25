@@ -9,7 +9,7 @@ import { rollup as rollupBuilder } from 'rollup';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import chalk from 'chalk';
 import ora from 'ora';
-import { Utils, Logger } from '@deot/dev-shared';
+import { Utils, Logger, Shell } from '@deot/dev-shared';
 import { Shared } from '../shared';
 
 export const require$ = createRequire(import.meta.url);
@@ -40,7 +40,7 @@ class Builder {
 				name: packageFolderName || 'index',
 				input: packageDir$ + '/src/index.ts',
 				output: {
-					file: packageDir$ + '/dist/index.js',
+					file: packageDir$ + '/dist/index.es.js',
 					format: 'es',
 					exports: 'named',
 					sourcemap: false
@@ -57,7 +57,17 @@ class Builder {
 	}
 
 	async process() {
-		const { packageName, packageDir } = this;
+		const { workspace } = Shared.impl();
+		const { packageOptions, packageName, packageDir } = this;
+
+		// 子包含有自己的build则自行执行
+		if (workspace && packageOptions?.scripts?.build) {
+			await Shell.spawn(`npm`, ['run', 'build'], {
+				cwd: packageDir
+			});
+			return;
+		}
+
 		const spinner = ora(`${packageName} Build ...`);
 		try {
 			spinner.start();
@@ -122,7 +132,15 @@ class Builder {
 
 	async buildTypes() {
 		const { workspace } = Shared.impl();
-		const { packageDir } = this;
+		const { packageDir, packageOptions } = this;
+
+		// 子包含有自己的build:types则自行执行
+		if (workspace && packageOptions?.scripts?.['build:types']) {
+			await Shell.spawn(`npm`, ['run', 'build:types'], {
+				cwd: packageDir
+			});
+			return;
+		}
 
 		// build types
 		const config = path.resolve(packageDir, `api-extractor.json`);

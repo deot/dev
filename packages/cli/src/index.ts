@@ -21,7 +21,7 @@ program
 // ddc link
 program
 	.command('link')
-	.alias('d')
+	.alias('l')
 	.description('pnpm link')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Link.run);
@@ -48,7 +48,7 @@ program
 	.command('build')
 	.alias('b')
 	.description('build')
-	.option('-p, --package-name <string>', 'select packageName')
+	.option('-p, --package-name <string>', 'Select packageName')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Build.run);
 
