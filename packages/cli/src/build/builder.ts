@@ -41,11 +41,16 @@ class Builder {
 		if (typeof config === 'string') {
 			let packageFolderName = config;
 			let packageDir$ = path.resolve(packageDir, packageFolderName);
+			let input = fs.existsSync(packageDir$ + '/src/index.ts') 
+				? packageDir$ + '/src/index.ts'
+				: fs.existsSync(packageDir$ + '/src/index.js')
+					? packageDir$ + '/src/index.js'
+					: '';
 
 			config = {
 				dir: packageDir$,
 				name: packageFolderName || 'index',
-				input: packageDir$ + '/src/index.ts',
+				input,
 				output: [
 					{
 						file: packageDir$ + '/dist/index.es.js',
@@ -82,7 +87,7 @@ class Builder {
 
 	async process() {
 		const { cwd, workspace } = Shared.impl();
-		const { packageOptions, packageName, packageDir } = this;
+		const { config, packageOptions, packageName, packageDir } = this;
 
 		// 子包含有自己的build则自行执行
 		if (
@@ -95,6 +100,8 @@ class Builder {
 			});
 			return;
 		}
+
+		if (!config.input) return;
 
 		const spinner = ora(`${packageName} Build ...`);
 		try {
