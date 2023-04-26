@@ -2,11 +2,10 @@ import type { Options } from '@deot/dev-shared';
 
 import chalk from 'chalk';
 import ora from 'ora';
-import { Utils, Shell, Logger } from '@deot/dev-shared';
-import { Shared } from './shared';
+import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	const locals = Shared.impl();
+	const locals = Locals.impl();
 	const { workspace, packageFolderNames } = locals;
 	
 	if (!workspace) {

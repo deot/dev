@@ -5,8 +5,7 @@ import parser from 'conventional-commits-parser';
 import chalk from 'chalk';
 import semver from 'semver';
 import inquirer from 'inquirer';
-import { Shell, Logger } from '@deot/dev-shared';
-import { Shared } from '../shared';
+import { Shell, Logger, Locals } from '@deot/dev-shared';
 
 const require$ = createRequire(import.meta.url);
 const { prompt } = inquirer;
@@ -71,7 +70,7 @@ export class Releaser {
 	};
 
 	constructor(config: any, commandOptions: Releaser['commandOptions']) {
-		const { packageDir, packageRelation } = Shared.impl();
+		const { packageDir, packageRelation } = Locals.impl();
 
 		if (typeof config === 'string') {
 			let packageFolderName = config;
@@ -84,7 +83,7 @@ export class Releaser {
 		}
 		
 		this.packageDir = config.dir;
-		this.packageName = Shared.getPackageName(config.name);
+		this.packageName = Locals.getPackageName(config.name);
 		this.packageFolderName = config.name;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.packageRelation = packageRelation[this.packageName] || [];
@@ -98,7 +97,7 @@ export class Releaser {
 	}
 
 	private async parseCommits() {
-		const { workspace } = Shared.impl();
+		const { workspace } = Locals.impl();
 		const { packageFolderName, packageName, commandOptions } = this;
 		let params = ['tag', '--list', `'${packageName}@*'`, '--sort', '-v:refname'];
 		const {
@@ -239,7 +238,7 @@ export class Releaser {
 
 	private rebuildChangeLog(commits: Releaser["commits"]) {
 		const { packageDir } = this;
-		const { homepage, workspace } = Shared.impl();
+		const { homepage, workspace } = Locals.impl();
 		const logPath = path.resolve(packageDir, './CHANGELOG.md');
 		const logFile = fs.existsSync(logPath) ? fs.readFileSync(logPath, 'utf-8') : '';
 		const notes: Notes = {
@@ -534,7 +533,7 @@ export class Releaser {
 	}
 
 	async process() {
-		const { workspace } = Shared.impl();
+		const { workspace } = Locals.impl();
 		const { packageName, packageDir, packageFolderName } = this;
 		if (!packageDir || !fs.pathExists(packageDir)) {
 			throw new RangeError(`Could not find directory for package: ${packageFolderName}`);

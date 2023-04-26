@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import autocomplete from 'inquirer-autocomplete-prompt';
-import { Shared } from '../shared';
+import { Locals } from '@deot/dev-shared';
 
 const ALL_PACKAGE = 'All Packages';
 
@@ -9,7 +9,7 @@ const { prompt, registerPrompt } = inquirer;
 export const getOptions = async () => {
 	const isDev = process.env.NODE_ENV === 'development';
 
-	const { packageFolderNames } = Shared.impl();
+	const { packageFolderNames } = Locals.impl();
 	const packages$ = [ALL_PACKAGE, ...packageFolderNames] as string[];
 	const question = [
 		{

@@ -1,10 +1,9 @@
 import type { Options } from '@deot/dev-shared';
-import { Utils, Shell, Logger } from '@deot/dev-shared';
+import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 import { getOptions } from './unit-test/prompt';
-import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	const locals = Shared.impl();
+	const locals = Locals.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
@@ -20,7 +19,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
 	const { packageName, watch, dryRun } = options;
 
-	options.packageFolderName = Shared.getPackageFolderName(options.packageName) || options.packageFolderName;
+	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
 	
 	const packageOptions = packageOptionsMap[options.packageFolderName];

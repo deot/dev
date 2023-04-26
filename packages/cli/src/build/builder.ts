@@ -11,8 +11,7 @@ import { rollup as rollupBuilder } from 'rollup';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import chalk from 'chalk';
 import ora from 'ora';
-import { Utils, Logger, Shell } from '@deot/dev-shared';
-import { Shared } from '../shared';
+import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 
 export const require$ = createRequire(import.meta.url);
 
@@ -36,7 +35,7 @@ class Builder {
 	};
 
 	constructor(config: any, commandOptions: Builder['commandOptions']) {
-		const { workspace, packageDir, packageName } = Shared.impl();
+		const { workspace, packageDir, packageName } = Locals.impl();
 
 		if (typeof config === 'string') {
 			let packageFolderName = config;
@@ -86,7 +85,7 @@ class Builder {
 	}
 
 	async process() {
-		const { cwd, workspace } = Shared.impl();
+		const { cwd, workspace } = Locals.impl();
 		const { config, packageOptions, packageName, packageDir } = this;
 
 		// 子包含有自己的build则自行执行
@@ -124,7 +123,7 @@ class Builder {
 	}
 
 	async buildSources() {
-		const { workspace } = Shared.impl();
+		const { workspace } = Locals.impl();
 		const { name, input, output } = this.config;
 		const { packageOptions } = this;
 		const external = Object
@@ -181,7 +180,7 @@ class Builder {
 	}
 
 	async buildTypes() {
-		const { workspace } = Shared.impl();
+		const { workspace } = Locals.impl();
 		const { packageDir, packageOptions } = this;
 
 		// 子包含有自己的build:types则自行执行

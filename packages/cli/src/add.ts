@@ -1,14 +1,13 @@
 import type { Options } from '@deot/dev-shared';
-import { Utils, Shell, Logger } from '@deot/dev-shared';
+import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 import { resolve } from 'node:path';
 import ora from 'ora';
 import fs from 'fs-extra';
 
 import { getOptions } from './add/prompt';
-import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	const locals = Shared.impl();
+	const locals = Locals.impl();
 	const { workspace, packageDir } = locals;
 	
 	if (!workspace) {

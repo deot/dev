@@ -1,11 +1,11 @@
 import inquirer from 'inquirer';
 import autocomplete from 'inquirer-autocomplete-prompt';
-import { Shared } from '../shared';
+import { Locals } from '@deot/dev-shared';
 
 const { prompt, registerPrompt, Separator } = inquirer;
 
 export const getOptions = async () => {
-	const { packageFolderNames } = Shared.impl();
+	const { packageFolderNames } = Locals.impl();
 	const question = [
 		{
 			type: 'list',
@@ -82,11 +82,11 @@ export const getOptions = async () => {
 	let result = await prompt(question);
 
 	if (result.mode == 'dependent') {
-		result.packageName = Shared.getPackageName(result.packageFolderName);
+		result.packageName = Locals.getPackageName(result.packageFolderName);
 	}
 
 	if (result.mode == 'package') {
-		result.packageName = Shared.getPackageName(result.packageFolderName);
+		result.packageName = Locals.getPackageName(result.packageFolderName);
 	}
 
 	result.args = [result.args];

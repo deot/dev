@@ -1,12 +1,11 @@
 import type { Options } from '@deot/dev-shared';
 import chalk from 'chalk';
-import { Utils, Logger, Shell } from '@deot/dev-shared';
+import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 
 import { releaser, Releaser } from './release/releaser';
-import { Shared } from './shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	const locals = Shared.impl();
+	const locals = Locals.impl();
 	if (options.dryRun) {
 		Logger.log(
 			chalk.magenta(`DRY RUN: `) 
@@ -45,7 +44,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		(preProcess, packageFolderName) => {
 			const instance = instances[packageFolderName];
 			instance.packageRelation.forEach(i => {
-				let packageFolderName$ = Shared.getPackageFolderName(i);
+				let packageFolderName$ = Locals.getPackageFolderName(i);
 				let instance$ = instances[packageFolderName$];
 
 				if (instance$.commits.length > 0) {

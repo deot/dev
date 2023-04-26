@@ -1,9 +1,8 @@
 import type { Options } from '@deot/dev-shared';
-import { Utils, Shell } from '@deot/dev-shared';
-import { Shared } from './shared';
+import { Utils, Shell, Locals } from '@deot/dev-shared';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	const locals = Shared.impl();
+	const locals = Locals.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
@@ -13,7 +12,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
 	const { packageName } = options;
 
-	const getPackageFolderName = Shared.getPackageFolderName(packageName);
+	const getPackageFolderName = Locals.getPackageFolderName(packageName);
 	const packageOptions = packageOptionsMap[getPackageFolderName];
 	const packageDir = packageDirsMap[getPackageFolderName];
 	options.watch = true;
