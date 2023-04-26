@@ -1,12 +1,14 @@
 {
   "extends": "./packages/cli/config/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "typeRoots": [
       "node_modules/@types"
     ],
     "paths": {
       "@deot/dev": ["packages/index/src"],
+      "@deot/dev-eslint": ["packages/eslint"],
       "@deot/dev-*": ["packages/*/src"]
     }
   },
