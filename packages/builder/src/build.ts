@@ -1,11 +1,11 @@
 import * as path from 'node:path';
+import { createRequire } from "node:module";
 import fs from 'fs-extra';
 import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 // import terser from '@rollup/plugin-terser';
-import { createRequire } from "node:module";
 import type { OutputOptions } from 'rollup';
 import { rollup as rollupBuilder } from 'rollup';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
@@ -13,9 +13,9 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 
-export const require$ = createRequire(import.meta.url);
+const require$ = createRequire(process.cwd());
 
-class Builder {
+class Build {
 	packageDir: string;
 
 	packageName: string;
@@ -31,10 +31,10 @@ class Builder {
 
 	commandOptions: {
 		dryRun: boolean;
-		output: string;
+		formats: string;
 	};
 
-	constructor(config: any, commandOptions: Builder['commandOptions']) {
+	constructor(config: any, commandOptions: Build['commandOptions']) {
 		const { workspace, packageDir, packageName } = Locals.impl();
 
 		if (typeof config === 'string') {
@@ -69,7 +69,7 @@ class Builder {
 						format: 'cjs'
 					} 
 				].filter(i => {
-					return commandOptions.output.includes(i.format);
+					return commandOptions.formats.includes(i.format);
 				})
 			};
 		}
@@ -214,6 +214,6 @@ class Builder {
 	}
 }
 
-export const builder = (options: any, commandOptions?: any) => {
-	return new Builder(options, commandOptions);
+export const build = (options: any, commandOptions?: any) => {
+	return new Build(options, commandOptions);
 };

@@ -1,8 +1,12 @@
 import type { Options } from '@deot/dev-shared';
 import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
-import { builder } from './build/builder';
+import { build } from './build';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	options = { 
+		formats: 'es,cjs',
+		...options
+	};
 	const locals = Locals.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
@@ -22,7 +26,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	await inputs
 		.reduce(
 			(preProcess: Promise<any>, packageFolderName$: any) => {
-				preProcess = preProcess.then(() => builder(packageFolderName$, options).process());
+				preProcess = preProcess.then(() => build(packageFolderName$, options).process());
 				return preProcess;
 			}, 
 			Promise.resolve()

@@ -1,12 +1,12 @@
 import { program } from 'commander';
 import { createRequire } from "node:module";
 import * as Releaser from '@deot/dev-releaser';
+import * as Builder from '@deot/dev-builder';
 
 import * as Link from './link';
 import * as Add from './add';
 import * as Test from './unit-test';
 import * as Dev from './dev';
-import * as Build from './build';
 
 const require = createRequire(import.meta.url);
 
@@ -49,9 +49,9 @@ program
 	.alias('b')
 	.description('build')
 	.option('-p, --package-name <string>', 'Select packageName')
-	.option('--output <string>', 'Output', 'es,cjs')
+	.option('--formats <string>', 'Formats(Output)', 'es,cjs')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Build.run);
+	.action(Builder.run);
 
 // ddc release (dryRun默认为true)
 // 如果没任何option时，默认值为(no-会被处理): {

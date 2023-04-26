@@ -8,23 +8,14 @@ importers:
         specifier: ^3.12.6
         version: 3.12.6
 
-  packages/cli:
+  packages/builder:
     dependencies:
-      '@babel/core':
-        specifier: ^7.21.4
-        version: 7.21.4
-      '@babel/preset-env':
-        specifier: ^7.21.4
-        version: 7.21.4(@babel/core@7.21.4)
-      '@deot/dev-releaser':
-        specifier: ^1.0.0
-        version: link:../releaser
       '@deot/dev-shared':
         specifier: ^1.0.2
         version: link:../shared
       '@microsoft/api-extractor':
         specifier: ^7.34.4
-        version: 7.34.4(@types/node@18.15.11)
+        version: 7.34.4
       '@rollup/plugin-commonjs':
         specifier: ^24.1.0
         version: 24.1.0(rollup@3.20.5)
@@ -37,15 +28,45 @@ importers:
       '@rollup/plugin-typescript':
         specifier: 11.1.0
         version: 11.1.0(rollup@3.20.5)(typescript@5.0.4)
+      chalk:
+        specifier: ^5.2.0
+        version: 5.2.0
+      fs-extra:
+        specifier: ^11.1.1
+        version: 11.1.1
+      ora:
+        specifier: ^6.1.2
+        version: 6.1.2
+      rollup:
+        specifier: ^3.20.5
+        version: 3.20.5
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
+
+  packages/cli:
+    dependencies:
+      '@babel/core':
+        specifier: ^7.21.4
+        version: 7.21.4
+      '@babel/preset-env':
+        specifier: ^7.21.4
+        version: 7.21.4(@babel/core@7.21.4)
+      '@deot/dev-builder':
+        specifier: ^1.0.0
+        version: link:../builder
+      '@deot/dev-releaser':
+        specifier: ^1.0.0
+        version: link:../releaser
+      '@deot/dev-shared':
+        specifier: ^1.0.2
+        version: link:../shared
       '@types/jest':
         specifier: ^29.5.0
         version: 29.5.0
       '@types/node':
         specifier: ^18.15.11
         version: 18.15.11
-      chalk:
-        specifier: ^5.2.0
-        version: 5.2.0
       commander:
         specifier: ^10.0.1
         version: 10.0.1
@@ -76,9 +97,6 @@ importers:
       ora:
         specifier: ^6.1.2
         version: 6.1.2
-      rollup:
-        specifier: ^3.20.5
-        version: 3.20.5
       ts-jest:
         specifier: ^29.1.0
         version: 29.1.0(@babel/core@7.21.4)(jest@29.5.0)(typescript@5.0.4)
@@ -1936,24 +1954,24 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
-  /@microsoft/api-extractor-model@7.26.4(@types/node@18.15.11):
+  /@microsoft/api-extractor-model@7.26.4:
     resolution: {integrity: sha512-PDCgCzXDo+SLY5bsfl4bS7hxaeEtnXj7XtuzEE+BtALp7B5mK/NrS2kHWU69pohgsRmEALycQdaQPXoyT2i5MQ==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2(@types/node@18.15.11)
+      '@rushstack/node-core-library': 3.55.2
     transitivePeerDependencies:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.34.4(@types/node@18.15.11):
+  /@microsoft/api-extractor@7.34.4:
     resolution: {integrity: sha512-HOdcci2nT40ejhwPC3Xja9G+WSJmWhCUKKryRfQYsmE9cD+pxmBaKBKCbuS9jUcl6bLLb4Gz+h7xEN5r0QiXnQ==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.26.4(@types/node@18.15.11)
+      '@microsoft/api-extractor-model': 7.26.4
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2(@types/node@18.15.11)
+      '@rushstack/node-core-library': 3.55.2
       '@rushstack/rig-package': 0.3.18
       '@rushstack/ts-command-line': 4.13.2
       colors: 1.2.5
@@ -2090,7 +2108,7 @@ packages:
       rollup: 3.20.5
     dev: false
 
-  /@rushstack/node-core-library@3.55.2(@types/node@18.15.11):
+  /@rushstack/node-core-library@3.55.2:
     resolution: {integrity: sha512-SaLe/x/Q/uBVdNFK5V1xXvsVps0y7h1sN7aSJllQyFbugyOaxhNRF25bwEDnicARNEjJw0pk0lYnJQ9Kr6ev0A==}
     peerDependencies:
       '@types/node': '*'
@@ -2098,7 +2116,6 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 18.15.11
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
