@@ -1,5 +1,5 @@
 import { Locals, Shell } from '@deot/dev-shared';
-import * as Builder from '@deot/dev-builder';
+import * as Tester from '@deot/dev-tester';
 import * as path from 'node:path';
 
 describe('index', () => {
@@ -9,13 +9,13 @@ describe('index', () => {
 	});
 
 	it('run', async () => {
-		expect(typeof Builder.run).toBe('function');
+		expect(typeof Tester.run).toBe('function');
 	});
 
 	it('monorepo', async () => {
 		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'build'], {
-			cwd: path.resolve('./packages/builder/__tests__/fixtures/monorepo'),
+		const response = await Shell.spawn(`npm`, ['run', 'test'], {
+			cwd: path.resolve('./packages/tester/__tests__/fixtures/monorepo'),
 			stdio: 'pipe'
 		});
 
@@ -24,8 +24,8 @@ describe('index', () => {
 
 	it('singlerepo', async () => {
 		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'build'], {
-			cwd: path.resolve('./packages/builder/__tests__/fixtures/singlerepo'),
+		const response = await Shell.spawn(`npm`, ['run', 'test'], {
+			cwd: path.resolve('./packages/tester/__tests__/fixtures/singlerepo'),
 			stdio: 'pipe'
 		});
 

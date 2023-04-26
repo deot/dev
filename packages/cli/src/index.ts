@@ -2,10 +2,10 @@ import { program } from 'commander';
 import { createRequire } from "node:module";
 import * as Releaser from '@deot/dev-releaser';
 import * as Builder from '@deot/dev-builder';
+import * as Tester from '@deot/dev-tester';
 
 import * as Link from './link';
 import * as Add from './add';
-import * as Test from './unit-test';
 import * as Dev from './dev';
 
 const require = createRequire(import.meta.url);
@@ -87,7 +87,7 @@ program
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('-w, --watch [boolean]', 'Watch Test')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Test.run);
+	.action(Tester.run);
 
 program.parse(process.argv);
 

@@ -1,8 +1,9 @@
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
-import { getOptions } from './unit-test/prompt';
+import { getOptions } from './prompt';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	options = { ...options };
 	const locals = Locals.impl();
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';

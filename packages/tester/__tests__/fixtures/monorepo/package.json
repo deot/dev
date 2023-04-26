@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "custom helpers",
+  "type": "module",
+  "scripts": {
+    "test": "../../../../../node_modules/.bin/tsx ../../../__tests__/fixtures/run.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deot/dev-demo.git"
+  }
+}

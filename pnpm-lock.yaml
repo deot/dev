@@ -182,6 +182,8 @@ importers:
         specifier: ^1.0.2
         version: link:../shared
 
+  packages/tester: {}
+
 packages:
 
   /@ampproject/remapping@2.2.1:
