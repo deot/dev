@@ -27,15 +27,35 @@
 [npm-shared-image]: https://img.shields.io/npm/v/@deot/dev-shared.svg
 [npm-shared-url]: https://www.npmjs.com/package/@deot/dev-shared
 
+[npm-builder-image]: https://img.shields.io/npm/v/@deot/dev-builder.svg
+[npm-builder-url]: https://www.npmjs.com/package/@deot/dev-builder
+
+[npm-tester-image]: https://img.shields.io/npm/v/@deot/dev-tester.svg
+[npm-tester-url]: https://www.npmjs.com/package/@deot/dev-tester
+
+[npm-releaser-image]: https://img.shields.io/npm/v/@deot/dev-releaser.svg
+[npm-releaser-url]: https://www.npmjs.com/package/@deot/dev-releaser
+
+[npm-eslint-image]: https://img.shields.io/npm/v/@deot/dev-eslint.svg
+[npm-eslint-url]: https://www.npmjs.com/package/@deot/dev-eslint
+
+[npm-extract-image]: https://img.shields.io/npm/v/@deot/dev-extract.svg
+[npm-extract-url]: https://www.npmjs.com/package/@deot/dev-extract
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
-| 包名                        | 版本                                         | 说明                                     |
-| ------------------------- | ------------------------------------------ | -------------------------------------- |
-| [cli](packages/cli)       | [![npm][npm-cli-image]][npm-cli-url]       | 开发指令集`dev`、`build`、`test`、`link`、`add` |
-| [test](packages/test)     | [![npm][npm-test-image]][npm-test-url]     | 测试工具                                   |
-| [shared](packages/shared) | [![npm][npm-shared-image]][npm-shared-url] | 公共方法                                   |
-| [index](packages/index)   | [![npm][npm-image]][npm-url]               | 除cli外其他仓库的集成                           |
+| 包名                            | 版本                                             | 说明                                     |
+| ----------------------------- | ---------------------------------------------- | -------------------------------------- |
+| [cli](packages/cli)           | [![npm][npm-cli-image]][npm-cli-url]           | 开发指令集`dev`、`build`、`test`、`link`、`add` |
+| [test](packages/test)         | [![npm][npm-test-image]][npm-test-url]         | 测试工具                                   |
+| [shared](packages/shared)     | [![npm][npm-shared-image]][npm-shared-url]     | 公共方法                                   |
+| [builder](packages/builder)   | [![npm][npm-builder-image]][npm-builder-url]   | 打包集成                                   |
+| [tester](packages/tester)     | [![npm][npm-tester-image]][npm-tester-url]     | 测试集成                                   |
+| [releaser](packages/releaser) | [![npm][npm-releaser-image]][npm-releaser-url] | 发布集成                                   |
+| [eslint](packages/eslint)     | [![npm][npm-eslint-image]][npm-eslint-url]     | ESLint配置项                              |
+| [extract](packages/extract)   | [![npm][npm-extract-image]][npm-extract-url]   | 公共依赖提取，公共配置提取                          |
+| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 除cli外其他仓库的集成                           |
 
 ## Contributing
 
