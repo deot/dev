@@ -1,4 +1,4 @@
-import options from './packages/cli/config/jest.config.js';
+import options from './packages/extract/jest.config.js';
 
 export default {
 	...options,

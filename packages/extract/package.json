@@ -1,0 +1,16 @@
+{
+  "name": "@deot/dev-extract",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "api-extractor.json",
+    "commitlint.js",
+    "jest.config.js",
+    "tsconfig.js"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {}
+}
