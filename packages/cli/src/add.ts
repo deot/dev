@@ -35,9 +35,16 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		fs.outputFileSync(`${dir}/${packageFolderName}/package.json`, JSON.stringify({
 			name: packageName,
 			version: '1.0.0',
-			main: 'dist/index.js',
+			main: 'dist/index.cjs.js',
+			module: 'dist/index.es.js',
 			types: "dist/index.d.ts",
-			type: "module",
+			exports: {
+				".": {
+					import: "./dist/index.es.js",
+					require: "./dist/index.cjs.js",
+					types: "./dist/index.d.ts"
+				}
+			},
 			files: [
 			  "dist"
 			],
