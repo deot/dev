@@ -1,12 +1,12 @@
 import { program } from 'commander';
 import { createRequire } from "node:module";
+import * as Releaser from '@deot/dev-releaser';
 
 import * as Link from './link';
 import * as Add from './add';
 import * as Test from './unit-test';
 import * as Dev from './dev';
 import * as Build from './build';
-import * as Release from './release';
 
 const require = createRequire(import.meta.url);
 
@@ -76,7 +76,7 @@ program
 	.option('--patch [boolean]', 'Patch')
 	.option('--major [boolean]', 'Major')
 	.option('--minor [boolean]', 'Minor')
-	.action(Release.run);
+	.action(Releaser.run);
 
 
 // ddc test

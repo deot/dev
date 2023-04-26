@@ -8,7 +8,6 @@
     ],
     "paths": {
       "@deot/dev": ["packages/index/src"],
-      "@deot/dev-eslint": ["packages/eslint"],
       "@deot/dev-*": ["packages/*/src"]
     }
   },

@@ -2,9 +2,17 @@ import type { Options } from '@deot/dev-shared';
 import chalk from 'chalk';
 import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 
-import { releaser, Releaser } from './release/releaser';
+import { release, Release } from './release';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	options = { 
+		dryRun: true,
+		tag: true,
+		publish: true,
+		commit: true,
+		push: true,
+		...options
+	};
 	const locals = Locals.impl();
 	if (options.dryRun) {
 		Logger.log(
@@ -20,13 +28,13 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		inputs = [''];
 	}
 
-	const instances: { [key: string]: Releaser } = {};
+	const instances: { [key: string]: Release } = {};
 
 	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
 				preProcess = preProcess
-					.then(() => releaser(packageFolderName, options).process())
+					.then(() => release(packageFolderName, options).process())
 					.then((instance) => {
 						instances[packageFolderName] = instance;
 					});

@@ -10,6 +10,7 @@ export default {
 	},
 	collectCoverageFrom: [
 		...options.collectCoverageFrom,
-		`!packages/cli/src/**/*.ts`
-	],
+		`!packages/cli/src/**/*.ts`,
+		`!packages/releaser/src/**/*.ts`
+	]
 };

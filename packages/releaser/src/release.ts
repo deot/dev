@@ -7,7 +7,8 @@ import semver from 'semver';
 import inquirer from 'inquirer';
 import { Shell, Logger, Locals } from '@deot/dev-shared';
 
-const require$ = createRequire(import.meta.url);
+const cwd = process.cwd();
+const require$ = createRequire(cwd);
 const { prompt } = inquirer;
 
 const HASH = '-hash-';
@@ -25,7 +26,7 @@ interface Notes {
 	updates: string[];
 }
 
-export class Releaser {
+export class Release {
 	packageDir: string;
 
 	packageName: string;
@@ -69,7 +70,7 @@ export class Releaser {
 		minor: boolean;
 	};
 
-	constructor(config: any, commandOptions: Releaser['commandOptions']) {
+	constructor(config: any, commandOptions: Release['commandOptions']) {
 		const { packageDir, packageRelation } = Locals.impl();
 
 		if (typeof config === 'string') {
@@ -236,7 +237,7 @@ export class Releaser {
 		}
 	}
 
-	private rebuildChangeLog(commits: Releaser["commits"]) {
+	private rebuildChangeLog(commits: Release["commits"]) {
 		const { packageDir } = this;
 		const { homepage, workspace } = Locals.impl();
 		const logPath = path.resolve(packageDir, './CHANGELOG.md');
@@ -366,7 +367,7 @@ export class Releaser {
 		return !!this.commits.length;
 	}
 
-	async updateCommits(commits: Releaser['commits'], source?: string) {
+	async updateCommits(commits: Release['commits'], source?: string) {
 		if (!commits.length) return;
 		const { packageName } = this;
 		const olds = this.commits.map(i => JSON.stringify(i));
@@ -546,6 +547,6 @@ export class Releaser {
 	}
 }
 
-export const releaser = (options: any, commandOptions?: any) => {
-	return new Releaser(options, commandOptions);
+export const release = (options: any, commandOptions?: any) => {
+	return new Release(options, commandOptions);
 };

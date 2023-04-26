@@ -1,0 +1,3 @@
+# @deot/dev-releaser
+
+用于发包流程, 自动生成changelog, tags....
