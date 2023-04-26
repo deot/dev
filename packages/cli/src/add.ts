@@ -24,10 +24,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		: `npx pnpm link ./${workspace}/${packageFolderName}`;
 	
 	if (options.dryRun) return Shell.spawn(`echo "${command}"`);
-
 	const spinner = ora(`${command}\n`).start();
-	await Shell.spawn(command);
-	spinner.stop();
 
 	// 包名修改
 	if (mode === 'package') {
@@ -61,4 +58,5 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	await Shell.spawn(command);
+	spinner.stop();
 });
