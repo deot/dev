@@ -1,5 +1,13 @@
 # @deot/dev-shared ChangeLog
 
+## v1.1.0
+
+_2023-04-27_
+
+### Force Update Package
+
+- `1.0.2` -> `1.1.0`
+
 ## v1.0.2
 
 _2023-04-19_
