@@ -41,6 +41,8 @@
   },
   "homepage": "https://github.com/deot/dev#readme",
   "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
     "tsx": "^3.12.6"
   },
   "devDependencies-info": {

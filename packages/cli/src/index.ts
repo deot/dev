@@ -1,12 +1,12 @@
 import { program } from 'commander';
 import { createRequire } from "node:module";
+import * as Releaser from '@deot/dev-releaser';
+import * as Builder from '@deot/dev-builder';
+import * as Tester from '@deot/dev-tester';
+import * as Adder from '@deot/dev-adder';
+import * as Linker from '@deot/dev-linker';
+import * as Dever from '@deot/dev-dever';
 
-import * as Link from './link';
-import * as Add from './add';
-import * as Test from './unit-test';
-import * as Dev from './dev';
-import * as Build from './build';
-import * as Release from './release';
 
 const require = createRequire(import.meta.url);
 
@@ -24,7 +24,7 @@ program
 	.alias('l')
 	.description('pnpm link')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Link.run);
+	.action(Linker.run);
 
 // ddc add
 program
@@ -32,7 +32,7 @@ program
 	.alias('a')
 	.description('add dep or create package')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Add.run);
+	.action(Adder.run);
 
 // ddc dev
 program
@@ -41,7 +41,7 @@ program
 	.description('dev')
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Dev.run);
+	.action(Dever.run);
 
 // ddc build	
 program
@@ -49,9 +49,9 @@ program
 	.alias('b')
 	.description('build')
 	.option('-p, --package-name <string>', 'Select packageName')
-	.option('--output <string>', 'Output', 'es,cjs')
+	.option('--formats <string>', 'Formats(Output)', 'es,cjs')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Build.run);
+	.action(Builder.run);
 
 // ddc release (dryRun默认为true)
 // 如果没任何option时，默认值为(no-会被处理): {
@@ -76,7 +76,7 @@ program
 	.option('--patch [boolean]', 'Patch')
 	.option('--major [boolean]', 'Major')
 	.option('--minor [boolean]', 'Minor')
-	.action(Release.run);
+	.action(Releaser.run);
 
 
 // ddc test
@@ -87,7 +87,7 @@ program
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('-w, --watch [boolean]', 'Watch Test')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Test.run);
+	.action(Tester.run);
 
 program.parse(process.argv);
 

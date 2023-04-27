@@ -1,0 +1,19 @@
+{
+  "name": "@deot/dev-linker",
+  "version": "1.0.0",
+  "main": "dist/index.es.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@deot/dev-extract": "^1.0.0",
+    "@deot/dev-shared": "^1.0.2"
+  }
+}

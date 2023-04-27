@@ -1,4 +1,4 @@
-import options from './packages/cli/config/jest.config.js';
+import options from './packages/extract/jest.config.js';
 
 export default {
 	...options,
@@ -10,6 +10,7 @@ export default {
 	},
 	collectCoverageFrom: [
 		...options.collectCoverageFrom,
-		`!packages/cli/src/**/*.ts`
-	],
+		`!packages/cli/src/**/*.ts`,
+		`!packages/*er/src/**/*.ts`
+	]
 };

@@ -1,4 +1,4 @@
-import options from '../../../config/jest.config.js';
+import options from '../../../../../packages/extract/jest.config.js';
 
 const rootDir = process.cwd();
 

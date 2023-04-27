@@ -1,6 +1,7 @@
 {
-  "extends": "./packages/cli/config/tsconfig.json",
+  "extends": "./packages/extract/tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "typeRoots": [
       "node_modules/@types"
