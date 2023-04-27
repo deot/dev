@@ -14,6 +14,8 @@ importers:
         specifier: ^3.12.6
         version: 3.12.6
 
+  packages/adder: {}
+
   packages/builder:
     dependencies:
       '@deot/dev-extract':
@@ -152,6 +154,8 @@ importers:
       '@deot/dev-tester':
         specifier: ^1.0.0
         version: link:../tester
+
+  packages/linker: {}
 
   packages/releaser:
     dependencies:

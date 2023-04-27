@@ -4,8 +4,8 @@ import * as Releaser from '@deot/dev-releaser';
 import * as Builder from '@deot/dev-builder';
 import * as Tester from '@deot/dev-tester';
 import * as Adder from '@deot/dev-adder';
+import * as Linker from '@deot/dev-linker';
 
-import * as Link from './link';
 import * as Dev from './dev';
 
 const require = createRequire(import.meta.url);
@@ -24,7 +24,7 @@ program
 	.alias('l')
 	.description('pnpm link')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Link.run);
+	.action(Linker.run);
 
 // ddc add
 program

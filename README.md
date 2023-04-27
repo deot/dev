@@ -30,6 +30,9 @@
 [npm-adder-image]: https://img.shields.io/npm/v/@deot/dev-adder.svg
 [npm-adder-url]: https://www.npmjs.com/package/@deot/dev-adder
 
+[npm-linker-image]: https://img.shields.io/npm/v/@deot/dev-linker.svg
+[npm-linker-url]: https://www.npmjs.com/package/@deot/dev-linker
+
 [npm-builder-image]: https://img.shields.io/npm/v/@deot/dev-builder.svg
 [npm-builder-url]: https://www.npmjs.com/package/@deot/dev-builder
 
@@ -54,6 +57,7 @@
 | [test](packages/test)         | [![npm][npm-test-image]][npm-test-url]         | 测试工具                                   |
 | [shared](packages/shared)     | [![npm][npm-shared-image]][npm-shared-url]     | 公共方法                                   |
 | [adder](packages/adder)       | [![npm][npm-adder-image]][npm-adder-url]       | 添加依赖/包集成                               |
+| [linker](packages/linker)     | [![npm][npm-linker-image]][npm-linker-url]     | 软链接集成                                  |
 | [builder](packages/builder)   | [![npm][npm-builder-image]][npm-builder-url]   | 打包集成                                   |
 | [tester](packages/tester)     | [![npm][npm-tester-image]][npm-tester-url]     | 测试集成                                   |
 | [releaser](packages/releaser) | [![npm][npm-releaser-image]][npm-releaser-url] | 发布集成                                   |

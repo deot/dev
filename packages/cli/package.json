@@ -17,6 +17,7 @@
     "@deot/dev-adder": "^1.0.0",
     "@deot/dev-builder": "^1.0.0",
     "@deot/dev-extract": "^1.0.0",
+    "@deot/dev-linker": "^1.0.0",
     "@deot/dev-shared": "^1.0.2",
     "@deot/dev-tester": "^1.0.0",
     "@deot/dev-releaser": "^1.0.0",
