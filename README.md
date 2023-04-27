@@ -10,7 +10,7 @@
 所有的相关的开发环境，统一更新，升级时如果有多仓库，仅更新此仓库即可，无需同时更新太多依赖性，以追求最新且稳定的开发环境
 
 > 不完全的`zero-config`, 需要依赖当前的`tsconfig.json`, `jest.config.mjs`, `.eslintrc.cjs`, `api-extractor.json`等
-> 相关的[config](packages/cli/config)可以通过`extends`方式引入, 具体可以参考以下`demo`
+> 相关的[@deot/dev-extract](packages/extract)可以通过`extends`方式引入, 具体可以参考以下`demo`
 
 
 - [demo by @deot/dev](https://github.com/deot/dev-demo)
@@ -67,7 +67,7 @@
 | [releaser](packages/releaser) | [![npm][npm-releaser-image]][npm-releaser-url] | 发布集成                                   |
 | [eslint](packages/eslint)     | [![npm][npm-eslint-image]][npm-eslint-url]     | ESLint配置项                              |
 | [extract](packages/extract)   | [![npm][npm-extract-image]][npm-extract-url]   | 公共依赖提取，公共配置提取                          |
-| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 除cli外其他仓库的集成                           |
+| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 当前所有包的合集                               |
 
 ## Contributing
 
