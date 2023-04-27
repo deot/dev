@@ -146,6 +146,7 @@ $ npm run release
 | `--skip-update-package`   | 跳过要更新的包，如`@xxx/xxx,@xxx/xxx`或`**`，不输入会弹出确认框             |
 | `--custom-version`        | 指定更新版本号，如`x.x.x`，不输入会弹出输入框                              |
 | `--patch,--major,--minor` | 自动更新版本号的格式                                              |
+| `--keep-last-tag`         | 清理tags，仅保留最后一个版本的tag                                    |
 
 ##### `Commit`收录的格式
 

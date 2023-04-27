@@ -11,6 +11,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		publish: true,
 		commit: true,
 		push: true,
+		keepLastTag: false,
 		...options
 	};
 	const locals = Locals.impl();
@@ -83,7 +84,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	if (!isChanged) {
 		Logger.log(chalk.magenta(`COMMIT: `) + 'Nothing Chanaged Found.');
-	} else if (options.dryRun || !options.commit) {
+	} else if (!options.commit) {
+		Logger.log(chalk.magenta(`COMMIT: `) + 'Disabled.');	
+	} else if (options.dryRun) {
 		Logger.log(chalk.magenta(`COMMIT: `) + chalk.yellow(`Skipping Git Commit`) + `\n${message}`);	
 	} else {
 		Logger.log(chalk.magenta(`CHANGED: `) + `pnpm-lock.yaml`);
@@ -94,25 +97,34 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		await Shell.spawn('git', ['commit', '--m', `'${message}'`]);
 	}
 
-	// 发包和tag
+	// 清理本地存在的tags(相对于远程不存在的清理掉, 避免push时提交本地的)
+	if ((options.keepLastTag || options.push) && !options.dryRun) {
+		Logger.log(chalk.yellow('Git Fetch...'));
+		await Shell.spawn('git', ['fetch', '--prune', '--prune-tags']);
+	}
+
+	// 发包、tag、clean
 	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
 				const instance = instances[packageFolderName];
 				preProcess = preProcess
 					.then(() => instance.publish())
-					.then(() => instance.tag());
+					.then(() => instance.tag())
+					.then(() => instance.clean());
 				return preProcess;
 			}, 
 			Promise.resolve()
 		);
 
 	Logger.log(chalk.blue(`\n---------------------\n`));
-
-	if (options.dryRun || !options.push) {
+	
+	if (!isChanged) {
+		Logger.log(chalk.magenta(`FINISH: `) + 'Nothing Chanaged.');
+	} else if (!options.push) {
+		Logger.log(chalk.magenta(`FINISH: `) + 'Push Disabled.');	
+	} else if (options.dryRun) {
 		Logger.log(chalk.magenta(`FINISH: `) + 'Skipping Git Push');	
-	} else if (!isChanged) {
-		Logger.log(chalk.magenta(`FINISH: `) + 'Nothing Chanaged.');	
 	} else {
 		// 提交到远程仓库或自行提交
 		await Shell.spawn('git', ['push']);

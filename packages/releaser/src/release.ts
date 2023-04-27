@@ -68,6 +68,7 @@ export class Release {
 		patch: boolean;
 		major: boolean;
 		minor: boolean;
+		keepLastTag: boolean;
 	};
 
 	constructor(config: any, commandOptions: Release['commandOptions']) {
@@ -99,14 +100,12 @@ export class Release {
 
 	private async parseCommits() {
 		const { workspace } = Locals.impl();
-		const { packageFolderName, packageName, commandOptions } = this;
-		let params = ['tag', '--list', `'${packageName}@*'`, '--sort', '-v:refname'];
-		const {
-			stdout: tags
-		} = await Shell.exec('git', params);
-		const [latestTag] = tags.split('\n');
+		const { packageFolderName, commandOptions } = this;
+		const [latestTag] = await this.getTags();
+
 		Logger.log(chalk.yellow(`Last Release Tag`) + `: ${latestTag || '<none>'}`);
-		params = ['--no-pager', 'log', `${latestTag}..HEAD`, `--format=%B%n${HASH}%n%H${SUFFIX}`];
+		let params = ['--no-pager', 'log', `${latestTag}..HEAD`, `--format=%B%n${HASH}%n%H${SUFFIX}`];
+
 		let {
 			stdout
 		} = await Shell.exec('git', params);
@@ -235,6 +234,13 @@ export class Release {
 				this.changeLog = `### Force Update Package\n\n- ${versionChanged}`.trim();
 			}
 		}
+	}
+
+	private async getTags() {
+		const { packageName } = this;
+		const params = ['tag', '--list', `'${packageName}@*'`, '--sort', '-v:refname'];
+		const { stdout } = await Shell.exec('git', params);
+		return stdout.split('\n');
 	}
 
 	private rebuildChangeLog(commits: Release["commits"]) {
@@ -370,11 +376,11 @@ export class Release {
 	async updateCommits(commits: Release['commits'], source?: string) {
 		if (!commits.length) return;
 		const { packageName } = this;
-		const olds = this.commits.map(i => JSON.stringify(i));
+		const olds = this.commits.map(i => JSON.stringify({ ...i, effect: false }));
 
 		const newCommits = commits
 			.filter(i => {
-				return !olds.includes(JSON.stringify(i));
+				return !olds.includes(JSON.stringify({ ...i, effect: false }));
 			})
 			.map(j => {
 				return {
@@ -495,10 +501,13 @@ export class Release {
 	}
 
 	async publish() {
-		if (!this.isChanged()) return;
-		const { commandOptions, packageDir } = this;
+		const { commandOptions } = this;
+		if (!this.isChanged() || !commandOptions.publish) return;
 
-		if (commandOptions.dryRun || !commandOptions.publish) {
+		const { packageDir, packageName } = this;
+		Logger.log(chalk.magenta(`PUBLISH: `) + packageName);
+
+		if (commandOptions.dryRun) {
 			Logger.log(chalk.yellow(`Skipping Publish`));
 			return;
 		}
@@ -513,11 +522,13 @@ export class Release {
 	}
 
 	async tag() {
-		if (!this.isChanged()) return;
-		const { commandOptions, packageDir } = this;
+		const { commandOptions } = this;
+		if (!this.isChanged() || !commandOptions.tag) return;
 
-		const { packageName, packageOptions } = this;
-		if (commandOptions.dryRun || !commandOptions.tag) {
+		const { packageDir, packageName, packageOptions } = this;
+		Logger.log(chalk.magenta(`TAG: `) + packageName);
+
+		if (commandOptions.dryRun) {
 			Logger.log(chalk.yellow(`Skipping Git Tag`));
 			return;
 		}
@@ -531,6 +542,41 @@ export class Release {
 				cwd: packageDir
 			}
 		);
+	}
+
+	async clean() {
+		await this.cleanTagsAndKeepLastTag();
+	}
+
+	// 清理tags，仅保留最后一个tag. 相当于tags仅用于记录commit开始的位置
+	async cleanTagsAndKeepLastTag() {
+		const { commandOptions } = this;
+		if (!commandOptions.keepLastTag) return;
+
+		let tags = await this.getTags();
+		tags = tags.slice(1).filter(i => !!i).reverse();
+
+		if (!tags.length) return;
+
+		const { packageName } = this;
+		Logger.log(chalk.magenta(`CLEAN TAGS: `) + packageName);
+
+		if (commandOptions.dryRun) {
+			Logger.log(chalk.yellow(`Skipping Tags Clean`));
+			return;
+		}
+
+		// 先删除远程的，再删除本地的
+		await tags
+			.reduce(
+				(preProcess: Promise<any>, tag) => {
+					preProcess = preProcess
+						.then(() => Shell.spawn('git', ['push', 'origin', '--delete', tag]))
+						.then(() => Shell.spawn('git', ['tag', '--delete', tag]));
+					return preProcess;
+				},
+				Promise.resolve()
+			);
 	}
 
 	async process() {

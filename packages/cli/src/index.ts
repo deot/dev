@@ -76,6 +76,7 @@ program
 	.option('--patch [boolean]', 'Patch')
 	.option('--major [boolean]', 'Major')
 	.option('--minor [boolean]', 'Minor')
+	.option('--keep-last-tag [boolean]', 'Clean Tags, Keep Only Last Tag')
 	.action(Releaser.run);
 
 
