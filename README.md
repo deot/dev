@@ -27,6 +27,9 @@
 [npm-shared-image]: https://img.shields.io/npm/v/@deot/dev-shared.svg
 [npm-shared-url]: https://www.npmjs.com/package/@deot/dev-shared
 
+[npm-dever-image]: https://img.shields.io/npm/v/@deot/dev-dever.svg
+[npm-dever-url]: https://www.npmjs.com/package/@deot/dev-dever
+
 [npm-adder-image]: https://img.shields.io/npm/v/@deot/dev-adder.svg
 [npm-adder-url]: https://www.npmjs.com/package/@deot/dev-adder
 
@@ -56,6 +59,7 @@
 | [cli](packages/cli)           | [![npm][npm-cli-image]][npm-cli-url]           | 开发指令集`dev`、`build`、`test`、`link`、`add` |
 | [test](packages/test)         | [![npm][npm-test-image]][npm-test-url]         | 测试工具                                   |
 | [shared](packages/shared)     | [![npm][npm-shared-image]][npm-shared-url]     | 公共方法                                   |
+| [dever](packages/dever)       | [![npm][npm-dever-image]][npm-dever-url]       | 开发服务集成                                 |
 | [adder](packages/adder)       | [![npm][npm-adder-image]][npm-adder-url]       | 添加依赖/包集成                               |
 | [linker](packages/linker)     | [![npm][npm-linker-image]][npm-linker-url]     | 软链接集成                                  |
 | [builder](packages/builder)   | [![npm][npm-builder-image]][npm-builder-url]   | 打包集成                                   |

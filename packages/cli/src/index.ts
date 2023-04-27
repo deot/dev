@@ -5,8 +5,8 @@ import * as Builder from '@deot/dev-builder';
 import * as Tester from '@deot/dev-tester';
 import * as Adder from '@deot/dev-adder';
 import * as Linker from '@deot/dev-linker';
+import * as Dever from '@deot/dev-dever';
 
-import * as Dev from './dev';
 
 const require = createRequire(import.meta.url);
 
@@ -41,7 +41,7 @@ program
 	.description('dev')
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Dev.run);
+	.action(Dever.run);
 
 // ddc build	
 program

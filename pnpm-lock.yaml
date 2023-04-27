@@ -14,7 +14,14 @@ importers:
         specifier: ^3.12.6
         version: 3.12.6
 
-  packages/adder: {}
+  packages/adder:
+    dependencies:
+      '@deot/dev-extract':
+        specifier: ^1.0.0
+        version: link:../extract
+      '@deot/dev-shared':
+        specifier: ^1.0.2
+        version: link:../shared
 
   packages/builder:
     dependencies:
@@ -45,12 +52,18 @@ importers:
 
   packages/cli:
     dependencies:
+      '@deot/dev-adder':
+        specifier: ^1.0.0
+        version: link:../adder
       '@deot/dev-builder':
         specifier: ^1.0.0
         version: link:../builder
       '@deot/dev-extract':
         specifier: ^1.0.0
         version: link:../extract
+      '@deot/dev-linker':
+        specifier: ^1.0.0
+        version: link:../linker
       '@deot/dev-releaser':
         specifier: ^1.0.0
         version: link:../releaser
@@ -67,6 +80,15 @@ importers:
       '@deot/dev-test':
         specifier: ^1.0.2
         version: link:../test
+
+  packages/dever:
+    dependencies:
+      '@deot/dev-extract':
+        specifier: ^1.0.0
+        version: link:../extract
+      '@deot/dev-shared':
+        specifier: ^1.0.2
+        version: link:../shared
 
   packages/eslint:
     dependencies:
@@ -130,18 +152,27 @@ importers:
 
   packages/index:
     dependencies:
+      '@deot/dev-adder':
+        specifier: ^1.0.0
+        version: link:../adder
       '@deot/dev-builder':
         specifier: ^1.0.0
         version: link:../builder
       '@deot/dev-cli':
         specifier: ^1.0.8
         version: link:../cli
+      '@deot/dev-dever':
+        specifier: ^1.0.0
+        version: link:../dever
       '@deot/dev-eslint':
         specifier: ^1.0.0
         version: link:../eslint
       '@deot/dev-extract':
         specifier: ^1.0.0
         version: link:../extract
+      '@deot/dev-linker':
+        specifier: ^1.0.0
+        version: link:../linker
       '@deot/dev-releaser':
         specifier: ^1.0.0
         version: link:../releaser
@@ -155,7 +186,14 @@ importers:
         specifier: ^1.0.0
         version: link:../tester
 
-  packages/linker: {}
+  packages/linker:
+    dependencies:
+      '@deot/dev-extract':
+        specifier: ^1.0.0
+        version: link:../extract
+      '@deot/dev-shared':
+        specifier: ^1.0.2
+        version: link:../shared
 
   packages/releaser:
     dependencies:
