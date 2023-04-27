@@ -3,9 +3,9 @@ import { createRequire } from "node:module";
 import * as Releaser from '@deot/dev-releaser';
 import * as Builder from '@deot/dev-builder';
 import * as Tester from '@deot/dev-tester';
+import * as Adder from '@deot/dev-adder';
 
 import * as Link from './link';
-import * as Add from './add';
 import * as Dev from './dev';
 
 const require = createRequire(import.meta.url);
@@ -32,7 +32,7 @@ program
 	.alias('a')
 	.description('add dep or create package')
 	.option('--dry-run [boolean]', 'Dry Run')
-	.action(Add.run);
+	.action(Adder.run);
 
 // ddc dev
 program

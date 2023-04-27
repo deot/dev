@@ -4,9 +4,13 @@ import { resolve } from 'node:path';
 import ora from 'ora';
 import fs from 'fs-extra';
 
-import { getOptions } from './add/prompt';
+import { getOptions } from './prompt';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
+	options = {
+		dryRun: false,
+		...options
+	};
 	const locals = Locals.impl();
 	const { workspace, packageDir } = locals;
 	

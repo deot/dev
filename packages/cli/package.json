@@ -14,6 +14,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@deot/dev-adder": "^1.0.0",
     "@deot/dev-builder": "^1.0.0",
     "@deot/dev-extract": "^1.0.0",
     "@deot/dev-shared": "^1.0.2",

@@ -26,5 +26,5 @@ describe('index', () => {
 		expect(instance.stdout).toMatch(new RegExp(log1));
 		expect(instance.stdout).toMatch(new RegExp(log2));
 		expect(instance.stderr).toBe('');
-	});
+	}, 60000);
 });

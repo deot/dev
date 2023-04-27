@@ -11,8 +11,6 @@ export default {
 	collectCoverageFrom: [
 		...options.collectCoverageFrom,
 		`!packages/cli/src/**/*.ts`,
-		`!packages/releaser/src/**/*.ts`,
-		`!packages/builder/src/**/*.ts`,
-		`!packages/tester/src/**/*.ts`
+		`!packages/*er/src/**/*.ts`
 	]
 };
