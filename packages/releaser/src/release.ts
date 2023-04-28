@@ -544,11 +544,10 @@ export class Release {
 		);
 	}
 
-	async clean() {
-		await this.cleanTagsAndKeepLastTag();
-	}
-
-	// 清理tags，仅保留最后一个tag. 相当于tags仅用于记录commit开始的位置
+	/**
+	 * 清理tags，仅保留最后一个tag. 相当于tags仅用于记录commit开始的位置
+	 * git push以后执行。即时删除失败了，也不会产生不必要的影响
+	 */
 	async cleanTagsAndKeepLastTag() {
 		const { commandOptions } = this;
 		if (!commandOptions.keepLastTag) return;

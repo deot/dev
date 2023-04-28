@@ -30,7 +30,6 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	const instances: { [key: string]: Release } = {};
-
 	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
@@ -78,6 +77,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		Promise.resolve()
 	);
 
+	// Commit
 	Logger.log(chalk.blue(`\n---------------------\n`));
 
 	const isChanged = Object.keys(relationVerisons).length;
@@ -103,35 +103,50 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		await Shell.spawn('git', ['fetch', '--prune', '--prune-tags']);
 	}
 
-	// 发包、tag、clean
+	// 发包、tag
+	Logger.log(chalk.blue(`\n---------------------\n`));
 	await inputs
 		.reduce(
 			(preProcess, packageFolderName) => {
 				const instance = instances[packageFolderName];
 				preProcess = preProcess
 					.then(() => instance.publish())
-					.then(() => instance.tag())
-					.then(() => instance.clean());
+					.then(() => instance.tag());
 				return preProcess;
 			}, 
 			Promise.resolve()
 		);
 
+	// Push
 	Logger.log(chalk.blue(`\n---------------------\n`));
-	
 	if (!isChanged) {
-		Logger.log(chalk.magenta(`FINISH: `) + 'Nothing Chanaged.');
+		Logger.log(chalk.magenta(`PUSH: `) + 'Nothing Chanaged.');
 	} else if (!options.push) {
-		Logger.log(chalk.magenta(`FINISH: `) + 'Push Disabled.');	
+		Logger.log(chalk.magenta(`PUSH: `) + 'Push Disabled.');	
 	} else if (options.dryRun) {
-		Logger.log(chalk.magenta(`FINISH: `) + 'Skipping Git Push');	
+		Logger.log(chalk.magenta(`PUSH: `) + 'Skipping Git Push');	
 	} else {
+		Logger.log(chalk.yellow('Git Pull/Push...'));
 		// 提交到远程仓库或自行提交
 		await Shell.spawn('git', ['pull', '--rebase']);
 		await Shell.spawn('git', ['push']);
 		await Shell.spawn('git', ['push', '--tags']);
 	}
 
+	// Clean
+	Logger.log(chalk.blue(`\n---------------------\n`));
+	await inputs
+		.reduce(
+			(preProcess, packageFolderName) => {
+				const instance = instances[packageFolderName];
+				preProcess = preProcess
+					.then(() => instance.cleanTagsAndKeepLastTag());
+				return preProcess;
+			}, 
+			Promise.resolve()
+		);
+
+	Logger.log(chalk.magenta(`FINISH: `) + chalk.green(`Release Successed.`));
 	if (options.dryRun) {
 		Logger.log(
 			chalk.green('NO DRY RUN WAY: ')
@@ -145,6 +160,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		} else {
 			Logger.error(e);
 		}
+
+		Logger.log(chalk.magenta(`FINISH: `) + chalk.red(`Release Failed.`));
 		process.exit(1);
 	}
 });
