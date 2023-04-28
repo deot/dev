@@ -45,7 +45,7 @@
 1. 基于 [正确的分支](/)来做修改。
 2. 在项目根目录下运行了 `npm install`。
 3. 如果你修复了一个 `bug` 或者新增了一个功能，请确保写了相应的测试，这很重要。
-4. 确认所有的测试都是通过的 `npm run test`。 小贴士：开发过程中可以用 `npm run test -- --watch --packageName '**'` 来运行指定的测试。
+4. 确认所有的测试都是通过的 `npm run test`。 小贴士：开发过程中可以用 `npm run test -- --watch --packageName '*'` 来运行指定的测试。
 5. 确保你的代码通过了 `lint` 检查 `npm run lint`. 小贴士: `Lint` 会在你 `git commit` 的时候自动运行。
 
 

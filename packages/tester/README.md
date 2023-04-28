@@ -2,7 +2,6 @@
 
 测试
 
-- 使用`dependencies`，非`peerDependencies`。主要考虑仅安装`@deot/dev-tester`即可
 - 优先执行`scripts`下的`test`
 
 

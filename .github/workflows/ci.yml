@@ -35,5 +35,5 @@ jobs:
       - run: pnpm install
 
       - name: Run unit tests
-        run: npm run test -- --package-name '**'
+        run: npm run test -- --package-name '*'
 

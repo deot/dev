@@ -13,7 +13,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-extract": "^1.1.0",
     "@deot/dev-shared": "^1.1.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

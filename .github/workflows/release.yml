@@ -50,12 +50,12 @@ on:
           - patch
 
       forceUpdatePackage:
-        description: 'Force Update Package (input all -> **)'
+        description: 'Force Update Package (input all -> *)'
         default: ''
         type: string
 
       skipUpdatePackage:
-        description: 'Skip Update Package'
+        description: 'Skip Update Package (input all -> *)'
         default: ''
         type: string
 

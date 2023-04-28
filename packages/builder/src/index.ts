@@ -13,10 +13,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 	
 	const { normalizePackageFolderNames } = Locals.impl(); 
-	let packageFolderName = Locals.getPackageFolderName(options.packageName || '**');
+	let packageFolderName = Locals.getPackageFolderName(options.packageName || '*');
 
 	let inputs: string[] = [];
-	if (locals.workspace && packageFolderName === '**') {
+	if (locals.workspace && packageFolderName === '*') {
 		inputs = normalizePackageFolderNames;
 	} else {
 		inputs = [packageFolderName];

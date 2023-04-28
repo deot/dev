@@ -178,7 +178,7 @@ export class Release {
 			} else if (
 				typeof skipUpdatePackage === 'string' 
 				&& (
-					skipUpdatePackage === '**' 
+					skipUpdatePackage === '*' 
 					|| skipUpdatePackage.split(',').includes(this.packageName)
 				)
 			) {
@@ -211,7 +211,7 @@ export class Release {
 			} else if (
 				typeof forceUpdatePackage === 'string' 
 				&& (
-					forceUpdatePackage === '**' 
+					forceUpdatePackage === '*' 
 					|| forceUpdatePackage.split(',').includes(this.packageName)
 				)
 			) {

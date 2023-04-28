@@ -16,7 +16,6 @@
   "dependencies": {
     "@deot/dev-adder": "^1.1.0",
     "@deot/dev-builder": "^1.1.0",
-    "@deot/dev-extract": "^1.1.0",
     "@deot/dev-linker": "^1.1.0",
     "@deot/dev-shared": "^1.1.0",
     "@deot/dev-tester": "^1.1.0",
@@ -24,6 +23,7 @@
     "commander": "^10.0.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@deot/dev-test": "^1.1.0"
   },
   "bin": {

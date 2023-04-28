@@ -100,7 +100,7 @@ $ npm run link
 $ npm run test
 
 # 或者 直接添加参数
-$ npm run test -- --package-name '**' --watch
+$ npm run test -- --package-name '*' --watch
 ```
 
 #### 开发
@@ -109,7 +109,7 @@ $ npm run test -- --package-name '**' --watch
 $ npm run dev
 
 # 或者 直接添加参数
-$ npm run dev -- --package-name '**'
+$ npm run dev -- --package-name '*'
 ```
 
 #### 打包
@@ -118,7 +118,7 @@ $ npm run dev -- --package-name '**'
 $ npm run build
 
 # 或者 直接添加参数
-$ npm run build -- --package-name '**'
+$ npm run build -- --package-name '*'
 ```
 
 #### 代码检查

@@ -20,7 +20,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (
 		!workspace 
 		&& packageName
-		&& packageName !== '**'
+		&& packageName !== '*'
 		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['dev']
 	) {

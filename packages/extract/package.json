@@ -14,13 +14,6 @@
   },
   "dependencies": {
     "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "chalk": "^5.2.0",
-    "cross-env": "^7.0.3",
-    "fs-extra": "^11.1.1",
-    "inquirer": "^9.1.5",
-    "inquirer-autocomplete-prompt": "^3.0.0",
-    "ora": "^6.1.2",
-    "typescript": "^5.0.4"
+    "@types/node": "^18.15.11"
   }
 }

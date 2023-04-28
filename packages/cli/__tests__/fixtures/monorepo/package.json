@@ -6,7 +6,7 @@
   "scripts": {
     "cli": "../../../../../node_modules/.bin/tsx ../../../src/index.ts",
     "build": "npm run cli -- build",
-    "test": "npm run cli -- test --package-name '**'",
+    "test": "npm run cli -- test --package-name '*'",
     "release": "npm run cli -- release"
   },
   "repository": {
