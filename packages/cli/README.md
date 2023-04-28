@@ -43,7 +43,7 @@ Monorepo
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ tsconfig.json
-└─ package.json
+└─ package.json                      # 引入@deot/dev,@deot/dev-deps
 ```
 
 #### Single Repo
