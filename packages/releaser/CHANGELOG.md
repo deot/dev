@@ -1,5 +1,13 @@
 # @deot/dev-releaser ChangeLog
 
+## v1.1.2
+
+_2023-04-28_
+
+### Features
+
+- feat: clean tags after push ([3c168d9](https://github.com/deot/dev/commit/3c168d90de112609f68ef254999d3534e91ad264))
+
 ## v1.1.1
 
 _2023-04-28_
