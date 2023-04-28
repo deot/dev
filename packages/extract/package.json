@@ -6,7 +6,7 @@
     "api-extractor.json",
     "commitlint.js",
     "jest.config.js",
-    "tsconfig.js"
+    "tsconfig.json"
   ],
   "license": "MIT",
   "publishConfig": {
