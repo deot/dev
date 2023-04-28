@@ -40,15 +40,7 @@
     "url": "https://github.com/deot/dev/issues"
   },
   "homepage": "https://github.com/deot/dev#readme",
-  "devDependencies": {
-    "eslint": "^8.38.0",
-    "eslint-watch": "^8.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
-    "tsx": "^3.12.6",
-    "typescript": "^5.0.4"
-  },
   "devDependencies-info": {
-    "*": "减少配置项，直接安装@deot/dev, 公共配置项@deot/dev-extract"
+    "*": "devDependencies移入@deot/dev-deps，并设置.npmrc shamefully-hoist = true"
   }
 }

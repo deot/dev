@@ -51,6 +51,9 @@
 [npm-extract-image]: https://img.shields.io/npm/v/@deot/dev-extract.svg
 [npm-extract-url]: https://www.npmjs.com/package/@deot/dev-extract
 
+[npm-deps-image]: https://img.shields.io/npm/v/@deot/dev-deps.svg
+[npm-deps-url]: https://www.npmjs.com/package/@deot/dev-deps
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
@@ -66,8 +69,9 @@
 | [tester](packages/tester)     | [![npm][npm-tester-image]][npm-tester-url]     | 测试集成                                   |
 | [releaser](packages/releaser) | [![npm][npm-releaser-image]][npm-releaser-url] | 发布集成                                   |
 | [eslint](packages/eslint)     | [![npm][npm-eslint-image]][npm-eslint-url]     | ESLint配置项                              |
-| [extract](packages/extract)   | [![npm][npm-extract-image]][npm-extract-url]   | 公共依赖提取，公共配置提取                          |
-| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 当前所有包的合集                               |
+| [extract](packages/extract)   | [![npm][npm-extract-image]][npm-extract-url]   | 公共配置提取                                 |
+| [deps](packages/deps)         | [![npm][npm-deps-image]][npm-deps-url]         | 额外依赖提取                                 |
+| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 当前所有包的合集（不含`@deot/dev-deps`）           |
 
 ## Contributing
 

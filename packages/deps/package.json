@@ -1,0 +1,16 @@
+{
+  "name": "@deot/dev-deps",
+  "version": "1.0.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "eslint": "^8.38.0",
+    "eslint-watch": "^8.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.4"
+  }
+}
