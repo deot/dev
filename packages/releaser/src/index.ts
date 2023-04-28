@@ -127,6 +127,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		Logger.log(chalk.magenta(`FINISH: `) + 'Skipping Git Push');	
 	} else {
 		// 提交到远程仓库或自行提交
+		await Shell.spawn('git', ['pull', '--rebase']);
 		await Shell.spawn('git', ['push']);
 		await Shell.spawn('git', ['push', '--tags']);
 	}
