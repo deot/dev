@@ -1,7 +1,7 @@
 import { Shell } from '@deot/dev-shared';
 import * as path from 'node:path';
 
-const cwd = path.resolve('./packages/cli/__tests__/fixtures/monorepo');
+const cwd = path.resolve('./packages/_/monorepo');
 describe('monorepo', () => {
 	it('test', async () => {
 		expect.assertions(1);

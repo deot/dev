@@ -15,7 +15,7 @@ describe('index', () => {
 	it('monorepo', async () => {
 		expect.assertions(1);
 		const response = await Shell.spawn(`npm`, ['run', 'test'], {
-			cwd: path.resolve('./packages/tester/__tests__/fixtures/monorepo'),
+			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
 
@@ -25,7 +25,7 @@ describe('index', () => {
 	it('singlerepo', async () => {
 		expect.assertions(1);
 		const response = await Shell.spawn(`npm`, ['run', 'test'], {
-			cwd: path.resolve('./packages/tester/__tests__/fixtures/singlerepo'),
+			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'
 		});
 

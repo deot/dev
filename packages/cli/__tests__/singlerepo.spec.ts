@@ -1,7 +1,7 @@
 import { Shell } from '@deot/dev-shared';
 import * as path from 'node:path';
 
-const cwd = path.resolve('./packages/cli/__tests__/fixtures/singlerepo');
+const cwd = path.resolve('./packages/_/singlerepo');
 describe('singlerepo', () => {
 	it('test', async () => {
 		expect.assertions(1);
