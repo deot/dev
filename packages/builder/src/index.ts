@@ -4,7 +4,7 @@ import { build } from './build';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	options = { 
-		formats: 'es,cjs',
+		scriptFormats: 'es,cjs',
 		...options
 	};
 	const locals = Locals.impl();

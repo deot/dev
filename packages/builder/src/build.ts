@@ -25,13 +25,16 @@ class Build {
 	config: {
 		dir: string;
 		name: string;
-		input: string;
-		output: OutputOptions[];
+		scripts: Array<{
+			file: string;
+			input: string;
+			output: OutputOptions[];
+		}>;
 	};
 
 	commandOptions: {
 		dryRun: boolean;
-		formats: string;
+		scriptFormats: string;
 	};
 
 	constructor(config: any, commandOptions: Build['commandOptions']) {
@@ -40,36 +43,43 @@ class Build {
 		if (typeof config === 'string') {
 			let packageFolderName = config;
 			let packageDir$ = path.resolve(packageDir, packageFolderName);
-			let input = fs.existsSync(packageDir$ + '/src/index.ts') 
-				? packageDir$ + '/src/index.ts'
-				: fs.existsSync(packageDir$ + '/src/index.js')
-					? packageDir$ + '/src/index.js'
-					: '';
+			let source = path.resolve(packageDir$, './src');
+			let files = fs.existsSync(source)
+				? fs
+					.readdirSync(source)
+					.filter((i: string) => /^index(.*)\.(t|j)s$/.test(i))
+				: [];
 
 			config = {
 				dir: packageDir$,
 				name: packageFolderName || 'index',
-				input,
-				output: [
-					{
-						file: packageDir$ + '/dist/index.es.js',
-						format: 'es',
-						exports: 'named',
-						sourcemap: false
-					},
-					// TODO: 这个需要解决依赖问题
-					{
-						file: packageDir$ + '/dist/index.iife.js',
-						format: 'iife',
-						name: packageName,
-						// plugins: [terser()]
-					},
-					{
-						file: packageDir$ + '/dist/index.cjs.js',
-						format: 'cjs'
-					} 
-				].filter(i => {
-					return commandOptions.formats.includes(i.format);
+				scripts: files.map((file: string) => {
+					let filepath = path.resolve(source, file);
+					return {
+						file,
+						input: filepath,
+						output: [
+							{
+								file: path.resolve(packageDir$, './dist', file.replace(/(\.(j|t)s)$/, '.es.js')),
+								format: 'es',
+								exports: 'named',
+								sourcemap: false
+							},
+							// TODO: 这个需要解决依赖问题
+							{
+								file: path.resolve(packageDir$, './dist', file.replace(/(\.(j|t)s)$/, '.iife.js')),
+								format: 'iife',
+								name: packageName,
+								// plugins: [terser()]
+							},
+							{
+								file: path.resolve(packageDir$, './dist', file.replace(/(\.(j|t)s)$/, '.cjs.js')),
+								format: 'cjs'
+							} 
+						].filter(i => {
+							return commandOptions.scriptFormats.includes(i.format);
+						})
+					};
 				})
 			};
 		}
@@ -100,7 +110,7 @@ class Build {
 			return;
 		}
 
-		if (!config.input) return;
+		if (!config.scripts.length) return;
 
 		const spinner = ora(`${packageName} Build ...`);
 		try {
@@ -114,7 +124,7 @@ class Build {
 			Logger.log(`${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')}`);
 
 			stats.forEach((stat) => {
-				Logger.log(`${chalk.green(stat.format.toUpperCase())}: ${Utils.formatBytes(stat.size)}`);
+				Logger.log(`${chalk.magenta(stat.file)}: ${chalk.green(stat.format.toUpperCase())} - ${Utils.formatBytes(stat.size)}`);
 			});
 		} catch (e) {
 			Logger.log('Error!', e);
@@ -124,7 +134,7 @@ class Build {
 
 	async buildSources() {
 		const { workspace } = Locals.impl();
-		const { name, input, output } = this.config;
+		const { name, scripts } = this.config;
 		const { packageOptions } = this;
 		const external = Object
 			.keys({ 
@@ -136,46 +146,52 @@ class Build {
 		const source = workspace ? `${workspace}/${name}/**/*` : 'src/**/*';
 		const shims = workspace ? `${workspace}/shims.d.ts` : 'shims.d.ts';
 		const outDir = workspace ? `${workspace}/${name}/dist` : 'dist';
-		const builder = await rollupBuilder({
-			input,
-			external: [
-				/^node:/,
-				/^[a-zA-Z@]/,
-				...external
-			],
-			plugins: [
-				typescript({
-					include: [source, shims],
-					exclude: ['dist'],
-					compilerOptions: {
-						rootDir: '.',
-						outDir,
-						declaration: true
-					}
-				}),
-				commonjs({ extensions: ['.js', '.ts'] }),
-				nodeResolve(),
-				replace({
-					__VERSION__: `'${packageOptions.version}'`,
-					__TEST__: 'false',
-					preventAssignment: true
-				})
-			]
-		});
-		await Promise.all(output.map(builder.write));
-		const stats: Array<{ format: string; size: number }> = [];
-		await output.reduce((pre: Promise<any>, cur: OutputOptions, index: number) => {
-			pre
-				.then(() => fs.stat(cur.file))
-				.then((stat: any) => {
-					stats[index] = {
-						format: cur.format as string,
-						size: stat.size
-					};
-				});
-			return pre;
-		}, Promise.resolve());
-
+		const stats: Array<{ format: string; size: number; file: string }> = [];
+		await scripts
+			.reduce(
+				(preProcess: Promise<any>, current: any) => {
+					preProcess = preProcess
+						.then(() => rollupBuilder({
+							input: current.input,
+							external: [
+								/^node:/,
+								/^[a-zA-Z@]/,
+								...external
+							],
+							plugins: [
+								typescript({
+									include: [source, shims],
+									exclude: ['dist'],
+									compilerOptions: {
+										rootDir: '.',
+										outDir,
+										declaration: /^index.ts$/.test(current.file)
+									}
+								}),
+								commonjs({ extensions: ['.js', '.ts'] }),
+								nodeResolve(),
+								replace({
+									__VERSION__: `'${packageOptions.version}'`,
+									__TEST__: 'false',
+									preventAssignment: true
+								})
+							]
+						}))
+						.then((builder) => Promise.all(current.output.map(builder.write)))
+						.then(() => Promise.all(current.output.map((i) => fs.stat(i.file))))
+						.then((stats$) => {
+							stats$.forEach((stat, index) => {
+								stats.push({
+									file: current.file,
+									format: current.output[index].format as string,
+									size: stat.size
+								});
+							});
+						});
+					return preProcess;
+				}, 
+				Promise.resolve()
+			);
 		return stats;
 	}
 
