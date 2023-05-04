@@ -1,5 +1,14 @@
 # @deot/dev ChangeLog
 
+## v1.1.3
+
+_2023-05-04_
+
+### Features
+
+- feat(builder): allow build css entry (/^index(.*)\.s?css$/) ([a8cfff1](https://github.com/deot/dev/commit/a8cfff17cdd376cfa333342edb172b1d0e44fc54))
+- feat(builder): multiple entry (/^index(.*)\.(t|j)s$/) ([a71cf70](https://github.com/deot/dev/commit/a71cf707aff02f69b3ce99594355185e87c846c6))
+
 ## v1.1.2
 
 _2023-04-28_
