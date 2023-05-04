@@ -125,6 +125,9 @@ importers:
       lint-staged:
         specifier: ^13.2.1
         version: 13.2.1
+      stylelint:
+        specifier: ^13.12.0
+        version: 13.12.0
       tsx:
         specifier: ^3.12.6
         version: 3.12.6
