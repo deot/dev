@@ -3,7 +3,7 @@
 打包
 
 - 优先执行`scripts`下的`build`和`build:types`，如果声明`build`，打包由用户管理，`build:types`，类型编译由用户管理
-- 可被打包的文件匹配：`src/index.*.(j|t)s`
+- 可被打包的文件匹配：`src/index.*.(j|t|s?cs)s`
 
 ## 其它
 
