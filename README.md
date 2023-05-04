@@ -48,6 +48,9 @@
 [npm-eslint-image]: https://img.shields.io/npm/v/@deot/dev-eslint.svg
 [npm-eslint-url]: https://www.npmjs.com/package/@deot/dev-eslint
 
+[npm-stylelint-image]: https://img.shields.io/npm/v/@deot/dev-stylelint.svg
+[npm-stylelint-url]: https://www.npmjs.com/package/@deot/dev-stylelint
+
 [npm-extract-image]: https://img.shields.io/npm/v/@deot/dev-extract.svg
 [npm-extract-url]: https://www.npmjs.com/package/@deot/dev-extract
 
@@ -57,21 +60,22 @@
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
-| 包名                            | 版本                                             | 说明                                     |
-| ----------------------------- | ---------------------------------------------- | -------------------------------------- |
-| [cli](packages/cli)           | [![npm][npm-cli-image]][npm-cli-url]           | 开发指令集`dev`、`build`、`test`、`link`、`add` |
-| [test](packages/test)         | [![npm][npm-test-image]][npm-test-url]         | 测试工具                                   |
-| [shared](packages/shared)     | [![npm][npm-shared-image]][npm-shared-url]     | 公共方法                                   |
-| [dever](packages/dever)       | [![npm][npm-dever-image]][npm-dever-url]       | 开发服务集成                                 |
-| [adder](packages/adder)       | [![npm][npm-adder-image]][npm-adder-url]       | 添加依赖/包集成                               |
-| [linker](packages/linker)     | [![npm][npm-linker-image]][npm-linker-url]     | 软链接集成                                  |
-| [builder](packages/builder)   | [![npm][npm-builder-image]][npm-builder-url]   | 打包集成                                   |
-| [tester](packages/tester)     | [![npm][npm-tester-image]][npm-tester-url]     | 测试集成                                   |
-| [releaser](packages/releaser) | [![npm][npm-releaser-image]][npm-releaser-url] | 发布集成                                   |
-| [eslint](packages/eslint)     | [![npm][npm-eslint-image]][npm-eslint-url]     | ESLint配置项                              |
-| [extract](packages/extract)   | [![npm][npm-extract-image]][npm-extract-url]   | 公共配置提取                                 |
-| [deps](packages/deps)         | [![npm][npm-deps-image]][npm-deps-url]         | 额外依赖提取                                 |
-| [index](packages/index)       | [![npm][npm-image]][npm-url]                   | 当前所有包的合集（不含`@deot/dev-deps`）           |
+| 包名                              | 版本                                               | 说明                                     |
+| ------------------------------- | ------------------------------------------------ | -------------------------------------- |
+| [cli](packages/cli)             | [![npm][npm-cli-image]][npm-cli-url]             | 开发指令集`dev`、`build`、`test`、`link`、`add` |
+| [test](packages/test)           | [![npm][npm-test-image]][npm-test-url]           | 测试工具                                   |
+| [shared](packages/shared)       | [![npm][npm-shared-image]][npm-shared-url]       | 公共方法                                   |
+| [dever](packages/dever)         | [![npm][npm-dever-image]][npm-dever-url]         | 开发服务集成                                 |
+| [adder](packages/adder)         | [![npm][npm-adder-image]][npm-adder-url]         | 添加依赖/包集成                               |
+| [linker](packages/linker)       | [![npm][npm-linker-image]][npm-linker-url]       | 软链接集成                                  |
+| [builder](packages/builder)     | [![npm][npm-builder-image]][npm-builder-url]     | 打包集成(`ts/js/scss/css`)                   |
+| [tester](packages/tester)       | [![npm][npm-tester-image]][npm-tester-url]       | 测试集成                                   |
+| [releaser](packages/releaser)   | [![npm][npm-releaser-image]][npm-releaser-url]   | 发布集成                                   |
+| [eslint](packages/eslint)       | [![npm][npm-eslint-image]][npm-eslint-url]       | ESLint配置项                              |
+| [stylelint](packages/stylelint) | [![npm][npm-stylelint-image]][npm-stylelint-url] | Stylelint配置项                           |
+| [extract](packages/extract)     | [![npm][npm-extract-image]][npm-extract-url]     | 公共配置提取                                 |
+| [deps](packages/deps)           | [![npm][npm-deps-image]][npm-deps-url]           | 额外依赖提取                                 |
+| [index](packages/index)         | [![npm][npm-image]][npm-url]                     | 当前所有包的合集（不含`@deot/dev-deps`）           |
 
 ## Contributing
 
