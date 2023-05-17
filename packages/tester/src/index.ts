@@ -39,10 +39,11 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (!options.workspace) delete options.workspace; 
 	delete options.packageName;
 
+	const isDev = process.env.NODE_ENV === 'development';
 	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} jest ` 
 		+ ([
 			'--passWithNoTests',
-			`${watch ? '--watchAll' : ''}`
+			`${watch || isDev ? '--watchAll' : ''}`
 		].join(' '));
 
 	if (dryRun) return Shell.spawn(`echo ${command}`);
