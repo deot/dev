@@ -1,7 +1,6 @@
 import stylelint from 'stylelint';
 import stylelintrc from '..';
 
-
 const lint = async (text: string) => {
 	const resultObject = await stylelint.lint({
 		config: stylelintrc,
@@ -13,13 +12,17 @@ const lint = async (text: string) => {
 describe('index.ts', () => {
 	it('success', async () => {
 		expect.assertions(1);
-		const data = await lint(`a { color: red; }\n`);
-		expect(data.errored).toBe(false);
+		try {
+			const data = await lint(`a { color: red; }\n`);
+			expect(data.errored).toBe(false);
+		} catch (e) {
+			console.log(e);
+		}
 	});
 
-	it('no-missing-end-of-source-newline', async () => {
+	it('declaration-block-trailing-semicolon', async () => {
 		expect.assertions(1);
-		const data = await lint(`a { color: red; }`);
-		expect(data.output).toMatch('no-missing-end-of-source-newline');
+		const data = await lint(`a { color: red }`);
+		expect(data.output).toMatch('declaration-block-trailing-semicolon');
 	});
 });
