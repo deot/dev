@@ -1,6 +1,11 @@
 import { defineConfig, configDefaults } from 'vitest/config';
+import * as path from 'node:path';
+import { createRequire } from "node:module";
 import type { UserConfig } from 'vite';
 
+const cwd = process.cwd();
+
+// options
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
 const { workspace, packageFolderName } = options;
 
@@ -12,8 +17,26 @@ const collectDirPrefix = workspace
 	? `${workspace}/${packageFolderName || '*'}/src`
 	: `src`;
 
+// alias
+const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
+const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
 
 export default defineConfig({
+	resolve: workspace
+		? {
+			alias: [
+				{
+					find: new RegExp(`^${name}$`),
+					replacement: replacement('index')
+				},
+				{
+
+					find: new RegExp(`^${name}-(.*?)$`),
+					replacement: replacement('$1')
+				}
+			]
+		}
+		: {},
 	test: {
 		globals: true,
 		include: [
