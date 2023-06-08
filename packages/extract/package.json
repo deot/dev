@@ -5,7 +5,6 @@
   "files": [
     "api-extractor.json",
     "commitlint.js",
-    "jest.config.js",
     "tsconfig.json"
   ],
   "license": "MIT",
@@ -13,7 +12,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/jest": "^29.5.2",
     "@types/node": "^20.2.5"
   }
 }

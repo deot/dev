@@ -89,8 +89,7 @@ export class Command {
 			}
 		});
 
-		/* istanbul ignore next */
-		emitter.on('error', (error) => {
+		emitter.on('error', /* istanbul ignore next */ (error) => {
 			!process.exitCode && (process.exitCode = 1);
 			this.reject({ code: process.exitCode, error });
 		});
@@ -100,8 +99,7 @@ export class Command {
 			this.schedule.complete(); // 主要node其他子任务执行时，这个回调会延迟，导致下一个按钮直接键入
 		});
 
-		/* istanbul ignore next */
-		emitter.stderr.on('data', e => this.stderr += e.toString());
+		emitter.stderr.on('data', /* istanbul ignore next */ e => this.stderr += e.toString());
 
 		return emitter;
 	}

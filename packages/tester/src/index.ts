@@ -1,5 +1,6 @@
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
+import fs from 'fs-extra';
 import { getOptions } from './prompt';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
@@ -40,10 +41,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	delete options.packageName;
 
 	const isDev = process.env.NODE_ENV === 'development';
-	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} jest ` 
+	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} vitest ` 
 		+ ([
 			'--passWithNoTests',
-			`${watch || isDev ? '--watchAll' : ''}`
+			`${!(watch || isDev) ? '--watch=false' : ''}`
 		].join(' '));
 
 	if (dryRun) return Shell.spawn(`echo ${command}`);
