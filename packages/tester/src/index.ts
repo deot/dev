@@ -1,6 +1,6 @@
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
-import fs from 'fs-extra';
+import { createVitest } from 'vitest/node';
 import { getOptions } from './prompt';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
@@ -19,7 +19,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
-	const { packageName, watch, dryRun } = options;
+	const { coverage, packageName, watch, dryRun } = options;
 
 	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
@@ -41,15 +41,31 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	delete options.packageName;
 
 	const isDev = process.env.NODE_ENV === 'development';
-	const command = `cross-env NODE_ENV=${process.env.NODE_ENV || 'TEST'} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} vitest ` 
-		+ ([
-			'--passWithNoTests',
-			`${!(watch || isDev) ? '--watch=false' : ''}`
-		].join(' '));
+	const NODE_ENV = process.env.NODE_ENV || 'TEST';
+	const TEST_OPTIONS = encodeURIComponent(JSON.stringify(options));
 
-	if (dryRun) return Shell.spawn(`echo ${command}`);
-	await Shell.spawn(command);
+	if (dryRun) {
+		const command = `cross-env NODE_ENV=${NODE_ENV} TEST_OPTIONS=${TEST_OPTIONS} vitest ` 
+			+ ([
+				'--passWithNoTests',
+				`${!(watch || isDev) ? '--watch=false' : ''}`
+			].join(' '));
+		Shell.spawn(`echo ${command}`);
+		return;
+	}
 
+	process.env.NODE_ENV = process.env.NODE_ENV || 'TEST';
+	process.env.TEST_OPTIONS = TEST_OPTIONS;
+	
+	const vitest = await createVitest('test', {
+		coverage: {
+			enabled: !!coverage
+		},
+		passWithNoTests: true,
+		watch: !!(watch || isDev)
+	});
+
+	await vitest.start();
 	if (!watch) return;
 
 	Logger.log(packageName || '', '测试已通过');

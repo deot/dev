@@ -35,6 +35,12 @@ export const getOptions = async () => {
 			default: (answers: any) => {
 				return answers.packageFolderName !== ALL_PACKAGE;
 			}
+		},
+		{
+			type: 'confirm',
+			message: 'Coverage Analyze?',
+			name: 'coverage',
+			default: true
 		}
 	];
 
