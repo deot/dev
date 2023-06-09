@@ -13,7 +13,7 @@
 
 ## 其他
 
-暂时不支持全局引入，一些配置项，如`tsconfig.json`, `api-extractor.json`, `jest.config.cjs` 这些依赖项目本身
+暂时不支持全局引入，一些配置项，如`tsconfig.json`, `vitest.config.ts` 这些依赖项目本身
 
 
 ## 默认的目录参考（配置后期再考虑）
@@ -27,19 +27,17 @@ Monorepo
 │    ├─ index
 │    │    ├─ __tests__
 │    │    ├─ src
-│    │    ├─ api-extractor.json
 │    │    └─ package.json
 │    ├─ shared
 │    │    ├─ __tests__
 │    │    ├─ src
-│    │    ├─ api-extractor.json
 │    │    └─ package.json            # 如果含build/build:types会跳过执行内部的
 │    └─ shims.d.ts
 ├─ .eslintignore
 ├─ .eslintrc.cjs
 ├─ .lintstagedrc.json
 ├─ .npmrc                            # shamefully-hoist = true
-├─ jest.config.js
+├─ vitest.config.ts
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ tsconfig.json
@@ -56,9 +54,8 @@ Single Repo
 ├─ .eslintignore
 ├─ .eslintrc.cjs
 ├─ .npmrc
-├─ jest.config.js
+├─ vitest.config.ts
 ├─ shims.d.ts
-├─ api-extractor.json
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ tsconfig.json

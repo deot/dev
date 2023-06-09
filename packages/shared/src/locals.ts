@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 
 const cwd$ = process.cwd();
-const require$ = createRequire(cwd$); // import.meta.url 在 jest需要额外配置
+const require$ = createRequire(cwd$);
 
 interface PackageOptions {
 	[key: string]: any;

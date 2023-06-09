@@ -87,7 +87,7 @@ program
 	.description('unit-test')
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('-w, --watch [boolean]', 'Watch Test')
-	.option('-c, --coverage [boolean]', 'Coverage Analyze')
+	.option('-c, --coverage [boolean]', 'Coverage Analyze', true)
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Tester.run);
 

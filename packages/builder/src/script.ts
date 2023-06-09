@@ -1,19 +1,16 @@
 import fs from 'fs-extra';
 import * as path from 'node:path';
 
-import typescript from '@rollup/plugin-typescript';
+import swc from '@rollup/plugin-swc';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 // import terser from '@rollup/plugin-terser';
 import { rollup as rollupBuilder } from 'rollup';
-import { Locals } from '@deot/dev-shared';
 import type { Build } from './build';
 
 export const run = async (options: Build) => {
-	const { packageName, packageFolderName, packageDir, commandOptions, packageOptions } = options || {};
-
-	const { workspace } = Locals.impl();
+	const { packageName, packageDir, commandOptions, packageOptions } = options || {};
 
 	const srcDir = path.resolve(packageDir, './src');
 	let files = fs.existsSync(srcDir)
@@ -57,10 +54,7 @@ export const run = async (options: Build) => {
 		})
 		.map(i => new RegExp(`^${i}$`));
 
-	const source = workspace ? `${workspace}/${packageFolderName}/**/*` : 'src/**/*';
-	const shims = workspace ? `${workspace}/shims.d.ts` : 'shims.d.ts';
-	const outDir = workspace ? `${workspace}/${packageFolderName}/dist` : 'dist';
-	const stats: Array<{ format: string; size: number; file: string }> = [];
+	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	await scripts
 		.reduce(
 			(preProcess: Promise<any>, current: any) => {
@@ -73,15 +67,7 @@ export const run = async (options: Build) => {
 							...external
 						],
 						plugins: [
-							typescript({
-								include: [source, shims],
-								exclude: ['dist'],
-								compilerOptions: {
-									rootDir: '.',
-									outDir,
-									declaration: /^index.ts$/.test(current.file)
-								}
-							}),
+							swc(),
 							commonjs({ extensions: ['.js', '.ts'] }),
 							nodeResolve(),
 							replace({

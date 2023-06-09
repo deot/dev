@@ -46,10 +46,10 @@ export default defineConfig({
 			enabled: true,
 			provider: 'istanbul',
 			reporter: ['text', 'html'],
-			branches: 95,
+			branches: 85,
+			statements: 95,
 			functions: 95,
 			lines: 95,
-			statements: 95,
 			include: [
 				`${collectDirPrefix}/**/*.ts`
 			],

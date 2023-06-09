@@ -40,6 +40,7 @@ export class Build {
 	}
 
 	async process() {
+		let start = Date.now();
 		const { cwd, workspace } = Locals.impl();
 		const { packageOptions, packageName, packageDir } = this;
 
@@ -70,19 +71,35 @@ export class Build {
 			await fs.emptyDir(`${packageDir}/dist`);
 
 			const styleStats = await Style.run(this);
+			const styleDuration = Date.now() - start;
+
 			const scriptStats = await Script.run(this);
-			Type.run(this);
+			const scriptDuration = Date.now() - start - styleDuration;
+
+			const typeStats = await Type.run(this);
+			const typeDuration = Date.now() - start - styleDuration - scriptDuration;
 
 			spinner.stop();
-			Logger.log(`${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')}`);
 
-			scriptStats.forEach((stat) => {
-				Logger.log(`${chalk.magenta(stat.file)}: ${chalk.green(stat.format.toUpperCase())} - ${Utils.formatBytes(stat.size)}`);
-			});
+			let message = '';
+			message += `${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')} ${chalk.blue(`${Date.now() - start}ms`)}(`;
+			message += styleStats.length ? `css: ${chalk.yellow(styleDuration)}ms; ` : '';
+			message += scriptStats.length ? `js: ${chalk.yellow(scriptDuration)}ms; ` : '';
+			message += typeStats.length ? `dts: ${chalk.yellow(typeDuration)}ms` : '';
+			message += ')';
+			Logger.log(message);
+			
+			scriptStats
+				.concat(styleStats)
+				.concat(typeStats)
+				.forEach((stat) => {
+					let message$ = '';
+					message$ += `${chalk.magenta(stat.file)}: `;
+					message$ += stat.format ? `${chalk.green(stat.format!.toUpperCase())} - ` : '';
+					message$ += `${Utils.formatBytes(stat.size)}`;
 
-			styleStats.forEach((stat) => {
-				Logger.log(`${chalk.magenta(stat.file)}: ${Utils.formatBytes(stat.size)}`);
-			});
+					Logger.log(message$);
+				});
 		} catch (e) {
 			Logger.log('Error!', e);
 			throw e;

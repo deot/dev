@@ -57,14 +57,6 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			},
 			dependencies: {}
 		}, null, 2));
-
-		fs.outputFileSync(`${dir}/${packageFolderName}/api-extractor.json`, JSON.stringify({
-			extends: "../../api-extractor.json",
-			mainEntryPointFilePath: `./dist/${workspace}/${packageFolderName}/src/index.d.ts`,
-			dtsRollup: {
-				publicTrimmedFilePath: "./dist/index.d.ts"
-			}
-		}, null, 2));
 	}
 
 	await Shell.spawn(command);
