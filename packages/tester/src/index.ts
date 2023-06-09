@@ -1,8 +1,12 @@
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 import { createVitest } from 'vitest/node';
+import fs from 'fs-extra';
 import { getOptions } from './prompt';
 
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	options = { ...options };
 	const locals = Locals.impl();
@@ -57,13 +61,20 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	process.env.NODE_ENV = process.env.NODE_ENV || 'TEST';
 	process.env.TEST_OPTIONS = TEST_OPTIONS;
 	
-	const vitest = await createVitest('test', {
+	let options$: any = {
 		coverage: {
-			enabled: !!coverage
+			enabled: !!coverage,
 		},
 		passWithNoTests: true,
 		watch: !!(watch || isDev)
-	});
+	};
+
+	// 当没有配置项时，使用当前暴露的配置项
+	if (!fs.existsSync(`${cwd}/vitest.config.ts`)) {
+		options$.config = path.relative(cwd, path.resolve(dirname, '../vitest.shared.ts'));	
+	}
+
+	const vitest = await createVitest('test', options$);
 
 	await vitest.start();
 	if (!watch) return;

@@ -37,11 +37,11 @@ Monorepo
 ├─ .eslintrc.cjs
 ├─ .lintstagedrc.json
 ├─ .npmrc                            # shamefully-hoist = true
-├─ vitest.config.ts
+├─ vitest.config.ts                  # 没有这个文件也可以执行
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ tsconfig.json
-└─ package.json                      # 引入@deot/dev,@deot/dev-deps
+└─ package.json                      # 引入@deot/dev
 ```
 
 #### Single Repo
