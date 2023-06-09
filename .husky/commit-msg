@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-node packages/extract/commitlint.js --edit $1
+node packages/index/commitlint.js --edit $1

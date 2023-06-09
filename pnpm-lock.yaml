@@ -113,6 +113,9 @@ importers:
 
   packages/deps:
     dependencies:
+      '@types/node':
+        specifier: ^20.2.5
+        version: 20.2.5
       eslint:
         specifier: ^8.41.0
         version: 8.41.0
@@ -173,12 +176,6 @@ importers:
         specifier: ^8.41.0
         version: 8.41.0
 
-  packages/extract:
-    dependencies:
-      '@types/node':
-        specifier: ^20.2.5
-        version: 20.2.5
-
   packages/index:
     dependencies:
       '@deot/dev-adder':
@@ -190,15 +187,15 @@ importers:
       '@deot/dev-cli':
         specifier: ^1.1.3
         version: link:../cli
+      '@deot/dev-deps':
+        specifier: ^1.1.2
+        version: link:../deps
       '@deot/dev-dever':
         specifier: ^1.1.1
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^1.1.1
         version: link:../eslint
-      '@deot/dev-extract':
-        specifier: ^1.1.1
-        version: link:../extract
       '@deot/dev-linker':
         specifier: ^1.1.1
         version: link:../linker

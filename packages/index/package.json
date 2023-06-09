@@ -5,7 +5,9 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "commitlint.js",
+    "tsconfig.shared.json"
   ],
   "license": "MIT",
   "publishConfig": {
@@ -15,9 +17,9 @@
     "@deot/dev-adder": "^1.1.1",
     "@deot/dev-builder": "^1.1.2",
     "@deot/dev-cli": "^1.1.3",
+    "@deot/dev-deps": "^1.1.2",
     "@deot/dev-dever": "^1.1.1",
     "@deot/dev-eslint": "^1.1.1",
-    "@deot/dev-extract": "^1.1.1",
     "@deot/dev-linker": "^1.1.1",
     "@deot/dev-shared": "^1.1.1",
     "@deot/dev-test": "^1.1.1",
