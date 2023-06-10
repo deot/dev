@@ -1,96 +1,58 @@
 import fs from 'fs-extra';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Shell, Locals } from '@deot/dev-shared';
 
-import swc from '@rollup/plugin-swc';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import replace from '@rollup/plugin-replace';
-// import terser from '@rollup/plugin-terser';
-import { rollup as rollupBuilder } from 'rollup';
 import type { Build } from './build';
 
-export const run = async (options: Build) => {
-	const { packageName, packageDir, commandOptions, packageOptions } = options || {};
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
+export const run = async (options: Build) => {
+	const locals = Locals.impl();
+	const { cwd } = locals;
+
+	const { packageName, packageDir, packageOptions } = options || {};
+
+	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	const srcDir = path.resolve(packageDir, './src');
 	let files = fs.existsSync(srcDir)
 		? fs
 			.readdirSync(srcDir)
 			.filter((i: string) => /^index(.*)\.(t|j)s$/.test(i))
 		: [];
-	const scripts = files.map((file: string) => {
-		let filepath = path.resolve(srcDir, file);
-		return {
-			file,
-			input: filepath,
-			output: [
-				{
-					file: path.resolve(packageDir, './dist', file.replace(/(\.(j|t)s)$/, '.es.js')),
-					format: 'es',
-					exports: 'named',
-					sourcemap: false
-				},
-				// TODO: 这个需要解决依赖问题
-				{
-					file: path.resolve(packageDir, './dist', file.replace(/(\.(j|t)s)$/, '.iife.js')),
-					format: 'iife',
-					name: packageName,
-					// plugins: [terser()]
-				},
-				{
-					file: path.resolve(packageDir, './dist', file.replace(/(\.(j|t)s)$/, '.cjs.js')),
-					format: 'cjs'
-				} 
-			].filter(i => {
-				return commandOptions.scriptFormats.includes(i.format);
-			})
-		};
+
+
+	if (!files.length) return stats;
+
+	process.env.BUILD_OPTIONS = encodeURIComponent(JSON.stringify({
+		files,
+		packageName,
+		packageDir,
+		packageOptions,
+	}));
+
+	let params = ['--configPlugin swc -c'];
+	// 当没有配置项时，使用当前暴露的配置项
+	if (!fs.existsSync(`${cwd}/rollup.config.ts`)) {
+		params.push(path.relative(cwd, path.resolve(dirname, '../rollup.shared.ts')));
+	} else {
+		params.push(path.relative(cwd, `${cwd}/rollup.config.ts`));
+	}
+
+	await Shell.exec('rollup', params);
+
+	let distDir = path.resolve(packageDir, './dist');
+	let outputs = fs
+		.readdirSync(distDir)
+		.filter((i: string) => /^index(.*)(?!=\.d)\.js$/.test(i));
+
+	outputs.forEach((file: string) => {
+		let stat = fs.statSync(path.resolve(distDir, file));
+		stats.push({
+			file: file.replace(/^(.*)(\..*\.js)/, '$1.ts'),
+			format: file.replace(/.*\.(.*)\.js/, '$1'),
+			size: stat.size
+		});
 	});
-
-	const external = Object
-		.keys({ 
-			...packageOptions.dependencies, 
-			...packageOptions.peerDependencies 
-		})
-		.map(i => new RegExp(`^${i}$`));
-
-	const stats: Array<{ format?: string; size: number; file: string }> = [];
-	await scripts
-		.reduce(
-			(preProcess: Promise<any>, current: any) => {
-				preProcess = preProcess
-					.then(() => rollupBuilder({
-						input: current.input,
-						external: [
-							/^node:/,
-							/^[a-zA-Z@]/,
-							...external
-						],
-						plugins: [
-							swc(),
-							commonjs({ extensions: ['.js', '.ts'] }),
-							nodeResolve(),
-							replace({
-								__VERSION__: `'${packageOptions.version}'`,
-								__TEST__: 'false',
-								preventAssignment: true
-							})
-						]
-					}))
-					.then((builder) => Promise.all(current.output.map(builder.write)))
-					.then(() => Promise.all(current.output.map((i) => fs.stat(i.file))))
-					.then((stats$) => {
-						stats$.forEach((stat, index) => {
-							stats.push({
-								file: current.file,
-								format: current.output[index].format as string,
-								size: stat.size
-							});
-						});
-					});
-				return preProcess;
-			}, 
-			Promise.resolve()
-		);
 	return stats;
 };

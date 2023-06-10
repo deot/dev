@@ -51,6 +51,7 @@ program
 	.option('-p, --package-name <string>', 'Select packageName')
 	.option('--formats <string>', 'Formats(Output)', 'es,cjs')
 	.option('--dry-run [boolean]', 'Dry Run')
+	.option('--no-dts [boolean]', 'No Export Types')
 	.action(Builder.run);
 
 // ddc release (dryRun默认为true)

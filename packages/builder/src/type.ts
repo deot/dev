@@ -9,11 +9,10 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const run = async (options: Build) => {
 	const { workspace } = Locals.impl();
-	const { packageDir, packageFolderName, packageOptions } = options;
+	const { packageDir, packageFolderName, packageOptions, commandOptions } = options;
 
 	const done = () => {
 		const stats: Array<{ size: number; file: string }> = [];
-
 		let fullpath = `${packageDir}/dist/index.d.ts`;
 		if (fs.existsSync(fullpath)) {
 			let stat = fs.statSync(fullpath);
@@ -25,6 +24,10 @@ export const run = async (options: Build) => {
 
 		return stats;
 	};
+
+	if (!commandOptions.dts) {
+		return done();
+	}
 
 	// 子包含有自己的build:types则自行执行
 	if (workspace && packageOptions?.scripts?.['build:types']) {

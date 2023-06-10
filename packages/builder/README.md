@@ -7,7 +7,7 @@
 
 ## 其它
 
-- 目前依赖`rollup`打包，后续考虑读取`rollup.config.js`
-- 如果改成`vite`打包，则考虑读取配置`vite.config.js`
+- 目前依赖`rollup`打包，后续考虑读取`rollup.config.ts`
+- 如果改成`vite`打包，则考虑读取配置`vite.config.ts`
 
 打包输出文件`index.[format].js` + `index.d.ts`

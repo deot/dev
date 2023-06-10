@@ -23,6 +23,7 @@ export class Build {
 
 	commandOptions: {
 		dryRun: boolean;
+		dts: boolean;
 		scriptFormats: string;
 	};
 
