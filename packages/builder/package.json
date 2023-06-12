@@ -24,10 +24,6 @@
   "dependencies": {
     "@deot/dev-shared": "^1.1.1",
     "@microsoft/api-extractor": "^7.35.1",
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-replace": "^5.0.2",
-    "@rollup/plugin-swc": "^0.1.1",
     "autoprefixer": "^10.4.14",
     "chalk": "^5.2.0",
     "cssnano": "^5.1.15",
@@ -37,8 +33,8 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^15.1.0",
     "postcss-url": "^10.1.3",
-    "rollup": "^3.23.0",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "vite": "^4.3.9"
   },
   "devDependencies": {
     "typescript": "^5.1.3"

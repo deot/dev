@@ -11,7 +11,8 @@
   "include": [
     "packages/shims.d.ts",
     "packages/*/__tests__",
-    "packages/*/src"
+    "packages/*/src",
+    "packages/*/shared.config.ts",
   ],
   "exclude": [
     "node_modules/**/*"

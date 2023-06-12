@@ -5,9 +5,34 @@
 - 优先执行`scripts`下的`build`和`build:types`，如果声明`build`，打包由用户管理，`build:types`，类型编译由用户管理
 - 可被打包的文件匹配：`src/index.*.(j|t|s?cs)s`
 
-## 其它
+## 自定义配置
 
-- 目前依赖`rollup`打包，后续考虑读取`rollup.config.ts`
-- 如果改成`vite`打包，则考虑读取配置`vite.config.ts`
+提供环境变量`BUILD_OPTIONS`
 
-打包输出文件`index.[format].js` + `index.d.ts`
+```ts
+interface BUILD_OPTIONS {
+	packageFolderName?: string;
+	workspace?: string;
+	watch: boolean;
+	coverage: boolean;
+}
+```
+
+根目录创建`build.config.ts`, 可以选择`configShared`合并或单独基于`BUILD_OPTIONS`配置
+
+```ts
+import { mergeConfig, defineConfig } from 'vite';
+import configShared from '@deot/dev-builder/shared.config';
+
+export default mergeConfig(
+	configShared,
+	defineConfig({
+		// custom config
+		plugins: [
+			vue(),
+			react()
+		]
+	})
+);
+```
+取`build.config.ts`, 是为了方便从`build`转其他测试工具时，可以不改变文件名

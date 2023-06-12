@@ -71,11 +71,11 @@ export class Build {
 			spinner.start();
 			await fs.emptyDir(`${packageDir}/dist`);
 
-			const styleStats = await Style.run(this);
-			const styleDuration = Date.now() - start;
+			const scriptStats = await Script.run(this); // vite在构建时会清理dist
+			const scriptDuration = Date.now() - start;
 
-			const scriptStats = await Script.run(this);
-			const scriptDuration = Date.now() - start - styleDuration;
+			const styleStats = await Style.run(this);
+			const styleDuration = Date.now() - start - scriptDuration;
 
 			const typeStats = await Type.run(this);
 			const typeDuration = Date.now() - start - styleDuration - scriptDuration;
@@ -85,7 +85,7 @@ export class Build {
 			let message = '';
 			message += `${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')} ${chalk.blue(`${Date.now() - start}ms`)}(`;
 			message += styleStats.length ? `css: ${chalk.yellow(styleDuration)}ms; ` : '';
-			message += scriptStats.length ? `js: ${chalk.yellow(scriptDuration)}ms; ` : '';
+			message += scriptStats.length ? `js: ${chalk.yellow(scriptDuration)}ms${typeStats.length ? '; ' : ''}` : '';
 			message += typeStats.length ? `dts: ${chalk.yellow(typeDuration)}ms` : '';
 			message += ')';
 			Logger.log(message);
