@@ -4,6 +4,41 @@
 
 - 优先执行`scripts`下的`test`
 
+## 自定义配置
+
+提供环境变量`TEST_OPTIONS`
+
+```ts
+interface TEST_OPTIONS {
+	packageFolderName?: string;
+	workspace?: string;
+	watch: boolean;
+	coverage: boolean;
+}
+```
+
+根目录创建`test.config.ts`, 可以选择`configShared`合并或单独基于`TEST_OPTIONS`配置
+
+```ts
+import { mergeConfig, defineConfig } from 'vitest/config';
+import configShared from '@deot/dev-tester/shared.config';
+
+export default mergeConfig(
+	configShared,
+	defineConfig({
+		test: {
+			coverage: {
+				provider: 'istanbul',
+				exclude: [
+					`packages/cli/src/**/*.ts`,
+					`packages/*er/src/**/*.ts`
+				]
+			}
+		}
+	})
+);
+```
+取`test.config.ts`, 是为了方便从`vitest`转其他测试工具时，可以不改变文件名
 
 ## 其它
 
@@ -11,7 +46,9 @@
 
 ## 测试日志
 
-#### Jest(29.5.0)
+#### Jest(29.5.0) 
+
+> MacBook Pro (15-inch, 2016) - i7-6820HQ & 16GB
 
 ```shell
 ➜  dev git:(main) ✗ npm run test -- --package-name '*'
@@ -75,7 +112,7 @@ Ran all test suites.
 
 
  RUN  v0.32.0 /Users/deot/Desktop/workspace/dev
-      Coverage enabled with istanbul
+	  Coverage enabled with istanbul
 
  · packages/test/__tests__/command.spec.ts (3)
  ✓ packages/test/__tests__/command.spec.ts (3) 5011ms
@@ -102,7 +139,7 @@ Ran all test suites.
  ✓ packages/shared/__tests__/global.spec.ts (1)
 
  Test Files  22 passed (22)
-      Tests  50 passed (50)
+	  Tests  50 passed (50)
    Start at  10:47:12
    Duration  74.17s (transform 520ms, setup 2ms, collect 18.69s, tests 368.93s, environment 6ms, prepare 5.60s)
 

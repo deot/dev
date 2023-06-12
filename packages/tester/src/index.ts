@@ -69,9 +69,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		watch: !!(watch || isDev)
 	};
 
-	// 当没有配置项时，使用当前暴露的配置项
-	if (!fs.existsSync(`${cwd}/vitest.config.ts`)) {
-		options$.config = path.relative(cwd, path.resolve(dirname, '../vitest.shared.ts'));	
+	if (fs.existsSync(`${cwd}/test.config.ts`)) {
+		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
+	} else {
+		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
 
 	const vitest = await createVitest('test', options$);
