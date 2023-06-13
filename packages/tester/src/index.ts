@@ -36,7 +36,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['test']
 	) {
-		await Shell.spawn(`npm`, ['run', 'test']);
+		await Shell.spawn(`npm`, ['run', 'test'], { cwd: packageDir });
 		return;
 	}
 

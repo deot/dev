@@ -21,21 +21,23 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
 	const { packageName } = options;
 
-	const getPackageFolderName = Locals.getPackageFolderName(packageName);
-	const packageOptions = packageOptionsMap[getPackageFolderName];
-	const packageDir = packageDirsMap[getPackageFolderName];
+	const packageFolderName = Locals.getPackageFolderName(packageName);
+	const packageOptions = packageOptionsMap[packageFolderName];
+	const packageDir = packageDirsMap[packageFolderName];
 	options.watch = true;
 
 	if (
-		!workspace 
-		&& packageName
-		&& packageName !== '*'
+		workspace 
 		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['dev']
 	) {
-		await Shell.spawn(`npm`, ['run', 'dev']);
+		await Shell.spawn(`npm`, ['run', 'dev'], { cwd: packageDir });
 		return;
 	}
+
+	if (!options.packageFolderName) delete options.packageFolderName; 
+	if (!options.workspace) delete options.workspace; 
+	delete options.packageName;
 
 	let { entries, html } = Entries.get();
 
