@@ -7,7 +7,7 @@
   "type": "module",
   "files": [
     "dist",
-    "vitest.config.ts"
+    "shared.config.ts"
   ],
   "license": "MIT",
   "publishConfig": {
