@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.0.1
+
+_2023-06-13_
+
+### Bugfixes
+
+- fix: export files ([080968f](https://github.com/deot/dev/commit/080968f372c2ad4e538637b733c55d047040380d))
+
 ## v2.0.0
 
 _2023-06-13_
