@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.0.2
+
+_2023-06-13_
+
+### Bugfixes
+
+- fix(builder): import sass failed ([c35066a](https://github.com/deot/dev/commit/c35066a266a1540431e94e55978920c36bda7936))
+
 ## v2.0.1
 
 _2023-06-13_
