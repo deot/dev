@@ -90,7 +90,7 @@ importers:
         specifier: ^2.0.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: link:../tester
       commander:
         specifier: ^10.0.1
@@ -183,7 +183,7 @@ importers:
         specifier: ^2.0.2
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.0.2
+        specifier: ^2.0.3
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.0.0
@@ -207,7 +207,7 @@ importers:
         specifier: ^2.0.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: link:../tester
 
   packages/linker:

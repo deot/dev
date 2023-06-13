@@ -1,5 +1,13 @@
 # @deot/dev-tester ChangeLog
 
+## v2.0.2
+
+_2023-06-13_
+
+### Bugfixes
+
+- fix: can't respond to the terminal input(`createVitest` -> `startVitest`) ([a315940](https://github.com/deot/dev/commit/a3159408d56b2ff553893eee1c928549c7dca574))
+
 ## v2.0.1
 
 _2023-06-13_
