@@ -1,5 +1,25 @@
 # @deot/dev-tester ChangeLog
 
+## v2.0.0
+
+_2023-06-13_
+
+### Bugfixes
+
+- fix: watch default when development ([f3bc03c](https://github.com/deot/dev/commit/f3bc03c2345a028dfbc7d05362b01911ef63815d))
+
+### Features
+
+- feat: custom config (vitest.config.ts -> test.config.ts) ([5a97131](https://github.com/deot/dev/commit/5a9713138f600af11bdce40e7c99395a54251f19))
+- feat: allow test without any config & extend by `vitest.config.ts` ([401d9bf](https://github.com/deot/dev/commit/401d9bf9277d4af2361cfae343901a20df9f9c56))
+- feat: command api -> node api ([360b42a](https://github.com/deot/dev/commit/360b42a3bea652d270df4c39d9bcd0ad41ba669e))
+- feat: extract resolve.alias ([a9a9211](https://github.com/deot/dev/commit/a9a9211703c76e7be18cd6dc37cf57403ab8472d))
+- feat: jest -> vitest ([d2722af](https://github.com/deot/dev/commit/d2722af015f116801ce776515c72ab7bb023b0c7))
+
+### Updates
+
+- chore(shared): force-publish `1.1.1` -> `2.0.0`
+
 ## v1.1.1
 
 _2023-04-28_

@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-releaser",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^1.1.1",
+    "@deot/dev-shared": "^2.0.0",
     "conventional-commits-parser": "^3.2.4",
     "chalk": "^5.2.0",
     "fs-extra": "^11.1.1",
