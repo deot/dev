@@ -19,6 +19,7 @@ interface BUILD_OPTIONS {
 ```
 
 根目录创建`build.config.ts`, 可以选择`configShared`合并或单独基于`BUILD_OPTIONS`配置
+> 也可以是`z.build.config.ts`, 前缀主要是置底
 
 ```ts
 import { mergeConfig, defineConfig } from 'vite';

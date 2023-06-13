@@ -52,6 +52,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	
 	if (fs.existsSync(`${cwd}/dev.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));
+	} else if (fs.existsSync(`${cwd}/z.dev.config.ts`)) {
+		options$.configFile = path.relative(cwd, path.resolve(cwd, './z.dev.config.ts'));	
 	} else {
 		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
