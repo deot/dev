@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
-import { createVitest } from 'vitest/node';
+import { startVitest } from 'vitest/node';
 import fs from 'fs-extra';
 import { getOptions } from './prompt';
 
@@ -23,7 +23,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
-	const { coverage, packageName, watch, dryRun } = options;
+	const { coverage, watch, dryRun } = options;
 
 	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
@@ -77,12 +77,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
 
-	const vitest = await createVitest('test', options$);
-
-	await vitest.start();
-	if (!watch) return;
-
-	Logger.log(packageName || '', '测试已通过');
+	await startVitest('test', [], options$);
 }, {
 	onError: (e: any) => {
 		if (typeof e === 'number' && e === 1) {
