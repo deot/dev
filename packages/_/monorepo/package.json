@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
+    "dev": "npm run cli -- dev",
     "build": "npm run cli -- build",
     "test": "npm run cli -- test --package-name '*'",
     "release": "npm run cli -- release"

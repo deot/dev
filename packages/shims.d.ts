@@ -11,6 +11,7 @@ declare module 'postcss-import';
 declare module 'postcss-flexbugs-fixes';
 declare module 'conventional-commits-parser';
 declare module 'stylelint';
+declare module 'ejs';
 
 declare module '*.scss';
 

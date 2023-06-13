@@ -6,14 +6,18 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "index.ejs",
+    "shared.config.ts"
   ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^1.1.1"
+    "@deot/dev-shared": "^1.1.1",
+    "ejs": "^3.1.9",
+    "vite": "^4.3.9"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

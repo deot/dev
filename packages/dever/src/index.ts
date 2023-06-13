@@ -1,5 +1,14 @@
 import type { Options } from '@deot/dev-shared';
-import { Utils, Shell, Locals } from '@deot/dev-shared';
+import { Utils, Shell, Locals, Logger } from '@deot/dev-shared';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fs from 'fs-extra';
+import type { InlineConfig } from 'vite';
+import { createServer } from 'vite';
+import chalk from 'chalk';
+import * as Entries from './entries';
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	const locals = Locals.impl();
@@ -27,12 +36,31 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		await Shell.spawn(`npm`, ['run', 'dev']);
 		return;
 	}
-	await Shell.spawn(`cross-env`, [
-		'NODE_ENV=development',
-		'npm',
-		'run',
-		'test',
-		'--',
-		packageName ? `--package-name ${packageName}` : ''
-	]);
+
+	let { entries, html } = Entries.get();
+
+	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify({
+		...options,
+		workspace,
+		entries,
+		html
+	}));
+
+	if (!entries.length) return Shell.spawn(`echo no entry file found!`);
+	
+	let options$: InlineConfig = {};
+	
+	if (fs.existsSync(`${cwd}/dev.config.ts`)) {
+		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));
+	} else {
+		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
+	}
+
+	const server = await createServer(options$);
+	const $server = await server.listen();
+
+	const $port = $server.config.server.port;
+	const $host = $server.config.server.host || '0.0.0.0';
+
+	entries.forEach((item: string) => Logger.log(`  > ${item}: ${chalk.cyan(`http://${$host}:${$port}/${item}.html`)}`));
 });
