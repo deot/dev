@@ -49,7 +49,7 @@ program
 	.alias('b')
 	.description('build')
 	.option('-p, --package-name <string>', 'Select packageName')
-	.option('--formats <string>', 'Formats(Output)', 'es,cjs')
+	.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.option('--no-dts [boolean]', 'No Export Types')
 	.action(Builder.run);

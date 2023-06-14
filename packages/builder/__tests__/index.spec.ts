@@ -24,7 +24,7 @@ describe('index', () => {
 	}, 60000);
 
 	it('singlerepo', async () => {
-		expect.assertions(3);
+		expect.assertions(5);
 		const response = await Shell.spawn(`npm`, ['run', 'build'], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'
@@ -34,5 +34,11 @@ describe('index', () => {
 
 		// 因为js引用了css，vite会将其打包出，命名为style.css
 		expect(fs.existsSync(path.resolve('./packages/_/singlerepo/dist/style.css'))).toBe(true);
+
+		// iife
+		expect(fs.existsSync(path.resolve('./packages/_/singlerepo/dist/index.iife.js'))).toBe(true);
+
+		// umd
+		expect(fs.existsSync(path.resolve('./packages/_/singlerepo/dist/index.umd.js'))).toBe(true);
 	}, 60000);
 });

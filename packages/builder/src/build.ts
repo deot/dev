@@ -71,7 +71,8 @@ export class Build {
 			spinner.start();
 			await fs.emptyDir(`${packageDir}/dist`);
 
-			const scriptStats = await Script.run(this); // vite在构建时会清理dist
+			// vite在构建时会清理dist
+			const scriptStats = await Script.run(this);
 			const scriptDuration = Date.now() - start;
 
 			const styleStats = await Style.run(this);
