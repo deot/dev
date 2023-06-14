@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.0.1
+
+_2023-06-14_
+
+### Features
+
+- feat: pass Invalid JSDoc tag name ([b60d3b3](https://github.com/deot/dev/commit/b60d3b3e15ddd5e7dcbc35072e143f32c732b1f3))
+
 ## v2.0.0
 
 _2023-06-13_

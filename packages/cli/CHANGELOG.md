@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.0.4
+
+_2023-06-14_
+
+### Features
+
+- feat(tester): set environment `jsdom` default ([2450020](https://github.com/deot/dev/commit/245002004a238a8d5e14daf1b917c92924308cf7))
+
 ## v2.0.3
 
 _2023-06-13_

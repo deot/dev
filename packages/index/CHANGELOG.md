@@ -1,5 +1,14 @@
 # @deot/dev ChangeLog
 
+## v2.0.4
+
+_2023-06-14_
+
+### Features
+
+- feat(tester): set environment `jsdom` default ([2450020](https://github.com/deot/dev/commit/245002004a238a8d5e14daf1b917c92924308cf7))
+- feat(eslint): pass Invalid JSDoc tag name ([b60d3b3](https://github.com/deot/dev/commit/b60d3b3e15ddd5e7dcbc35072e143f32c732b1f3))
+
 ## v2.0.3
 
 _2023-06-13_

@@ -1,5 +1,13 @@
 # @deot/dev-tester ChangeLog
 
+## v2.0.3
+
+_2023-06-14_
+
+### Features
+
+- feat: set environment `jsdom` default ([2450020](https://github.com/deot/dev/commit/245002004a238a8d5e14daf1b917c92924308cf7))
+
 ## v2.0.2
 
 _2023-06-13_

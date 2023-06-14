@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .: {}
@@ -86,7 +90,7 @@ importers:
         specifier: ^2.0.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.0.2
+        specifier: ^2.0.3
         version: link:../tester
       commander:
         specifier: ^10.0.1
@@ -136,7 +140,7 @@ importers:
         version: 3.1.9
       vite:
         specifier: ^4.3.9
-        version: 4.3.9(sass@1.62.1)
+        version: 4.3.9(@types/node@20.2.5)
     devDependencies:
       cross-env:
         specifier: ^7.0.3
@@ -179,7 +183,7 @@ importers:
         specifier: ^2.0.2
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.0.3
+        specifier: ^2.0.4
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.0.0
@@ -188,7 +192,7 @@ importers:
         specifier: ^2.0.0
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.0.0
+        specifier: ^2.0.1
         version: link:../eslint
       '@deot/dev-linker':
         specifier: ^2.0.0
@@ -203,7 +207,7 @@ importers:
         specifier: ^2.0.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.0.2
+        specifier: ^2.0.3
         version: link:../tester
 
   packages/linker:
@@ -5601,7 +5605,3 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
