@@ -71,6 +71,9 @@ module.exports = {
 
 	"rules":
 	{
+		// jsdoc
+		"jsdoc/check-tag-names": 0,
+
 		"import/no-import-module-exports": 0,
 		
 		// ts
