@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 import { startVitest } from 'vitest/node';
+import type { UserConfig } from 'vitest';
 import fs from 'fs-extra';
 import { getOptions } from './prompt';
 
@@ -23,7 +24,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
-	const { coverage, watch, dryRun } = options;
+	const { environment, coverage, watch, dryRun } = options;
 
 	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
@@ -61,7 +62,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	process.env.NODE_ENV = process.env.NODE_ENV || 'TEST';
 	process.env.TEST_OPTIONS = TEST_OPTIONS;
 	
-	let options$: any = {
+	let options$: UserConfig = {
+		environment,
 		coverage: {
 			enabled: !!coverage,
 		},
