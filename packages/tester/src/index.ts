@@ -69,10 +69,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		watch: !!(watch || isDev)
 	};
 
-	if (fs.existsSync(`${cwd}/test.config.ts`)) {
-		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
-	} else if (fs.existsSync(`${cwd}/z.test.config.ts`)) {
+	if (fs.existsSync(`${cwd}/z.test.config.ts`)) {
 		options$.config = path.relative(cwd, path.resolve(cwd, './z.test.config.ts'));	
+	} else if (fs.existsSync(`${cwd}/test.config.ts`)) {
+		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
 	} else {
 		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}

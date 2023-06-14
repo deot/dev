@@ -34,10 +34,10 @@ export const run = async (options: Build) => {
 	}));
 
 	let options$: InlineConfig = {};
-	if (fs.existsSync(`${cwd}/build.config.ts`)) {
-		options$.configFile = path.relative(cwd, path.resolve(cwd, './build.config.ts'));
-	} else if (fs.existsSync(`${cwd}/z.build.config.ts`)) {
+	if (fs.existsSync(`${cwd}/z.build.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './z.build.config.ts'));
+	} else if (fs.existsSync(`${cwd}/build.config.ts`)) {
+		options$.configFile = path.relative(cwd, path.resolve(cwd, './build.config.ts'));
 	} else {
 		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
