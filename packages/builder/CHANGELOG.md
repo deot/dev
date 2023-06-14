@@ -1,5 +1,17 @@
 # @deot/dev-builder ChangeLog
 
+## v2.0.3
+
+_2023-06-14_
+
+### Bugfixes
+
+- fix: entry glob ([ee32c85](https://github.com/deot/dev/commit/ee32c8505e50c2eb8c46ac16d05d0976d5ac9333))
+
+### Features
+
+- feat: allow build with `--script-formats=es,cjs,umd,iife` & custom config alone by format ([693571d](https://github.com/deot/dev/commit/693571dc5f1fd5fb1e6bcd8c2f019646fe71acf7))
+
 ## v2.0.2
 
 _2023-06-13_

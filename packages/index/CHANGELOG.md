@@ -1,5 +1,18 @@
 # @deot/dev ChangeLog
 
+## v2.0.5
+
+_2023-06-14_
+
+### Bugfixes
+
+- fix(builder): entry glob ([ee32c85](https://github.com/deot/dev/commit/ee32c8505e50c2eb8c46ac16d05d0976d5ac9333))
+- fix(cli): `--coverage` -> `--no-coverage` ([6661338](https://github.com/deot/dev/commit/66613387f70e6acc6f8ddfafb33d8d6544fb7725))
+
+### Features
+
+- feat(builder): allow build with `--script-formats=es,cjs,umd,iife` & custom config alone by format ([693571d](https://github.com/deot/dev/commit/693571dc5f1fd5fb1e6bcd8c2f019646fe71acf7))
+
 ## v2.0.4
 
 _2023-06-14_
