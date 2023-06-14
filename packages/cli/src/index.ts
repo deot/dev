@@ -86,10 +86,10 @@ program
 	.command('test')
 	.alias('t')
 	.description('unit-test')
+	.option('--no-coverage [boolean]', 'Coverage Analyze')
 	.option('-p, --package-name <string>', 'Select PackageName')
 	.option('-w, --watch [boolean]', 'Watch Test')
-	.option('-c, --coverage [boolean]', 'Coverage Analyze', true)
-	.option('-e, --environment <string>', 'Environment', 'jsdom')
+	.option('--environment <string>', 'Environment', 'jsdom')
 	.option('--dry-run [boolean]', 'Dry Run')
 	.action(Tester.run);
 
