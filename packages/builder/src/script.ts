@@ -20,7 +20,7 @@ export const run = async (options: Build) => {
 	let files = fs.existsSync(srcDir)
 		? fs
 			.readdirSync(srcDir)
-			.filter((i: string) => /^index(.*)\.(t|j)s$/.test(i))
+			.filter((i: string) => /^index\.(.*)\.?(t|j)s$/.test(i))
 		: [];
 
 
