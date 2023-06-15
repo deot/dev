@@ -168,7 +168,7 @@ $ npm run release
 - `refactor`
 - `chore`
 
-> 自动增加`PR`和`issue`的地址, `commit`内含`Breaking Change`会自动把版本改为`major`
+> 自动增加`PR`和`issue`的地址, `commit`内含`Breaking Change`或`!:`会自动把版本改为`major`
 
 ```shell
 refactor(index): remove deprecated \n BREAKING CHANGE: any
@@ -176,6 +176,12 @@ refactor(index): remove deprecated \n BREAKING CHANGE: any
 fix(index): ci tag (#2)
 
 fix(shared): error (close #1)
+```
+
+##### `Commit`多仓库更新
+
+```shell
+style(index,shared): warning
 ```
 
 ##### `Commit`无影响的格式
