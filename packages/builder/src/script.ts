@@ -13,7 +13,7 @@ export const run = async (options: Build) => {
 	const { cwd, workspace } = locals;
 
 	const { packageName, packageDir, packageOptions, commandOptions } = options || {};
-	const { scriptFormats } = commandOptions;
+	const { scriptFormats, nodePackage } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	const srcDir = path.resolve(packageDir, './src');
@@ -56,7 +56,12 @@ export const run = async (options: Build) => {
 		return viteBuild;
 	};
 
-	const formats = scriptFormats.split(',');
+	const needFilter = typeof nodePackage === 'string' && (nodePackage === '*' || nodePackage.includes(packageName));
+	const formats = scriptFormats
+		.split(',')
+		.filter((i: string) => {
+			return !needFilter || ['es', 'cjs'].includes(i);
+		});
 	await formats
 		.reduce(
 			(preProcess: Promise<any>, format: any) => {

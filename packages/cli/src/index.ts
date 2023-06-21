@@ -73,6 +73,7 @@ addOptions(
 		.description('build')
 		.option('-p, --package-name <string>', 'Select packageName')
 		.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
+		.option('--node-package <string>')
 		.option('--no-dts [boolean]', 'No Export Types'),
 	Builder.run
 );

@@ -25,6 +25,7 @@ export class Build {
 		dryRun: boolean;
 		dts: boolean;
 		scriptFormats: string;
+		nodePackage: string;
 	};
 
 	constructor(packageFolderName: string, commandOptions: Build['commandOptions']) {
