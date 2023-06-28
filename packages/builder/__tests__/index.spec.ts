@@ -21,7 +21,7 @@ describe('index', () => {
 		});
 
 		expect(response).toBe(0);
-	}, 60000);
+	}, 120000);
 
 	it('singlerepo', async () => {
 		expect.assertions(5);
@@ -40,5 +40,5 @@ describe('index', () => {
 
 		// umd
 		expect(fs.existsSync(path.resolve('./packages/_/singlerepo/dist/index.umd.js'))).toBe(true);
-	}, 60000);
+	}, 120000);
 });

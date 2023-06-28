@@ -3,5 +3,10 @@
  */
 
 import { Command } from './command';
+import { Launch } from './launch';
+import { Operater } from './operater';
 
-export { Command };
+import * as E2E from './e2e';
+import * as Utils from './utils';
+
+export { Command, E2E, Utils, Launch, Operater };

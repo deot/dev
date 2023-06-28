@@ -21,6 +21,9 @@ describe('command.ts', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
+
+		// for coverage
+		await instance.stop();
 	}, 10000);
 
 	it('dependent', async () => {

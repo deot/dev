@@ -12,6 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^2.0.0"
+    "@deot/dev-shared": "^2.0.0",
+    "puppeteer": "^20.7.3"
   }
 }
