@@ -1,5 +1,13 @@
 # @deot/dev-test ChangeLog
 
+## v2.0.1
+
+_2023-06-28_
+
+### Features
+
+- feat: add puppeteer ([5860819](https://github.com/deot/dev/commit/58608191788d289451262787111b0866ab2edf7d))
+
 ## v2.0.0
 
 _2023-06-13_

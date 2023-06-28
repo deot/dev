@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.0.1
+
+_2023-06-28_
+
+### Bugfixes
+
+- fix: custom workspace ([f10872e](https://github.com/deot/dev/commit/f10872e60b732617b7a2c757691c600ec7900018))
+
 ## v2.0.0
 
 _2023-06-13_

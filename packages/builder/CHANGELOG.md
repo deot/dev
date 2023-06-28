@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.0.4
+
+_2023-06-28_
+
+### Features
+
+- feat: script format filter by `--node-package *` ([a1c1628](https://github.com/deot/dev/commit/a1c16285437549681ab526a632b90088269871b6))
+
 ## v2.0.3
 
 _2023-06-14_

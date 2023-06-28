@@ -1,5 +1,15 @@
 # @deot/dev-cli ChangeLog
 
+## v2.0.6
+
+_2023-06-28_
+
+### Features
+
+- feat: extract same option ([f251b86](https://github.com/deot/dev/commit/f251b8661dd98f5ab3367f3d6edfc071cce9ef26))
+- feat(builder): script format filter by `--node-package *` ([a1c1628](https://github.com/deot/dev/commit/a1c16285437549681ab526a632b90088269871b6))
+- feat(test): add puppeteer ([5860819](https://github.com/deot/dev/commit/58608191788d289451262787111b0866ab2edf7d))
+
 ## v2.0.5
 
 _2023-06-14_
