@@ -11,6 +11,7 @@ let target = {
 	html: ''
 };
 
+const excludes = ['tpl', '_', 'dist', 'node_modules', '__tests__'];
 const walk = (dir?: string) => {
 	const { cwd, workspace } = Locals.impl();
 	dir = dir || '.';
@@ -27,11 +28,12 @@ const walk = (dir?: string) => {
 			&& paths.length >= 2 && paths[paths.length - 2] === 'examples'
 		) {
 			const basename = path.basename(file, extname);
-			const name = path.join(dir!, basename);
+			let name = path.join(dir!, basename).split('/');
+			name.splice(name.length - 2, 1);
 
 			// 记录
-			target.entries.push(name.replace(/\/examples/, ''));
-		} else if (stat.isDirectory() && !['dist', 'node_modules', '__tests__'].includes(file)) {
+			target.entries.push(name.join('/'));
+		} else if (stat.isDirectory() && !excludes.includes(file)) {
 			const subdir = path.join(dir!, file);
 			walk(subdir);
 		}

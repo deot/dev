@@ -15,29 +15,34 @@ const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`
 const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
 
 const getHtmlContent = async (url: string) => {
-	let fullpath = path.join(cwd, url);
+	let fullpath = path.join(cwd, workspace, url);
+
 	if (
-		/^\/?@vite/.test(url)
-		|| (
-			fs.existsSync(fullpath) 
-			&& fs.statSync(fullpath).isFile()
-		)
+		/^\/?@vite/.test(url) 
+		|| (fs.existsSync(fullpath) && fs.statSync(fullpath).isFile())
 	) {
 		return;
 	}
 
 	if (url === '/') return html;
 
-	const [packageFolderName, htmlEntry] = url.split('/').filter(i => !!i);
+	const info = url.split('/').filter(i => !!i);
+
+	const prefix = info.slice(0, -1);
+	const entry = info.slice(-1)[0];
+
+	if (prefix[prefix.length - 1] !== 'examples') {
+		prefix.push('examples');
+	}
 
 	fullpath = path.join(
 		cwd, 
 		workspace,
-		packageFolderName,
-		'examples',
-		`${htmlEntry?.replace(/(\.html)/g, '')}.ts`
+		prefix.join('/'),
+		`${entry?.replace(/(\.html)$/, '.ts')}`
 	);
-	if (!fs.existsSync(fullpath)) return html;
+
+	if (!fs.existsSync(fullpath)) return /\.[\s\S]+$/.test(entry) ? undefined : html;
 
 	let contents = '';
 	contents += `<!DOCTYPE html>\n`;

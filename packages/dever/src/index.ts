@@ -50,7 +50,11 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	if (!entries.length) return Shell.spawn(`echo no entry file found!`);
 	
-	let options$: InlineConfig = {};
+	let options$: InlineConfig = {
+		server: {
+			host: true
+		}
+	};
 	
 	if (fs.existsSync(`${cwd}/z.dev.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './z.dev.config.ts'));
@@ -63,8 +67,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const server = await createServer(options$);
 	const $server = await server.listen();
 
-	const $port = $server.config.server.port;
-	const $host = $server.config.server.host || '0.0.0.0';
+	const { local = [], network = [] } = $server.resolvedUrls || {};
+	const url = network[0] || local[0] || `http://localhost:${$server.config.server.port}`;
 
-	entries.forEach((item: string) => Logger.log(`  > ${item}: ${chalk.cyan(`http://${$host}:${$port}/${item}.html`)}`));
+	entries.forEach((item: string) => Logger.log(`  > ${item}: ${chalk.cyan(`${url}${item}.html`)}`));
 });
