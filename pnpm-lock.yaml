@@ -189,7 +189,7 @@ importers:
         specifier: ^2.0.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.0.1
+        specifier: ^2.0.2
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^2.0.1

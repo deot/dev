@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.0.2
+
+_2023-06-29_
+
+### Updates
+
+- style: virtual html plugin ([a1531c8](https://github.com/deot/dev/commit/a1531c85168fce573ab71c2d9f1e0561c18cbd44))
+
 ## v2.0.1
 
 _2023-06-28_
