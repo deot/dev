@@ -12,5 +12,12 @@ describe('utils.ts', () => {
 		await Utils.expectByPolling(() => `${count++}`, '30', { to: 'toMatch' });
 		await Utils.expectByPolling(() => count++, 32);
 	});
+
+	it('def', async () => {
+		let target: any = {};
+		Utils.def(target, 'value', 1);
+
+		expect(target.value).toBe(1);
+	});
 });
 
