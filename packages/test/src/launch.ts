@@ -71,26 +71,29 @@ export class Launch {
 				});
 			}
 
-			this._page = this.browser!.newPage();
+			this._page = new Promise((resolve) => {
+				(async () => {
+					let page = await this.browser!.newPage();
 
-			this._page.then((page) => {
+					await page.evaluateOnNewDocument(/* istanbul ignore next */ () => {
+						localStorage.clear();
+					});
 
-				this.page = page;
-				this.operater = new Operater(page);
+					page.on('console', /* istanbul ignore next */ e => {
+						if (e.type() === 'error') {
+							const err = e.args()[0];
+							console.error(
+								`Error from Puppeteer-loaded page:\n`,
+								err.remoteObject().description
+							);
+						}
+					});
 
-				page.evaluateOnNewDocument(/* istanbul ignore next */ () => {
-					localStorage.clear();
-				});
+					this.page = page;
+					this.operater = new Operater(page);
 
-				page.on('console', /* istanbul ignore next */ e => {
-					if (e.type() === 'error') {
-						const err = e.args()[0];
-						console.error(
-							`Error from Puppeteer-loaded page:\n`,
-							err.remoteObject().description
-						);
-					}
-				});
+					resolve(page);
+				})();
 			});
 		}
 		return this._page;

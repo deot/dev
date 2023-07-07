@@ -1,6 +1,6 @@
 import { Launch } from './launch';
 
-export const TIME_OUT = 30 * 1000;
+export const TIME_OUT = 60 * 1000;
 export const impl = () => {
 	let launch = new Launch();
 
@@ -13,11 +13,15 @@ export const impl = () => {
 	});
 
 	afterEach(async () => {
-		await launch.page.close();
+		if (!launch.page.isClosed()) {
+			await launch.page.close();
+		}
 	});
 
 	afterAll(async () => {
-		await launch.browser.close();
+		if (launch.browser.isConnected()) {
+			await launch.browser.close();
+		}
 	});
 
 	return launch;

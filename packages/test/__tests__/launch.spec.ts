@@ -1,7 +1,7 @@
 import { Launch, E2E } from '@deot/dev-test';
 import { resolve } from 'node:path';
 
-describe('e2e.ts', () => {
+describe('launch.ts', () => {
 	const baseUrl = `file://${resolve(__dirname, './fixtures/e2e.html')}`;
 
 	it('browser', async () => {
@@ -30,7 +30,7 @@ describe('e2e.ts', () => {
 			expect(typeof ctx.page.goto).toBe('function');
 		}
 
-		ctx.browser.close();
+		await ctx.browser.close();
 	}, E2E.TIME_OUT);
 
 	it('operater', async () => {
@@ -44,7 +44,7 @@ describe('e2e.ts', () => {
 		}
 
 		expect(typeof ctx.page).toBe('object');
-		ctx.browser.close();
+		await ctx.browser.close();
 	}, E2E.TIME_OUT);
 });
 
