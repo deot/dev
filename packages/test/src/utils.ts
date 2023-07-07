@@ -38,13 +38,13 @@ export const expectByPolling = async (
 	}
 };
 
-export const def = (
-	target: object, 
+export const def = <T = object>(
+	target: T, 
 	key: PropertyKey, 
 	value?: any, 
 	options?: PropertyDescriptor
-) => {
-	Object.defineProperty(target, key, {
+): T => {
+	return Object.defineProperty<T>(target, key, {
 		value,
 		enumerable: false,
 		writable: true,

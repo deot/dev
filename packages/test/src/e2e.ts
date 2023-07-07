@@ -13,12 +13,14 @@ export const impl = () => {
 	});
 
 	afterEach(async () => {
+		/* istanbul ignore else -- @preserve */
 		if (!launch.page.isClosed()) {
 			await launch.page.close();
 		}
 	});
 
 	afterAll(async () => {
+		/* istanbul ignore else -- @preserve */
 		if (launch.browser.isConnected()) {
 			await launch.browser.close();
 		}
