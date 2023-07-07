@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "fs-extra": "^11.1.1",
-    "inquirer": "^9.1.5",
+    "inquirer": "^9.2.7",
     "inquirer-autocomplete-prompt": "^3.0.0",
-    "ora": "^6.1.2",
+    "ora": "^6.3.1",
     "@deot/dev-shared": "^2.0.0"
   }
 }
