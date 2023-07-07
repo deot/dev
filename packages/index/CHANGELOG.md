@@ -1,5 +1,17 @@
 # @deot/dev ChangeLog
 
+## v2.0.8
+
+_2023-07-07_
+
+### Bugfixes
+
+- fix(test): release error ([0b19f34](https://github.com/deot/dev/commit/0b19f34be418b6574838be63420d4484d7ac2e41))
+
+### Features
+
+- feat(test): [Utils] add `def` ([5ea3b21](https://github.com/deot/dev/commit/5ea3b2140d18d1dc553b6d090a1b303623a47b00))
+
 ## v2.0.7
 
 _2023-06-29_
