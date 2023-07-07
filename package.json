@@ -17,6 +17,7 @@
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
     "release": "tsx ./packages/cli/src/index.ts release",
+    "release:try": "npm run release -- --no-dry-run --no-publish --no-push --no-tag --no-commit",
     "bin:link": "cd ./packages/cli && npm link",
     "bin:unlink": "cd ./packages/cli && npm unlink -g"
   },
