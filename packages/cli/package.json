@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-cli",
-  "version": "2.0.7",
+  "version": "2.1.0",
   "main": "dist/index.es.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -14,17 +14,17 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-adder": "^2.0.0",
-    "@deot/dev-builder": "^2.0.4",
-    "@deot/dev-linker": "^2.0.0",
-    "@deot/dev-shared": "^2.0.0",
-    "@deot/dev-tester": "^2.0.3",
-    "@deot/dev-releaser": "^2.0.0",
+    "@deot/dev-adder": "^2.1.0",
+    "@deot/dev-builder": "^2.1.0",
+    "@deot/dev-linker": "^2.1.0",
+    "@deot/dev-shared": "^2.1.0",
+    "@deot/dev-tester": "^2.1.0",
+    "@deot/dev-releaser": "^2.1.0",
     "commander": "^10.0.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "@deot/dev-test": "^2.0.2"
+    "@deot/dev-test": "^2.1.0"
   },
   "bin": {
     "ddc": "bin/cli.js"

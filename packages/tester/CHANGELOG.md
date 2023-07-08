@@ -1,5 +1,13 @@
 # @deot/dev-tester ChangeLog
 
+## v2.1.0
+
+_2023-07-08_
+
+### Updates
+
+- chore(shared): force-publish `2.0.0` -> `2.1.0`
+
 ## v2.0.3
 
 _2023-06-14_

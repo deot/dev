@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.1.0
+
+_2023-07-08_
+
+### Bugfixes
+
+- fix(test): coverage & types ([0a4cc0a](https://github.com/deot/dev/commit/0a4cc0a1d3afc21f2bbc2faecc513b8a59bbd475))
+
 ## v2.0.7
 
 _2023-07-07_
