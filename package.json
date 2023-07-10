@@ -16,7 +16,9 @@
     "build": "tsx ./packages/cli/src/index.ts build",
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
+    "update": "tsx ./packages/cli/src/index.ts update",
     "release": "tsx ./packages/cli/src/index.ts release",
+    "update:try": "npm run update -- --no-dry-run --no-commit --no-push --no-test",
     "release:try": "npm run release -- --no-dry-run --no-publish --no-push --no-tag --no-commit",
     "bin:link": "cd ./packages/cli && npm link",
     "bin:unlink": "cd ./packages/cli && npm unlink -g"
@@ -27,6 +29,7 @@
     "add": "创建新包或者给包添加依赖",
     "dev": "开发模式",
     "build": "打包模式",
+    "update": "更新 devDependencies 和 dependencies",
     "release": "测试/打包/生成ChangeLog/发布NPM/提交Git(Tag|Commit|Push)",
     "test": "执行测试, 可选择单个包或全部",
     "bin": "调试packages/cli相关指令"

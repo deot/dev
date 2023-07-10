@@ -7,6 +7,7 @@ import * as Tester from '@deot/dev-tester';
 import * as Adder from '@deot/dev-adder';
 import * as Linker from '@deot/dev-linker';
 import * as Dever from '@deot/dev-dever';
+import * as Updater from '@deot/dev-updater';
 
 const require = createRequire(import.meta.url);
 
@@ -61,7 +62,7 @@ addOptions(
 		.command('dev')
 		.alias('d')
 		.description('dev')
-		.option('-p, --package-name <string>', 'Select PackageName'),
+		.option('--package-name <string>', 'Select PackageName'),
 	Dever.run
 );
 
@@ -71,7 +72,7 @@ addOptions(
 		.command('build')
 		.alias('b')
 		.description('build')
-		.option('-p, --package-name <string>', 'Select packageName')
+		.option('--package-name <string>', 'Select packageName')
 		.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
 		.option('--node-package <string>')
 		.option('--no-dts [boolean]', 'No Export Types'),
@@ -114,10 +115,26 @@ addOptions(
 		.alias('t')
 		.description('unit-test')
 		.option('--no-coverage [boolean]', 'Coverage Analyze')
-		.option('-p, --package-name <string>', 'Select PackageName')
-		.option('-w, --watch [boolean]', 'Watch Test')
+		.option('--package-name <string>', 'Select PackageName')
+		.option('--watch [boolean]', 'Watch Test')
 		.option('--environment <string>', 'Environment', 'jsdom'),
 	Tester.run
+);
+
+// ddc update
+addOptions(
+	program
+		.command('update')
+		.alias('u')
+		.description('update devDependencies & dependencies')
+		.option('--no-dry-run [boolean]', 'No Dry Run')
+		.option('--no-commit [boolean]', 'No Commit')
+		.option('--no-push [boolean]', 'No Push')
+		.option('--no-test [boolean]', 'No Test')
+		.option('--patch [boolean]', 'Patch')
+		.option('--major [boolean]', 'Major')
+		.option('--minor [boolean]', 'Minor'),
+	Updater.run
 );
 
 

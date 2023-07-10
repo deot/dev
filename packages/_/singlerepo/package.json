@@ -16,7 +16,8 @@
     "dev": "npm run cli -- dev",
     "build": "npm run cli -- build --script-formats=es,cjs,iife,umd",
     "test": "npm run cli -- test --package-name '*'",
-    "release": "npm run cli -- release"
+    "release": "npm run cli -- release",
+    "update": "npm run cli -- update"
   },
   "repository": {
     "type": "git",
