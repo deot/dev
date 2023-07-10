@@ -27,14 +27,14 @@ export class Update {
 
 	constructor(commandOptions: Update['commandOptions']) {
 		const locals = Locals.impl();
-		const { packageDir } = locals;
+		const { rootPackageOptions, packageDir, cwd } = locals;
 
 		const packageOptionsMap = {
+			[cwd]: rootPackageOptions,
 			...Object.keys(locals.packageOptionsMap).reduce((result: any, key: any) => {
 				result[path.resolve(packageDir, key)] = locals.packageOptionsMap[key];
 				return result;
 			}, {}),
-			[packageDir]: locals.packageOptions
 		};
 
 		this.packageOptionsMap = packageOptionsMap;
@@ -91,6 +91,7 @@ export class Update {
 	async updatePackageOptions(changed: any) {
 		const { packageOptionsMap, commandOptions } = this;
 
+		let packageFolderNames: string[] = [];
 		Object.keys(packageOptionsMap).forEach(packageDir => {
 			const packageOptions = packageOptionsMap[packageDir];
 			const { devDependencies = {}, dependencies = {} } = packageOptions;
@@ -106,14 +107,21 @@ export class Update {
 				});
 			});
 			if (isChanged) {
+				const locals = Locals.impl();
+				const { cwd } = locals;
+				if (packageDir !== cwd) {
+					packageFolderNames.push(packageDir.split('/').pop()!);
+				}
+				
 				if (commandOptions.dryRun) {
-					const locals = Locals.impl();
-					Logger.log(chalk.magenta(`CHANGED: `) + chalk.yellow(`Skipping ${path.relative(locals.cwd, packageDir)} Update`));	
+					Logger.log(chalk.magenta(`CHANGED: `) + chalk.yellow(`Skipping ${path.relative(cwd, packageDir)} Update`));	
 				} else {
 					fs.outputFileSync(`${packageDir}/package.json`, JSON.stringify(packageOptions, null, 2));
 				}
 			} 
 		});
+
+		return packageFolderNames;
 	}
 
 	async updateLock() {
@@ -177,7 +185,7 @@ export class Update {
 		let changed = await this.getPackageChanged();
 		spinner.stop();
 
-		let message = `chore: deps updated \n\n`;
+		let message = `deps updated \n\n`;
 		let keys = Object.keys(changed);
 		if (!keys.length) {
 			Logger.log(chalk.red(`No Package Update Found.`));
@@ -191,7 +199,9 @@ export class Update {
 			}));
 		});
 
-		await this.updatePackageOptions(changed);
+		const packageFolderNames = await this.updatePackageOptions(changed);
+		message = `chore${packageFolderNames.length ? '(' : ''}${packageFolderNames.join(',')}${packageFolderNames.length ? ')' : ''}: ${message}`;
+		
 		await this.updateLock();
 		await this.test();
 		await this.commit(message);
