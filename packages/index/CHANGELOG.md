@@ -1,5 +1,17 @@
 # @deot/dev ChangeLog
 
+## v2.2.2
+
+_2023-07-10_
+
+### Bugfixes
+
+- fix(releaser): multiple commit msg ([f5e72ce](https://github.com/deot/dev/commit/f5e72cee009843e3965a3fe0158c6e8c9c675aaf))
+
+### Features
+
+- feat(updater): multiple package commit msg for `packages/releaser` ([fbb09e4](https://github.com/deot/dev/commit/fbb09e4644858962bc938fff89ef7ebfcbf42895))
+
 ## v2.2.1
 
 _2023-07-10_

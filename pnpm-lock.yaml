@@ -84,7 +84,7 @@ importers:
         specifier: ^2.2.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.2.0
+        specifier: ^2.2.1
         version: link:../releaser
       '@deot/dev-shared':
         specifier: ^2.2.0
@@ -93,7 +93,7 @@ importers:
         specifier: ^2.2.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.2.1
+        specifier: ^2.2.2
         version: link:../updater
       commander:
         specifier: ^10.0.1
@@ -186,7 +186,7 @@ importers:
         specifier: ^2.2.0
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.2.1
+        specifier: ^2.2.2
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.1.0
@@ -201,7 +201,7 @@ importers:
         specifier: ^2.2.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.2.0
+        specifier: ^2.2.1
         version: link:../releaser
       '@deot/dev-shared':
         specifier: ^2.2.0
@@ -213,7 +213,7 @@ importers:
         specifier: ^2.2.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.2.1
+        specifier: ^2.2.2
         version: link:../updater
 
   packages/linker:
