@@ -1,5 +1,13 @@
 # @deot/dev-updater ChangeLog
 
+## v2.2.1
+
+_2023-07-10_
+
+### Bugfixes
+
+- fix: remove record when failed ([e3b455d](https://github.com/deot/dev/commit/e3b455d4ec1b350684d443500d8f5a38b0ec4d42))
+
 ## v2.2.0
 
 _2023-07-10_
