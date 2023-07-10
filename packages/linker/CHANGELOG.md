@@ -1,5 +1,13 @@
 # @deot/dev-linker ChangeLog
 
+## v2.2.0
+
+_2023-07-10_
+
+### Features
+
+- feat(shared): [locals] `rootPackageOptions` expose ([c8376fe](https://github.com/deot/dev/commit/c8376fe27d12e86a612c8e83c4901568f8b4e257))
+
 ## v2.1.0
 
 _2023-07-08_

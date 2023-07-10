@@ -1,5 +1,16 @@
 # @deot/dev ChangeLog
 
+## v2.2.0
+
+_2023-07-10_
+
+### Features
+
+- feat: add `packages/updater` ([7d4d177](https://github.com/deot/dev/commit/7d4d17790c16969dea81e540b5754c67c1f3d857))
+- feat(shared): [locals] `rootPackageOptions` expose ([c8376fe](https://github.com/deot/dev/commit/c8376fe27d12e86a612c8e83c4901568f8b4e257))
+- feat(cli): support `ddc update` from `packages/updater` ([98851c4](https://github.com/deot/dev/commit/98851c4bd1f5ad4ab2045aeb6b3cdcb3147a4acb))
+- feat(updater): support update npm version ([80d91f7](https://github.com/deot/dev/commit/80d91f737b9bd9ac59831e1c81ab416c89554a26))
+
 ## v2.1.0
 
 _2023-07-08_

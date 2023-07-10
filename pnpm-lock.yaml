@@ -11,7 +11,7 @@ importers:
   packages/adder:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       fs-extra:
         specifier: ^11.1.1
@@ -29,7 +29,7 @@ importers:
   packages/builder:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       '@microsoft/api-extractor':
         specifier: ^7.36.1
@@ -75,32 +75,32 @@ importers:
   packages/cli:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../builder
       '@deot/dev-linker':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.0.0
+        specifier: ^2.2.0
         version: link:../updater
       commander:
         specifier: ^10.0.1
         version: 10.0.1
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../test
       cross-env:
         specifier: ^7.0.3
@@ -136,7 +136,7 @@ importers:
   packages/dever:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       ejs:
         specifier: ^3.1.9
@@ -180,46 +180,46 @@ importers:
   packages/index:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.1.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^2.1.0
         version: link:../eslint
       '@deot/dev-linker':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       '@deot/dev-test':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.0.0
+        specifier: ^2.2.0
         version: link:../updater
 
   packages/linker:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
@@ -231,7 +231,7 @@ importers:
   packages/releaser:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
@@ -274,7 +274,7 @@ importers:
   packages/test:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       puppeteer:
         specifier: ^20.8.0
@@ -283,7 +283,7 @@ importers:
   packages/tester:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       '@vitest/coverage-istanbul':
         specifier: ^0.33.0
@@ -307,7 +307,7 @@ importers:
   packages/updater:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
