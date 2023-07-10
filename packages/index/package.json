@@ -24,6 +24,7 @@
     "@deot/dev-shared": "^2.1.0",
     "@deot/dev-test": "^2.1.0",
     "@deot/dev-tester": "^2.1.0",
-    "@deot/dev-releaser": "^2.1.0"
+    "@deot/dev-releaser": "^2.1.0",
+    "@deot/dev-updater": "^2.0.0"
   }
 }
