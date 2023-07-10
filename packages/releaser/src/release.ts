@@ -128,11 +128,13 @@ export class Release {
 		}
 
 		const allowTypes = ['feat', `fix`, `break change`, `style`, `perf`, `types`, `refactor`, `chore`];
-		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(${packageFolderName}\\)` : '(\\(.+\\))?'}: .*`, 'i');
+		// eslint-disable-next-line max-len
+		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(([\\w,-]+)?${packageFolderName}([\\w,-]+)?\\)` : '(\\(.+\\))?'}: .*`, 'i');
 		const allCommits = stdout.split(SUFFIX);
 		const commits = allCommits
 			.filter((commit: string) => {
 				const chunk = commit.trim();
+
 				return chunk && rePlugin.test(chunk);
 			})
 			.map((commit) => {
