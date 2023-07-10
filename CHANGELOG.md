@@ -38,6 +38,9 @@
 [npm-deps-image]: https://img.shields.io/npm/v/@deot/dev-deps.svg
 [npm-deps-url]: https://www.npmjs.com/package/@deot/dev-deps
 
+[npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
+[npm-updater-url]: https://www.npmjs.com/package/@deot/dev-deps
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
@@ -55,4 +58,6 @@
 | [eslint](packages/eslint/CHANGELOG.md)       | [![npm][npm-eslint-image]][npm-eslint-url]       |
 | [stylelint](packages/stylelint/CHANGELOG.md) | [![npm][npm-stylelint-image]][npm-stylelint-url] |
 | [deps](packages/deps/CHANGELOG.md)           | [![npm][npm-deps-image]][npm-deps-url]           |
+| [updater](packages/updater/CHANGELOG.md)     | [![npm][npm-updater-image]][npm-updater-url]     |
 | [index](packages/index/CHANGELOG.md)         | [![npm][npm-image]][npm-url]                     |
+

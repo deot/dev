@@ -59,6 +59,9 @@
 [npm-deps-image]: https://img.shields.io/npm/v/@deot/dev-deps.svg
 [npm-deps-url]: https://www.npmjs.com/package/@deot/dev-deps
 
+[npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
+[npm-updater-url]: https://www.npmjs.com/package/@deot/dev-updater
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
@@ -76,6 +79,7 @@
 | [eslint](packages/eslint)       | [![npm][npm-eslint-image]][npm-eslint-url]       | ESLint配置项                              |
 | [stylelint](packages/stylelint) | [![npm][npm-stylelint-image]][npm-stylelint-url] | Stylelint配置项                           |
 | [deps](packages/deps)           | [![npm][npm-deps-image]][npm-deps-url]           | 额外依赖提取                                 |
+| [updater](packages/updater)     | [![npm][npm-updater-image]][npm-updater-url]     | 更新依赖包版本                                |
 | [index](packages/index)         | [![npm][npm-image]][npm-url]                     | 当前所有包的合集                               |
 
 ## Contributing
