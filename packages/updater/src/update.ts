@@ -79,6 +79,7 @@ export class Update {
 						resolve();
 					})
 					.catch(() => {
+						delete packageNames[packageName];
 						resolve();
 					});
 			});

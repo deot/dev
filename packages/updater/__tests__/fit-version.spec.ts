@@ -1,6 +1,6 @@
 import { fitVersion } from '../src/fit-version';
 
-describe('update.ts', () => {
+describe('fit-version.ts', () => {
 	it('config', () => {
 		const versions = [
 			'1.0.0', 
@@ -67,5 +67,18 @@ describe('update.ts', () => {
 		expect(f('~33.1.3', { patch: true })).toBe('~33.1.3');
 		expect(f('~33.11.3', { patch: true })).toBe('~33.11.3');
 		expect(f('~33.11.33', { patch: true })).toBe('~33.11.33');
+	});
+
+	it('empty', () => {
+		const versions = [];
+		let f = (version: string, options?: any) => fitVersion(versions, version, options);
+
+		// keep
+		expect(f('')).toBe('');
+		expect(f('*')).toBe('*');
+		expect(f('next')).toBe('next');
+		expect(f('0.0.1')).toBe('0.0.1');
+		expect(f('0.0.1')).toBe('0.0.1');
+		expect(f('1.0.0')).toBe('1.0.0');
 	});
 });
