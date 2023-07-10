@@ -15,6 +15,7 @@ interface Config {
 	cwd: string;
 	workspace: string;
 	homepage: string; 
+	rootPackageOptions: PackageOptions;
 	packageFolderName: string;
 	packageDir: string;
 	packageOptions: PackageOptions;
@@ -169,6 +170,7 @@ export const impl = (cwd?: string) => {
 		cwd,
 		workspace,
 		homepage: homepage.replace(/(.*)(https?:\/\/.*)(#|\.git)/, '$2'),
+		rootPackageOptions,
 		packageFolderName,
 		packageDir,
 		packageOptions,
