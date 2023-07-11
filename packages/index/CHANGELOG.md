@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.2.3
+
+_2023-07-11_
+
+### Bugfixes
+
+- fix(builder): `UserConfigExport` -> `UserConfig` ([82f1ba9](https://github.com/deot/dev/commit/82f1ba9bd236a5b801439d2d0bed09c2c8fcec68))
+
 ## v2.2.2
 
 _2023-07-10_
