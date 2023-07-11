@@ -6,6 +6,7 @@ import atUrl from "postcss-url";
 import flexBugs from "postcss-flexbugs-fixes";
 import cssnano from "cssnano";
 import autoprefixer from "autoprefixer";
+import type { UserConfig } from "vite";
 
 const cwd = process.cwd();
 
@@ -78,4 +79,4 @@ export default defineConfig({
 		},
 		rollupOptions: { external }
 	}
-});
+}) as UserConfig;

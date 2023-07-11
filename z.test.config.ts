@@ -1,4 +1,5 @@
 import { mergeConfig, defineConfig } from 'vitest/config';
+import type { UserConfig } from 'vite';
 import configShared from './packages/tester/shared.config';
 
 export default mergeConfig(
@@ -15,5 +16,5 @@ export default mergeConfig(
 				]
 			}
 		}
-	})
+	}) as UserConfig
 );
