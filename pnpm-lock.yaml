@@ -206,6 +206,9 @@ importers:
       '@deot/dev-shared':
         specifier: ^2.2.0
         version: link:../shared
+      '@deot/dev-stylelint':
+        specifier: ^2.1.0
+        version: link:../stylelint
       '@deot/dev-test':
         specifier: ^2.2.0
         version: link:../test

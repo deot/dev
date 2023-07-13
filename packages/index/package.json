@@ -22,6 +22,7 @@
     "@deot/dev-eslint": "^2.1.0",
     "@deot/dev-linker": "^2.2.0",
     "@deot/dev-shared": "^2.2.0",
+    "@deot/dev-stylelint": "^2.1.0",
     "@deot/dev-test": "^2.2.0",
     "@deot/dev-tester": "^2.2.0",
     "@deot/dev-releaser": "^2.2.1",
