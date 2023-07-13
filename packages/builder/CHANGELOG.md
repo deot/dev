@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.2.2
+
+_2023-07-13_
+
+### Bugfixes
+
+- fix: import `sass` changed ([f92e774](https://github.com/deot/dev/commit/f92e774e18875aa4f5504b715ffca974315bba41))
+
 ## v2.2.1
 
 _2023-07-11_

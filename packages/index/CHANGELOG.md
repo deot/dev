@@ -1,5 +1,14 @@
 # @deot/dev ChangeLog
 
+## v2.2.4
+
+_2023-07-13_
+
+### Bugfixes
+
+- fix: stylelint required ([a6126f6](https://github.com/deot/dev/commit/a6126f6e0eb23469b17dddcddeef2d3f517f0189))
+- fix(builder): import `sass` changed ([f92e774](https://github.com/deot/dev/commit/f92e774e18875aa4f5504b715ffca974315bba41))
+
 ## v2.2.3
 
 _2023-07-11_
