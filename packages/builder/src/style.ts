@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import * as path from 'node:path';
-import sass from 'sass';
+import * as sass from 'sass';
 
 import postcss from 'postcss';
 import atImport from "postcss-import";
