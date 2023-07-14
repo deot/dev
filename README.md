@@ -20,6 +20,7 @@
 目前基于`@deot/dev`的库
 - [@deot/helper](https://github.com/deot/helper)
 - [@deot/http](https://github.com/deot/http)
+- [@deot/style](https://github.com/deot/style)
 
 ## Monorepo
 
