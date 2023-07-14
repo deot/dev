@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.2.3
+
+_2023-07-14_
+
+### Updates
+
+- chore: remove ts warn(TS18028) ([d9cfa09](https://github.com/deot/dev/commit/d9cfa092a8c51c1e4cea9416946a6b6292b1701d))
+
 ## v2.2.2
 
 _2023-07-13_
