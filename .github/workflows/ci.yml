@@ -45,3 +45,6 @@ jobs:
       - name: Run unit tests
         run: npm run test -- --package-name '*'
 
+      - name: Run build
+        run: npm run build
+
