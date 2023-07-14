@@ -73,11 +73,24 @@ export const run = async (options: Build) => {
 			localBuild: true,
 			showVerboseMessages: false,
 
-			// 去掉版本提示
+			/**
+			 * 去掉部分提示提示
+			 * 也可设置skipLibCheck=true去掉，这个目前在puppeteer上有提示，设置了target: 'esnext'仍然有，这里先不做排查
+			 * 1. (TS18028) Private identifiers are only available when targeting ECMAScript 2015 and higher
+			 *
+			 * 版本提示：
+			 * 2. console-compiler-version-notice
+			 * 	*** The target project appears to use TypeScript 5.1.6 which is newer 
+			 * 		than the bundled compiler engine; consider upgrading API Extractor.
+			 * 3. console-preamble
+			 * 	Analysis will use the bundled TypeScript version 5.0.4
+			 */
+			
 			messageCallback: (message) => {
 				if (
 					message.messageId === 'console-compiler-version-notice'
 					|| message.messageId === 'console-preamble'
+					|| message.messageId === 'TS18028'
 				) {
 					message.handled = true;
 				}
