@@ -22,7 +22,8 @@ interface DEV_OPTIONS {
 
 ```ts
 import { mergeConfig, defineConfig } from 'vite';
-import configShared from '@deot/dever/shared.config';
+import type { UserConfig } from 'vite';
+import configShared from './node_modules/@deot/dev-dever/shared.config'; // 这样调用时才会被编译
 
 export default mergeConfig(
 	configShared,
@@ -31,7 +32,7 @@ export default mergeConfig(
 			vue(),
 			react()
 		]
-	})
+	}) as UserConfig
 );
 ```
 

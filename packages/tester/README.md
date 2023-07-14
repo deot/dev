@@ -22,7 +22,8 @@ interface TEST_OPTIONS {
 
 ```ts
 import { mergeConfig, defineConfig } from 'vitest/config';
-import configShared from '@deot/dev-tester/shared.config';
+import type { UserConfig } from 'vite';
+import configShared from './node_modules/@deot/dev-tester/shared.config'; // 这样调用时才会被编译
 
 export default mergeConfig(
 	configShared,
@@ -36,7 +37,7 @@ export default mergeConfig(
 				]
 			}
 		}
-	})
+	}) as UserConfig
 );
 ```
 取`test.config.ts`, 是为了方便从`vitest`转其他测试工具时，可以不改变文件名
