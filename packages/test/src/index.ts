@@ -8,5 +8,6 @@ import { Operater } from './operater';
 
 import * as E2E from './e2e';
 import * as Utils from './utils';
+import * as Server from './server';
 
-export { Command, E2E, Utils, Launch, Operater };
+export { Command, E2E, Utils, Launch, Operater, Server };
