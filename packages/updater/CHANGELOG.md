@@ -1,5 +1,17 @@
 # @deot/dev-updater ChangeLog
 
+## v2.3.0
+
+_2023-07-24_
+
+### Bugfixes
+
+- fix: published accidentally ([6df8566](https://github.com/deot/dev/commit/6df8566b39cda41e29d417f9c677ff0d697168f7))
+
+### Updates
+
+- chore(shared): force-publish `2.2.0` -> `2.3.0`
+
 ## v2.2.2
 
 _2023-07-10_

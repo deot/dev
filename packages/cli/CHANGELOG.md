@@ -1,5 +1,21 @@
 # @deot/dev-cli ChangeLog
 
+## v2.3.0
+
+_2023-07-24_
+
+### Bugfixes
+
+- fix(updater): published accidentally ([6df8566](https://github.com/deot/dev/commit/6df8566b39cda41e29d417f9c677ff0d697168f7))
+
+### Features
+
+- feat(test): [server], find available `port`，`host` ([3ef86bf](https://github.com/deot/dev/commit/3ef86bfab535957ee285e6ecaf76739eda8c57b2))
+
+### Updates
+
+- chore(shared): force-publish `2.2.0` -> `2.3.0`
+
 ## v2.2.5
 
 _2023-07-14_

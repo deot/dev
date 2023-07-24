@@ -1,5 +1,17 @@
 # @deot/dev-test ChangeLog
 
+## v2.3.0
+
+_2023-07-24_
+
+### Features
+
+- feat: [server], find available `port`，`host` ([3ef86bf](https://github.com/deot/dev/commit/3ef86bfab535957ee285e6ecaf76739eda8c57b2))
+
+### Updates
+
+- chore(shared): force-publish `2.2.0` -> `2.3.0`
+
 ## v2.2.0
 
 _2023-07-10_

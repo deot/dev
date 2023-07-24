@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.3.0
+
+_2023-07-24_
+
+### Updates
+
+- chore(shared): force-publish `2.2.0` -> `2.3.0`
+
 ## v2.2.3
 
 _2023-07-14_
