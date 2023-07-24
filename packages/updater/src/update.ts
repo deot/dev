@@ -58,30 +58,36 @@ export class Update {
 		});
 
 		await Promise.all(Object.keys(packageNames).map((packageName) => {
-			return new Promise<void>((resolve) => {
-				Shell
-					.exec('npm', ['view', packageName, 'versions'])
-					.then(({ stdout }) => {
-						let versions = JSON.parse(stdout.replace(/'/g, '"'));
-						Object.keys(packageNames[packageName]).forEach(version => {
-							let newVersion = fitVersion(versions, version, commandOptions);
-							if (newVersion === version) {
-								delete packageNames[packageName][version];
-							} else {
-								packageNames[packageName][version] = newVersion;
-							}
-						});
+			// eslint-disable-next-line no-async-promise-executor
+			return new Promise<void>(async (resolve) => {
+				try {
+					const { stdout: stdout1 } = await Shell.exec('npm', ['view', packageName, 'versions', '--json']);
+					const { stdout: stdout2 } = await Shell.exec('npm', ['view', packageName, 'version', '--json']);
 
-						if (!Object.keys(packageNames[packageName]).length) {
-							delete packageNames[packageName];
+					const versions = JSON.parse(stdout1);
+					const lastVersion = JSON.parse(stdout2);
+
+					const lastIndex = versions.indexOf(lastVersion);
+					const versions$ = versions.slice(0, lastIndex == -1 ? versions.length : lastIndex + 1);
+
+					Object.keys(packageNames[packageName]).forEach(version => {
+						let newVersion = fitVersion(versions$, version, commandOptions);
+						if (newVersion === version) {
+							delete packageNames[packageName][version];
+						} else {
+							packageNames[packageName][version] = newVersion;
 						}
-						
-						resolve();
-					})
-					.catch(() => {
-						delete packageNames[packageName];
-						resolve();
 					});
+
+					if (!Object.keys(packageNames[packageName]).length) {
+						delete packageNames[packageName];
+					}
+					
+					resolve();
+				} catch (e) {
+					delete packageNames[packageName];
+					resolve();
+				}
 			});
 		}));
 
