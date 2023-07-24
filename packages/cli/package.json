@@ -21,7 +21,7 @@
     "@deot/dev-tester": "^2.2.0",
     "@deot/dev-releaser": "^2.2.1",
     "@deot/dev-updater": "^2.2.2",
-    "commander": "^10.0.1"
+    "commander": "^11.0.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
