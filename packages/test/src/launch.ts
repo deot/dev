@@ -80,13 +80,8 @@ export class Launch {
 					});
 
 					page.on('console', /* istanbul ignore next */ e => {
-						if (e.type() === 'error') {
-							const err = e.args()[0];
-							console.error(
-								`Error from Puppeteer-loaded page:\n`,
-								err.remoteObject().description
-							);
-						}
+						const key = e.type();
+						console[key].call(console[key], `${key} from puppeteer: `, ...e.args().map(i => i.remoteObject()));
 					});
 
 					this.page = page;
