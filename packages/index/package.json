@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -15,15 +15,15 @@
   },
   "dependencies": {
     "@deot/dev-adder": "^2.3.0",
-    "@deot/dev-builder": "^2.3.0",
-    "@deot/dev-cli": "^2.3.0",
-    "@deot/dev-deps": "^2.3.0",
-    "@deot/dev-dever": "^2.3.0",
+    "@deot/dev-builder": "^2.3.1",
+    "@deot/dev-cli": "^2.3.1",
+    "@deot/dev-deps": "^2.3.1",
+    "@deot/dev-dever": "^2.3.1",
     "@deot/dev-eslint": "^2.3.0",
     "@deot/dev-linker": "^2.3.0",
     "@deot/dev-shared": "^2.3.0",
     "@deot/dev-stylelint": "^2.3.0",
-    "@deot/dev-test": "^2.3.0",
+    "@deot/dev-test": "^2.3.1",
     "@deot/dev-tester": "^2.3.0",
     "@deot/dev-releaser": "^2.3.0",
     "@deot/dev-updater": "^2.3.0"

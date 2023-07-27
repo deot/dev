@@ -1,5 +1,17 @@
 # @deot/dev-cli ChangeLog
 
+## v2.3.1
+
+_2023-07-27_
+
+### Features
+
+- feat(test): puppeteer console print ([93ac34c](https://github.com/deot/dev/commit/93ac34c27fbc04975febd0c631876ef2b1b76239))
+
+### Updates
+
+- chore(builder,deps,dever): deps updated ([a99684e](https://github.com/deot/dev/commit/a99684e11e0fb00b4de54a4518f8ead5038aad92))
+
 ## v2.3.0
 
 _2023-07-24_
