@@ -56,7 +56,7 @@ export const run = async (options: Build) => {
 		return viteBuild;
 	};
 
-	const needFilter = typeof nodePackage === 'string' && (nodePackage === '*' || nodePackage.includes(packageName));
+	const needFilter = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(packageName));
 	const formats = scriptFormats
 		.split(',')
 		.filter((i: string) => {
