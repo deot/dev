@@ -1,5 +1,6 @@
 import { Utils, Logger, Shell, Command, Builder, Releaser, Tester } from '@deot/dev';
 
+// @vitest-environment node
 describe('index.ts', () => {
 	it('any', () => {
 		expect(typeof Builder).toBe('object');

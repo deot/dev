@@ -1,7 +1,8 @@
+import * as path from 'node:path';
 import { Locals, Shell } from '@deot/dev-shared';
 import * as Tester from '@deot/dev-tester';
-import * as path from 'node:path';
 
+// @vitest-environment node
 describe('index', () => {
 	it('config', () => {
 		const it = Locals.impl();
