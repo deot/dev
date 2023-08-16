@@ -1,5 +1,17 @@
 # @deot/dev-builder ChangeLog
 
+## v2.3.2
+
+_2023-08-16_
+
+### Bugfixes
+
+- fix: node package filter split by ',' ([b0c5e4c](https://github.com/deot/dev/commit/b0c5e4c4676e81678319bf23e524cb75426cf891))
+
+### Updates
+
+- chore: deps updated ([187282a](https://github.com/deot/dev/commit/187282a8dc3722f7d787fa7558fcf8ee10e02065))
+
 ## v2.3.1
 
 _2023-07-27_

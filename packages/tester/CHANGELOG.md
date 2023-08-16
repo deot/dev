@@ -1,5 +1,17 @@
 # @deot/dev-tester ChangeLog
 
+## v2.3.1
+
+_2023-08-16_
+
+### Bugfixes
+
+- fix: throw error by vitest`@0.34.1` ([b68e5d9](https://github.com/deot/dev/commit/b68e5d987ee0647b206d9362b9014f99d13983c9))
+
+### Updates
+
+- chore: deps updated ([187282a](https://github.com/deot/dev/commit/187282a8dc3722f7d787fa7558fcf8ee10e02065))
+
 ## v2.3.0
 
 _2023-07-24_

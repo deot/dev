@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.3.1
+
+_2023-08-16_
+
+### Updates
+
+- chore: deps updated ([187282a](https://github.com/deot/dev/commit/187282a8dc3722f7d787fa7558fcf8ee10e02065))
+
 ## v2.3.0
 
 _2023-07-24_
