@@ -1,7 +1,7 @@
-import { Locals, Shell } from '@deot/dev-shared';
-import * as Builder from '@deot/dev-builder';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
+import { Locals, Shell } from '@deot/dev-shared';
+import * as Builder from '@deot/dev-builder';
 
 describe('index', () => {
 	it('config', () => {

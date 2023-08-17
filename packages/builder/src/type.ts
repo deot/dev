@@ -1,8 +1,8 @@
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import fs from 'fs-extra';
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor';
 import { Logger, Shell, Locals } from '@deot/dev-shared';
-import { fileURLToPath } from 'node:url';
 import type { Build } from './build';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));

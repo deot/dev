@@ -1,6 +1,6 @@
 import * as path from 'node:path';
-import fs from 'fs-extra';
 import { createRequire } from 'node:module';
+import fs from 'fs-extra';
 import parser from 'conventional-commits-parser';
 import chalk from 'chalk';
 import semver from 'semver';

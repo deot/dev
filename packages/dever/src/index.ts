@@ -1,7 +1,7 @@
-import type { Options } from '@deot/dev-shared';
-import { Utils, Shell, Locals, Logger } from '@deot/dev-shared';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { Options } from '@deot/dev-shared';
+import { Utils, Shell, Locals, Logger } from '@deot/dev-shared';
 import fs from 'fs-extra';
 import type { InlineConfig } from 'vite';
 import { createServer } from 'vite';

@@ -1,5 +1,5 @@
-import { Launch, E2E } from '@deot/dev-test';
 import { resolve } from 'node:path';
+import { Launch, E2E } from '@deot/dev-test';
 
 describe('launch.ts', () => {
 	const baseUrl = `file://${resolve(__dirname, './fixtures/e2e.html')}`;

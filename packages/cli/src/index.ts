@@ -1,6 +1,6 @@
+import { createRequire } from "node:module";
 import type { Command } from 'commander';
 import { program, Option } from 'commander';
-import { createRequire } from "node:module";
 import * as Releaser from '@deot/dev-releaser';
 import * as Builder from '@deot/dev-builder';
 import * as Tester from '@deot/dev-tester';

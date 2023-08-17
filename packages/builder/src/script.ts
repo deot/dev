@@ -1,6 +1,6 @@
-import fs from 'fs-extra';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fs from 'fs-extra';
 import { Locals } from '@deot/dev-shared';
 import { build as createViteBuild } from 'vite';
 import type { InlineConfig } from 'vite';

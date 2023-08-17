@@ -1,6 +1,6 @@
+import * as childProcess from 'child_process';
 import type { Nullable } from '@deot/dev-shared';
 import { Shell } from '@deot/dev-shared';
-import * as childProcess from 'child_process';
 
 const { LOCAL_COMMAND_MAP } = Shell;
 const KEY_MAP = {

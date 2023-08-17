@@ -1,6 +1,6 @@
-import { defineConfig, configDefaults } from 'vitest/config';
 import * as path from 'node:path';
 import { createRequire } from "node:module";
+import { defineConfig, configDefaults } from 'vitest/config';
 import type { UserConfig } from 'vite';
 
 const cwd = process.cwd();

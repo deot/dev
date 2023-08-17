@@ -1,7 +1,7 @@
+import { resolve } from 'node:path';
 import { Locals } from '@deot/dev-shared';
 import { Command } from '@deot/dev-test';
 import * as Release from '@deot/dev-releaser';
-import { resolve } from 'node:path';
 
 describe('index', () => {
 	it('config', () => {

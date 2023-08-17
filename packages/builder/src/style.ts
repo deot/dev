@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
 import * as path from 'node:path';
+import fs from 'fs-extra';
 import * as sass from 'sass';
 
 import postcss from 'postcss';

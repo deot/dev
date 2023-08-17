@@ -1,5 +1,5 @@
-import { E2E } from '@deot/dev-test';
 import { resolve } from 'node:path';
+import { E2E } from '@deot/dev-test';
 
 describe('e2e.ts', () => {
 	const launch = E2E.impl();

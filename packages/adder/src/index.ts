@@ -1,6 +1,6 @@
+import { resolve } from 'node:path';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
-import { resolve } from 'node:path';
 import ora from 'ora';
 import fs from 'fs-extra';
 

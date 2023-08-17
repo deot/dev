@@ -1,5 +1,5 @@
-import { Command } from '@deot/dev-test';
 import { resolve } from 'node:path';
+import { Command } from '@deot/dev-test';
 
 describe('command.ts', () => {
 	it('package', async () => {
