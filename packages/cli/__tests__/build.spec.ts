@@ -35,7 +35,8 @@ describe('build.ts', () => {
 		await instance.stop();
 
 		expect(instance.code).toBe(0);
-		expect(instance.stdout).toMatch(/^cli/);
+		// 打包cli时会关联当前包的模块 `shared adder builder linker tester releaser updater test cli`
+		expect(instance.stdout).toMatch(/^shared[\s\S]+cli/);
 		expect(instance.stderr).toBe('');
 	}, 60000);
 });
