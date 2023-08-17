@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.3.3
+
+_2023-08-17_
+
+### Bugfixes
+
+- fix(builder): relation need pre-build when run build alone ([891b6af](https://github.com/deot/dev/commit/891b6afd76b975fcab4f405489deab28af188b61))
+
 ## v2.3.2
 
 _2023-08-16_
