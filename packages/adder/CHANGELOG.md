@@ -1,5 +1,13 @@
 # @deot/dev-adder ChangeLog
 
+## v2.3.2
+
+_2023-08-24_
+
+### Features
+
+- feat: ES module as default ([1e0ce6f](https://github.com/deot/dev/commit/1e0ce6f1b2d2d4a1db6205d818e02875e8abf1b1))
+
 ## v2.3.1
 
 _2023-08-16_

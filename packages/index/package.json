@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -14,9 +14,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-adder": "^2.3.1",
+    "@deot/dev-adder": "^2.3.2",
     "@deot/dev-builder": "^2.3.3",
-    "@deot/dev-cli": "^2.3.3",
+    "@deot/dev-cli": "^2.3.4",
     "@deot/dev-deps": "^2.3.2",
     "@deot/dev-dever": "^2.3.2",
     "@deot/dev-eslint": "^2.3.1",

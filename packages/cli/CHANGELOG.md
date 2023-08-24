@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.3.4
+
+_2023-08-24_
+
+### Features
+
+- feat(adder): ES module as default ([1e0ce6f](https://github.com/deot/dev/commit/1e0ce6f1b2d2d4a1db6205d818e02875e8abf1b1))
+
 ## v2.3.3
 
 _2023-08-17_

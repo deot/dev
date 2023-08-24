@@ -75,7 +75,7 @@ importers:
   packages/cli:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.3.1
+        specifier: ^2.3.2
         version: link:../adder
       '@deot/dev-builder':
         specifier: ^2.3.3
@@ -180,13 +180,13 @@ importers:
   packages/index:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.3.1
+        specifier: ^2.3.2
         version: link:../adder
       '@deot/dev-builder':
         specifier: ^2.3.3
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.3.3
+        specifier: ^2.3.4
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.3.2
