@@ -69,7 +69,7 @@ export const getNormalizePackage = (dataMap: any) => {
 	const result: string[] = [];
 	while (queue.length > 0) {
 		const node = queue.shift();
-		/* istanbul ignore next */
+		 /* istanbul ignore next -- @preserve */
 		if (!node) return [];
 		result.push(node);
 		
@@ -101,7 +101,7 @@ export const getPackageName = (packageFolderName$: string) => {
 
 export const getPackageFolderName = (packageName$: string) => {
 	const { workspace, packageFolderName, packageName } = impl();
-	/* istanbul ignore next */
+	/* istanbul ignore next -- @preserve */
 	if (!workspace) return '';
 
 	if (packageName$ === packageName) return packageFolderName;

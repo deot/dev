@@ -5,7 +5,7 @@ import * as fs from 'node:fs';
 
 const SPACE = ' ';
 const binDirectory = path.resolve(process.cwd(), './node_modules/.bin');
-/* istanbul ignore next */
+/* istanbul ignore next -- @preserve */ 
 export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory) 
 	? fs
 		.readdirSync(binDirectory)
