@@ -37,9 +37,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		fs.outputFileSync(`${dir}/${packageFolderName}/__tests__/index.spec.ts`, '// TODO');
 		fs.outputFileSync(`${dir}/${packageFolderName}/package.json`, JSON.stringify({
 			name: packageName,
-			version: '1.0.0',
-			main: 'dist/index.cjs.js',
-			module: 'dist/index.es.js',
+			version: '0.0.1',
+			type: 'module',
+			main: 'dist/index.es.js',
 			types: "dist/index.d.ts",
 			exports: {
 				".": {
