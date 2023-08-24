@@ -1,9 +1,16 @@
 {
   "name": "@deot/dev",
   "version": "2.3.4",
+  "type": "module",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
-  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist",
     "commitlint.js",

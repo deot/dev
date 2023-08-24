@@ -44,7 +44,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			exports: {
 				".": {
 					import: "./dist/index.es.js",
-					require: "./dist/index.cjs.js",
+					require: "./dist/index.cjs",
 					types: "./dist/index.d.ts"
 				}
 			},

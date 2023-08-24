@@ -78,7 +78,7 @@ export const run = async (options: Build) => {
 
 								// ChunkOutput // js
 								if (j.type === 'chunk') { 
-									fs.outputFileSync(`${outDir}/${j.name}.${format}.js`, j.code);
+									fs.outputFileSync(`${outDir}/${j.name}.${format}${format === 'cjs' ? '' : '.js'}`, j.code);
 									return;
 								}
 							});
@@ -91,13 +91,14 @@ export const run = async (options: Build) => {
 
 	let outputs = fs
 		.readdirSync(outDir)
-		.filter((i: string) => /^index(.*)(?!=\.d)\.js$/.test(i));
+		.filter((i: string) => /^index(.*)(?!=\.d)\.c?js$/.test(i));
 
 	outputs.forEach((file: string) => {
 		let stat = fs.statSync(path.resolve(outDir, file));
+
 		stats.push({
-			file: file.replace(/^(.*)(\..*\.js)/, '$1.ts'),
-			format: file.replace(/.*\.(.*)\.js/, '$1'),
+			file: file.replace(/^(.*)((\..*\.js)|\.cjs)/, '$1.ts'),
+			format: file.replace(/(.*\.(.*)\.js|.*\.(cjs))/, '$2$3'),
 			size: stat.size
 		});
 	});
