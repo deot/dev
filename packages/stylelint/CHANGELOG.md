@@ -1,5 +1,13 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.4.0
+
+_2023-08-24_
+
+### Updates
+
+- chore: deps updated ([9a24d31](https://github.com/deot/dev/commit/9a24d31cc9679de29c3aeb956478ebfcc567aed3))
+
 ## v2.3.0
 
 _2023-07-24_

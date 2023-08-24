@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.4.0
+
+_2023-08-24_
+
+### Updates
+
+- chore(shared): force-publish `2.3.0` -> `2.4.0`
+
 ## v2.3.2
 
 _2023-08-16_

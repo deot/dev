@@ -1,5 +1,18 @@
 # @deot/dev-builder ChangeLog
 
+## v2.4.0
+
+_2023-08-24_
+
+### Features
+
+- feat: `*.cjs.js` -> `*.cjs` ([e524118](https://github.com/deot/dev/commit/e5241182e9cb40b65c00fecb229ddaa59450ee35))
+
+### Updates
+
+- chore: deps updated ([9a24d31](https://github.com/deot/dev/commit/9a24d31cc9679de29c3aeb956478ebfcc567aed3))
+- chore(shared): force-publish `2.3.0` -> `2.4.0`
+
 ## v2.3.3
 
 _2023-08-17_

@@ -1,5 +1,17 @@
 # @deot/dev-adder ChangeLog
 
+## v2.4.0
+
+_2023-08-24_
+
+### Features
+
+- feat: `*.cjs.js` -> `*.cjs` ([e524118](https://github.com/deot/dev/commit/e5241182e9cb40b65c00fecb229ddaa59450ee35))
+
+### Updates
+
+- chore(shared): force-publish `2.3.0` -> `2.4.0`
+
 ## v2.3.2
 
 _2023-08-24_

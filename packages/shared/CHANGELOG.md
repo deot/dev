@@ -1,5 +1,13 @@
 # @deot/dev-shared ChangeLog
 
+## v2.4.0
+
+_2023-08-24_
+
+### Force Update Package
+
+- `2.3.0` -> `2.4.0`
+
 ## v2.3.0
 
 _2023-07-24_

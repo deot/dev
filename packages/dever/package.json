@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-dever",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "type": "module",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^2.3.0",
+    "@deot/dev-shared": "^2.4.0",
     "ejs": "^3.1.9",
     "vite": "^4.4.9"
   },
