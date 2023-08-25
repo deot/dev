@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.4.1
+
+_2023-08-25_
+
+### Bugfixes
+
+- fix: avoid exports error ([b793b20](https://github.com/deot/dev/commit/b793b20c4ebc804f8cb0875dd030473d1141e021))
+
 ## v2.4.0
 
 _2023-08-24_
