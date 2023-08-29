@@ -17,6 +17,8 @@ export class Build {
 
 	packageSourceDir: string;
 
+	packageOutDir: string;
+
 	packageName: string;
 
 	packageOptions: any;
@@ -33,7 +35,8 @@ export class Build {
 
 		this.packageFolderName = packageFolderName || '';
 		this.packageDir = path.resolve(packageDir, workspace ? `./${packageFolderName}` : '');
-		this.packageSourceDir = path.resolve(packageDir, './src');
+		this.packageSourceDir = path.resolve(this.packageDir, Locals.isSubpackageMode(packageFolderName) ? '' : './src');
+		this.packageOutDir = path.resolve(this.packageDir, './dist');
 		this.packageName = packageFolderName === packageFolderName$ 
 			? packageName 
 			: `${packageName}-${packageFolderName}`;
@@ -44,7 +47,7 @@ export class Build {
 	async process() {
 		let start = Date.now();
 		const { cwd, workspace } = Locals.impl();
-		const { packageOptions, packageName, packageDir } = this;
+		const { packageSourceDir: srcDir, packageOptions, packageName, packageDir } = this;
 
 		// 子包含有自己的build则自行执行
 		if (
@@ -58,13 +61,11 @@ export class Build {
 			return;
 		}
 
-		const srcDir = path.resolve(packageDir, './src');
 		let files = fs.existsSync(srcDir)
 			? fs
 				.readdirSync(srcDir)
 				.filter((i: string) => /^index(.*)\.(ts|js|s?css)$/.test(i))
 			: [];
-
 		if (!files.length) return;
 
 		const spinner = ora(`${packageName} Build ...`);

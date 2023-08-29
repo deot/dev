@@ -86,7 +86,7 @@ export const getNormalizePackage = (dataMap: any) => {
 	return result.reverse();
 };
 
-export const isSubPackageMode = (subdir: string) => {
+export const isSubpackageMode = (subdir: string) => {
 	const { workspace, packageDir } = impl();
 	/* istanbul ignore next -- @preserve */ 
 	if (!workspace) return false;

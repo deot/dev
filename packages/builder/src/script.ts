@@ -12,18 +12,15 @@ export const run = async (options: Build) => {
 	const locals = Locals.impl();
 	const { cwd, workspace } = locals;
 
-	const { packageName, packageDir, packageOptions, commandOptions } = options || {};
+	const { packageSourceDir: srcDir, packageOutDir: outDir, packageName, packageDir, packageOptions, commandOptions } = options || {};
 	const { scriptFormats, nodePackage } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
-	const srcDir = path.resolve(packageDir, './src');
-	const outDir = path.resolve(packageDir, './dist');
 	let files = fs.existsSync(srcDir)
 		? fs
 			.readdirSync(srcDir)
 			.filter((i: string) => /^index\.(.*)\.?(t|j)s$/.test(i))
 		: [];
-
 
 	if (!files.length) return stats;
 
@@ -34,6 +31,7 @@ export const run = async (options: Build) => {
 			workspace,
 			packageName,
 			packageDir,
+			packageSourceDir: srcDir,
 			packageOptions,
 		}));
 

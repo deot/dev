@@ -12,9 +12,7 @@ import autoprefixer from "autoprefixer";
 import type { Build } from './build';
 
 export const run = async (options: Build) => {
-	const { packageDir } = options || {};
-	const srcDir = path.resolve(packageDir, './src');
-
+	const { packageSourceDir: srcDir, packageOutDir: outDir, packageDir } = options || {};
 	const styles = fs.existsSync(srcDir) 
 		? fs
 			.readdirSync(srcDir)
@@ -42,7 +40,7 @@ export const run = async (options: Build) => {
 							.process(data.css, { from: filepath });
 					})
 					.then((source) => {
-						let output = path.resolve(packageDir, `./dist/${file.replace(/\.scss$/g, '.css')}`);
+						let output = path.resolve(outDir, `${file.replace(/\.scss$/g, '.css')}`);
 						fs.outputFileSync(output, source.css);
 						return fs.stat(output);
 					})

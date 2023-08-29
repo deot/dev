@@ -8,12 +8,12 @@ import type { Build } from './build';
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const run = async (options: Build) => {
-	const { workspace } = Locals.impl();
-	const { packageDir, packageFolderName, packageOptions, commandOptions } = options;
+	const { workspace, packageDir: packageRootDir } = Locals.impl();
+	const { packageDir, packageOutDir, packageSourceDir, packageOptions, commandOptions } = options;
 
 	const done = () => {
 		const stats: Array<{ size: number; file: string }> = [];
-		let fullpath = `${packageDir}/dist/index.d.ts`;
+		let fullpath = `${packageOutDir}/index.d.ts`;
 		if (fs.existsSync(fullpath)) {
 			let stat = fs.statSync(fullpath);
 			stats.push({
@@ -37,7 +37,7 @@ export const run = async (options: Build) => {
 		return done();
 	}
 
-	let tempDir = `${packageDir}/dist/temp`;
+	let tempDir = `${packageOutDir}/temp`;
 	let rootDir = path.relative(tempDir, process.cwd()); // '../../../..'
 
 	// 生成tsconfig用于输出dts
@@ -50,7 +50,7 @@ export const run = async (options: Build) => {
 			outDir: '.'
 		},
 		include: [
-			path.relative(tempDir, path.resolve(packageDir, `src/*`))
+			path.relative(tempDir, path.resolve(packageSourceDir, `*`))
 		]
 	}, null, '\t'));
 
@@ -61,7 +61,7 @@ export const run = async (options: Build) => {
 	// 生成api-extractor用于合并dts
 	fs.outputFileSync(configPath, JSON.stringify({
 		extends: path.relative(tempDir, path.resolve(dirname, '../api-extractor.shared.json')),
-		mainEntryPointFilePath: `.${workspace ? '/packages/' : ''}${packageFolderName}/src/index.d.ts`, // workspace、时以temp/packages/*/src结构，否则APIExtractor会报错
+		mainEntryPointFilePath: (workspace ? `./${workspace}/` : './') + path.relative(packageRootDir, `${packageSourceDir}/index.d.ts`), // workspace、时以temp/packages/*/src结构，否则APIExtractor会报错
 		dtsRollup: {
 			publicTrimmedFilePath: "../index.d.ts"
 		}
@@ -105,7 +105,7 @@ export const run = async (options: Build) => {
 		process.exitCode = 1;
 	}			
 
-	await fs.remove(`${packageDir}/dist/temp`);
+	await fs.remove(tempDir);
 
 	return done();
 };

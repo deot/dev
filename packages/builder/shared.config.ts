@@ -18,7 +18,7 @@ const {
 	workspace,
 	files = [], 
 	packageName, 
-	packageDir, 
+	packageSourceDir, 
 	packageOptions = {} 
 } = buildOptions;
 
@@ -73,7 +73,7 @@ export default defineConfig({
 		minify: false,
 		target: 'esnext',
 		lib: {
-			entry: files.map((file: string) => path.resolve(packageDir, './src', file)),
+			entry: files.map((file: string) => path.resolve(packageSourceDir, file)),
 			formats: [format],
 			name: packageName.replace(/(_|-|^|.*\/)([^-_\/@])/g, (_match: any, _$1: any, $2: string) => $2.toUpperCase())
 		},

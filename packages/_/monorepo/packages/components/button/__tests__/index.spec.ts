@@ -1,7 +1,7 @@
-import { TEST } from '../index';
+import { Button } from '../index';
 
 describe('index.ts', () => {
 	it('any', () => {
-		expect(TEST).toBe(1);
+		expect(Button).toBe(1);
 	});
 });

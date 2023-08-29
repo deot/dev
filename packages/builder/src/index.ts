@@ -10,9 +10,6 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		...options
 	};
 	const locals = Locals.impl();
-	if (typeof options.dryRun === 'undefined') {
-		options.dryRun = process.env.NODE_ENV === 'UNIT';
-	}
 	
 	let packageFolderName = Locals.getPackageFolderName(options.packageName || '*');
 

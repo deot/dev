@@ -42,7 +42,7 @@ describe('shared.ts', () => {
 	});
 
 	it('subpackage', () => {
-		expect(Locals.isSubPackageMode('index')).toBe(false);
-		expect(Locals.isSubPackageMode('_/monorepo/packages/components')).toBe(true);
+		expect(Locals.isSubpackageMode('index')).toBe(false);
+		expect(Locals.isSubpackageMode('_/monorepo/packages/components')).toBe(true);
 	});
 });
