@@ -6,11 +6,13 @@
       "@deot/dev": ["../../../packages/index/src"],
       "@deot/dev-*": ["../../../packages/*/src"],
       "@demo/helper": ["packages/index/src"],
+      "@demo/helper-components": ["packages/components"],
       "@demo/helper-*": ["packages/*/src"]
     }
   },
   "include": [
     "packages/shims.d.ts",
+    "packages/components/*/__tests__",
     "packages/*/__tests__",
     "packages/*/src"
   ],

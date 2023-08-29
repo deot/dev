@@ -1,9 +1,12 @@
 {
-  "name": "@demo/helper",
-  "version": "1.0.0",
+  "name": "@demo/helper-components",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "files": [
     "dist"
   ],
@@ -11,6 +14,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

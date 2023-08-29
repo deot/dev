@@ -86,6 +86,26 @@ export const getNormalizePackage = (dataMap: any) => {
 	return result.reverse();
 };
 
+export const isSubPackageMode = (subdir: string) => {
+	const { workspace, packageDir } = impl();
+	/* istanbul ignore next -- @preserve */ 
+	if (!workspace) return false;
+
+	let dir = path.resolve(packageDir, subdir);
+	
+	// 根目录含index.ts, 不含src, 有文件夹且含__tests__，即认为当前为子包
+	return fs.existsSync(`${dir}/index.ts`) 
+		&& !fs.existsSync(`${dir}/src`)
+		&& fs.readdirSync(dir).some((file: string) => {
+			const fullpath = path.join(dir, file);
+			const stat = fs.statSync(fullpath);
+			if (stat.isDirectory()) {
+				return fs.existsSync(`${fullpath}/__tests__`);
+			}
+			return false;
+		});
+};
+
 export const getPackageName = (packageFolderName$: string) => {
 	const { workspace, packageFolderName, packageName } = impl();
 	if (

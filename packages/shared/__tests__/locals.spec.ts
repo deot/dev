@@ -40,4 +40,9 @@ describe('shared.ts', () => {
 		expect(it.packageDir).toMatch(`/shared`);
 		expect(it.packageFolderNames.length).toBe(0);
 	});
+
+	it('subpackage', () => {
+		expect(Locals.isSubPackageMode('index')).toBe(false);
+		expect(Locals.isSubPackageMode('_/monorepo/packages/components')).toBe(true);
+	});
 });
