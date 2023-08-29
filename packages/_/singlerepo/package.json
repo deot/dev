@@ -15,7 +15,7 @@
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
     "dev": "npm run cli -- dev",
     "build": "npm run cli -- build --script-formats=es,cjs,iife,umd",
-    "test": "npm run cli -- test --package-name '*'",
+    "test": "npm run cli -- test",
     "release": "npm run cli -- release",
     "update": "npm run cli -- update"
   },

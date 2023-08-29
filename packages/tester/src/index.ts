@@ -28,6 +28,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
+
+	options.subpackageFolderName = options.subpackageFolderName || options.subpackage;
+	options.subpackages = Locals.getSubpackages(options.packageFolderName);
 	
 	const packageOptions = packageOptionsMap[options.packageFolderName];
 	const packageDir = packageDirsMap[options.packageFolderName];
@@ -44,6 +47,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (!options.packageFolderName) delete options.packageFolderName; 
 	if (!options.workspace) delete options.workspace; 
 	delete options.packageName;
+	delete options.subpackage;
 
 	const isDev = process.env.NODE_ENV === 'development';
 	const NODE_ENV = process.env.NODE_ENV || 'TEST';

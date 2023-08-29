@@ -35,7 +35,7 @@ export class Build {
 
 		this.packageFolderName = packageFolderName || '';
 		this.packageDir = path.resolve(packageDir, workspace ? `./${packageFolderName}` : '');
-		this.packageSourceDir = path.resolve(this.packageDir, Locals.isSubpackageMode(packageFolderName) ? '' : './src');
+		this.packageSourceDir = path.resolve(this.packageDir, Locals.getSubpackages(packageFolderName).length ? '' : './src');
 		this.packageOutDir = path.resolve(this.packageDir, './dist');
 		this.packageName = packageFolderName === packageFolderName$ 
 			? packageName 

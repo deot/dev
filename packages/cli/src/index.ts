@@ -116,6 +116,7 @@ addOptions(
 		.description('unit-test')
 		.option('--no-coverage [boolean]', 'Coverage Analyze')
 		.option('--package-name <string>', 'Select PackageName')
+		.option('--subpackage <string>', 'Select SubpackageName')
 		.option('--watch [boolean]', 'Watch Test')
 		.option('--environment <string>', 'Environment', 'jsdom'),
 	Tester.run

@@ -15,7 +15,27 @@ describe('index', () => {
 
 	it('monorepo', async () => {
 		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'test'], {
+		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '*'`], {
+			cwd: path.resolve('./packages/_/monorepo'),
+			stdio: 'pipe'
+		});
+
+		expect(response).toBe(0);
+	}, 60000);
+
+	it('monorepo, subpackages, *', async () => {
+		expect.assertions(1);
+		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components'`], {
+			cwd: path.resolve('./packages/_/monorepo'),
+			stdio: 'pipe'
+		});
+
+		expect(response).toBe(0);
+	}, 60000);
+
+	it('monorepo, subpackages, button', async () => {
+		expect.assertions(1);
+		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components' --subpackage 'button'`], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
@@ -25,7 +45,7 @@ describe('index', () => {
 
 	it('singlerepo', async () => {
 		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'test'], {
+		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '*'`], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'
 		});

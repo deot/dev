@@ -28,17 +28,30 @@ Monorepo
 │    ├─ index
 │    │    ├─ __tests__
 │    │    ├─ src
+│    │    │    └─ index.*.ts
 │    │    └─ package.json
 │    ├─ shared
 │    │    ├─ __tests__
 │    │    ├─ src
+│    │    │    └─ index.*.ts
 │    │    └─ package.json            # 如果含build/build:types会跳过执行内部的
+│    ├─ components                   # 也支持组件式的设计
+│    │    ├─ __tests__
+│    │    ├─ button
+│    │    │    └─ __tests__
+│    │    ├─ table
+│    │    │    └─ __tests__
+│    │    ├─ icon
+│    │    │    └─ __tests__
+│    │    ├─ ...
+│    │    ├─ index.*.ts
+│    │    └─ package.json
 │    └─ shims.d.ts
 ├─ .eslintignore
 ├─ .eslintrc.cjs
 ├─ .lintstagedrc.json
 ├─ .npmrc                            # shamefully-hoist = true
-├─ vitest.config.ts                  # 没有这个文件也可以执行
+├─ z.*.config.ts                     # 没有这个文件也可以执行
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ tsconfig.json
@@ -52,10 +65,11 @@ Single Repo
 ├─ .husky
 ├─ __tests__
 ├─ src
+│   └─ index.*.ts
 ├─ .eslintignore
 ├─ .eslintrc.cjs
 ├─ .npmrc
-├─ vitest.config.ts
+├─ z.*.config.ts                     # 没有这个文件也可以执行
 ├─ shims.d.ts
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml

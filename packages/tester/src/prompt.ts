@@ -1,4 +1,5 @@
 import inquirer from 'inquirer';
+import fs from 'fs-extra';
 import autocomplete from 'inquirer-autocomplete-prompt';
 import { Locals } from '@deot/dev-shared';
 
@@ -28,6 +29,25 @@ export const getOptions = async () => {
 			}
 		},
 		{
+			type: 'autocomplete',
+			message: `Select Subpackage To ${isDev ? 'Develop' : 'Test'}:`,
+			name: 'subpackageFolderName',
+			default: '',
+			when: (answers: any) => {
+				return !!Locals.getSubpackages(answers.packageFolderName).length;
+			},
+			source: (answers: any, input: any) => {
+				const subpackages = [ALL_PACKAGE, ...Locals.getSubpackages(answers.packageFolderName)];
+				input = input || '';
+				return new Promise(($resolve => {
+					let filter = input 
+						? subpackages.filter(item => item.includes(input))
+						: subpackages;
+					$resolve(filter);
+				}));
+			}
+		},
+		{
 			type: 'confirm',
 			message: 'Watch Mode?',
 			name: 'watch',
@@ -50,6 +70,10 @@ export const getOptions = async () => {
 	result.packageFolderName = result.packageFolderName == ALL_PACKAGE 
 		? undefined 
 		: result.packageFolderName;
+
+	result.subpackageFolderName = result.subpackageFolderName == ALL_PACKAGE 
+		? undefined 
+		: result.subpackageFolderName;
 
 	result.watch = result.watch || isDev;
 	return result;

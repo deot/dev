@@ -7,15 +7,17 @@ const cwd = process.cwd();
 
 // options
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { workspace, packageFolderName } = options;
+const { workspace, packageFolderName, subpackageFolderName, subpackages } = options;
 
 const testDirPrefix = workspace 
-	? `${workspace}/${packageFolderName || '*'}/__tests__` 
+	? `${workspace}/${packageFolderName || '*'}${subpackages.length ? subpackageFolderName ? `/${subpackageFolderName}` : '/**' : ''}/__tests__` 
 	: `__tests__`;
 
 const collectDirPrefix = workspace 
-	? `${workspace}/${packageFolderName || '*'}/src`
-	: `src`;
+	// eslint-disable-next-line max-len
+	? `${workspace}/${packageFolderName || '*'}/${subpackages.length ? subpackageFolderName ? `${subpackageFolderName}` : '' : 'src'}`
+	: ``;
+
 
 // alias
 const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
@@ -53,7 +55,11 @@ export default defineConfig({
 			include: [
 				`${collectDirPrefix}/**/*.ts`
 			],
-			exclude: configDefaults.coverage.exclude
+			exclude: [
+				`__tests__/**/*`,
+				`examples/**/*`,
+				...configDefaults.coverage.exclude!
+			]
 		}
 	}
 }) as UserConfig;
