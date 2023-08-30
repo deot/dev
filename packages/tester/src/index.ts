@@ -30,7 +30,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	options.workspace = workspace;
 
 	options.subpackageFolderName = options.subpackageFolderName || options.subpackage;
-	options.subpackages = subpackagesMap[options.packageFolderName];
+	options.subpackagesMap = subpackagesMap;
 	
 	const packageOptions = packageOptionsMap[options.packageFolderName];
 	const packageDir = packageDirsMap[options.packageFolderName];

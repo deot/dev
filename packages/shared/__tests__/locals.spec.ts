@@ -1,3 +1,4 @@
+import * as path from 'node:path';
 import { Locals } from '@deot/dev-shared';
 
 describe('shared.ts', () => {
@@ -42,7 +43,12 @@ describe('shared.ts', () => {
 	});
 
 	it('subpackage', () => {
-		expect(!!Locals.getSubpackages('index').length).toBe(false);
-		expect(!!Locals.getSubpackages('_/monorepo/packages/components').length).toBe(true);
+		const it$ = Locals.impl();
+		expect(!!it$.subpackagesMap['index'].length).toBe(false);
+	});
+
+	it('subpackage, components', () => {
+		const it$ = Locals.impl(path.resolve('./packages/_/monorepo'));
+		expect(!!it$.subpackagesMap['components'].length).toBe(true);
 	});
 });

@@ -7,18 +7,50 @@ const cwd = process.cwd();
 
 // options
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { workspace, packageFolderName, subpackageFolderName, subpackages } = options;
+const { workspace, packageFolderName, subpackageFolderName, subpackagesMap } = options;
 
-const testDirPrefix = workspace 
-	? `${workspace}/${packageFolderName || '*'}${subpackages.length ? subpackageFolderName ? `/${subpackageFolderName}` : '/**' : ''}/__tests__` 
-	: `__tests__`;
+let tests: string[] = [];
+let collects: string[] = [];
 
-const collectDirPrefix = workspace 
-	// eslint-disable-next-line max-len
-	? `${workspace}/${packageFolderName || '*'}/${subpackages.length ? subpackageFolderName ? `${subpackageFolderName}` : '' : 'src'}`
-	: ``;
+const TEST_PATTEN = `**.(spec|test).[jt]s?(x)`;
+const COLLECT_PATTEN = `**/*.ts`;
 
+if (workspace) {
+	let prefixDir = `${workspace}/${packageFolderName || '*'}`;
+	tests.push(`${prefixDir}/__tests__/${TEST_PATTEN}`);
+	collects.push(`${prefixDir}/src/${COLLECT_PATTEN}`);
 
+	if (packageFolderName === '*') {
+		Object.keys(subpackagesMap).forEach((packageFolderName$: string) => {
+			let subpackages = subpackagesMap[packageFolderName$];
+			if (subpackages.length) {
+				let prefixDir$ = `${workspace}/${packageFolderName$}`;
+				let subpackagesPatten = `{${subpackages.join(',')},}`;
+
+				tests.push(`${prefixDir$}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
+				collects.push(`${prefixDir$}/${subpackagesPatten}/${COLLECT_PATTEN}`);
+				collects.push(`${prefixDir$}/index*.ts`);
+			}
+		});
+	} else if (subpackagesMap[packageFolderName].length) {
+		if (subpackageFolderName) {
+			tests = [];
+			collects = [];
+
+			tests.push(`${prefixDir}/${subpackageFolderName}/__tests__/${TEST_PATTEN}`);
+			collects.push(`${prefixDir}/${subpackageFolderName}/${COLLECT_PATTEN}`);
+		} else {
+			let subpackages = subpackagesMap[packageFolderName];
+			let subpackagesPatten = `{${subpackages.join(',')},}`;
+			tests.push(`${prefixDir}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
+			collects.push(`${prefixDir}/${subpackagesPatten}/${COLLECT_PATTEN}`);
+			collects.push(`${prefixDir}/index*.ts`);
+		}
+	}
+} else {
+	tests.push(`__tests__/${TEST_PATTEN}`);
+	collects.push(`src/${COLLECT_PATTEN}`);
+}
 // alias
 const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
 const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
@@ -41,9 +73,7 @@ export default defineConfig({
 		: {},
 	test: {
 		globals: true,
-		include: [
-			`${testDirPrefix}/**.(spec|test).[jt]s?(x)`
-		],
+		include: tests,
 		coverage: {
 			enabled: true,
 			provider: 'istanbul',
@@ -52,12 +82,9 @@ export default defineConfig({
 			statements: 95,
 			functions: 95,
 			lines: 95,
-			include: [
-				`${collectDirPrefix}/**/*.ts`
-			],
+			include: collects,
 			exclude: [
-				`__tests__/**/*`,
-				`examples/**/*`,
+				`**/examples/**`,
 				...configDefaults.coverage.exclude!
 			]
 		}

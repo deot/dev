@@ -14,33 +14,47 @@ describe('index', () => {
 	});
 
 	it('monorepo', async () => {
-		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '*'`], {
+		expect.assertions(5);
+		const { stdout } = await Shell.exec(`npm`, ['run', 'test', `-- --package-name '*'`], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
 
-		expect(response).toBe(0);
+		// console.log(stdout);
+		expect(stdout).toMatch('4 passed');
+
+		// coverage
+		expect(stdout).toMatch(' index/src         |');
+		expect(stdout).toMatch(' shared/src        |');
+		expect(stdout).toMatch(' components        |');
+		expect(stdout).toMatch(' components/button |');
 	}, 60000);
 
 	it('monorepo, subpackages, *', async () => {
-		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components'`], {
+		expect.assertions(3);
+		const { stdout } = await Shell.exec(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components'`], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
 
-		expect(response).toBe(0);
+		// console.log(stdout);
+		expect(stdout).toMatch('2 passed');
+
+		// coverage
+		expect(stdout).toMatch(' components        |');
+		expect(stdout).toMatch(' components/button |');
 	}, 60000);
 
 	it('monorepo, subpackages, button', async () => {
-		expect.assertions(1);
-		const response = await Shell.spawn(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components' --subpackage 'button'`], {
+		expect.assertions(2);
+		const { stdout } = await Shell.exec(`npm`, ['run', 'test', `-- --package-name '@demo/helper-components' --subpackage 'button'`], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
 
-		expect(response).toBe(0);
+		// console.log(stdout);
+		expect(stdout).toMatch(`1 passed`);
+		expect(stdout).toMatch(' index.ts |');
 	}, 60000);
 
 	it('singlerepo', async () => {
