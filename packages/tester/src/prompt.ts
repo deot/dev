@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import fs from 'fs-extra';
 import autocomplete from 'inquirer-autocomplete-prompt';
 import { Locals } from '@deot/dev-shared';
 
@@ -10,7 +9,7 @@ const { prompt, registerPrompt } = inquirer;
 export const getOptions = async () => {
 	const isDev = process.env.NODE_ENV === 'development';
 
-	const { packageFolderNames } = Locals.impl();
+	const { packageFolderNames, subpackagesMap } = Locals.impl();
 	const packages$ = [ALL_PACKAGE, ...packageFolderNames] as string[];
 	const question = [
 		{
@@ -34,10 +33,10 @@ export const getOptions = async () => {
 			name: 'subpackageFolderName',
 			default: '',
 			when: (answers: any) => {
-				return !!Locals.getSubpackages(answers.packageFolderName).length;
+				return !!subpackagesMap[answers.packageFolderName].length;
 			},
 			source: (answers: any, input: any) => {
-				const subpackages = [ALL_PACKAGE, ...Locals.getSubpackages(answers.packageFolderName)];
+				const subpackages = [ALL_PACKAGE, ...subpackagesMap[answers.packageFolderName]];
 				input = input || '';
 				return new Promise(($resolve => {
 					let filter = input 

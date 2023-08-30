@@ -28,8 +28,20 @@ export const command = (command$: string, args?: string[]) => {
 	return v || [];
 };
 
-export const exec = (command$: string, args?: string[]) => {
-	return util.promisify(childProcess.exec)(command(command$, args).join(SPACE));
+export const exec = (command$: string, args?: string[], options?: any) => {
+	let exec$ = util.promisify(childProcess.exec);
+	let command$$ = command(command$, args).join(SPACE);
+
+	return exec$(command$$, options)
+		.then((response) => {
+			let stderr = response.stderr.toString();
+			let stdout = response.stdout.toString();
+
+			return {
+				stderr,
+				stdout
+			};
+		});
 };
 
 // 如果args某个参数中有空格且不要求被分离，需要''或者""包裹

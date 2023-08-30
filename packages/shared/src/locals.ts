@@ -33,6 +33,9 @@ interface Config {
 	};
 	normalizePackageNames: string[];
 	normalizePackageFolderNames: string[];
+	subpackagesMap: {
+		[key: string]: string[];
+	};
 }
 
 // 处理依赖关系的函数 如a依赖b, b依赖c，则输出c,b,a; 
@@ -84,26 +87,6 @@ export const getNormalizePackage = (dataMap: any) => {
 		}
 	}
 	return result.reverse();
-};
-
-export const getSubpackages = (subdir: string): string[] => {
-	const { workspace, packageDir } = impl();
-	/* istanbul ignore next -- @preserve */ 
-	if (!workspace) return [];
-
-	let dir = path.resolve(packageDir, subdir);
-	
-	// 根目录含index.ts, 不含src, 有文件夹且含__tests__，即认为当前为子包
-	return fs.existsSync(`${dir}/index.ts`) && !fs.existsSync(`${dir}/src`)
-		? fs.readdirSync(dir).filter((file: string) => {
-			const fullpath = path.join(dir, file);
-			const stat = fs.statSync(fullpath);
-			if (stat.isDirectory()) {
-				return fs.existsSync(`${fullpath}/__tests__`);
-			}
-			return false;
-		})
-		: [];
 };
 
 export const getPackageName = (packageFolderName$: string) => {
@@ -180,10 +163,27 @@ export const impl = (cwd?: string) => {
 		return pre;
 	}, {});
 
+	// 根目录含index.ts, 不含src, 有文件夹且含__tests__，即认为当前为子包
+	const subpackagesMap = packageFolderNames.reduce((pre, packageFolderName$) => {
+		let dir = path.resolve(packageDir, packageFolderName$);
+		pre[packageFolderName$] = workspace && fs.existsSync(`${dir}/index.ts`) && !fs.existsSync(`${dir}/src`)
+			? fs.readdirSync(dir).filter((file: string) => {
+				const fullpath = path.join(dir, file);
+				const stat = fs.statSync(fullpath);
+				if (stat.isDirectory()) {
+					return fs.existsSync(`${fullpath}/__tests__`);
+				}
+				return false;
+			})
+			: [];
+		return pre;
+	}, {});
+
 	// 打包的优先级
 	const normalizePackageNames = getNormalizePackage(packageRelation);
 	const normalizePackageFolderNames = normalizePackageNames
 		.map(i => i.replace(new RegExp(`${packageName}-?`), '') || packageFolderName);
+
 
 	const homepage = (rootPackageOptions.repository || packageOptions.repository || {}).url || '';
 	const config = {
@@ -201,7 +201,8 @@ export const impl = (cwd?: string) => {
 		packageDirsMap,
 		packageRelation,
 		normalizePackageNames,
-		normalizePackageFolderNames
+		normalizePackageFolderNames,
+		subpackagesMap
 	};
 
 	configMap[cwd] = config;

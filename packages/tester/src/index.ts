@@ -23,14 +23,14 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		};
 	}
 
-	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
+	const { cwd, workspace, packageOptionsMap, packageDirsMap, subpackagesMap } = locals;
 	const { environment, coverage, watch, dryRun } = options;
 
 	options.packageFolderName = Locals.getPackageFolderName(options.packageName) || options.packageFolderName;
 	options.workspace = workspace;
 
 	options.subpackageFolderName = options.subpackageFolderName || options.subpackage;
-	options.subpackages = Locals.getSubpackages(options.packageFolderName);
+	options.subpackages = subpackagesMap[options.packageFolderName];
 	
 	const packageOptions = packageOptionsMap[options.packageFolderName];
 	const packageDir = packageDirsMap[options.packageFolderName];
