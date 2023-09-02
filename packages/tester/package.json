@@ -20,7 +20,9 @@
     "access": "public"
   },
   "dependencies": {
+    "@deot/dev-react": "*",
     "@deot/dev-shared": "^2.4.0",
+    "@deot/dev-vue": "*",
     "@vitest/coverage-istanbul": "^0.34.2",
     "cross-env": "^7.0.3",
     "inquirer": "^9.2.10",

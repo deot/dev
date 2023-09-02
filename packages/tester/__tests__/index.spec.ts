@@ -21,7 +21,7 @@ describe('index', () => {
 		});
 
 		// console.log(stdout);
-		expect(stdout).toMatch('4 passed');
+		expect(stdout).toMatch('6 passed');
 
 		// coverage
 		expect(stdout).toMatch(' index/src         |');

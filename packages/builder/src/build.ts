@@ -28,7 +28,15 @@ export class Build {
 		dts: boolean;
 		scriptFormats: string;
 		nodePackage: string;
+		vuePackage: string;
+		reactPackage: string;
 	};
+
+	isVuePackage: boolean;
+
+	isReactPackage: boolean;
+
+	isNodePackage: boolean;
 
 	constructor(packageFolderName: string, commandOptions: Build['commandOptions']) {
 		const { workspace, packageDir, packageName, packageFolderName: packageFolderName$, subpackagesMap } = Locals.impl();
@@ -43,6 +51,11 @@ export class Build {
 			: `${packageName}-${packageFolderName}`;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.commandOptions = commandOptions;
+
+		const { reactPackage, vuePackage, nodePackage } = commandOptions;
+		this.isVuePackage = typeof vuePackage === 'string' && (vuePackage === '*' || (vuePackage.split(',')).includes(this.packageName));
+		this.isReactPackage = typeof vuePackage === 'string' && (vuePackage === '*' || (reactPackage.split(',')).includes(this.packageName));
+		this.isNodePackage = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(this.packageName));
 	}
 
 	async process() {

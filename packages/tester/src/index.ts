@@ -51,10 +51,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	const isDev = process.env.NODE_ENV === 'development';
 	const NODE_ENV = process.env.NODE_ENV || 'TEST';
-	const TEST_OPTIONS = encodeURIComponent(JSON.stringify(options));
 
 	if (dryRun) {
-		const command = `cross-env NODE_ENV=${NODE_ENV} TEST_OPTIONS=${TEST_OPTIONS} vitest ` 
+		const command = `cross-env NODE_ENV=${NODE_ENV} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} vitest ` 
 			+ ([
 				'--passWithNoTests',
 				`${!(watch || isDev) ? '--watch=false' : ''}`
@@ -62,9 +61,6 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		Shell.spawn(`echo ${command}`);
 		return;
 	}
-
-	process.env.NODE_ENV = process.env.NODE_ENV || 'TEST';
-	process.env.TEST_OPTIONS = TEST_OPTIONS;
 	
 	let options$: UserConfig = {
 		environment,
@@ -80,8 +76,35 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	} else if (fs.existsSync(`${cwd}/test.config.ts`)) {
 		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
 	} else {
+		/**
+		 * 和build保持一致, 仅当默认时，才启用vue
+		 * startVitest第四个参数设置plugins的话;
+		 * .vue就无法搜集覆盖率了, 这里需要在shared.config.ts直接配置
+		 * 引入只是为了去除tsx执行的hack
+		 */
+		const { vuePackage } = options;
+		const packageName = Locals.getPackageName(options.packageFolderName);
+		const isVuePackage = typeof vuePackage === 'string' && (
+			packageName === locals.packageName
+			|| packageName === `${locals.packageName}-*`
+			|| vuePackage === '*' 
+			|| (vuePackage.split(',')).includes(packageName)
+		);
+
+		const isReactPackage = typeof vuePackage === 'string' && (
+			packageName === locals.packageName
+			|| packageName === `${locals.packageName}-*`
+			|| vuePackage === '*' 
+			|| (vuePackage.split(',')).includes(packageName)
+		);
+
+		options.useVue = !!isVuePackage;
+		options.useReact = !!isReactPackage;
 		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
+
+	process.env.NODE_ENV = NODE_ENV;
+	process.env.TEST_OPTIONS = encodeURIComponent(JSON.stringify(options));
 
 	await startVitest('test', [], options$);
 }, {

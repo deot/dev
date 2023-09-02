@@ -75,6 +75,8 @@ addOptions(
 		.option('--package-name <string>', 'Select packageName')
 		.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
 		.option('--node-package <string>')
+		.option('--vue-package <string>')
+		.option('--react-package <string>')
 		.option('--no-dts [boolean]', 'No Export Types'),
 	Builder.run
 );
@@ -117,6 +119,8 @@ addOptions(
 		.option('--no-coverage [boolean]', 'Coverage Analyze')
 		.option('--package-name <string>', 'Select PackageName')
 		.option('--subpackage <string>', 'Select SubpackageName')
+		.option('--vue-package <string>')
+		.option('--react-package <string>')
 		.option('--watch [boolean]', 'Watch Test')
 		.option('--environment <string>', 'Environment', 'jsdom'),
 	Tester.run

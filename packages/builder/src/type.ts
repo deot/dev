@@ -9,7 +9,7 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const run = async (options: Build) => {
 	const { workspace, packageDir: packageRootDir } = Locals.impl();
-	const { packageDir, packageOutDir, packageSourceDir, packageOptions, commandOptions } = options;
+	const { isVuePackage, packageDir, packageOutDir, packageSourceDir, packageOptions, commandOptions } = options;
 
 	const done = () => {
 		const stats: Array<{ size: number; file: string }> = [];
@@ -46,6 +46,7 @@ export const run = async (options: Build) => {
 		compilerOptions: {
 			declaration: true,
 			emitDeclarationOnly: true,
+			allowJs: true,
 			rootDir,
 			outDir: '.'
 		},
@@ -54,8 +55,7 @@ export const run = async (options: Build) => {
 		]
 	}, null, '\t'));
 
-	// TODO: tsc是个变量，如vue-tsc就可以编译vue相关 
-	await Shell.spawn('tsc', ['-p', `${tempDir}/tsconfig.json`]);
+	await Shell.spawn(isVuePackage ? 'vue-tsc' : 'tsc', ['-p', `${tempDir}/tsconfig.json`]);
 
 	const configPath = `${tempDir}/api-extractor.json`;
 	// 生成api-extractor用于合并dts

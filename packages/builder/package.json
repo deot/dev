@@ -29,7 +29,9 @@
     }
   },
   "dependencies": {
+    "@deot/dev-react": "*",
     "@deot/dev-shared": "^2.4.0",
+    "@deot/dev-vue": "*",
     "@microsoft/api-extractor": "^7.36.4",
     "autoprefixer": "^10.4.15",
     "chalk": "^5.3.0",

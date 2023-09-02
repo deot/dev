@@ -2,8 +2,10 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fs from 'fs-extra';
 import { Locals } from '@deot/dev-shared';
-import { build as createViteBuild } from 'vite';
+import { build as createViteBuild, mergeConfig } from 'vite';
 import type { InlineConfig } from 'vite';
+import sharedVueConfig from '@deot/dev-vue';
+import sharedReactConfig from '@deot/dev-react';
 import type { Build } from './build';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -12,8 +14,18 @@ export const run = async (options: Build) => {
 	const locals = Locals.impl();
 	const { cwd, workspace } = locals;
 
-	const { packageSourceDir: srcDir, packageOutDir: outDir, packageName, packageDir, packageOptions, commandOptions } = options || {};
-	const { scriptFormats, nodePackage } = commandOptions;
+	const { 
+		packageSourceDir: srcDir,
+		packageOutDir: outDir,
+		packageName,
+		packageDir,
+		packageOptions,
+		commandOptions,
+		isNodePackage,
+		isVuePackage,
+		isReactPackage
+	} = options || {};
+	const { scriptFormats } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	let files = fs.existsSync(srcDir)
@@ -47,6 +59,12 @@ export const run = async (options: Build) => {
 			options$.configFile = path.relative(cwd, path.resolve(cwd, './build.config.ts'));
 		} else {
 			options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
+			// 只有使用默认配置时才有效，否则就自行配置（这样可以配置单独Plugin的参数）
+			options$ = isVuePackage 
+				? mergeConfig(sharedVueConfig, options$) 
+				: isReactPackage 
+					? mergeConfig(sharedReactConfig, options$)
+					: options$;
 		}
 
 		let viteBuild = await createViteBuild(options$);
@@ -54,11 +72,10 @@ export const run = async (options: Build) => {
 		return viteBuild;
 	};
 
-	const needFilter = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(packageName));
 	const formats = scriptFormats
 		.split(',')
 		.filter((i: string) => {
-			return !needFilter || ['es', 'cjs'].includes(i);
+			return !isNodePackage || ['es', 'cjs'].includes(i);
 		});
 	await formats
 		.reduce(

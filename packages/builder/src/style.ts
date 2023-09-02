@@ -12,7 +12,7 @@ import autoprefixer from "autoprefixer";
 import type { Build } from './build';
 
 export const run = async (options: Build) => {
-	const { packageSourceDir: srcDir, packageOutDir: outDir, packageDir } = options || {};
+	const { packageSourceDir: srcDir, packageOutDir: outDir } = options || {};
 	const styles = fs.existsSync(srcDir) 
 		? fs
 			.readdirSync(srcDir)

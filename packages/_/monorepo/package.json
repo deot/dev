@@ -6,8 +6,8 @@
   "scripts": {
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
     "dev": "npm run cli -- dev --dry-run",
-    "build": "npm run cli -- build",
-    "test": "npm run cli -- test",
+    "build": "npm run cli -- build --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
+    "test": "npm run cli -- test --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
     "release": "npm run cli -- release",
     "update": "npm run cli -- update"
   },

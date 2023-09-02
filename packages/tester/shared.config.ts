@@ -1,8 +1,27 @@
 import * as path from 'node:path';
 import { createRequire } from "node:module";
-import { defineConfig, configDefaults } from 'vitest/config';
+import { defineConfig, configDefaults, mergeConfig } from 'vitest/config';
 import type { UserConfig } from 'vite';
 
+import vue from '@vitejs/plugin-vue';
+import vueJSX from '@vitejs/plugin-vue-jsx';
+import react from '@vitejs/plugin-react-swc';
+
+/**
+ * https://github.com/vuejs/core/issues/8303
+ * to fix error: ReferenceError: __name is not defined
+ */
+let __defProp = Object.defineProperty;
+let __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
+globalThis.__name = globalThis.__name || __name;
+
+const getViteConfig = (options: any) => {
+	return options.useVue 
+		? defineConfig({ plugins: [vue(), vueJSX()] }) 
+		: options.useReact
+			? defineConfig({ plugins: [react()] }) 
+			: {};
+};
 const cwd = process.cwd();
 
 // options
@@ -12,8 +31,8 @@ const { workspace, packageFolderName, subpackageFolderName, subpackagesMap } = o
 let tests: string[] = [];
 let collects: string[] = [];
 
-const TEST_PATTEN = `**.(spec|test).[jt]s?(x)`;
-const COLLECT_PATTEN = `**/*.ts`;
+const TEST_PATTEN = `**/*.{test,spec}.[jt]s?(x)`;
+const COLLECT_PATTEN = `**/*.[jt]s?(x)`;
 
 if (workspace) {
 	let prefixDir = `${workspace}/${packageFolderName || '*'}`;
@@ -55,7 +74,7 @@ if (workspace) {
 const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
 const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
 
-export default defineConfig({
+export default mergeConfig(getViteConfig(options), defineConfig({
 	resolve: workspace
 		? {
 			alias: [
@@ -89,4 +108,5 @@ export default defineConfig({
 			]
 		}
 	}
-}) as UserConfig;
+}) as UserConfig);
+
