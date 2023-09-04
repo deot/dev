@@ -9,6 +9,15 @@ describe('shell.ts', () => {
 		expect(response.stderr).toBe('');
 	});
 
+	it('exec/catch', async () => {
+		expect.assertions(1);
+		try {
+			await Shell.exec(`NOCOMMAND`, ['any']);
+		} catch (response) {
+			expect(typeof response).toBe('object');
+		}
+	});
+
 	it('spawn', async () => {
 		expect.assertions(1);
 		const response = await Shell.spawn(`echo`);
@@ -23,6 +32,22 @@ describe('shell.ts', () => {
 		} catch (response) {
 			expect(typeof response).toBe('object');
 		}
+	});
+
+	it('spawn/catch', async () => {
+		expect.assertions(1);
+
+		await Shell.spawn(`NOCOMMAND`, ['any']).catch(response => {
+			expect(typeof response).toBe('object');
+		});
+	});
+
+	it('spawn/finally', async () => {
+		expect.assertions(1);
+
+		await Shell.spawn(`echo`).finally(() => {
+			expect(1).toBe(1);
+		});
 	});
 
 	it('command', async () => {

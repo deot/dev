@@ -1,10 +1,26 @@
 import * as path from 'node:path';
 import * as childProcess from 'node:child_process';
-import * as util from 'node:util';
 import * as fs from 'node:fs';
+
+interface IPromise<T = any, K = any> {
+	then: (resolve: (a: T) => void, reject: (b: K) => void) => Promise<any>;
+	catch: (callback?: (b: K) => void) => Promise<any>;
+	finally: (callback?: () => void) => Promise<any>;
+}
 
 const SPACE = ' ';
 const binDirectory = path.resolve(process.cwd(), './node_modules/.bin');
+
+const toPromise = <T extends {}, K = any>(target: T, promise: Promise<K>): T & IPromise<K> => {
+	let instance = target as (T & IPromise<K>);
+	
+	instance.then = (resolve, reject) => promise.then(resolve, reject);
+	instance.catch = (callback) => promise.catch(callback);
+	instance.finally = (callback) => promise.finally(callback);
+
+	return instance;
+};
+
 /* istanbul ignore next -- @preserve */ 
 export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory) 
 	? fs
@@ -29,19 +45,26 @@ export const command = (command$: string, args?: string[]) => {
 };
 
 export const exec = (command$: string, args?: string[], options?: any) => {
-	let exec$ = util.promisify(childProcess.exec);
 	let command$$ = command(command$, args).join(SPACE);
+	let reject: any;
+	let resolve: any;
 
-	return exec$(command$$, options)
-		.then((response) => {
-			let stderr = response.stderr.toString();
-			let stdout = response.stdout.toString();
-
-			return {
-				stderr,
-				stdout
-			};
+	const promise = new Promise<{ stderr: string; stdout: string }>((resolve$, reject$) => {
+		reject = reject$;
+		resolve = resolve$;
+	});
+	const instance = childProcess.exec(command$$, options, (error, stdout, stderr) => {
+		if (error) {
+			reject(error);
+			return;
+		}
+		resolve({
+			stderr: stderr.toString(),
+			stdout: stdout.toString()
 		});
+	});
+
+	return toPromise(instance, promise);
 };
 
 // 如果args某个参数中有空格且不要求被分离，需要''或者""包裹
@@ -49,25 +72,28 @@ export const spawn = (command$: string, args?: string[], options?: any) => {
 	let [command$$, ...args$] = command(command$, args).map((i: string) => LOCAL_COMMAND_MAP[i] || i);
 	args$ = args$.map((i: string) => i.replace(/^['"]|['"]$/g, ''));
 
-	return new Promise((resolve, reject) => {
-		const emit = childProcess.spawn(
-			command$$,
-			args$, 
-			{ 
-				stdio: 'inherit',
-				...options
-			}
-		);
-		emit.on('close', (code) => {
+	const instance = childProcess.spawn(
+		command$$,
+		args$, 
+		{ 
+			stdio: 'inherit',
+			...options
+		}
+	);
+	const promise = new Promise((resolve, reject) => {
+		instance.on('close', (code) => {
 			if (code === 0) {
 				resolve(code);
 			} else {
 				reject(code);
 			}
 		});
-		emit.on('error', (error) => {
+		instance.on('error', (error) => {
 			!process.exitCode && (process.exitCode = 1);
 			reject(error);
 		});
 	});
+
+	
+	return toPromise(instance, promise);
 };
