@@ -41,6 +41,12 @@
 [npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
 [npm-updater-url]: https://www.npmjs.com/package/@deot/dev-deps
 
+[npm-vue-image]: https://img.shields.io/npm/v/@deot/dev-vue.svg
+[npm-vue-url]: https://www.npmjs.com/package/@deot/dev-deps
+
+[npm-react-image]: https://img.shields.io/npm/v/@deot/dev-react.svg
+[npm-react-url]: https://www.npmjs.com/package/@deot/dev-deps
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
@@ -59,5 +65,9 @@
 | [stylelint](packages/stylelint/CHANGELOG.md) | [![npm][npm-stylelint-image]][npm-stylelint-url] |
 | [deps](packages/deps/CHANGELOG.md)           | [![npm][npm-deps-image]][npm-deps-url]           |
 | [updater](packages/updater/CHANGELOG.md)     | [![npm][npm-updater-image]][npm-updater-url]     |
+| [vue](packages/vue/CHANGELOG.md)     | [![npm][npm-vue-image]][npm-vue-url]     |
+| [react](packages/react/CHANGELOG.md)     | [![npm][npm-react-image]][npm-react-url]     |
 | [index](packages/index/CHANGELOG.md)         | [![npm][npm-image]][npm-url]                     |
+
+
 

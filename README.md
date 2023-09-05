@@ -63,6 +63,12 @@
 [npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
 [npm-updater-url]: https://www.npmjs.com/package/@deot/dev-updater
 
+[npm-vue-image]: https://img.shields.io/npm/v/@deot/dev-vue.svg
+[npm-vue-url]: https://www.npmjs.com/package/@deot/dev-vue
+
+[npm-react-image]: https://img.shields.io/npm/v/@deot/dev-react.svg
+[npm-react-url]: https://www.npmjs.com/package/@deot/dev-react
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
@@ -81,7 +87,10 @@
 | [stylelint](packages/stylelint) | [![npm][npm-stylelint-image]][npm-stylelint-url] | Stylelint配置项                           |
 | [deps](packages/deps)           | [![npm][npm-deps-image]][npm-deps-url]           | 额外依赖提取                                 |
 | [updater](packages/updater)     | [![npm][npm-updater-image]][npm-updater-url]     | 更新依赖包版本                                |
+| [vue](packages/vue)             | [![npm][npm-vue-image]][npm-vue-url]             | `Vue`相关集成                              |
+| [react](packages/react)         | [![npm][npm-react-image]][npm-react-url]         | `React`相关集成                            |
 | [index](packages/index)         | [![npm][npm-image]][npm-url]                     | 当前所有包的合集                               |
+
 
 ## Contributing
 
