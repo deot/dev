@@ -53,7 +53,8 @@ export const exec = (command$: string, args?: string[], options?: any) => {
 		reject = reject$;
 		resolve = resolve$;
 	});
-	const instance = childProcess.exec(command$$, options, (error, stdout, stderr) => {
+	const subprocess = childProcess.exec(command$$, options, (error, stdout, stderr) => {
+		process.off('beforeExit', handler);
 		if (error) {
 			reject(error);
 			return;
@@ -64,7 +65,12 @@ export const exec = (command$: string, args?: string[], options?: any) => {
 		});
 	});
 
-	return toPromise(instance, promise);
+	const handler = /* istanbul ignore next */ () => {
+		!subprocess.killed && subprocess.kill('SIGHUP');
+	};
+
+	process.on('beforeExit', handler);
+	return toPromise(subprocess, promise);
 };
 
 // 如果args某个参数中有空格且不要求被分离，需要''或者""包裹
@@ -72,7 +78,7 @@ export const spawn = (command$: string, args?: string[], options?: any) => {
 	let [command$$, ...args$] = command(command$, args).map((i: string) => LOCAL_COMMAND_MAP[i] || i);
 	args$ = args$.map((i: string) => i.replace(/^['"]|['"]$/g, ''));
 
-	const instance = childProcess.spawn(
+	const subprocess = childProcess.spawn(
 		command$$,
 		args$, 
 		{ 
@@ -81,19 +87,26 @@ export const spawn = (command$: string, args?: string[], options?: any) => {
 		}
 	);
 	const promise = new Promise((resolve, reject) => {
-		instance.on('close', (code) => {
+		subprocess.on('close', (code) => {
+			process.off('beforeExit', handler);
 			if (code === 0) {
 				resolve(code);
 			} else {
 				reject(code);
 			}
 		});
-		instance.on('error', (error) => {
+		subprocess.on('error', (error) => {
+			process.off('beforeExit', handler);
 			!process.exitCode && (process.exitCode = 1);
 			reject(error);
 		});
 	});
 
-	
-	return toPromise(instance, promise);
+	const handler = /* istanbul ignore next */ () => {
+		!subprocess.killed && subprocess.kill('SIGHUP');
+	};
+
+	process.on('beforeExit', handler);
+
+	return toPromise(subprocess, promise);
 };
