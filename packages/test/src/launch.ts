@@ -13,9 +13,15 @@ export class Launch {
 
 	private _page!: Promise<Page>;
 
-	options: PuppeteerLaunchOptions;
+	puppeteerOptions: PuppeteerLaunchOptions;
 
-	constructor() {
+	options: {
+		logLevel?: string;
+	};
+
+	constructor(options?: Launch['options']) {
+		this.options = options || { logLevel: 'slient' };
+
 		this.operater = new Proxy({} as Operater, {
 			get: () => {
 				throw new Error('operater is not defined. create* invote first');
@@ -35,7 +41,7 @@ export class Launch {
 		});
 		
 
-		this.options = process.env.CI
+		this.puppeteerOptions = process.env.CI
 			? /* istanbul ignore next */ { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
 			: {};
 	}
@@ -49,7 +55,7 @@ export class Launch {
 			}
 
 			this._browser = puppeteer.launch({
-				...this.options,
+				...this.puppeteerOptions,
 				headless: 'new'
 			});
 
@@ -79,7 +85,8 @@ export class Launch {
 						localStorage.clear();
 					});
 
-					page.on('console', /* istanbul ignore next */ e => {
+					/* istanbul ignore next -- @preserve */ 
+					this.options.logLevel !== 'slient' && page.on('console', e => {
 						const key = e.type();
 						console[key].call(console[key], `${key} from puppeteer: `, ...e.args().map(i => i.remoteObject()));
 					});
