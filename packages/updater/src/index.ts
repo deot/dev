@@ -2,6 +2,7 @@ import type { Options } from '@deot/dev-shared';
 import { Utils, Logger, Shell } from '@deot/dev-shared';
 import { update } from './update';
 
+process.setMaxListeners(100);
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	options = { 
 		dryRun: true,
