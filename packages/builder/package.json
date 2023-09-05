@@ -38,7 +38,7 @@
     "cssnano": "^6.0.1",
     "fs-extra": "^11.1.1",
     "ora": "^7.0.1",
-    "postcss": "^8.4.28",
+    "postcss": "^8.4.29",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^15.1.0",
     "postcss-url": "^10.1.3",
