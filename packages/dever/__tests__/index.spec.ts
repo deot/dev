@@ -4,6 +4,7 @@ import { Locals, Shell } from '@deot/dev-shared';
 import * as Dever from '@deot/dev-dever';
 import { Launch } from '@deot/dev-test';
 
+// @vitest-environment node
 describe('index', () => {
 	it('config', () => {
 		const it = Locals.impl();
@@ -36,24 +37,37 @@ describe('index', () => {
 
 		let expects = ['/components/button/index.html', '/vue/index.html', '/react/index.html'];
 		await new Promise<void>(resolve => {
+			const run = (url: string, timeout: number) => {
+				task = task
+					.then(() => {
+						return ctx.page.goto(url, { timeout });
+					})
+					.then(() => {
+						return ctx.operater.html("#test");
+					})
+					.then((res) => {
+						expect(res).toMatch('Hello World!');
+						expects = expects.filter(i => !url.includes(i));
+						if (!expects.length) {
+							subprocess.kill();
+							ctx.browser.close().then(() => resolve());
+						}
+					}).catch((e) => {
+						if (e.toString().includes('TimeoutError')) {
+							console.log(url, /url/);
+							run(url, 10000);
+						} else {
+							console.log(e);							
+						}
+					});
+			};
 			subprocess.stdout.on('data', (data) => {
 				data = data.toString().replace(/(\t|\n|\v|\r|\f|\s)/g, '');
 				if (!data) return;
-
-				data.split('>').forEach((url: string) => {
+				data.split('>').filter(i => !!i).forEach((url: string) => {
 					url = url.match(/(.*)(http:.*)/)?.[2] || '';
 					if (url && expects.some(i => url.includes(i))) {
-						task = task
-							.then(() => ctx.page.goto(url))
-							.then(() => ctx.operater.html("#test"))
-							.then((res) => {
-								expect(res).toMatch('Hello World!');
-								expects = expects.filter(i => !url.includes(i));
-								if (!expects.length) {
-									subprocess.kill();
-									ctx.browser.close().then(() => resolve());
-								}
-							}).catch(console.log);
+						run(url, 5000);
 					}
 				});
 			}); 
