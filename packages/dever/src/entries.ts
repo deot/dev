@@ -24,7 +24,7 @@ const walk = (dir?: string) => {
 		const extname = path.extname(fullpath);
 
 		if (stat.isFile() 
-			&& (/\.(t|j)sx?$/.test(extname)) 
+			&& (/\.((t|j)sx?|vue)$/.test(extname)) 
 			&& paths.length >= 2 && paths[paths.length - 2] === 'examples'
 		) {
 			const basename = path.basename(file, extname);

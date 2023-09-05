@@ -82,7 +82,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		 * .vue就无法搜集覆盖率了, 这里需要在shared.config.ts直接配置
 		 * 引入只是为了去除tsx执行的hack
 		 */
-		const { vuePackage } = options;
+		const { vuePackage, reactPackage } = options;
 		const packageName = Locals.getPackageName(options.packageFolderName);
 		const isVuePackage = typeof vuePackage === 'string' && (
 			packageName === locals.packageName
@@ -91,11 +91,11 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			|| (vuePackage.split(',')).includes(packageName)
 		);
 
-		const isReactPackage = typeof vuePackage === 'string' && (
+		const isReactPackage = typeof reactPackage === 'string' && (
 			packageName === locals.packageName
 			|| packageName === `${locals.packageName}-*`
-			|| vuePackage === '*' 
-			|| (vuePackage.split(',')).includes(packageName)
+			|| reactPackage === '*' 
+			|| (reactPackage.split(',')).includes(packageName)
 		);
 
 		options.useVue = !!isVuePackage;

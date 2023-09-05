@@ -4,8 +4,10 @@ import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Locals, Logger } from '@deot/dev-shared';
 import fs from 'fs-extra';
 import type { InlineConfig } from 'vite';
-import { createServer } from 'vite';
+import { createServer, mergeConfig } from 'vite';
 import chalk from 'chalk';
+import sharedVueConfig from '@deot/dev-vue';
+import sharedReactConfig from '@deot/dev-react';
 import * as Entries from './entries';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,9 +21,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (options.dryRun) return Shell.spawn(`echo development`);
 
 	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
-	const { packageName } = options;
 
-	const packageFolderName = Locals.getPackageFolderName(packageName);
+	const packageFolderName = Locals.getPackageFolderName(options.packageName);
 	const packageOptions = packageOptionsMap[packageFolderName];
 	const packageDir = packageDirsMap[packageFolderName];
 	options.watch = true;
@@ -40,14 +41,6 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	delete options.packageName;
 
 	let { entries, html } = Entries.get();
-
-	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify({
-		...options,
-		workspace,
-		entries,
-		html
-	}));
-
 	if (!entries.length) return Shell.spawn(`echo no entry file found!`);
 	
 	let options$: InlineConfig = {
@@ -62,11 +55,26 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));	
 	} else {
 		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
+		const { vuePackage, reactPackage } = options;
+
+		if (vuePackage) {
+			options$ = mergeConfig(sharedVueConfig, options$);
+		}
+
+		if (reactPackage) {
+			options$ = mergeConfig(sharedReactConfig, options$);
+		}
 	}
 
+	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify({
+		...options,
+		workspace,
+		entries,
+		html
+	}));
+	
 	const server = await createServer(options$);
 	const $server = await server.listen();
-
 	const { local = [], network = [] } = $server.resolvedUrls || {};
 	const url = network[0] || local[0] || `http://localhost:${$server.config.server.port}`;
 

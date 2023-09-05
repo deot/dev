@@ -141,9 +141,15 @@ importers:
 
   packages/dever:
     dependencies:
+      '@deot/dev-react':
+        specifier: '*'
+        version: link:../react
       '@deot/dev-shared':
         specifier: ^2.4.0
         version: link:../shared
+      '@deot/dev-vue':
+        specifier: '*'
+        version: link:../vue
       ejs:
         specifier: ^3.1.9
         version: 3.1.9
@@ -151,6 +157,9 @@ importers:
         specifier: ^4.4.9
         version: 4.4.9(@types/node@20.5.4)
     devDependencies:
+      '@deot/dev-test':
+        specifier: ^2.4.0
+        version: link:../test
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -245,6 +254,9 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
 
   packages/releaser:
     dependencies:
@@ -5677,6 +5689,16 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
+  /react-dom@18.2.0(react@18.2.0):
+    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
+    dev: false
+
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
@@ -5914,6 +5936,12 @@ packages:
     engines: {node: '>=v12.22.7'}
     dependencies:
       xmlchars: 2.2.0
+    dev: false
+
+  /scheduler@0.23.0:
+    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /semver@5.7.1:

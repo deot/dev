@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
-    "dev": "npm run cli -- dev --dry-run",
+    "dev": "npm run cli -- dev  --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
     "build": "npm run cli -- build --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
     "test": "npm run cli -- test --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
     "release": "npm run cli -- release",

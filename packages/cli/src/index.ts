@@ -62,7 +62,9 @@ addOptions(
 		.command('dev')
 		.alias('d')
 		.description('dev')
-		.option('--package-name <string>', 'Select PackageName'),
+		.option('--package-name <string>', 'Select PackageName')
+		.option('--vue-package <string>')
+		.option('--react-package <string>'),
 	Dever.run
 );
 

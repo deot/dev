@@ -1,1 +1,1 @@
-console.log(2);
+document.getElementById('app').innerHTML = '<div id="test">Hello World!</div>';
