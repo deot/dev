@@ -33,7 +33,7 @@ export const getOptions = async () => {
 			name: 'subpackageFolderName',
 			default: '',
 			when: (answers: any) => {
-				return !!subpackagesMap[answers.packageFolderName].length;
+				return !!subpackagesMap[answers.packageFolderName]?.length;
 			},
 			source: (answers: any, input: any) => {
 				const subpackages = [ALL_PACKAGE, ...subpackagesMap[answers.packageFolderName]];

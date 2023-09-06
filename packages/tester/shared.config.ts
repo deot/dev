@@ -51,7 +51,7 @@ if (workspace) {
 				collects.push(`${prefixDir$}/index*.ts`);
 			}
 		});
-	} else if (subpackagesMap[packageFolderName].length) {
+	} else if (subpackagesMap[packageFolderName]?.length) {
 		if (subpackageFolderName) {
 			tests = [];
 			collects = [];
