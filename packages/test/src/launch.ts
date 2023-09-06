@@ -40,9 +40,9 @@ export class Launch {
 			}
 		});
 		
-
+		/* istanbul ignore next -- @preserve */  
 		this.puppeteerOptions = process.env.CI
-			? /* istanbul ignore next */ { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
+			? { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
 			: {};
 	}
 
