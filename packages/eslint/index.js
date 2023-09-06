@@ -62,7 +62,7 @@ module.exports = {
 		},
 
 		{
-			"files": ["*.ts"],
+			"files": ["*.ts", "*.tsx"],
 			"rules": {
 				"no-undef": 0
 			}
