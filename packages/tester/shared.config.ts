@@ -15,7 +15,11 @@ let __defProp = Object.defineProperty;
 let __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
 globalThis.__name = globalThis.__name || __name;
 
+// 当库里同时含有vue和react，vue的jsx要含前缀vue
 const getViteConfig = (options: any) => {
+	if (options.useVue && options.useReact) {
+		return defineConfig({ plugins: [vue(), vueJSX({ include: /\.vue\.[jt]sx$/ }), react()] });
+	}
 	return options.useVue 
 		? defineConfig({ plugins: [vue(), vueJSX()] }) 
 		: options.useReact
@@ -32,7 +36,7 @@ let tests: string[] = [];
 let collects: string[] = [];
 
 const TEST_PATTEN = `**/*.{test,spec}.[jt]s?(x)`;
-const COLLECT_PATTEN = `**/*.[jt]s?(x)`;
+const COLLECT_PATTEN = `**/*.{[jt]s?(x),vue}`;
 
 if (workspace) {
 	let prefixDir = `${workspace}/${packageFolderName || '*'}`;
