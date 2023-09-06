@@ -18,9 +18,12 @@
 - [demo by self](https://github.com/deot/dev-self-demo)：这个最终演变成`@deot/dev`，方便`@deot/dev`了解具体运作
 
 目前基于`@deot/dev`的库
-- [@deot/helper](https://github.com/deot/helper)
-- [@deot/http](https://github.com/deot/http)
-- [@deot/style](https://github.com/deot/style)
+
+- [@deot/helper](https://github.com/deot/helper): 工具类库
+- [@deot/http](https://github.com/deot/http): 网络请求库
+- [@deot/style](https://github.com/deot/style): 样式库
+- [@deot/vc](https://github.com/deot/vc): `Vue`组件库
+- [@deot/rc](https://github.com/deot/rc): `React`组件库
 
 ## Monorepo
 
