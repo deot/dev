@@ -49,30 +49,42 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		}
 	};
 	
+	const devOptions = {
+		...options,
+		workspace,
+		entries,
+		html,
+		subpackagesMap,
+
+		// 这个是给外部调用(z.)?dev.config.ts用的
+		useVue: false,
+		useReact: false
+	};
+
+	const { vuePackage: isVuePackage, reactPackage: isReactPackage } = options;
+	devOptions.useVue = !!isVuePackage;
+	devOptions.useReact = !!isReactPackage;
+
 	if (fs.existsSync(`${cwd}/z.dev.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './z.dev.config.ts'));
 	} else if (fs.existsSync(`${cwd}/dev.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));	
 	} else {
+		// 只有当使用默认配置时，才有的值
+		process.env.USE_VUE = isVuePackage ? '1' : '';
+		process.env.USE_REACT = isReactPackage ? '1' : '';
 		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
-		const { vuePackage, reactPackage } = options;
-
-		if (vuePackage) {
+		
+		if (isVuePackage) {
 			options$ = mergeConfig(sharedVueConfig, options$);
 		}
 
-		if (reactPackage) {
+		if (isReactPackage) {
 			options$ = mergeConfig(sharedReactConfig, options$);
 		}
 	}
 
-	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify({
-		...options,
-		workspace,
-		entries,
-		html,
-		subpackagesMap
-	}));
+	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify(devOptions));
 	
 	const server = await createServer(options$);
 	const $server = await server.listen();

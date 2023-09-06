@@ -61,6 +61,26 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		Shell.spawn(`echo ${command}`);
 		return;
 	}
+
+	const { vuePackage, reactPackage } = options;
+	const packageName = Locals.getPackageName(options.packageFolderName);
+	const isVuePackage = typeof vuePackage === 'string' && (
+		packageName === locals.packageName
+		|| packageName === `${locals.packageName}-*`
+		|| vuePackage === '*' 
+		|| (vuePackage.split(',')).includes(packageName)
+	);
+
+	const isReactPackage = typeof reactPackage === 'string' && (
+		packageName === locals.packageName
+		|| packageName === `${locals.packageName}-*`
+		|| reactPackage === '*' 
+		|| (reactPackage.split(',')).includes(packageName)
+	);
+
+	// 这个是给外部调用(z.)?test.config.ts用的
+	options.useVue = !!isVuePackage;
+	options.useReact = !!isReactPackage;
 	
 	let options$: UserConfig = {
 		environment,
@@ -76,30 +96,16 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	} else if (fs.existsSync(`${cwd}/test.config.ts`)) {
 		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
 	} else {
+		// 只有当使用默认配置时，才有的值
+		process.env.USE_VUE = isVuePackage ? '1' : '';
+		process.env.USE_REACT = isReactPackage ? '1' : '';
 		/**
 		 * 和build保持一致, 仅当默认时，才启用vue
 		 * startVitest第四个参数设置plugins的话;
 		 * .vue就无法搜集覆盖率了, 这里需要在shared.config.ts直接配置
 		 * 引入只是为了去除tsx执行的hack
 		 */
-		const { vuePackage, reactPackage } = options;
-		const packageName = Locals.getPackageName(options.packageFolderName);
-		const isVuePackage = typeof vuePackage === 'string' && (
-			packageName === locals.packageName
-			|| packageName === `${locals.packageName}-*`
-			|| vuePackage === '*' 
-			|| (vuePackage.split(',')).includes(packageName)
-		);
-
-		const isReactPackage = typeof reactPackage === 'string' && (
-			packageName === locals.packageName
-			|| packageName === `${locals.packageName}-*`
-			|| reactPackage === '*' 
-			|| (reactPackage.split(',')).includes(packageName)
-		);
-
-		options.useVue = !!isVuePackage;
-		options.useReact = !!isReactPackage;
+		
 		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
 

@@ -37,7 +37,7 @@ export const run = async (options: Build) => {
 	if (!files.length) return stats;
 
 	const build = async (format: string) => {
-		process.env.BUILD_OPTIONS = encodeURIComponent(JSON.stringify({
+		const buildOptions = {
 			files,
 			format,
 			workspace,
@@ -45,19 +45,28 @@ export const run = async (options: Build) => {
 			packageDir,
 			packageSourceDir: srcDir,
 			packageOptions,
-		}));
 
+			// 这个是给外部调用(z.)?build.config.ts用的
+			useVue: false,
+			useReact: false
+		};
 		// vite每次执行是会清空outDir，这里由自己写入
 		let options$: InlineConfig = {
 			build: {
 				write: false
 			}
 		};
+
+		buildOptions.useVue = !!isVuePackage;
+		buildOptions.useReact = !!isReactPackage;
+
 		if (fs.existsSync(`${cwd}/z.build.config.ts`)) {
 			options$.configFile = path.relative(cwd, path.resolve(cwd, './z.build.config.ts'));
 		} else if (fs.existsSync(`${cwd}/build.config.ts`)) {
 			options$.configFile = path.relative(cwd, path.resolve(cwd, './build.config.ts'));
 		} else {
+			process.env.USE_VUE = isVuePackage ? '1' : '';
+			process.env.USE_REACT = isReactPackage ? '1' : '';
 			options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 			// 只有使用默认配置时才有效，否则就自行配置（这样可以配置单独Plugin的参数）
 			options$ = isVuePackage 
@@ -66,6 +75,8 @@ export const run = async (options: Build) => {
 					? mergeConfig(sharedReactConfig, options$)
 					: options$;
 		}
+
+		process.env.BUILD_OPTIONS = encodeURIComponent(JSON.stringify(buildOptions));
 
 		let viteBuild = await createViteBuild(options$);
 

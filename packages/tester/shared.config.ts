@@ -16,13 +16,15 @@ let __name = (target: any, value: any) => __defProp(target, 'name', { value, con
 globalThis.__name = globalThis.__name || __name;
 
 // 当库里同时含有vue和react，vue的jsx要含前缀vue
-const getViteConfig = (options: any) => {
-	if (options.useVue && options.useReact) {
+const getViteConfig = () => {
+	const useVue = process.env.USE_VUE;
+	const useReact = process.env.USE_REACT;
+	if (useVue && useReact) {
 		return defineConfig({ plugins: [vue(), vueJSX({ include: /\.vue\.[jt]sx$/ }), react()] });
 	}
-	return options.useVue 
+	return useVue 
 		? defineConfig({ plugins: [vue(), vueJSX()] }) 
-		: options.useReact
+		: useReact
 			? defineConfig({ plugins: [react()] }) 
 			: {};
 };
@@ -81,7 +83,7 @@ const getPackageName = (name: string) => (require$(path.resolve(cwd, workspace ?
 const replacement = (name: string, isSubpackage?: boolean) => path.resolve(cwd, `./packages/${name}`, isSubpackage ? 'index.ts' : './src');
 const name = getPackageName('index');
 
-export default mergeConfig(getViteConfig(options), defineConfig({
+export default mergeConfig(getViteConfig(), defineConfig({
 	resolve: workspace
 		? {
 			alias: [
