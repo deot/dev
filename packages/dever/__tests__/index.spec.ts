@@ -38,11 +38,19 @@ describe('index', () => {
 		let expects = ['/components/button/index.html', '/vue/index.html', '/react/index.html'];
 		await new Promise<void>(resolve => {
 			const run = (url: string, timeout: number) => {
+				let timer: any;
 				task = task
 					.then(() => {
-						return ctx.page.goto(url, { timeout });
+						return Promise.race([
+							ctx.page.goto(url, { timeout }),
+							// CI测试环境中有时没有走到timeout, 这里再设定一个定时器
+							new Promise((_, reject) => {
+								timer = setTimeout(() => reject(new Error('TimeoutError')), timeout);
+							})
+						]);
 					})
 					.then(() => {
+						clearTimeout(timer);
 						return ctx.operater.html("#test");
 					})
 					.then((res) => {
@@ -53,7 +61,9 @@ describe('index', () => {
 							ctx.browser.close().then(() => resolve());
 						}
 					}).catch((e) => {
-						if (e.toString().includes('TimeoutError')) {
+						clearTimeout(timer);
+						if (String(e).includes('TimeoutError')) {
+							process.env.CI && console.log(url, String(e).replace(/(.*)\n.*/, '$1'), /try again/);
 							run(url, timeout + 100);
 						} else {
 							console.log(e, /task error/);							
@@ -66,7 +76,7 @@ describe('index', () => {
 				data.split('>').filter((i: any) => !!i).forEach((url: string) => {
 					url = url.match(/(.*)(http:.*)/)?.[2] || '';
 					if (url && expects.some(i => url.includes(i))) {
-						run(url, 300);
+						run(url, 500);
 					}
 				});
 			}); 
