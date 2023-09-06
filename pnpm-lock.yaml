@@ -90,13 +90,13 @@ importers:
         specifier: ^2.5.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../releaser
       '@deot/dev-shared':
         specifier: ^2.5.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.5.0
@@ -201,13 +201,13 @@ importers:
         specifier: ^2.5.0
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.5.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^2.5.0
@@ -216,7 +216,7 @@ importers:
         specifier: ^2.5.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../releaser
       '@deot/dev-shared':
         specifier: ^2.5.0
@@ -228,7 +228,7 @@ importers:
         specifier: ^2.5.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.5.0

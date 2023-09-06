@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.5.1
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix: subpackage alias ([5a0d5e5](https://github.com/deot/dev/commit/5a0d5e59a78cc45b1be7783e0f54568bf310e946))
+
 ## v2.5.0
 
 _2023-09-06_

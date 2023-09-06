@@ -1,5 +1,14 @@
 # @deot/dev-cli ChangeLog
 
+## v2.5.1
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix(dever,tester): subpackage alias ([5a0d5e5](https://github.com/deot/dev/commit/5a0d5e59a78cc45b1be7783e0f54568bf310e946))
+- fix(releaser): when commit message include `(*,tester)`, `test` will be publish ([67ec009](https://github.com/deot/dev/commit/67ec009255d78513a9d155caf0f3d0cd1b949418))
+
 ## v2.5.0
 
 _2023-09-06_

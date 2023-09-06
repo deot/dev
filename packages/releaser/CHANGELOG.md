@@ -1,5 +1,13 @@
 # @deot/dev-releaser ChangeLog
 
+## v2.5.1
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix: when commit message include `(*,tester)`, `test` will be publish ([67ec009](https://github.com/deot/dev/commit/67ec009255d78513a9d155caf0f3d0cd1b949418))
+
 ## v2.5.0
 
 _2023-09-06_
