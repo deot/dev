@@ -54,7 +54,7 @@ export class Build {
 
 		const { reactPackage, vuePackage, nodePackage } = commandOptions;
 		this.isVuePackage = typeof vuePackage === 'string' && (vuePackage === '*' || (vuePackage.split(',')).includes(this.packageName));
-		this.isReactPackage = typeof vuePackage === 'string' && (vuePackage === '*' || (reactPackage.split(',')).includes(this.packageName));
+		this.isReactPackage = typeof reactPackage === 'string' && (reactPackage === '*' || (reactPackage.split(',')).includes(this.packageName));
 		this.isNodePackage = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(this.packageName));
 	}
 
