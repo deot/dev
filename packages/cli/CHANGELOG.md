@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.5.2
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix(tester): error with prompt mode ([5101efd](https://github.com/deot/dev/commit/5101efde01bc65386edfd52cdf4baab6f58dd92c))
+
 ## v2.5.1
 
 _2023-09-06_
