@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-dever",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "type": "module",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@deot/dev-react": "^2.5.0",
     "@deot/dev-shared": "^2.5.0",
-    "@deot/dev-vue": "^2.5.0",
+    "@deot/dev-vue": "^2.5.1",
     "ejs": "^3.1.9",
     "vite": "^4.4.9"
   },

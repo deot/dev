@@ -1,5 +1,14 @@
 # @deot/dev-vue ChangeLog
 
+## v2.5.1
+
+_2023-09-06_
+
+### Features
+
+- feat: vue's jsx regex changed ([598e9c0](https://github.com/deot/dev/commit/598e9c002b5ef191c829411d3f2ccd2cb24b20f3))
+- feat: test-utils integration ([a6d1cd1](https://github.com/deot/dev/commit/a6d1cd1537ab6a0f34ff77c014e521ea6614298b))
+
 ## v2.5.0
 
 _2023-09-06_

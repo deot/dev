@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.5.1
+
+_2023-09-06_
+
+### Features
+
+- feat: allow `no-undef` with `.tsx` ([5c13dbb](https://github.com/deot/dev/commit/5c13dbba0c494b99de028f7e375f4117d6522ad1))
+
 ## v2.5.0
 
 _2023-09-06_

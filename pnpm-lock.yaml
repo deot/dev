@@ -35,7 +35,7 @@ importers:
         specifier: ^2.5.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../vue
       '@microsoft/api-extractor':
         specifier: ^7.36.4
@@ -84,7 +84,7 @@ importers:
         specifier: ^2.5.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../builder
       '@deot/dev-linker':
         specifier: ^2.5.0
@@ -96,7 +96,7 @@ importers:
         specifier: ^2.5.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.5.3
+        specifier: ^2.5.4
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.5.0
@@ -148,7 +148,7 @@ importers:
         specifier: ^2.5.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../vue
       ejs:
         specifier: ^3.1.9
@@ -198,19 +198,19 @@ importers:
         specifier: ^2.5.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.5.3
+        specifier: ^2.5.4
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.5.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.5.1
+        specifier: ^2.5.2
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../eslint
       '@deot/dev-linker':
         specifier: ^2.5.0
@@ -228,7 +228,7 @@ importers:
         specifier: ^2.5.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.5.3
+        specifier: ^2.5.4
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.5.0
@@ -322,7 +322,7 @@ importers:
         specifier: ^2.5.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.5.0
+        specifier: ^2.5.1
         version: link:../vue
       '@vitest/coverage-istanbul':
         specifier: ^0.34.3
