@@ -54,23 +54,22 @@ describe('index', () => {
 						}
 					}).catch((e) => {
 						if (e.toString().includes('TimeoutError')) {
-							console.log(url, /url/);
-							run(url, 10000);
+							run(url, timeout + 100);
 						} else {
-							console.log(e);							
+							console.log(e, /task error/);							
 						}
 					});
 			};
 			subprocess.stdout.on('data', (data) => {
 				data = data.toString().replace(/(\t|\n|\v|\r|\f|\s)/g, '');
 				if (!data) return;
-				data.split('>').filter(i => !!i).forEach((url: string) => {
+				data.split('>').filter((i: any) => !!i).forEach((url: string) => {
 					url = url.match(/(.*)(http:.*)/)?.[2] || '';
 					if (url && expects.some(i => url.includes(i))) {
-						run(url, 5000);
+						run(url, 300);
 					}
 				});
 			}); 
 		});
-	}, 120000);
+	}, 150000);
 });
