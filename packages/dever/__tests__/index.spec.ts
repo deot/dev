@@ -26,10 +26,7 @@ describe('index', () => {
 
 	it('monorepo', async () => {
 		expect.assertions(3);
-		const ctx = new Launch();
-		await ctx.createPage();
 
-		let task = Promise.resolve();
 		const subprocess = Shell.spawn(`npm`, ['run', 'dev'], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
@@ -38,19 +35,16 @@ describe('index', () => {
 		let expects = ['/components/button/index.html', '/vue/index.html', '/react/index.html'];
 		await new Promise<void>(resolve => {
 			const run = (url: string, timeout: number) => {
-				let timer: any;
-				task = task
+				let ctx: Launch;
+				Promise.resolve()
 					.then(() => {
-						return Promise.race([
-							ctx.page.goto(url, { timeout }),
-							// CI测试环境中有时没有走到timeout, 这里再设定一个定时器
-							new Promise((_, reject) => {
-								timer = setTimeout(() => reject(new Error('TimeoutError')), timeout);
-							})
-						]);
+						ctx = new Launch();
+						return ctx.createPage();
 					})
 					.then(() => {
-						clearTimeout(timer);
+						return ctx.page.goto(url, { timeout });
+					})
+					.then(() => {
 						return ctx.operater.html("#test");
 					})
 					.then((res) => {
@@ -60,8 +54,9 @@ describe('index', () => {
 							subprocess.kill();
 							ctx.browser.close().then(() => resolve());
 						}
-					}).catch((e) => {
-						clearTimeout(timer);
+					})
+					.catch((e) => {
+						ctx.browser.close();
 						if (String(e).includes('TimeoutError')) {
 							process.env.CI && console.log(url, String(e).replace(/(.*)\n.*/, '$1'), /try again/);
 							run(url, timeout + 100);
