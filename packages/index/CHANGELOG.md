@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.5.3
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix(tester): '*' as default when test ([83d9387](https://github.com/deot/dev/commit/83d93873c58c45429620b1426014f8980a8f34af))
+
 ## v2.5.2
 
 _2023-09-06_
