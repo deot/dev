@@ -20,7 +20,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	
 	if (options.dryRun) return Shell.spawn(`echo development`);
 
-	const { cwd, workspace, packageOptionsMap, packageDirsMap } = locals;
+	const { cwd, workspace, packageOptionsMap, packageDirsMap, subpackagesMap } = locals;
 
 	const packageFolderName = Locals.getPackageFolderName(options.packageName);
 	const packageOptions = packageOptionsMap[packageFolderName];
@@ -70,7 +70,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		...options,
 		workspace,
 		entries,
-		html
+		html,
+		subpackagesMap
 	}));
 	
 	const server = await createServer(options$);

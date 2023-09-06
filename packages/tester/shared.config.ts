@@ -70,9 +70,12 @@ if (workspace) {
 	tests.push(`__tests__/${TEST_PATTEN}`);
 	collects.push(`src/${COLLECT_PATTEN}`);
 }
+
 // alias
-const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
-const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
+const require$ = createRequire(cwd);
+const getPackageName = (name: string) => (require$(path.resolve(cwd, workspace ? `${workspace}/${name}` : '', 'package.json'))).name;
+const replacement = (name: string, isSubpackage?: boolean) => path.resolve(cwd, `./packages/${name}`, isSubpackage ? 'index.ts' : './src');
+const name = getPackageName('index');
 
 export default mergeConfig(getViteConfig(options), defineConfig({
 	resolve: workspace
@@ -82,6 +85,15 @@ export default mergeConfig(getViteConfig(options), defineConfig({
 					find: new RegExp(`^${name}$`),
 					replacement: replacement('index')
 				},
+				...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
+					if (subpackagesMap[cur].length) {
+						pre.push({
+							find: new RegExp(`^${getPackageName(cur)}$`),
+							replacement: replacement(cur, true)
+						});
+					}
+					return pre;
+				}, [] as any),
 				{
 
 					find: new RegExp(`^${name}-(.*?)$`),

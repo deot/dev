@@ -7,9 +7,6 @@
   "files": [
     "dist"
   ],
-  "files": [
-    "dist"
-  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,4 @@
-import { TEST } from '../src/index';
+import { TEST } from '@demo/helper-shared';
 
 describe('index.ts', () => {
 	it('any', () => {

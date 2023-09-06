@@ -16,11 +16,7 @@ const cwd = process.cwd();
 
 // devOptions
 const devOptions = JSON.parse(decodeURIComponent(process.env.DEV_OPTIONS || '{}'));
-const { workspace, html } = devOptions;
-
-// alias
-const replacement = (name: string) => path.resolve(cwd, `./packages/${name}/src`);
-const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
+const { workspace, html, subpackagesMap } = devOptions;
 
 const generateIndexHtml = (url: string, inject: string) => {
 	let contents = '';
@@ -100,6 +96,13 @@ const getVirtualHtml = async (url: string) => {
 	}
 };
 
+
+// alias
+const require$ = createRequire(cwd);
+const getPackageName = (name: string) => (require$(path.resolve(cwd, workspace ? `${workspace}/${name}` : '', 'package.json'))).name;
+const replacement = (name: string, isSubpackage?: boolean) => path.resolve(cwd, `./packages/${name}`, isSubpackage ? 'index.ts' : './src');
+const name = getPackageName('index');
+
 export default defineConfig({
 	resolve: workspace
 		? {
@@ -108,6 +111,15 @@ export default defineConfig({
 					find: new RegExp(`^${name}$`),
 					replacement: replacement('index')
 				},
+				...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
+					if (subpackagesMap[cur].length) {
+						pre.push({
+							find: new RegExp(`^${getPackageName(cur)}$`),
+							replacement: replacement(cur, true)
+						});
+					}
+					return pre;
+				}, [] as any),
 				{
 
 					find: new RegExp(`^${name}-(.*?)$`),

@@ -1,4 +1,4 @@
-import { App } from '../src/index';
+import { App } from '@demo/helper-vue';
 
 describe('index.ts', () => {
 	it('any', () => {
