@@ -1,5 +1,25 @@
 # @deot/dev-dever ChangeLog
 
+## v2.5.0
+
+_2023-09-06_
+
+### Features
+
+- feat: support component preview directly (react - `*.tsx`, vue - '*.vue') ([8f231c5](https://github.com/deot/dev/commit/8f231c5916645844692c2780ee04b4265dd71dd9))
+- feat(react): react integration ([2828c25](https://github.com/deot/dev/commit/2828c25fa9a338ad91e95bc191d40f6cb830665e))
+- feat(shared): [shell] subprocess exit auto ([5300480](https://github.com/deot/dev/commit/5300480003064d27afcdcc18b373589e5e36253b))
+- feat(shared): [shell] expose instance ([ac07184](https://github.com/deot/dev/commit/ac07184b6b88ce9226baa157b6ef95fdcb339822))
+- feat(shared): add `isSubPackageMode` ([7b38608](https://github.com/deot/dev/commit/7b38608dd43bb7fcc69c691e5550b2e7873a96e8))
+- feat(vue): vue integration ([82accda](https://github.com/deot/dev/commit/82accda7bf50de8b2733ecbde3f3d35ae2d1d978))
+- feat(test): allow avoid page log ([84f61cb](https://github.com/deot/dev/commit/84f61cbdefc01ff3ecd4ffe898a90232ff5371f3))
+- feat(cli,tester,builder): support react/vue package ([5f9e6ef](https://github.com/deot/dev/commit/5f9e6ef65237e4e477933080b921d6c9fcd8fb84))
+- feat(tester): support subpackage mode ([638b369](https://github.com/deot/dev/commit/638b369114c40ff3aaa9da3ff46a09343d1421f4))
+
+### Updates
+
+- chore(builder,deps,eslint,releaser,test,tester): deps updated ([682330c](https://github.com/deot/dev/commit/682330cfee48df6ba39c6a2b6b6f3a9bd80fd0f3))
+
 ## v2.4.0
 
 _2023-08-24_

@@ -1,5 +1,13 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.5.0
+
+_2023-09-06_
+
+### Force Update Package
+
+- `2.4.0` -> `2.5.0`
+
 ## v2.4.0
 
 _2023-08-24_

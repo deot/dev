@@ -1,5 +1,15 @@
 # @deot/dev-shared ChangeLog
 
+## v2.5.0
+
+_2023-09-06_
+
+### Features
+
+- feat: [shell] subprocess exit auto ([5300480](https://github.com/deot/dev/commit/5300480003064d27afcdcc18b373589e5e36253b))
+- feat: [shell] expose instance ([ac07184](https://github.com/deot/dev/commit/ac07184b6b88ce9226baa157b6ef95fdcb339822))
+- feat: add `isSubPackageMode` ([7b38608](https://github.com/deot/dev/commit/7b38608dd43bb7fcc69c691e5550b2e7873a96e8))
+
 ## v2.4.0
 
 _2023-08-24_

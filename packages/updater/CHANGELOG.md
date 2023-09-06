@@ -1,5 +1,19 @@
 # @deot/dev-updater ChangeLog
 
+## v2.5.0
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix: emitter memory leak detected ([c7b7b65](https://github.com/deot/dev/commit/c7b7b65c59fef885bfa3e539f33909d3a7146c84))
+
+### Features
+
+- feat(shared): [shell] subprocess exit auto ([5300480](https://github.com/deot/dev/commit/5300480003064d27afcdcc18b373589e5e36253b))
+- feat(shared): [shell] expose instance ([ac07184](https://github.com/deot/dev/commit/ac07184b6b88ce9226baa157b6ef95fdcb339822))
+- feat(shared): add `isSubPackageMode` ([7b38608](https://github.com/deot/dev/commit/7b38608dd43bb7fcc69c691e5550b2e7873a96e8))
+
 ## v2.4.0
 
 _2023-08-24_
