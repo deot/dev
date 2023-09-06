@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-cli",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "type": "module",
   "main": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@deot/dev-adder": "^2.5.0",
-    "@deot/dev-builder": "^2.5.2",
+    "@deot/dev-builder": "^2.5.3",
     "@deot/dev-linker": "^2.5.0",
     "@deot/dev-shared": "^2.5.0",
     "@deot/dev-tester": "^2.5.5",

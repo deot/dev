@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.5.6
+
+_2023-09-06_
+
+### Bugfixes
+
+- fix(builder): syntax error ([0182a99](https://github.com/deot/dev/commit/0182a995047ee12bd60ebb044e4e15315289d477))
+
 ## v2.5.5
 
 _2023-09-06_
