@@ -26,7 +26,7 @@ const cwd = process.cwd();
 
 // options
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { workspace, packageFolderName, subpackageFolderName, subpackagesMap } = options;
+const { workspace, packageFolderName = '*', subpackageFolderName, subpackagesMap } = options;
 
 let tests: string[] = [];
 let collects: string[] = [];
