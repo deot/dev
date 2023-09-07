@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.5.4
+
+_2023-09-07_
+
+### Features
+
+- feat: allow build config set external & globals ([f6532ba](https://github.com/deot/dev/commit/f6532badd7bf9eba9d01d4d18069c3764629b9d4))
+
 ## v2.5.3
 
 _2023-09-06_
