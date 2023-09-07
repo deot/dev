@@ -6,7 +6,7 @@
   "scripts": {
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
     "dev": "npm run cli -- dev  --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
-    "build": "npm run cli -- build --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
+    "build": "npm run cli -- build --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'  --script-formats es,cjs,iife --external vue,react",
     "test": "npm run cli -- test --vue-package '@demo/helper-vue' --react-package '@demo/helper-react'",
     "release": "npm run cli -- release",
     "update": "npm run cli -- update"

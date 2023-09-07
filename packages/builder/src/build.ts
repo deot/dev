@@ -30,6 +30,8 @@ export class Build {
 		nodePackage: string;
 		vuePackage: string;
 		reactPackage: string;
+		external: string;
+		globals: string;
 	};
 
 	isVuePackage: boolean;

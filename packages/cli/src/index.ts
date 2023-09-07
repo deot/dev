@@ -76,6 +76,8 @@ addOptions(
 		.description('build')
 		.option('--package-name <string>', 'Select packageName')
 		.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
+		.option('--external <string>', 'External, IIFE/UMD Used(Output)')
+		.option('--globals <string>', 'Globals, IIFE/UMD Used(Output)')
 		.option('--node-package <string>')
 		.option('--vue-package <string>')
 		.option('--react-package <string>')

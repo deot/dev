@@ -15,6 +15,8 @@ const buildOptions = JSON.parse(decodeURIComponent(process.env.BUILD_OPTIONS || 
 
 const { 
 	format, 
+	external = '',
+	globals = '',
 	workspace,
 	files = [], 
 	packageName, 
@@ -22,7 +24,8 @@ const {
 	packageOptions = {} 
 } = buildOptions;
 
-const external = /(cjs|es)/.test(format)
+const usedForBrowser = /(iife|umd)/.test(format);
+const external$ = !usedForBrowser
 	? [
 		/^node:/,
 		/^[a-zA-Z@]/,
@@ -33,13 +36,15 @@ const external = /(cjs|es)/.test(format)
 			})
 			.map(i => new RegExp(`^${i}$`))
 	]
-	: [];
+	: external.split(',')
+		.filter((i: string) => !!i)
+		.map((i: string) => new RegExp(`^${i}$`));
 
 // alias
 const replacement = (name: string) => path.resolve(cwd, `./packages/${name}`);
 const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
 
-const alias = workspace && !(/(cjs|es)/.test(format)) 
+const alias = workspace && usedForBrowser
 	? [
 		{
 			find: new RegExp(`^${name}$`),
@@ -53,10 +58,16 @@ const alias = workspace && !(/(cjs|es)/.test(format))
 	]
 	: [];
 
+const getGlobalName = (name$: string) => name$.replace(/(_|-|^|.*\/)([^-_\/@])/g, (_match: any, _$1: any, $2: string) => $2.toUpperCase());
 
 export default defineConfig({
-	plugins: [],
+	define: usedForBrowser 
+		? {
+			"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+		}
+		: {},
 	logLevel: 'silent',
+	plugins: [],
 	css: {
 		postcss: {
 			plugins: [
@@ -75,8 +86,24 @@ export default defineConfig({
 		lib: {
 			entry: files.map((file: string) => path.resolve(packageSourceDir, file)),
 			formats: [format],
-			name: packageName.replace(/(_|-|^|.*\/)([^-_\/@])/g, (_match: any, _$1: any, $2: string) => $2.toUpperCase())
+			name: getGlobalName(packageName)
 		},
-		rollupOptions: { external }
+		rollupOptions: { 
+			external: external$,
+			output: {
+				globals: usedForBrowser 
+					? (globals || external).split(',')
+						.filter((i: string) => !!i)
+						.reduce((pre: any, cur: string) => {
+							const [key, value] = cur.split(':');
+							if (key) {
+								pre[key] = value || getGlobalName(key);
+							}
+							return pre;
+						}, {})
+					: {}
+
+			}
+		}
 	}
 }) as UserConfig;

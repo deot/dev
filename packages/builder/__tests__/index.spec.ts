@@ -15,7 +15,7 @@ describe('index', () => {
 	});
 
 	it('monorepo', async () => {
-		expect.assertions(4);
+		expect.assertions(5);
 		const response = await Shell.spawn(`npm`, ['run', 'build'], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
@@ -24,6 +24,7 @@ describe('index', () => {
 		const has = (filename: string) => fs.existsSync(path.resolve(`./packages/_/monorepo/packages/components/dist/`, filename));
 		expect(response).toBe(0);
 		expect(has('index.es.js')).toBe(true);
+		expect(has('index.iife.js')).toBe(true);
 		expect(has('index.cjs')).toBe(true);
 		expect(has('index.d.ts')).toBe(true);
 	}, 120000);

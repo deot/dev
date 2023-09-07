@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default (): React.JSX.Element => {
+export default () => {
 	const handleClick = () => {};
 	return <div onClick={handleClick}>Hello World</div>;
 };

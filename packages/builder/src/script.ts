@@ -25,7 +25,7 @@ export const run = async (options: Build) => {
 		isVuePackage,
 		isReactPackage
 	} = options || {};
-	const { scriptFormats } = commandOptions;
+	const { scriptFormats, external, globals } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	let files = fs.existsSync(srcDir)
@@ -40,6 +40,8 @@ export const run = async (options: Build) => {
 		const buildOptions = {
 			files,
 			format,
+			external, 
+			globals,
 			workspace,
 			packageName,
 			packageDir,
