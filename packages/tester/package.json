@@ -23,11 +23,11 @@
     "@deot/dev-react": "^2.5.1",
     "@deot/dev-shared": "^2.5.0",
     "@deot/dev-vue": "^2.5.1",
-    "@vitest/coverage-istanbul": "^0.34.5",
+    "@vitest/coverage-istanbul": "^0.34.6",
     "cross-env": "^7.0.3",
     "inquirer": "^9.2.11",
-    "inquirer-autocomplete-prompt": "^3.0.0",
+    "inquirer-autocomplete-prompt": "^3.0.1",
     "jsdom": "^22.1.0",
-    "vitest": "^0.34.5"
+    "vitest": "^0.34.6"
   }
 }

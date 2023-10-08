@@ -20,12 +20,12 @@
   },
   "dependencies": {
     "@testing-library/vue": "^7.0.0",
-    "@vitejs/plugin-vue": "^4.3.4",
+    "@vitejs/plugin-vue": "^4.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "@vue/test-utils": "^2.4.1",
-    "vite": "^4.4.9",
+    "vite": "^4.4.11",
     "vue": "^3.3.4",
-    "vue-tsc": "^1.8.13"
+    "vue-tsc": "^1.8.16"
   },
   "devDependencies": {
     "@deot/dev-shared": "^2.5.0",
