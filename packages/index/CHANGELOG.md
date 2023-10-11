@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.5.8
+
+_2023-10-11_
+
+### Features
+
+- feat(dever): support preload file (preload.ts) ([0306467](https://github.com/deot/dev/commit/0306467c602cba6176629a91e24081b420170a2f))
+
 ## v2.5.7
 
 _2023-09-07_
