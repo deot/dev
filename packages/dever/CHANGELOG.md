@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.5.5
+
+_2023-10-11_
+
+### Features
+
+- feat: support root preload & multiple filename ([3221122](https://github.com/deot/dev/commit/322112235bd3931ed8fe06899204da7e006806b6))
+
 ## v2.5.4
 
 _2023-10-11_
