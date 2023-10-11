@@ -41,3 +41,10 @@ export default mergeConfig(
 ## 预加载配置`preload.ts`
 
 会查找当前文件夹路径下往前查找`preload.ts`文件，直至`process.cwd()`，如果存件，就近添加`preload.ts`
+
+文件查找优先级
+
+- `z.dev.preload.ts`
+- `dev.preload.ts`
+- `z.preload.ts`
+- `preload.ts`

@@ -62,9 +62,16 @@ const getVirtualHtml = async (url: string) => {
 	const getPreload = (fullpath: string) => {
 		let dir$ = path.dirname(fullpath);
 		let preload = '';
-		while (dir$ !== cwd && !preload) {
-			let preloadFullPath = path.resolve(dir$, './preload.ts');
-			if (fs.existsSync(preloadFullPath)) {
+		while (dir$.includes(cwd) && !preload) {
+			
+			let preloadFullPath = [
+				path.resolve(dir$, './z.dev.preload.ts'),
+				path.resolve(dir$, './dev.preload.ts'),
+				path.resolve(dir$, './z.preload.ts'),
+				path.resolve(dir$, './preload.ts')
+			].find(i => fs.existsSync(i));
+
+			if (preloadFullPath) {
 				preload = `		import "/${path.relative(cwd, preloadFullPath)}";\n`;
 			} else {
 				dir$ = path.resolve(dir$, '..');
