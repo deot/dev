@@ -58,6 +58,21 @@ const getVirtualHtml = async (url: string) => {
 		const fullpath = path.join(dir, `${entry.replace(/(.*)(\..*)$/, '$1') + ext}`);
 		return fs.existsSync(fullpath) ? fullpath : false;
 	};
+
+	const getPreload = (fullpath: string) => {
+		let dir$ = path.dirname(fullpath);
+		let preload = '';
+		while (dir$ !== cwd && !preload) {
+			let preloadFullPath = path.resolve(dir$, './preload.ts');
+			if (fs.existsSync(preloadFullPath)) {
+				preload = `		import "/${path.relative(cwd, preloadFullPath)}";\n`;
+			} else {
+				dir$ = path.resolve(dir$, '..');
+			}
+		}
+
+		return preload;
+	};
 	
 	const htmlFullpath = isExist('.html');
 	if (htmlFullpath) {
@@ -66,14 +81,14 @@ const getVirtualHtml = async (url: string) => {
 
 	const tsFullpath = isExist('.ts');
 	if (tsFullpath) {
-		let inject = '';
+		let inject = getPreload(tsFullpath);
 		inject += `		import "/${path.relative(cwd, tsFullpath)}";\n`;
 		return generateIndexHtml(url, inject);
 	}
 
 	const vueFullpath = isExist('.vue');
 	if (vueFullpath) {
-		let inject = '';
+		let inject = getPreload(vueFullpath);
 		inject += `		import { createApp } from "vue"\n`;
 		inject += `		import App from "/${path.relative(cwd, vueFullpath)}";\n`;
 		inject += `		const app = createApp(App);\n`;
@@ -84,7 +99,7 @@ const getVirtualHtml = async (url: string) => {
 
 	const tsxFullpath = isExist('.tsx');
 	if (tsxFullpath) {
-		let inject = '';
+		let inject = getPreload(tsxFullpath);
 		inject += `		import React, { StrictMode } from 'react';`;
 		inject += `		import { createRoot } from 'react-dom/client';`;
 		inject += `		import App from "/${path.relative(cwd, tsxFullpath)}";\n`;

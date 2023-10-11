@@ -37,3 +37,7 @@ export default mergeConfig(
 ```
 
 取`dev.config.ts`, 是为了方便从`vite`转其他开发工具时，可以不改变文件名
+
+## 预加载配置`preload.ts`
+
+会查找当前文件夹路径下往前查找`preload.ts`文件，直至`process.cwd()`，如果存件，就近添加`preload.ts`

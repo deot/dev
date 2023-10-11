@@ -25,7 +25,7 @@ describe('index', () => {
 	}, 60000);
 
 	it('monorepo', async () => {
-		expect.assertions(3);
+		expect.assertions(6);
 
 		const subprocess = Shell.spawn(`npm`, ['run', 'dev'], {
 			cwd: path.resolve('./packages/_/monorepo'),
@@ -45,10 +45,14 @@ describe('index', () => {
 						return ctx.page.goto(url, { timeout });
 					})
 					.then(() => {
-						return ctx.operater.html("#test");
+						return Promise.all([
+							ctx.operater.html("#test"),
+							ctx.operater.classList("#app")
+						]);
 					})
-					.then((res) => {
-						expect(res).toMatch('Hello World!');
+					.then(([html, classList]) => {
+						expect(html).toMatch('Hello World!');
+						expect(classList).toEqual(['preload']);
 						expects = expects.filter(i => !url.includes(i));
 						if (!expects.length) {
 							subprocess.kill();
