@@ -199,6 +199,7 @@ fix(shared): error (close #1)
 
 ```shell
 style(index,shared): warning
+style(*): warning
 ```
 
 ##### `Commit`无影响的格式

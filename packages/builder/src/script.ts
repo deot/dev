@@ -36,9 +36,9 @@ export const run = async (options: Build) => {
 
 	if (!files.length) return stats;
 
-	const build = async (format: string) => {
+	const build = async (format: string, filepath: string) => {
 		const buildOptions = {
-			files,
+			files: [filepath],
 			format,
 			external, 
 			globals,
@@ -80,9 +80,25 @@ export const run = async (options: Build) => {
 
 		process.env.BUILD_OPTIONS = encodeURIComponent(JSON.stringify(buildOptions));
 
-		let viteBuild = await createViteBuild(options$);
+		let outputs: any = await createViteBuild(options$);
 
-		return viteBuild;
+		outputs.forEach((i: any) => {
+			i.output.forEach((j: any) => {
+				// AssetOutput, // css
+				if (j.type === 'asset') {
+					let fileName = filepath.replace(/^(.*)((\..*\.js)|\.cjs|\.ts)/, `$1.${j.fileName}`);
+					fs.outputFileSync(`${outDir}/${fileName}`, j.source);
+					return;
+				} 
+
+				// ChunkOutput // js
+				if (j.type === 'chunk') { 
+					fs.outputFileSync(`${outDir}/${j.fileName}`, j.code);
+					return;
+				}
+			});
+		});
+		return outputs;
 	};
 
 	const formats = scriptFormats
@@ -90,45 +106,50 @@ export const run = async (options: Build) => {
 		.filter((i: string) => {
 			return !isNodePackage || ['es', 'cjs'].includes(i);
 		});
-	await formats
-		.reduce(
-			(preProcess: Promise<any>, format: any) => {
-				preProcess = preProcess
-					.then(() => build(format))
-					.then((outputs: any) => {
-						outputs.forEach((i: any) => {
-							i.output.forEach((j: any) => {
-								// AssetOutput, // css
-								if (j.type === 'asset') {
-									fs.outputFileSync(`${outDir}/${j.fileName}`, j.source);
-									return;
-								} 
 
-								// ChunkOutput // js
-								if (j.type === 'chunk') { 
-									fs.outputFileSync(`${outDir}/${j.name}.${format}${format === 'cjs' ? '' : '.js'}`, j.code);
-									return;
-								}
-							});
-						});
-					});
-				return preProcess;
-			}, 
-			Promise.resolve()
-		);
+	let serial: Promise<any> = Promise.resolve();
+
+	// 当格式umd和iife的时候，不支持多文件; 多文件也会导致css文件名重复（默认style.css, 单文件下可以修改）
+	formats.forEach((format) => {
+		files.forEach((filepath: string) => {
+			serial = serial.then(() => build(format, filepath));
+		});
+	});
+
+	await serial;
 
 	let outputs = fs
 		.readdirSync(outDir)
-		.filter((i: string) => /^index(.*)(?!=\.d)\.c?js$/.test(i));
+		.filter((i: string) => /^index(.*)(?!=(\.d))\.(cjs|js|style\.css)$/.test(i));
 
+	// 	'index.cjs' => 'index.ts', cjs
+	// 	'index.js' => 'index.ts', es
+	// 	'index.iife.js' => 'index.ts', iife
+	// 	'index.umd.cjs' => 'index.ts', umd
+	// 	'index.m.cjs' => 'index.m.ts', cjs
+	// 	'index.m.js' => 'index.m.ts', es
+	// 	'index.m.iife.js' => 'index.m.ts', iife
+	// 	'index.m.umd.cjs' => 'index.m.ts', umd
+	// 	
 	outputs.forEach((file: string) => {
 		let stat = fs.statSync(path.resolve(outDir, file));
 
 		stats.push({
-			file: file.replace(/^(.*)((\..*\.js)|\.cjs)/, '$1.ts'),
-			format: file.replace(/(.*\.(.*)\.js|.*\.(cjs))/, '$2$3'),
+			file: file
+				.replace(/^(.*)((\..*\.js)|\.umd\.cjs)/, '$1.ts')
+				.replace(/^(.*)(\.js|\.cjs)/, '$1.ts'),
+			format: /\.style\.css$/.test(file) 
+				? 'css' 
+				: /\.umd\.cjs$/.test(file)
+					? 'umd'
+					: /\.cjs$/.test(file)
+						? 'cjs'
+						: /\.iife\.cjs$/.test(file)
+							? 'iife'
+							: 'es',
 			size: stat.size
 		});
+
 	});
 	return stats;
 };

@@ -23,14 +23,14 @@ describe('index', () => {
 
 		const has = (filename: string) => fs.existsSync(path.resolve(`./packages/_/monorepo/packages/components/dist/`, filename));
 		expect(response).toBe(0);
-		expect(has('index.es.js')).toBe(true);
+		expect(has('index.js')).toBe(true);
 		expect(has('index.iife.js')).toBe(true);
 		expect(has('index.cjs')).toBe(true);
 		expect(has('index.d.ts')).toBe(true);
 	}, 120000);
 
 	it('singlerepo', async () => {
-		expect.assertions(7);
+		expect.assertions(12);
 		const response = await Shell.spawn(`npm`, ['run', 'build'], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'
@@ -41,18 +41,23 @@ describe('index', () => {
 		expect(has('index.css')).toBe(true);
 
 		// 因为js引用了css，vite会将其打包出，命名为style.css
-		expect(has('style.css')).toBe(true);
+		expect(has('index.style.css')).toBe(true);
+		expect(has('index.m.style.css')).toBe(true);
 
 		// es
-		expect(has('index.es.js')).toBe(true);
+		expect(has('index.js')).toBe(true);
+		expect(has('index.m.js')).toBe(true);
 
 		// cjs
 		expect(has('index.cjs')).toBe(true);
+		expect(has('index.m.cjs')).toBe(true);
 
 		// iife
 		expect(has('index.iife.js')).toBe(true);
+		expect(has('index.m.iife.js')).toBe(true);
 
 		// umd
-		expect(has('index.umd.js')).toBe(true);
+		expect(has('index.umd.cjs')).toBe(true);
+		expect(has('index.m.umd.cjs')).toBe(true);
 	}, 120000);
 });

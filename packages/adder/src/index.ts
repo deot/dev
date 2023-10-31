@@ -39,11 +39,11 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			name: packageName,
 			version: '0.0.1',
 			type: 'module',
-			main: 'dist/index.es.js',
+			main: 'dist/index.js',
 			types: "dist/index.d.ts",
 			exports: {
 				".": {
-					import: "./dist/index.es.js",
+					import: "./dist/index.js",
 					require: "./dist/index.cjs",
 					types: "./dist/index.d.ts"
 				}
