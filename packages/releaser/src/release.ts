@@ -130,14 +130,16 @@ export class Release {
 		const allowTypes = ['feat', `fix`, `break change`, `style`, `perf`, `types`, `refactor`, `chore`];
 		// eslint-disable-next-line max-len 
 		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(([\\w-]+(,))?${packageFolderName}((,)[\\w-]+)?\\)` : '(\\(.+\\))?'}: .*`, 'i');
+		const reAll = workspace && new RegExp(`^(${allowTypes.join('|')})\\(\\*\\): .*`, 'i');
+
 		const allCommits = stdout.split(SUFFIX);
 		const commits = allCommits
 			.filter((commit: string) => {
 				const chunk = commit.trim();
-
-				return chunk && rePlugin.test(chunk);
+				return chunk && (rePlugin.test(chunk) || (reAll && reAll.test(chunk)));
 			})
 			.map((commit) => {
+
 				const node = parser.sync(commit);
 				const body = (node.body || node.footer) as string;
 				if (!node.type) node.type = parser.sync(node.header?.replace(/\(.+\)!?:/, ':') || '').type;
