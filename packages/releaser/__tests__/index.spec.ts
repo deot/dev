@@ -19,12 +19,30 @@ describe('index', () => {
 
 		await instance.stop();
 
-		const log1 = 'No files will be modified.';
-		const log2 = '(Nothing Chanaged.|Skipping Git Push)';
-
 		expect(instance.code).toBe(0);
-		expect(instance.stdout).toMatch(new RegExp(log1));
-		expect(instance.stdout).toMatch(new RegExp(log2));
 		expect(instance.stderr).toBe('');
+
+		const logs = [
+			'No files will be modified.',
+			// 0
+			'feat: all changed by * ([00000](https://github.com/deot/dev/commit/00000))',
+			// 1
+			'fix: ci tag [#2](https://github.com/deot/dev/pull/2)',
+			// 2
+			'fix(shared): error [close 1](https://github.com/deot/dev/issues/1) ([22222](https://github.com/deot/dev/commit/22222))',
+			'fix: error [close 1](https://github.com/deot/dev/issues/1) ([22222](https://github.com/deot/dev/commit/22222))',
+			// 3
+			'refactor: remove deprecated ([33333](https://github.com/deot/dev/commit/33333))',
+			// 4
+			'style(index,shared): mutiple changed ([44444](https://github.com/deot/dev/commit/44444))',
+			'style: mutiple changed ([44444](https://github.com/deot/dev/commit/44444))',
+			// 5
+			'chore(builder,cli,deps,dever,eslint): deps updated ([55555](https://github.com/deot/dev/commit/55555))',
+			'chore: deps updated ([55555](https://github.com/deot/dev/commit/55555))'
+		];
+
+		logs.forEach(log => {
+			expect(instance.stdout).toMatch(log);
+		});
 	}, 60000);
 });
