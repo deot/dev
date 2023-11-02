@@ -23,6 +23,7 @@
     "@vitejs/plugin-vue": "^4.4.0",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "@vue/test-utils": "^2.4.1",
+    "lru-cache": "^10.0.1",
     "vite": "^4.5.0",
     "vue": "^3.3.7",
     "vue-tsc": "^1.8.22"
