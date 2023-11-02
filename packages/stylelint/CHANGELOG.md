@@ -1,5 +1,17 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.6.0
+
+_2023-11-02_
+
+### Features
+
+- feat: multiple entry points supported when output formats include 'iife' & 'umd' ([926bb53](https://github.com/deot/dev/commit/926bb53aea4114f595dba68f203e3bc727fdb4b4))
+
+### Updates
+
+- chore: deps updated ([0b432f1](https://github.com/deot/dev/commit/0b432f112fa62f3824cd292b138c23a2e935cc3e))
+
 ## v2.5.0
 
 _2023-09-06_

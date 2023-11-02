@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-eslint",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "main": "index.js",
   "files": [
     "index.js"

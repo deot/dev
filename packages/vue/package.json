@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-vue",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
     "vue-tsc": "^1.8.22"
   },
   "devDependencies": {
-    "@deot/dev-shared": "^2.5.0",
+    "@deot/dev-shared": "^2.6.0",
     "fs-extra": "^11.1.1"
   }
 }

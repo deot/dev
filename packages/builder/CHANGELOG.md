@@ -1,5 +1,19 @@
 # @deot/dev-builder ChangeLog
 
+## v2.6.0
+
+_2023-11-02_
+
+### Features
+
+- feat: multiple entry points supported when output formats include 'iife' & 'umd' ([926bb53](https://github.com/deot/dev/commit/926bb53aea4114f595dba68f203e3bc727fdb4b4))
+
+### Updates
+
+- chore: deps updated ([0b432f1](https://github.com/deot/dev/commit/0b432f112fa62f3824cd292b138c23a2e935cc3e))
+- chore: deps updated ([dd4f69b](https://github.com/deot/dev/commit/dd4f69b06f13099605278d79c932efe716e953cc))
+- chore: deps updated ([0cfa334](https://github.com/deot/dev/commit/0cfa3345c61760ae1f0440d850e470affea928aa))
+
 ## v2.5.4
 
 _2023-09-07_
