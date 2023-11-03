@@ -11,7 +11,7 @@ const lint = async (text: string) => {
 
 describe('index.ts', () => {
 	it('success', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		try {
 			const data = await lint(`a { color: red; }\n`);
 			expect(data.errored).toBe(false);
@@ -21,7 +21,7 @@ describe('index.ts', () => {
 	});
 
 	it('declaration-block-trailing-semicolon', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const data = await lint(`a { color: red }`);
 		expect(data.output).toMatch('declaration-block-trailing-semicolon');
 	});

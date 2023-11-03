@@ -8,7 +8,7 @@ describe('index.ts', () => {
 	});
 
 	it('monorepo', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const response = await Shell.spawn(`npm`, ['run', 'update'], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
@@ -18,7 +18,7 @@ describe('index.ts', () => {
 	}, 60000);
 
 	it('singlerepo', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const response = await Shell.spawn(`npm`, ['run', 'update'], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'

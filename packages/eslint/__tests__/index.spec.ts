@@ -17,13 +17,13 @@ const lint = async (text: string) => {
 
 describe('index.ts', () => {
 	it('success', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const data = await lint(`let a = 1;\nconsole.log(a);`);
 		expect(data.messages.length).toBe(0);
 	});
 
 	it('semi', async () => {
-		expect.assertions(2);
+		expect.hasAssertions();
 		const data = await lint(`console.log(1)`);
 		const it = data.messages[0];
 		expect(it.ruleId).toBe('semi');

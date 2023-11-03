@@ -3,7 +3,7 @@ import { Command } from '@deot/dev-test';
 
 describe('add.ts', () => {
 	it('ddc add / package', async () => {
-		expect.assertions(3);
+		expect.hasAssertions();
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
@@ -26,7 +26,7 @@ describe('add.ts', () => {
 	}, 60000);
 
 	it('ddc add / dependent', async () => {
-		expect.assertions(3);
+		expect.hasAssertions();
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[

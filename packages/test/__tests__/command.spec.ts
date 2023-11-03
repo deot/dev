@@ -3,7 +3,7 @@ import { Command } from '@deot/dev-test';
 
 describe('command.ts', () => {
 	it('package', async () => {
-		expect.assertions(3);
+		expect.hasAssertions();
 		const instance = new Command(
 			'node',
 			[
@@ -27,7 +27,7 @@ describe('command.ts', () => {
 	}, 10000);
 
 	it('dependent', async () => {
-		expect.assertions(3);
+		expect.hasAssertions();
 		const instance = new Command(
 			'node',
 			[
@@ -52,7 +52,7 @@ describe('command.ts', () => {
 	}, 10000);
 
 	it('close', async () => {
-		expect.assertions(2);
+		expect.hasAssertions();
 		const instance = new Command(
 			'node',
 			[

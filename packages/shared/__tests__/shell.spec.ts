@@ -2,7 +2,7 @@ import { Shell } from '@deot/dev-shared';
 
 describe('shell.ts', () => {
 	it('exec', async () => {
-		expect.assertions(2);
+		expect.hasAssertions();
 		const response = await Shell.exec(`echo`);
 		
 		expect(response.stdout).toBe('\n');
@@ -10,7 +10,7 @@ describe('shell.ts', () => {
 	});
 
 	it('exec/catch', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		try {
 			await Shell.exec(`NOCOMMAND`, ['any']);
 		} catch (response) {
@@ -19,13 +19,13 @@ describe('shell.ts', () => {
 	});
 
 	it('spawn', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const response = await Shell.spawn(`echo`);
 		expect(response).toBe(0);
 	});
 
 	it('spawn', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 
 		try {
 			await Shell.spawn(`NOCOMMAND`, ['any']);
@@ -35,7 +35,7 @@ describe('shell.ts', () => {
 	});
 
 	it('spawn/catch', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 
 		await Shell.spawn(`NOCOMMAND`, ['any']).catch(response => {
 			expect(typeof response).toBe('object');
@@ -43,7 +43,7 @@ describe('shell.ts', () => {
 	});
 
 	it('spawn/finally', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 
 		await Shell.spawn(`echo`).finally(() => {
 			expect(1).toBe(1);

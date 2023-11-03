@@ -22,7 +22,9 @@ describe('index', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stderr).toBe('');
 
-		const logs = [
+		const v = instance.stdout;
+		// logs
+		[
 			'No files will be modified.',
 			// 0
 			'feat: all changed by * ([00000](https://github.com/deot/dev/commit/00000))',
@@ -39,10 +41,6 @@ describe('index', () => {
 			// 5
 			'chore(builder,cli,deps,dever,eslint): deps updated ([55555](https://github.com/deot/dev/commit/55555))',
 			'chore: deps updated ([55555](https://github.com/deot/dev/commit/55555))'
-		];
-
-		logs.forEach(log => {
-			expect(instance.stdout).toMatch(log);
-		});
+		].forEach((i) => expect(v).toMatch(i));
 	}, 60000);
 });

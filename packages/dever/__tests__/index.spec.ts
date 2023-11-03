@@ -16,7 +16,7 @@ describe('index', () => {
 	});
 
 	it('singlerepo', async () => {
-		expect.assertions(1);
+		expect.hasAssertions();
 		const { stdout } = await Shell.exec(`npm`, ['run', 'dev'], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'

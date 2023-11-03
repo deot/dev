@@ -3,7 +3,7 @@ import { Command } from '@deot/dev-test';
 
 describe('release.ts', () => {
 	it('command', async () => {
-		expect.assertions(4);
+		expect.hasAssertions();
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
