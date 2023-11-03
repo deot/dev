@@ -15,27 +15,30 @@ describe('index', () => {
 	});
 
 	it('monorepo', async () => {
-		expect.assertions(5);
-		const response = await Shell.spawn(`npm`, ['run', 'build'], {
+		expect.hasAssertions();
+		const { stdout: v } = await Shell.exec(`npm`, ['run', 'build'], {
 			cwd: path.resolve('./packages/_/monorepo'),
-			stdio: 'pipe'
 		});
 
 		const has = (filename: string) => fs.existsSync(path.resolve(`./packages/_/monorepo/packages/components/dist/`, filename));
-		expect(response).toBe(0);
 		expect(has('index.js')).toBe(true);
 		expect(has('index.iife.js')).toBe(true);
 		expect(has('index.cjs')).toBe(true);
 		expect(has('index.d.ts')).toBe(true);
+
+		// logs
+		[
+			'index.ts: CJS',
+			'index.ts: ES'
+		].forEach((i) => expect(v).toMatch(i));
 	}, 120000);
 
 	it('singlerepo', async () => {
-		expect.assertions(12);
-		const response = await Shell.spawn(`npm`, ['run', 'build'], {
+		expect.hasAssertions();
+		const { stdout: v } = await Shell.exec(`npm`, ['run', 'build'], {
 			cwd: path.resolve('./packages/_/singlerepo'),
 			stdio: 'pipe'
 		});
-		expect(response).toBe(0);
 
 		const has = (filename: string) => fs.existsSync(path.resolve('./packages/_/singlerepo/dist/', filename));
 		expect(has('index.css')).toBe(true);
@@ -59,5 +62,17 @@ describe('index', () => {
 		// umd
 		expect(has('index.umd.cjs')).toBe(true);
 		expect(has('index.m.umd.cjs')).toBe(true);
+
+		// logs
+		[
+			'index.ts: CJS',
+			'index.ts: ES',
+			'index.ts: IIFE',
+			'index.ts: UMD',
+			'index.m.ts: CJS',
+			'index.m.ts: ES',
+			'index.m.ts: IIFE',
+			'index.m.ts: UMD'
+		].forEach((i) => expect(v).toMatch(i));
 	}, 120000);
 });

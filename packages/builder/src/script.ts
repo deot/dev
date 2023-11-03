@@ -136,7 +136,7 @@ export const run = async (options: Build) => {
 
 		stats.push({
 			file: file
-				.replace(/^(.*)((\..*\.js)|\.umd\.cjs)/, '$1.ts')
+				.replace(/^(.*)(\.umd\.cjs|\.iife\.js)/, '$1.ts')
 				.replace(/^(.*)(\.js|\.cjs)/, '$1.ts'),
 			format: /\.style\.css$/.test(file) 
 				? 'css' 
@@ -144,12 +144,11 @@ export const run = async (options: Build) => {
 					? 'umd'
 					: /\.cjs$/.test(file)
 						? 'cjs'
-						: /\.iife\.cjs$/.test(file)
+						: /\.iife\.js$/.test(file)
 							? 'iife'
 							: 'es',
 			size: stat.size
 		});
-
 	});
 	return stats;
 };
