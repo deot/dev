@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.6.1
+
+_2023-11-03_
+
+### Bugfixes
+
+- fix(builder): `iife` tag regexp ([28d7eeb](https://github.com/deot/dev/commit/28d7eeba8c18bf9e1d6f26a3737c3e04740e0052))
+
 ## v2.6.0
 
 _2023-11-02_

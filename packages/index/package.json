@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@deot/dev-adder": "^2.6.0",
-    "@deot/dev-builder": "^2.6.0",
-    "@deot/dev-cli": "^2.6.0",
+    "@deot/dev-builder": "^2.6.1",
+    "@deot/dev-cli": "^2.6.1",
     "@deot/dev-deps": "^2.6.0",
     "@deot/dev-dever": "^2.6.0",
     "@deot/dev-eslint": "^2.6.0",
