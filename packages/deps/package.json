@@ -6,13 +6,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/node": "^20.8.9",
-    "eslint": "^8.52.0",
+    "@types/node": "^20.9.0",
+    "eslint": "^8.53.0",
     "eslint-watch": "^8.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "stylelint": "^15.11.0",
-    "tsx": "^3.14.0",
+    "tsx": "^4.1.1",
     "typescript": "^5.1.6"
   }
 }

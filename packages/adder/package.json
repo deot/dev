@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "fs-extra": "^11.1.1",
-    "inquirer": "^9.2.11",
+    "inquirer": "^9.2.12",
     "inquirer-autocomplete-prompt": "^3.0.1",
     "ora": "^7.0.1",
     "@deot/dev-shared": "^2.6.0"

@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@deot/dev-shared": "^2.6.0",
-    "puppeteer": "^21.4.1"
+    "puppeteer": "^21.5.1"
   }
 }
