@@ -15,6 +15,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		...options
 	};
 	const locals = Locals.impl();
+
+	options.forceUpdateName = Locals.getRealPackageName(options.forceUpdateName);
+	options.skipUpdateName = Locals.getRealPackageName(options.skipUpdateName);
+
 	if (options.dryRun) {
 		Logger.log(
 			chalk.magenta(`DRY RUN: `) 

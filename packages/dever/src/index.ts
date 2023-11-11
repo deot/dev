@@ -14,6 +14,11 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	const locals = Locals.impl();
+
+	options.packageName = Locals.getRealPackageName(options.packageName);
+	options.vuePackage = Locals.getRealPackageName(options.vuePackage);
+	options.reactPackage = Locals.getRealPackageName(options.reactPackage);
+
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}

@@ -89,8 +89,8 @@ export const getNormalizePackage = (dataMap: any) => {
 	return result.reverse();
 };
 
-export const getPackageName = (packageFolderName$: string) => {
-	const { workspace, packageFolderName, packageName } = impl();
+export const getPackageName = (packageFolderName$: string, cwd?: string) => {
+	const { workspace, packageFolderName, packageName } = impl(cwd);
 	if (
 		!workspace 
 		|| !packageFolderName$ 
@@ -102,13 +102,29 @@ export const getPackageName = (packageFolderName$: string) => {
 	}
 };
 
-export const getPackageFolderName = (packageName$: string) => {
-	const { workspace, packageFolderName, packageName } = impl();
+export const getPackageFolderName = (packageName$: string, cwd?: string) => {
+	const { workspace, packageFolderName, packageName } = impl(cwd);
 	/* istanbul ignore next -- @preserve */
 	if (!workspace) return '';
 
 	if (packageName$ === packageName) return packageFolderName;
 	return packageName$?.replace(new RegExp(`${packageName}-?`), '');
+};
+
+export const getRealPackageName = (names?: string, cwd?: string) => {
+	return names?.split(',').map(name => {
+		const { workspace, packageName, packageDir } = impl(cwd);
+		if (!workspace || !name || name === '*') return name;
+		if (name.includes(packageName)) {
+			name = getPackageFolderName(name);
+		}
+
+		if (fs.existsSync(path.resolve(packageDir, name))) {
+			return getPackageName(name);
+		}
+
+		return '';
+	}).filter(i => !!i).join(',');
 };
 
 let configMap: { [key: string]: Config } = {};

@@ -11,6 +11,11 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	};
 	const locals = Locals.impl();
 	
+	options.packageName = Locals.getRealPackageName(options.packageName);
+	options.vuePackage = Locals.getRealPackageName(options.vuePackage);
+	options.reactPackage = Locals.getRealPackageName(options.reactPackage);
+	options.nodePackage = Locals.getRealPackageName(options.nodePackage);
+
 	let packageFolderName = Locals.getPackageFolderName(options.packageName || '*');
 
 	let inputs: string[] = [];
