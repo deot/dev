@@ -142,7 +142,8 @@ addOptions(
 		.option('--no-test [boolean]', 'No Test')
 		.option('--patch [boolean]', 'Patch')
 		.option('--major [boolean]', 'Major')
-		.option('--minor [boolean]', 'Minor'),
+		.option('--minor [boolean]', 'Minor')
+		.option('--all [boolean]', 'Update All Package'),
 	Updater.run
 );
 

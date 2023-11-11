@@ -23,6 +23,7 @@ export class Update {
 		commit: boolean;
 		push: boolean;
 		test: boolean;
+		all: boolean;
 	};
 
 	constructor(commandOptions: Update['commandOptions']) {
@@ -205,7 +206,8 @@ export class Update {
 			}));
 		});
 
-		const packageFolderNames = await this.updatePackageOptions(changed);
+		const { all } = this.commandOptions;
+		const packageFolderNames = all ? ['*'] : await this.updatePackageOptions(changed);
 		message = `chore${packageFolderNames.length ? '(' : ''}${packageFolderNames.join(',')}${packageFolderNames.length ? ')' : ''}: ${message}`;
 		
 		await this.updateLock();

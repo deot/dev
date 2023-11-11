@@ -12,6 +12,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		major: false,
 		minor: false,
 		patch: false,
+		all: false,
 		...options
 	};
 
