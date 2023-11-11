@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-adder",
-  "version": "2.6.0",
+  "version": "2.6.2",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,6 +23,6 @@
     "inquirer": "^9.2.12",
     "inquirer-autocomplete-prompt": "^3.0.1",
     "ora": "^7.0.1",
-    "@deot/dev-shared": "^2.6.0"
+    "@deot/dev-shared": "^2.6.2"
   }
 }

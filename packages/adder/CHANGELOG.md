@@ -1,5 +1,17 @@
 # @deot/dev-adder ChangeLog
 
+## v2.6.2
+
+_2023-11-11_
+
+### Features
+
+- feat(builder,dever,releaser,shared,tester): allow folder name with packageName ([2226b1d](https://github.com/deot/dev/commit/2226b1d8f6c68d037109d914e981e413af8a569d))
+
+### Updates
+
+- chore: deps updated ([ee04bb0](https://github.com/deot/dev/commit/ee04bb022128b206a5e88c541db80b10a7758391))
+
 ## v2.6.0
 
 _2023-11-02_

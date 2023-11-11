@@ -1,5 +1,19 @@
 # @deot/dev-cli ChangeLog
 
+## v2.6.2
+
+_2023-11-11_
+
+### Features
+
+- feat: add `--all` to update * ([eff0cde](https://github.com/deot/dev/commit/eff0cde7b868b55b971530bbde7b70fa091ee754))
+- feat(builder,dever,releaser,shared,tester): allow folder name with packageName ([2226b1d](https://github.com/deot/dev/commit/2226b1d8f6c68d037109d914e981e413af8a569d))
+
+### Updates
+
+- chore: deps updated ([ee04bb0](https://github.com/deot/dev/commit/ee04bb022128b206a5e88c541db80b10a7758391))
+- chore(vue): remove `lru-cache` as deps ([f4108d4](https://github.com/deot/dev/commit/f4108d42b696868a35b9d78e3af6a16a4782393a))
+
 ## v2.6.1
 
 _2023-11-03_

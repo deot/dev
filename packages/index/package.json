@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,18 +22,18 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-adder": "^2.6.0",
-    "@deot/dev-builder": "^2.6.1",
-    "@deot/dev-cli": "^2.6.1",
-    "@deot/dev-deps": "^2.6.0",
-    "@deot/dev-dever": "^2.6.0",
-    "@deot/dev-eslint": "^2.6.0",
-    "@deot/dev-linker": "^2.6.0",
-    "@deot/dev-shared": "^2.6.0",
-    "@deot/dev-stylelint": "^2.6.0",
-    "@deot/dev-test": "^2.6.0",
-    "@deot/dev-tester": "^2.6.0",
-    "@deot/dev-releaser": "^2.6.0",
-    "@deot/dev-updater": "^2.6.0"
+    "@deot/dev-adder": "^2.6.2",
+    "@deot/dev-builder": "^2.6.2",
+    "@deot/dev-cli": "^2.6.2",
+    "@deot/dev-deps": "^2.6.2",
+    "@deot/dev-dever": "^2.6.2",
+    "@deot/dev-eslint": "^2.6.2",
+    "@deot/dev-linker": "^2.6.2",
+    "@deot/dev-shared": "^2.6.2",
+    "@deot/dev-stylelint": "^2.6.2",
+    "@deot/dev-test": "^2.6.2",
+    "@deot/dev-tester": "^2.6.2",
+    "@deot/dev-releaser": "^2.6.2",
+    "@deot/dev-updater": "^2.6.2"
   }
 }
