@@ -7,9 +7,9 @@ interface ExpectByPollingOptions {
 	to?: string; 
 }
 /**
- * @param {Function} poll ~
- * @param {any} expected ~
- * @param {ExpectByPollingOptions} options ~
+ * @param poll ~
+ * @param expected ~
+ * @param options ~
  */
 export const expectByPolling = async (
 	poll: () => Promise<any> | any, 

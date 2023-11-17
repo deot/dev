@@ -26,8 +26,8 @@ const defaultOptions: Option[] = [
  *
  * ctx.option('--dry-run').option('--no-dry-run')
  * 默认 -> dryRun: undefined
- * @param {Command} ctx ~
- * @param {any} action ~
+ * @param ctx ~
+ * @param action ~
  */
 const addOptions = (ctx: Command, action: any) => {
 	defaultOptions.forEach(i => ctx.addOption(i));

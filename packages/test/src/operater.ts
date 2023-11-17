@@ -9,64 +9,64 @@ export class Operater {
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @param {ClickOptions} options ~
+	 * @param selector ~
+	 * @param options ~
 	 */
 	async click(selector: string, options?: ClickOptions) {
 		await this.page.click(selector, options);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {number} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async count(selector: string): Promise<number> {
 		return (await this.page.$$(selector)).length;
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<string>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async text(selector: string): Promise<string> {
 		return await this.page.$eval(selector, (node: any) => node.textContent);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<string>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async value(selector: string): Promise<string> {
 		return await this.page.$eval(selector, (node: any) => node.value);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<string>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async html(selector: string): Promise<string> {
 		return await this.page.$eval(selector, (node: any) => node.innerHTML);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<string[]>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async classList(selector: string): Promise<string[]> {
 		return await this.page.$eval(selector, (node: any) => [...node.classList]);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<HTMLElement[]>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async children(selector: string): Promise<HTMLElement[]> {
 		return await this.page.$eval(selector, (node: any) => [...node.children]);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<boolean>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async isVisible(selector: string): Promise<boolean> {
 		const display = await this.page.$eval(selector, (node: any) => {
@@ -77,8 +77,8 @@ export class Operater {
 
 	/**
 	 *
-	 * @param {string} selector ~
-	 * @returns {Promise<boolean>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async isChecked(selector: string): Promise<boolean> {
 		return await this.page.$eval(
@@ -89,17 +89,17 @@ export class Operater {
 
 	/**
 	 *
-	 * @param {string} selector ~
-	 * @returns {Promise<boolean>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async isFocused(selector: string): Promise<boolean> {
 		return await this.page.$eval(selector, node => node === document.activeElement);
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @param {string} value$ ~
-	 * @returns {Promise<void>} ~
+	 * @param selector ~
+	 * @param value$ ~
+	 * @returns ~
 	 */
 	async setValue(selector: string, value$: string): Promise<void> {
 		await this.page.$eval(
@@ -113,9 +113,9 @@ export class Operater {
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @param {string} value$ ~
-	 * @returns {Promise<void>} ~
+	 * @param selector ~
+	 * @param value$ ~
+	 * @returns ~
 	 */
 	async typeValue(selector: string, value$: string): Promise<void> {
 		const el = (await this.page.$(selector))!;
@@ -124,9 +124,9 @@ export class Operater {
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @param {string} value$ ~
-	 * @returns {Promise<void>} ~
+	 * @param selector ~
+	 * @param value$ ~
+	 * @returns ~
 	 */
 	async enterValue(selector: string, value$: string): Promise<void> {
 		const el = (await this.page.$(selector))!;
@@ -136,8 +136,8 @@ export class Operater {
 	}
 
 	/**
-	 * @param {string} selector ~
-	 * @returns {Promise<void>} ~
+	 * @param selector ~
+	 * @returns ~
 	 */
 	async clearValue(selector: string): Promise<void> {
 		return await this.page.$eval(
@@ -150,8 +150,8 @@ export class Operater {
 
 	/**
 	 *
-	 * @param {number} time ~
-	 * @returns {Promise<any>} ~
+	 * @param time ~
+	 * @returns ~
 	 */
 	sleep(time: number): Promise<any> {
 		return this.page.evaluate((time$: number) => {
