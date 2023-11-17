@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.6.3
+
+_2023-11-17_
+
+### Updates
+
+- style(eslint): jsdoc with recommended-typescript ([426be31](https://github.com/deot/dev/commit/426be314635e3f4303cf734cd65957a841bb460b))
+
 ## v2.6.2
 
 _2023-11-11_
