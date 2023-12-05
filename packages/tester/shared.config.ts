@@ -115,10 +115,13 @@ export default mergeConfig(getViteConfig(), defineConfig({
 			enabled: true,
 			provider: 'istanbul',
 			reporter: ['text', 'html'],
-			branches: 85,
-			statements: 95,
-			functions: 95,
-			lines: 95,
+			all: false,
+			thresholds: {
+				branches: 85,
+				statements: 95,
+				functions: 95,
+				lines: 95
+			},
 			include: collects,
 			exclude: [
 				`**/examples/**`,
