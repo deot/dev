@@ -207,7 +207,9 @@ export class Update {
 		});
 
 		const { all } = this.commandOptions;
-		const packageFolderNames = all ? ['*'] : await this.updatePackageOptions(changed);
+		let packageFolderNames = await this.updatePackageOptions(changed);
+		packageFolderNames = all ? ['*'] : packageFolderNames;
+		
 		message = `chore${packageFolderNames.length ? '(' : ''}${packageFolderNames.join(',')}${packageFolderNames.length ? ')' : ''}: ${message}`;
 		
 		await this.updateLock();
