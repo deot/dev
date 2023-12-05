@@ -123,6 +123,7 @@ export class Update {
 				if (commandOptions.dryRun) {
 					Logger.log(chalk.magenta(`CHANGED: `) + chalk.yellow(`Skipping ${path.relative(cwd, packageDir)} Update`));	
 				} else {
+					fs.removeSync(`${packageDir}/node_modules`);
 					fs.outputFileSync(`${packageDir}/package.json`, JSON.stringify(packageOptions, null, 2));
 				}
 			} 
@@ -136,6 +137,9 @@ export class Update {
 			Logger.log(chalk.yellow(`Skipping pnpm-lock.yaml Update`));	
 		} else {
 			Logger.log(chalk.magenta(`CHANGED: `) + `pnpm-lock.yaml`);
+			const locals = Locals.impl();
+			const { cwd } = locals;
+			await fs.remove(`${cwd}/node_modules`);
 			await Shell.spawn('npx', ['pnpm', 'install', '--lockfile-only']);
 		}
 	}
@@ -208,9 +212,10 @@ export class Update {
 
 		const { all } = this.commandOptions;
 		let packageFolderNames = await this.updatePackageOptions(changed);
-		packageFolderNames = all ? ['*'] : packageFolderNames;
+		let hasChanged = packageFolderNames.length;
+		packageFolderNames = hasChanged && all ? ['*'] : packageFolderNames;
 		
-		message = `chore${packageFolderNames.length ? '(' : ''}${packageFolderNames.join(',')}${packageFolderNames.length ? ')' : ''}: ${message}`;
+		message = `chore${hasChanged ? '(' : ''}${packageFolderNames.join(',')}${hasChanged ? ')' : ''}: ${message}`;
 		
 		await this.updateLock();
 		await this.test();
