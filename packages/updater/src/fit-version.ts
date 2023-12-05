@@ -17,18 +17,8 @@ export const fitVersion = (versions: string[], version: string, commandOptions?:
 				? '~'
 				: originalPrefix;
 	let oldVersion = version.match(vRegex)![1];
-	let newVersion = oldVersion;
-
 	let vailds = versions.slice(versions.indexOf(oldVersion) + 1);
-
-	for (let i = 0; i < vailds.length; i++) {
-		if (!semver.satisfies(vailds[i], prefix + oldVersion)) {
-			newVersion = i - 1 < 0 ? oldVersion : vailds[i - 1];
-			break;
-		} else {
-			newVersion = vailds[i];
-		}
-	}
+	let newVersion = semver.maxSatisfying(vailds, prefix + oldVersion) || oldVersion;
 
 	return `${originalPrefix}${newVersion}`;
 };
