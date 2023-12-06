@@ -1,5 +1,17 @@
 # @deot/dev-tester ChangeLog
 
+## v2.7.0
+
+_2023-12-06_
+
+### Bugfixes
+
+- fix: type error vitest@1.x.x ([e94d7b3](https://github.com/deot/dev/commit/e94d7b3e43bb88d4b2a6d5eca36d0aa5fa86cb7f))
+
+### Updates
+
+- chore: deps updated ([d38389c](https://github.com/deot/dev/commit/d38389c80413e24288d9530b17c5c605e509c9b8))
+
 ## v2.6.2
 
 _2023-11-11_

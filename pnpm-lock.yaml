@@ -11,7 +11,7 @@ importers:
   packages/adder:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       fs-extra:
         specifier: ^11.2.0
@@ -29,13 +29,13 @@ importers:
   packages/builder:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../vue
       '@microsoft/api-extractor':
         specifier: ^7.38.4
@@ -81,32 +81,32 @@ importers:
   packages/cli:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../builder
       '@deot/dev-linker':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../updater
       commander:
         specifier: ^11.1.0
         version: 11.1.0
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../test
       cross-env:
         specifier: ^7.0.3
@@ -142,13 +142,13 @@ importers:
   packages/dever:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../vue
       ejs:
         specifier: ^3.1.9
@@ -158,7 +158,7 @@ importers:
         version: 5.0.5(sass@1.69.5)
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../test
       cross-env:
         specifier: ^7.0.3
@@ -195,49 +195,49 @@ importers:
   packages/index:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../cli
       '@deot/dev-deps':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.6.3
+        specifier: ^2.7.0
         version: link:../eslint
       '@deot/dev-linker':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../stylelint
       '@deot/dev-test':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../updater
 
   packages/linker:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
@@ -264,7 +264,7 @@ importers:
   packages/releaser:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
@@ -307,7 +307,7 @@ importers:
   packages/test:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       puppeteer:
         specifier: ^21.5.2
@@ -316,13 +316,13 @@ importers:
   packages/tester:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../vue
       '@vitest/coverage-istanbul':
         specifier: ^1.0.1
@@ -346,7 +346,7 @@ importers:
   packages/updater:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       chalk:
         specifier: ^5.3.0
@@ -365,7 +365,7 @@ importers:
     dependencies:
       '@testing-library/vue':
         specifier: ^8.0.1
-        version: 8.0.1(@vue/compiler-sfc@3.3.8)(vue@3.3.10)
+        version: 8.0.1(@vue/compiler-sfc@3.3.10)(vue@3.3.10)
       '@vitejs/plugin-vue':
         specifier: ^4.5.1
         version: 4.5.1(vite@5.0.5)(vue@3.3.10)
@@ -386,7 +386,7 @@ importers:
         version: 1.8.24(typescript@5.3.2)
     devDependencies:
       '@deot/dev-shared':
-        specifier: ^2.6.2
+        specifier: ^2.7.0
         version: link:../shared
       fs-extra:
         specifier: ^11.2.0
@@ -472,14 +472,14 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/eslint-parser@7.22.15(@babel/core@7.23.2)(eslint@8.55.0):
+  /@babel/eslint-parser@7.22.15(@babel/core@7.23.5)(eslint@8.55.0):
     resolution: {integrity: sha512-yc8OOBIQk1EcRrpizuARSQS0TWAcOMpEJ1aafhNznaeYkeL+OhqnDObGFylB8ka8VFF/sZc+S4RzHyO+3LjQxg==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
       '@babel/core': ^7.11.0
       eslint: ^7.5.0 || ^8.0.0
     dependencies:
-      '@babel/core': 7.23.2
+      '@babel/core': 7.23.5
       '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
       eslint: 8.55.0
       eslint-visitor-keys: 2.1.0
@@ -493,7 +493,7 @@ packages:
       '@babel/eslint-parser': ^7.11.0
       eslint: ^7.5.0 || ^8.0.0
     dependencies:
-      '@babel/eslint-parser': 7.22.15(@babel/core@7.23.2)(eslint@8.55.0)
+      '@babel/eslint-parser': 7.22.15(@babel/core@7.23.5)(eslint@8.55.0)
       eslint: 8.55.0
       eslint-rule-composer: 0.3.0
     dev: false
@@ -1733,7 +1733,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@testing-library/vue@8.0.1(@vue/compiler-sfc@3.3.8)(vue@3.3.10):
+  /@testing-library/vue@8.0.1(@vue/compiler-sfc@3.3.10)(vue@3.3.10):
     resolution: {integrity: sha512-l51ZEpjTQ6glq3wM+asQ1GbKJMGcxwgHEygETx0aCRN4TjFEGvMZy4YdWKs/y7bu4bmLrxcxhbEPP7iPSW/2OQ==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1742,7 +1742,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       '@testing-library/dom': 9.3.3
-      '@vue/compiler-sfc': 3.3.8
+      '@vue/compiler-sfc': 3.3.10
       '@vue/test-utils': 2.4.3(vue@3.3.10)
       vue: 3.3.10(typescript@5.3.2)
     transitivePeerDependencies:
@@ -2148,33 +2148,11 @@ packages:
       source-map-js: 1.0.2
     dev: false
 
-  /@vue/compiler-sfc@3.3.8:
-    resolution: {integrity: sha512-WMzbUrlTjfYF8joyT84HfwwXo+8WPALuPxhy+BZ6R4Aafls+jDBnSz8PDz60uFhuqFbl3HxRfxvDzrUf3THwpA==}
-    dependencies:
-      '@babel/parser': 7.23.0
-      '@vue/compiler-core': 3.3.8
-      '@vue/compiler-dom': 3.3.8
-      '@vue/compiler-ssr': 3.3.8
-      '@vue/reactivity-transform': 3.3.8
-      '@vue/shared': 3.3.8
-      estree-walker: 2.0.2
-      magic-string: 0.30.5
-      postcss: 8.4.32
-      source-map-js: 1.0.2
-    dev: false
-
   /@vue/compiler-ssr@3.3.10:
     resolution: {integrity: sha512-12iM4jA4GEbskwXMmPcskK5wImc2ohKm408+o9iox3tfN9qua8xL0THIZtoe9OJHnXP4eOWZpgCAAThEveNlqQ==}
     dependencies:
       '@vue/compiler-dom': 3.3.10
       '@vue/shared': 3.3.10
-    dev: false
-
-  /@vue/compiler-ssr@3.3.8:
-    resolution: {integrity: sha512-hXCqQL/15kMVDBuoBYpUnSYT8doDNwsjvm3jTefnXr+ytn294ySnT8NlsFHmTgKNjwpuFy7XVV8yTeLtNl/P6w==}
-    dependencies:
-      '@vue/compiler-dom': 3.3.8
-      '@vue/shared': 3.3.8
     dev: false
 
   /@vue/language-core@1.8.24(typescript@5.3.2):
@@ -2203,16 +2181,6 @@ packages:
       '@babel/parser': 7.23.5
       '@vue/compiler-core': 3.3.10
       '@vue/shared': 3.3.10
-      estree-walker: 2.0.2
-      magic-string: 0.30.5
-    dev: false
-
-  /@vue/reactivity-transform@3.3.8:
-    resolution: {integrity: sha512-49CvBzmZNtcHua0XJ7GdGifM8GOXoUMOX4dD40Y5DxI3R8OUhMlvf2nvgUAcPxaXiV5MQQ1Nwy09ADpnLQUqRw==}
-    dependencies:
-      '@babel/parser': 7.23.0
-      '@vue/compiler-core': 3.3.8
-      '@vue/shared': 3.3.8
       estree-walker: 2.0.2
       magic-string: 0.30.5
     dev: false

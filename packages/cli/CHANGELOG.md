@@ -1,5 +1,20 @@
 # @deot/dev-cli ChangeLog
 
+## v2.7.0
+
+_2023-12-06_
+
+### Bugfixes
+
+- fix(tester): type error vitest@1.x.x ([e94d7b3](https://github.com/deot/dev/commit/e94d7b3e43bb88d4b2a6d5eca36d0aa5fa86cb7f))
+- fix(updater): cache effect after `pnpm install` ([7e45e96](https://github.com/deot/dev/commit/7e45e96c0aadc2a3b723f97bc5a7b2d6deca1d7d))
+- fix(updater): update * without output ([4d976b2](https://github.com/deot/dev/commit/4d976b280d8d193c77fcc47a9fc1e208f09b05d4))
+- fix(updater): `*.beta.*` compare ([a4d782a](https://github.com/deot/dev/commit/a4d782a25151457f49ec84b86201cf95aa966ed5))
+
+### Updates
+
+- chore: deps updated ([d38389c](https://github.com/deot/dev/commit/d38389c80413e24288d9530b17c5c605e509c9b8))
+
 ## v2.6.2
 
 _2023-11-11_
