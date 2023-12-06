@@ -84,13 +84,21 @@ export const run = async (options: Build) => {
 			 * 		than the bundled compiler engine; consider upgrading API Extractor.
 			 * 3. console-preamble
 			 * 	Analysis will use the bundled TypeScript version 5.0.4
+			 *
+			 *
+			 * 4. TS2590, TS2320, TS2344, TS2430
+			 *  打包vue项目时，出现的warning
+			 *   (TS2344) Type 'C' does not satisfy the constraint 'ElementType<any>'.
+			 *   (TS2320) Interface 'Element' cannot simultaneously extend types 'VNode<RendererNode,
+			 *   (TS2430) Interface 'IntrinsicElements' incorrectly extends interface 'NativeElements'
+			 *   (TS2590) Expression produces a union type that is too complex to represent
 			 */
 			
 			messageCallback: (message) => {
 				if (
 					message.messageId === 'console-compiler-version-notice'
 					|| message.messageId === 'console-preamble'
-					|| message.messageId === 'TS18028'
+					|| ['TS18028', 'TS2590', 'TS2320', 'TS2344', 'TS2430'].includes(message.messageId)
 				) {
 					message.handled = true;
 				}
