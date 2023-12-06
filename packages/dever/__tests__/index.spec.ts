@@ -72,7 +72,7 @@ describe('index', () => {
 			subprocess.stdout.on('data', (data) => {
 				data = data.toString().replace(/(\t|\n|\v|\r|\f|\s)/g, '');
 				if (!data) return;
-				data.split('>').filter((i: any) => !!i).forEach((url: string) => {
+				data.split('➜')[0].split('>').filter((i: any) => !!i).forEach((url: string) => {
 					url = url.match(/(.*)(http:.*)/)?.[2] || '';
 					if (url && expects.some(i => url.includes(i))) {
 						run(url, 500);

@@ -92,9 +92,13 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify(devOptions));
 	
 	const server = await createServer(options$);
-	const $server = await server.listen();
-	const { local = [], network = [] } = $server.resolvedUrls || {};
-	const url = network[0] || local[0] || `http://localhost:${$server.config.server.port}`;
+	await server.listen();
+
+	const { local = [], network = [] } = server.resolvedUrls || {};
+	const url = network[0] || local[0] || `http://localhost:${server.config.server.port}`;
 
 	entries.forEach((item: string) => Logger.log(`  > ${item}: ${chalk.cyan(`${url}${item}.html`)}`));
+
+	server.printUrls();
+	server.bindCLIShortcuts({ print: true });
 });
