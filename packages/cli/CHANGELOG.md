@@ -1,5 +1,17 @@
 # @deot/dev-cli ChangeLog
 
+## v2.7.1
+
+_2023-12-07_
+
+### Features
+
+- feat: allow custom option(`--custom`) ([777e3cd](https://github.com/deot/dev/commit/777e3cd7a7dfb155d0cf82d01e08446f6268e20c))
+
+### Updates
+
+- chore(builder): remove warning when build vue's package ([edef676](https://github.com/deot/dev/commit/edef67632b7695dd6066da949ac384a34c520647))
+
 ## v2.7.0
 
 _2023-12-06_

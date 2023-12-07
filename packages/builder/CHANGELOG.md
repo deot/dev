@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.7.1
+
+_2023-12-07_
+
+### Updates
+
+- chore: remove warning when build vue's package ([edef676](https://github.com/deot/dev/commit/edef67632b7695dd6066da949ac384a34c520647))
+
 ## v2.7.0
 
 _2023-12-06_
