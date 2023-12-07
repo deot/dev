@@ -15,8 +15,9 @@ program
 	.version(require('../package.json').version);
 
 const defaultOptions: Option[] = [
-	// new Option('--workspace <string>', 'Workspace'),
-	new Option('--dry-run [boolean]', 'Dry Run')
+	// new Option('--workspace <string>', 'Workspace', 'packages'),
+	new Option('--dry-run [boolean]', 'Dry Run'),
+	new Option('--custom <string>', 'Any Custom Info')
 ];
 
 /**
