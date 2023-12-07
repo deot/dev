@@ -16,7 +16,7 @@ const cwd = process.cwd();
 
 // devOptions
 const devOptions = JSON.parse(decodeURIComponent(process.env.DEV_OPTIONS || '{}'));
-const { workspace, html, subpackagesMap } = devOptions;
+const { playDir, workspace, html, subpackagesMap } = devOptions;
 
 const generateIndexHtml = (url: string, inject: string) => {
 	let contents = '';
@@ -45,36 +45,51 @@ const getVirtualHtml = async (url: string) => {
 	const prefix = info.slice(0, -1);
 	const entry = info.slice(-1)[0];
 
-	if (prefix[prefix.length - 1] !== 'examples') {
-		prefix.push('examples');
-	}
-
 	if (workspace && prefix[0] !== workspace) {
 		prefix.unshift(workspace);
 	}
 
-	const dir = path.join(cwd, prefix.join('/'));
 	const isExist = (ext: string) => {
-		const fullpath = path.join(dir, `${entry.replace(/(.*)(\..*)$/, '$1') + ext}`);
-		return fs.existsSync(fullpath) ? fullpath : false;
+		const getFullpath = (dir: string) => path.join(dir, `${entry.replace(/(.*)(\..*)$/, '$1') + ext}`);
+		let last = prefix[prefix.length - 1];
+		let dirs = playDir.split(',');
+
+		if (dirs.some((i: string) => i === last)) {
+			const fullpath = getFullpath(path.join(cwd, prefix.join('/')));
+			return fs.existsSync(fullpath) ? fullpath : false;
+		}
+		
+		for (let i = 0; i <= dirs.length; i++) {
+			let suffix = dirs[i];
+			if (last === suffix) {
+				suffix = '';
+			}
+
+			const fullpath = getFullpath(path.join(cwd, prefix.concat([suffix]).join('/')));
+			if (fs.existsSync(fullpath)) {
+				return fullpath;
+			}
+		}
+
+		return false;
 	};
 
 	const getPreload = (fullpath: string) => {
-		let dir$ = path.dirname(fullpath);
+		let dir = path.dirname(fullpath);
 		let preload = '';
-		while (dir$.includes(cwd) && !preload) {
+		while (dir.includes(cwd) && !preload) {
 			
 			let preloadFullPath = [
-				path.resolve(dir$, './z.dev.preload.ts'),
-				path.resolve(dir$, './dev.preload.ts'),
-				path.resolve(dir$, './z.preload.ts'),
-				path.resolve(dir$, './preload.ts')
+				path.resolve(dir, './z.dev.preload.ts'),
+				path.resolve(dir, './dev.preload.ts'),
+				path.resolve(dir, './z.preload.ts'),
+				path.resolve(dir, './preload.ts')
 			].find(i => fs.existsSync(i));
 
 			if (preloadFullPath) {
 				preload = `		import "/${path.relative(cwd, preloadFullPath)}";\n`;
 			} else {
-				dir$ = path.resolve(dir$, '..');
+				dir = path.resolve(dir, '..');
 			}
 		}
 

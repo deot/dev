@@ -63,6 +63,7 @@ addOptions(
 		.alias('d')
 		.description('dev')
 		.option('--package-name <string>', 'Select PackageName')
+		.option('--play-dir <string>', 'Include Dirname', 'examples')
 		.option('--vue-package <string>')
 		.option('--react-package <string>'),
 	Dever.run

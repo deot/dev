@@ -12,9 +12,8 @@ let target = {
 };
 
 const excludes = ['tpl', '_', 'dist', 'node_modules', '__tests__'];
-const walk = (dir?: string) => {
+const walk = (dir: string, playDir: string[]) => {
 	const { cwd, workspace } = Locals.impl();
-	dir = dir || '.';
 	const directory = path.join(cwd, workspace, dir);
 
 	fs.readdirSync(directory).forEach((file: string) => {
@@ -24,25 +23,27 @@ const walk = (dir?: string) => {
 		const extname = path.extname(fullpath);
 
 		if (stat.isFile() 
-			&& (/\.((t|j)sx?|vue)$/.test(extname)) 
-			&& paths.length >= 2 && paths[paths.length - 2] === 'examples'
+			&& (/\.((t|j)sx?|vue|html)$/.test(extname)) 
+			&& paths.length >= 2 && playDir.includes(paths[paths.length - 2])
 		) {
 			const basename = path.basename(file, extname);
 			let name = path.join(dir!, basename).split('/');
-			name.splice(name.length - 2, 1);
+			playDir.length === 1 && name.splice(name.length - 2, 1);
 
-			// 记录
-			target.entries.push(name.join('/'));
+			let name$ = name.join('/');
+			if (!target.entries.includes(name$)) {
+				target.entries.push(name$);
+			}
 		} else if (stat.isDirectory() && !excludes.includes(file)) {
 			const subdir = path.join(dir!, file);
-			walk(subdir);
+			walk(subdir, playDir);
 		}
 	});
 };
 
-export const get = () => {
+export const get = (playDir: string) => {
 	if (target.html) return target;
-	walk();
+	walk('.', playDir.split(','));
 
 	const tpl = fs.readFileSync(path.resolve(dirname, '../index.ejs'));
 	target.html = render(tpl.toString(), {

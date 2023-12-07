@@ -45,7 +45,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (!options.workspace) delete options.workspace; 
 	delete options.packageName;
 
-	let { entries, html } = Entries.get();
+	let { entries, html } = Entries.get(options.playDir);
 	if (!entries.length) return Shell.spawn(`echo no entry file found!`);
 	
 	let options$: InlineConfig = {
