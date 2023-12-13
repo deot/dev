@@ -4,7 +4,7 @@ describe('shell.ts', () => {
 	it('exec', async () => {
 		expect.hasAssertions();
 		const response = await Shell.exec(`echo`);
-		
+
 		expect(response.stdout).toBe('\n');
 		expect(response.stderr).toBe('');
 	});
@@ -37,7 +37,7 @@ describe('shell.ts', () => {
 	it('spawn/catch', async () => {
 		expect.hasAssertions();
 
-		await Shell.spawn(`NOCOMMAND`, ['any']).catch(response => {
+		await Shell.spawn(`NOCOMMAND`, ['any']).catch((response) => {
 			expect(typeof response).toBe('object');
 		});
 	});
@@ -55,7 +55,7 @@ describe('shell.ts', () => {
 
 		expect(command.length).toBe(7);
 		expect(command[0]).toBe('cmd');
-		expect(command[1]).toBe("'a b'");
+		expect(command[1]).toBe('\'a b\'');
 		expect(command[2]).toBe('"c d"');
 		expect(command[3]).toBe('--a');
 		expect(command[4]).toBe('b');
@@ -69,4 +69,3 @@ describe('shell.ts', () => {
 		expect(command.length).toBe(0);
 	});
 });
-

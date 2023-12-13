@@ -22,7 +22,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
-	
+
 	if (options.dryRun) return Shell.spawn(`echo development`);
 
 	const { cwd, workspace, packageOptionsMap, packageDirsMap, subpackagesMap } = locals;
@@ -33,7 +33,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	options.watch = true;
 
 	if (
-		workspace 
+		workspace
 		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['dev']
 	) {
@@ -41,19 +41,19 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		return;
 	}
 
-	if (!options.packageFolderName) delete options.packageFolderName; 
-	if (!options.workspace) delete options.workspace; 
+	if (!options.packageFolderName) delete options.packageFolderName;
+	if (!options.workspace) delete options.workspace;
 	delete options.packageName;
 
-	let { entries, html } = Entries.get(options.playDir);
+	const { entries, html } = Entries.get(options.playDir);
 	if (!entries.length) return Shell.spawn(`echo no entry file found!`);
-	
+
 	let options$: InlineConfig = {
 		server: {
 			host: true
 		}
 	};
-	
+
 	const devOptions = {
 		...options,
 		workspace,
@@ -73,13 +73,13 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (fs.existsSync(`${cwd}/z.dev.config.ts`)) {
 		options$.configFile = path.relative(cwd, path.resolve(cwd, './z.dev.config.ts'));
 	} else if (fs.existsSync(`${cwd}/dev.config.ts`)) {
-		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));	
+		options$.configFile = path.relative(cwd, path.resolve(cwd, './dev.config.ts'));
 	} else {
 		// 只有当使用默认配置时，才有的值
 		process.env.USE_VUE = isVuePackage ? '1' : '';
 		process.env.USE_REACT = isReactPackage ? '1' : '';
 		options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
-		
+
 		if (isVuePackage) {
 			options$ = mergeConfig(sharedVueConfig, options$);
 		}
@@ -90,7 +90,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	process.env.DEV_OPTIONS = encodeURIComponent(JSON.stringify(devOptions));
-	
+
 	const server = await createServer(options$);
 	await server.listen();
 

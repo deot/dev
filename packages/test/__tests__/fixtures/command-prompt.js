@@ -18,11 +18,11 @@ const question = [
 	{
 		type: 'autocomplete',
 		message: 'Select Package To Install:',
-		when: (answers) => answers.mode === 'dependent',
+		when: answers => answers.mode === 'dependent',
 		name: 'packageName',
 		default: 'index',
 		source: () => {
-			return new Promise(($resolve => {
+			return new Promise((($resolve) => {
 				$resolve([
 					'index',
 					'test'
@@ -35,7 +35,7 @@ const question = [
 		name: 'dependentName',
 		message: 'Input Dependent Name',
 		default: '',
-		when: (answers) => answers.mode === 'dependent',
+		when: answers => answers.mode === 'dependent',
 		validate(answer) {
 			if (!answer) {
 				return '请输入需要添加的模块名';
@@ -46,7 +46,7 @@ const question = [
 	{
 		type: 'checkbox',
 		name: 'args',
-		when: (answers) => answers.mode === 'dependent',
+		when: answers => answers.mode === 'dependent',
 		message: 'Select modules:',
 		choices: [
 			'--dev',
@@ -66,7 +66,7 @@ const question = [
 		name: 'packageName',
 		message: 'Input Package Name',
 		default: '',
-		when: (answers) => answers.mode === 'package',
+		when: answers => answers.mode === 'package',
 		validate(answer) {
 			if (!answer) {
 				return '请输入需要添加的包名';
@@ -79,7 +79,7 @@ const question = [
 (async () => {
 	registerPrompt('autocomplete', autocomplete);
 	const { mode, dependentName, args, packageName } = await prompt(question);
-	let command = mode === 'dependent' 
+	let command = mode === 'dependent'
 		? `add ${dependentName} ${args.join(' ')} --scope=${packageName}`
 		: `create ${packageName}`;
 

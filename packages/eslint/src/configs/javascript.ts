@@ -1,5 +1,5 @@
-import js from "@eslint/js";
-import globals from "globals";
+import js from '@eslint/js';
+import globals from 'globals';
 import { pickOptions, cleanRules } from './_helper';
 import { Options, Rules, FlatConfig } from '../types';
 
@@ -18,7 +18,7 @@ export const javascript = async (options$?: Options): Promise<FlatConfig[]> => {
 		'no-debugger': 1,
 		'no-unused-vars': 1,
 		'no-useless-escape': 0
-	}
+	};
 
 	return [
 		{
@@ -43,5 +43,5 @@ export const javascript = async (options$?: Options): Promise<FlatConfig[]> => {
 				...options.overrides
 			}
 		}
-	]
+	];
 };

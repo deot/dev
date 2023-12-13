@@ -13,16 +13,16 @@ module.exports = {
 			true,
 			{
 				ignoreAtRules: [
-					'use', 
-					'for', 
-					'function', 
-					'if', 
-					'each', 
-					'include', 
-					'mixin', 
-					'at-root', 
-					'else', 
-					'extend', 
+					'use',
+					'for',
+					'function',
+					'if',
+					'each',
+					'include',
+					'mixin',
+					'at-root',
+					'else',
+					'extend',
 					'return',
 					'debug',
 					'while'
@@ -39,7 +39,7 @@ module.exports = {
 				ignore: ['after-comment', 'first-nested'],
 			}
 		],
-		"function-no-unknown": null,
+		'function-no-unknown': null,
 		'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
 		// Specify the alphabetical order of the attributes in the declaration block
 		'order/properties-order': [

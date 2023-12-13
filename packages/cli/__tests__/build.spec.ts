@@ -7,7 +7,7 @@ describe('build.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'build',
 				'--dry-run'
 			]
@@ -25,7 +25,7 @@ describe('build.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'build',
 				'--dry-run',
 				'--package-name @deot/dev-cli'

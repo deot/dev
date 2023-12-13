@@ -77,15 +77,15 @@ export class Release {
 		const { packageDir, packageRelation } = Locals.impl();
 
 		if (typeof config === 'string') {
-			let packageFolderName = config;
-			let packageDir$ = path.resolve(packageDir, packageFolderName);
+			const packageFolderName = config;
+			const packageDir$ = path.resolve(packageDir, packageFolderName);
 
 			config = {
 				dir: packageDir$,
 				name: packageFolderName
 			};
 		}
-		
+
 		this.packageDir = config.dir;
 		this.packageName = Locals.getPackageName(config.name);
 		this.packageFolderName = config.name;
@@ -106,7 +106,7 @@ export class Release {
 		const [latestTag] = await this.getTags();
 
 		Logger.log(chalk.yellow(`Last Release Tag`) + `: ${latestTag || '<none>'}`);
-		let params = ['--no-pager', 'log', `${latestTag}..HEAD`, `--format=%B%n${HASH}%n%H${SUFFIX}`];
+		const params = ['--no-pager', 'log', `${latestTag}..HEAD`, `--format=%B%n${HASH}%n%H${SUFFIX}`];
 
 		let {
 			stdout
@@ -130,7 +130,7 @@ export class Release {
 		}
 
 		const allowTypes = ['feat', `fix`, `break change`, `style`, `perf`, `types`, `refactor`, `chore`];
-		// eslint-disable-next-line max-len 
+		// eslint-disable-next-line max-len
 		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(([,\\w-]+(,))?${packageFolderName}((,)[,\\w-]+)?\\)` : '(\\(.+\\))?'}: .*`, 'i');
 		const reAll = workspace && new RegExp(`^(${allowTypes.join('|')})\\(\\*\\): .*`, 'i');
 
@@ -157,10 +157,10 @@ export class Release {
 			Logger.log(chalk.red(`No Commits Found.`));
 		} else {
 			Logger.log(
-				chalk.yellow(`Found `) 
-				+ chalk.bold(`${allCommits.length}`) 
-				+ ` Commits, ` 
-				+ chalk.bold(`${commits.length}`) 
+				chalk.yellow(`Found `)
+				+ chalk.bold(`${allCommits.length}`)
+				+ ` Commits, `
+				+ chalk.bold(`${commits.length}`)
 				+ ' Commits Valid'
 			);
 		}
@@ -171,7 +171,7 @@ export class Release {
 		if (commits.length && skipUpdatePackage) {
 			let skip = false;
 			if (typeof skipUpdatePackage === 'boolean' && skipUpdatePackage) {
-				let result = await prompt([
+				const result = await prompt([
 					{
 						type: 'confirm',
 						name: 'skip',
@@ -182,20 +182,20 @@ export class Release {
 
 				skip = result.skip;
 			} else if (
-				typeof skipUpdatePackage === 'string' 
-				&& (
-					skipUpdatePackage === '*' 
-					|| skipUpdatePackage.split(',').includes(this.packageName)
-				)
+				typeof skipUpdatePackage === 'string'
+					&& (
+						skipUpdatePackage === '*'
+						|| skipUpdatePackage.split(',').includes(this.packageName)
+					)
 			) {
 				skip = true;
-			} 
+			}
 			if (skip) {
 				Logger.log(chalk.red(`Skipping Update\n`));
 				return;
 			}
 		}
-		
+
 		await this.updateVersion();
 		await this.updateCommits(commits);
 
@@ -204,7 +204,7 @@ export class Release {
 		if (!commits.length && forceUpdatePackage) {
 			let force = false;
 			if (typeof forceUpdatePackage === 'boolean' && forceUpdatePackage) {
-				let result = await prompt([
+				const result = await prompt([
 					{
 						type: 'confirm',
 						name: 'force',
@@ -215,14 +215,14 @@ export class Release {
 
 				force = result.force;
 			} else if (
-				typeof forceUpdatePackage === 'string' 
-				&& (
-					forceUpdatePackage === '*' 
-					|| forceUpdatePackage.split(',').includes(this.packageName)
-				)
+				typeof forceUpdatePackage === 'string'
+					&& (
+						forceUpdatePackage === '*'
+						|| forceUpdatePackage.split(',').includes(this.packageName)
+					)
 			) {
 				force = true;
-			} 
+			}
 			if (force) {
 				const oldVersion = this.packageOptions.version;
 				const versionChanged = `\`${oldVersion}\` -> \`${this.version}\``;
@@ -236,7 +236,7 @@ export class Release {
 						custom: true
 					}
 				];
-				
+
 				this.changeLog = `### Force Update Package\n\n- ${versionChanged}`.trim();
 			}
 		}
@@ -249,7 +249,7 @@ export class Release {
 		return stdout.split('\n');
 	}
 
-	private rebuildChangeLog(commits: Release["commits"]) {
+	private rebuildChangeLog(commits: Release['commits']) {
 		const { packageDir } = this;
 		const { homepage, workspace } = Locals.impl();
 		const logPath = path.resolve(packageDir, './CHANGELOG.md');
@@ -280,7 +280,7 @@ export class Release {
 			 * pr: 由github pr生成一条提交记录（唯一的, 无需添加ref）
 			 */
 			const ref = !hash || pullRegxp.test(header)
-				? '' 
+				? ''
 				: ` ([${hash?.substring(0, 7)}](${homepage}/commit/${hash}))`;
 
 			// eslint-disable-next-line no-unsafe-optional-chaining
@@ -303,7 +303,7 @@ export class Release {
 		}
 
 		// 过滤已存在的commit
-		Object.keys(notes).forEach(i => {
+		Object.keys(notes).forEach((i) => {
 			notes[i] = notes[i].filter((j: string) => {
 				return !logFile.includes(j);
 			});
@@ -316,7 +316,7 @@ export class Release {
 			notes.updates.length ? `### Updates\n\n- ${notes.updates.join('\n- ')}`.trim() : ''
 		].filter(Boolean);
 
-		const newLog = parts.join('\n\n'); 
+		const newLog = parts.join('\n\n');
 		return !parts.length || logFile.includes(newLog)
 			? ''
 			: newLog;
@@ -330,7 +330,7 @@ export class Release {
 			newVersion = commandOptions.customVersion;
 
 			if (!(/\d+.\d+.\d+/.test(newVersion)) || version === newVersion) {
-				let result = await prompt([
+				const result = await prompt([
 					{
 						type: 'input',
 						name: 'version',
@@ -352,8 +352,8 @@ export class Release {
 			}
 		} else {
 			const intersection: any[] = [
-				commandOptions.major && 'major', 
-				commandOptions.minor && 'minor', 
+				commandOptions.major && 'major',
+				commandOptions.minor && 'minor',
 				commandOptions.patch && 'patch'
 			].filter(i => !!i);
 			if (intersection.length) {
@@ -362,11 +362,11 @@ export class Release {
 				const types = new Set(commits.map(({
 					type
 				}) => type));
-				const breaking = commits.some((commit) => !!commit.breaking);
-				const level = breaking 
-					? 'major' 
-					: types.has('feat') 
-						? 'minor' 
+				const breaking = commits.some(commit => !!commit.breaking);
+				const level = breaking
+					? 'major'
+					: types.has('feat')
+						? 'minor'
 						: 'patch';
 				newVersion = semver.inc(version, level) || '';
 			}
@@ -385,17 +385,17 @@ export class Release {
 		const olds = this.commits.map(i => JSON.stringify({ ...i, effect: false }));
 
 		const newCommits = commits
-			.filter(i => {
+			.filter((i) => {
 				return !olds.includes(JSON.stringify({ ...i, effect: false }));
 			})
-			.map(j => {
+			.map((j) => {
 				return {
 					...j,
 					effect: !!source
 				};
 			});
 
-		// 去除自定义的，如强制更新commit 
+		// 去除自定义的，如强制更新commit
 		if (newCommits.length && this.commits.length) {
 			this.commits = this.commits.filter(i => !i.custom);
 		}
@@ -432,8 +432,8 @@ export class Release {
 		packageOptions.version = newVersion;
 
 		if (Object.keys(this.packageRelation).length) {
-			for (let packageName$ in relationVerisons) {
-				let newVersion$ = relationVerisons[packageName$];
+			for (const packageName$ in relationVerisons) {
+				const newVersion$ = relationVerisons[packageName$];
 				if (dependencies?.[packageName$]) {
 					dependencies[packageName$] = newVersion$;
 				}
@@ -448,7 +448,7 @@ export class Release {
 			return;
 		}
 		Logger.log(chalk.yellow(`Updating `) + 'package.json');
-		
+
 		fs.outputFileSync(`${packageDir}/package.json`, JSON.stringify(packageOptions, null, 2));
 	}
 
@@ -461,7 +461,7 @@ export class Release {
 		const logPath = path.resolve(packageDir, './CHANGELOG.md');
 		const logFile = fs.existsSync(logPath) ? fs.readFileSync(logPath, 'utf-8') : '';
 		const oldNotes = logFile.startsWith(title) ? logFile.slice(title.length).trim() : logFile;
-		
+
 		const parts = [
 			`## v${packageOptions.version}`,
 			`_${date}_`,
@@ -483,7 +483,7 @@ export class Release {
 		const { commandOptions } = this;
 
 		if (commandOptions.dryRun) {
-			Logger.log(chalk.yellow('Skipping Test'));	
+			Logger.log(chalk.yellow('Skipping Test'));
 			return;
 		} else {
 			Logger.log(chalk.yellow('Test...'));
@@ -497,7 +497,7 @@ export class Release {
 		const { commandOptions } = this;
 
 		if (commandOptions.dryRun) {
-			Logger.log(chalk.yellow('Skipping Build'));	
+			Logger.log(chalk.yellow('Skipping Build'));
 			return;
 		} else {
 			Logger.log(chalk.yellow('Build...'));
@@ -519,7 +519,7 @@ export class Release {
 		}
 		Logger.log(chalk.cyan(`\n Publishing to NPM`));
 		await Shell.spawn(
-			'npm', 
+			'npm',
 			['publish', '--no-git-checks', '--access', 'public'],
 			{
 				cwd: packageDir
@@ -542,7 +542,7 @@ export class Release {
 		const tagName = `${packageName}@${packageOptions.version}`;
 		Logger.log(chalk.blue(`\n Tagging`) + chalk.grey(`${tagName}`));
 		await Shell.spawn(
-			'git', 
+			'git',
 			['tag', tagName],
 			{
 				cwd: packageDir

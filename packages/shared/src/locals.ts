@@ -1,4 +1,4 @@
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 
@@ -14,7 +14,7 @@ interface PackageOptions {
 interface Config {
 	cwd: string;
 	workspace: string;
-	homepage: string; 
+	homepage: string;
 	rootPackageOptions: PackageOptions;
 	packageFolderName: string;
 	packageDir: string;
@@ -38,10 +38,10 @@ interface Config {
 	};
 }
 
-// 处理依赖关系的函数 如a依赖b, b依赖c，则输出c,b,a; 
+// 处理依赖关系的函数 如a依赖b, b依赖c，则输出c,b,a;
 export const getNormalizePackage = (dataMap: any) => {
 	// checks
-	Object.keys(dataMap).forEach(packageName => {
+	Object.keys(dataMap).forEach((packageName) => {
 		const relations = dataMap[packageName];
 		relations.forEach((packageName$: string) => {
 			if (dataMap[packageName$].includes(packageName)) {
@@ -53,31 +53,31 @@ export const getNormalizePackage = (dataMap: any) => {
 	// eslint-disable-next-line no-sequences
 	const needUseMap: any = Object.keys(dataMap).reduce((pre, key) => (pre[key] = 0, pre), {});
 	const queue: string[] = [];
-	
+
 	// 计算每个节点的入度
-	for (let key in dataMap) {
+	for (const key in dataMap) {
 		const dependencies = dataMap[key];
 		dependencies.forEach((dependency: string) => {
 			needUseMap[dependency] += 1;
 		});
 	}
-	
+
 	// 将入度为0的节点加入队列
-	for (let key in needUseMap) {
+	for (const key in needUseMap) {
 		if (needUseMap[key] === 0) {
 			queue.push(key);
 		}
 	}
-	
+
 	const result: string[] = [];
 	while (queue.length > 0) {
 		const node = queue.shift();
-		 /* istanbul ignore next -- @preserve */
+		/* istanbul ignore next -- @preserve */
 		if (!node) return [];
 		result.push(node);
-		
+
 		const dependencies = dataMap[node];
-	
+
 		for (let i = 0; i < dependencies.length; i++) {
 			const dependency = dependencies[i];
 			needUseMap[dependency] -= 1;
@@ -92,8 +92,8 @@ export const getNormalizePackage = (dataMap: any) => {
 export const getPackageName = (packageFolderName$: string, cwd?: string) => {
 	const { workspace, packageFolderName, packageName } = impl(cwd);
 	if (
-		!workspace 
-		|| !packageFolderName$ 
+		!workspace
+		|| !packageFolderName$
 		|| packageFolderName$ === packageFolderName
 	) {
 		return packageName;
@@ -112,7 +112,7 @@ export const getPackageFolderName = (packageName$: string, cwd?: string) => {
 };
 
 export const getRealPackageName = (names?: string, cwd?: string) => {
-	return names?.split(',').map(name => {
+	return names?.split(',').map((name) => {
 		const { workspace, packageName, packageDir } = impl(cwd);
 		if (!workspace || !name || name === '*') return name;
 		if (name.includes(packageName)) {
@@ -127,14 +127,14 @@ export const getRealPackageName = (names?: string, cwd?: string) => {
 	}).filter(i => !!i).join(',');
 };
 
-let configMap: { [key: string]: Config } = {};
+const configMap: { [key: string]: Config } = {};
 export const impl = (cwd?: string) => {
 	cwd = cwd || cwd$;
 	if (configMap[cwd]) return configMap[cwd];
 	const rootPackageOptions = require$(`${cwd}/package.json`);
-	
+
 	let workspace = 'packages';
-	let isMonorepo = fs.existsSync(path.resolve(cwd, workspace));
+	const isMonorepo = fs.existsSync(path.resolve(cwd, workspace));
 	workspace = isMonorepo ? workspace : '';
 
 	const packageFolderName = isMonorepo ? 'index' : '';
@@ -144,19 +144,21 @@ export const impl = (cwd?: string) => {
 	const packageVersion = packageOptions.version;
 
 	// 所有包的路径
-	const packageFolderNames: string[] = !isMonorepo ? [] : fs
-		.readdirSync(packageDir)
-		.reduce((pre: string[], file: string) => {
-			const fullpath = path.resolve(packageDir, file);
-			// 获取文件信息
-			const stat = fs.statSync(fullpath);
-			if (!(/(^_|tpl)/.test(file)) 
-				&& stat.isDirectory()
-			) {
-				pre.push(file);
-			}
-			return pre;
-		}, []);
+	const packageFolderNames: string[] = !isMonorepo
+		? []
+		: fs
+			.readdirSync(packageDir)
+			.reduce((pre: string[], file: string) => {
+				const fullpath = path.resolve(packageDir, file);
+				// 获取文件信息
+				const stat = fs.statSync(fullpath);
+				if (!(/(^_|tpl)/.test(file))
+					&& stat.isDirectory()
+				) {
+					pre.push(file);
+				}
+				return pre;
+			}, []);
 
 	// 所有包的package.json
 	const packageOptionsMap = packageFolderNames.reduce((pre, packageFolderName$) => {
@@ -170,8 +172,8 @@ export const impl = (cwd?: string) => {
 	}, {});
 
 	const packageRelation = packageFolderNames.reduce((pre, packageFolderName$) => {
-		let packagesOptions = packageOptionsMap[packageFolderName$];
-		let deps = {
+		const packagesOptions = packageOptionsMap[packageFolderName$];
+		const deps = {
 			...(packagesOptions.dependencies || {}),
 			...(packagesOptions.devDependencies || {}),
 		};
@@ -181,7 +183,7 @@ export const impl = (cwd?: string) => {
 
 	// 根目录含index.ts, 不含src, 有文件夹且含__tests__，即认为当前为子包
 	const subpackagesMap = packageFolderNames.reduce((pre, packageFolderName$) => {
-		let dir = path.resolve(packageDir, packageFolderName$);
+		const dir = path.resolve(packageDir, packageFolderName$);
 		pre[packageFolderName$] = workspace && fs.existsSync(`${dir}/index.ts`) && !fs.existsSync(`${dir}/src`)
 			? fs.readdirSync(dir).filter((file: string) => {
 				const fullpath = path.join(dir, file);
@@ -199,7 +201,6 @@ export const impl = (cwd?: string) => {
 	const normalizePackageNames = getNormalizePackage(packageRelation);
 	const normalizePackageFolderNames = normalizePackageNames
 		.map(i => i.replace(new RegExp(`${packageName}-?`), '') || packageFolderName);
-
 
 	const homepage = (rootPackageOptions.repository || packageOptions.repository || {}).url || '';
 	const config = {

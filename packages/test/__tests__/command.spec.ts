@@ -7,7 +7,7 @@ describe('command.ts', () => {
 		const instance = new Command(
 			'node',
 			[
-				resolve(__dirname, './fixtures/command-prompt.js') 
+				resolve(__dirname, './fixtures/command-prompt.js')
 			]
 		);
 
@@ -31,7 +31,7 @@ describe('command.ts', () => {
 		const instance = new Command(
 			'node',
 			[
-				resolve(__dirname, './fixtures/command-prompt.js') 
+				resolve(__dirname, './fixtures/command-prompt.js')
 			]
 		);
 
@@ -45,7 +45,7 @@ describe('command.ts', () => {
 		await instance.stop();
 
 		const command = 'add dependent --dev --peer --exact --no-bootstrap --scope=index';
-		
+
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');
@@ -56,7 +56,7 @@ describe('command.ts', () => {
 		const instance = new Command(
 			'node',
 			[
-				resolve(__dirname, './fixtures/command-prompt.js') 
+				resolve(__dirname, './fixtures/command-prompt.js')
 			]
 		);
 
@@ -72,4 +72,3 @@ describe('command.ts', () => {
 		}
 	}, 10000);
 });
-

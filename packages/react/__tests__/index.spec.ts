@@ -16,19 +16,19 @@ describe('index.ts', () => {
 	});
 
 	it('build', async () => {
-		let options: InlineConfig = {
+		const options: InlineConfig = {
 			logLevel: 'silent',
 			build: {
 				write: false,
 				lib: {
 					entry,
-					formats: ["es"],
+					formats: ['es'],
 					fileName: 'index.js'
 				}
 			}
 		};
 		options.configFile = path.resolve(dirname, '../src/index.ts');
-		let { output } = (await build(options))[0];
+		const { output } = (await build(options))[0];
 		expect(typeof output[0].code === 'string').toBe(true);
 	});
 

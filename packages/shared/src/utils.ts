@@ -15,17 +15,17 @@ export const getHost = () => {
 	return ips[0];
 };
 
-export const formatBytes = (size: number, suffix = 2) => { 
-	if (!size) return "0B"; 
+export const formatBytes = (size: number, suffix = 2) => {
+	if (!size) return '0B';
 	const base = 1024; // 表示要被转化的容量大小，以字节为单
-	const units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-	const index = Math.floor(Math.log(size) / Math.log(base)); 
+	const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+	const index = Math.floor(Math.log(size) / Math.log(base));
 
 	const value = parseFloat((size / (base ** index)).toFixed(suffix));
 	return value + units[index];
 };
 
-export const autoCatch = async (impl: any, options: Options = {}) => { 
+export const autoCatch = async (impl: any, options: Options = {}) => {
 	const { onError = console.error } = options;
 
 	let target = impl;

@@ -14,10 +14,9 @@ describe('utils.ts', () => {
 	});
 
 	it('def', async () => {
-		let target: any = {};
+		const target: any = {};
 		Utils.def(target, 'value', 1);
 
 		expect(target.value).toBe(1);
 	});
 });
-

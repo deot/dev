@@ -27,8 +27,8 @@ export const getOptions = async () => {
 			default: 'index',
 			source: (_: any, input: any) => {
 				input = input || '';
-				return new Promise(($resolve => {
-					let filter = input 
+				return new Promise((($resolve) => {
+					const filter = input
 						? packageFolderNames.filter(item => item.includes(input))
 						: packageFolderNames;
 					$resolve(filter);
@@ -79,7 +79,7 @@ export const getOptions = async () => {
 	];
 
 	registerPrompt('autocomplete', autocomplete);
-	let result = await prompt(question);
+	const result = await prompt(question);
 
 	if (result.mode == 'dependent') {
 		result.packageName = Locals.getPackageName(result.packageFolderName);

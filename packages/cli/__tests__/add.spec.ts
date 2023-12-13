@@ -7,7 +7,7 @@ describe('add.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'add',
 				'--dry-run'
 			]
@@ -30,7 +30,7 @@ describe('add.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'add',
 				'--dry-run'
 			]
@@ -46,7 +46,7 @@ describe('add.ts', () => {
 		await instance.stop();
 
 		const command = 'npx pnpm add --filter @deot/dev dependent -S';
-		
+
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stderr).toBe('');

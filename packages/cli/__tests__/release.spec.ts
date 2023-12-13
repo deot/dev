@@ -7,13 +7,13 @@ describe('release.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'release'
 			]
 		);
 
 		await instance.stop();
-		
+
 		const log1 = 'No files will be modified.';
 		const log2 = '(Nothing Chanaged.|Skipping Git Push)';
 

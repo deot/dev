@@ -41,6 +41,6 @@ describe('index', () => {
 			// 5
 			'chore(builder,cli,deps,dever,eslint): deps updated ([55555](https://github.com/deot/dev/commit/55555))',
 			'chore: deps updated ([55555](https://github.com/deot/dev/commit/55555))'
-		].forEach((i) => expect(v).toMatch(i));
+		].forEach(i => expect(v).toMatch(i));
 	}, 60000);
 });

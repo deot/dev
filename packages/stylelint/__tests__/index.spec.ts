@@ -80,6 +80,3 @@ describe('deprecated', () => {
 		expect(data.errored).toBe(false);
 	});
 });
-
-
-

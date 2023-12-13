@@ -3,11 +3,11 @@ import { fitVersion } from '../src/fit-version';
 describe('fit-version.ts', () => {
 	it('config', () => {
 		const versions = [
-			'1.0.0', 
-			'1.0.1', 
-			'1.0.2', 
-			'1.1.0', 
-			'1.1.1', 
+			'1.0.0',
+			'1.0.1',
+			'1.0.2',
+			'1.1.0',
+			'1.1.1',
 			'1.1.2',
 			'2.0.0',
 			'2.0.1',
@@ -19,7 +19,7 @@ describe('fit-version.ts', () => {
 			'3.1.1',
 			'3.1.2'
 		];
-		let f = (version: string, options?: any) => fitVersion(versions, version, options);
+		const f = (version: string, options?: any) => fitVersion(versions, version, options);
 
 		// keep
 		expect(f('')).toBe('');
@@ -71,7 +71,7 @@ describe('fit-version.ts', () => {
 
 	it('empty', () => {
 		const versions = [];
-		let f = (version: string, options?: any) => fitVersion(versions, version, options);
+		const f = (version: string, options?: any) => fitVersion(versions, version, options);
 
 		// keep
 		expect(f('')).toBe('');

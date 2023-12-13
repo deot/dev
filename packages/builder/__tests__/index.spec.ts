@@ -30,7 +30,7 @@ describe('index', () => {
 		[
 			'index.ts: CJS',
 			'index.ts: ES'
-		].forEach((i) => expect(v).toMatch(i));
+		].forEach(i => expect(v).toMatch(i));
 	}, 120000);
 
 	it('singlerepo', async () => {
@@ -73,6 +73,6 @@ describe('index', () => {
 			'index.m.ts: ES',
 			'index.m.ts: IIFE',
 			'index.m.ts: UMD'
-		].forEach((i) => expect(v).toMatch(i));
+		].forEach(i => expect(v).toMatch(i));
 	}, 120000);
 });

@@ -15,7 +15,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	options.packageName = Locals.getRealPackageName(options.packageName);
 	options.vuePackage = Locals.getRealPackageName(options.vuePackage);
 	options.reactPackage = Locals.getRealPackageName(options.reactPackage);
-	
+
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
@@ -36,12 +36,12 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	options.subpackageFolderName = options.subpackageFolderName || options.subpackage;
 	options.subpackagesMap = subpackagesMap;
-	
+
 	const packageOptions = packageOptionsMap[options.packageFolderName];
 	const packageDir = packageDirsMap[options.packageFolderName];
 
 	if (
-		workspace 
+		workspace
 		&& cwd !== packageDir
 		&& packageOptions?.scripts?.['test']
 	) {
@@ -49,8 +49,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		return;
 	}
 
-	if (!options.packageFolderName) delete options.packageFolderName; 
-	if (!options.workspace) delete options.workspace; 
+	if (!options.packageFolderName) delete options.packageFolderName;
+	if (!options.workspace) delete options.workspace;
 	delete options.packageName;
 	delete options.subpackage;
 
@@ -58,7 +58,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const NODE_ENV = process.env.NODE_ENV || 'TEST';
 
 	if (dryRun) {
-		const command = `cross-env NODE_ENV=${NODE_ENV} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} vitest ` 
+		const command = `cross-env NODE_ENV=${NODE_ENV} TEST_OPTIONS=${encodeURIComponent(JSON.stringify(options))} vitest `
 			+ ([
 				'--passWithNoTests',
 				`${!(watch || isDev) ? '--watch=false' : ''}`
@@ -72,22 +72,22 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	const isVuePackage = typeof vuePackage === 'string' && (
 		packageName === locals.packageName
 		|| packageName === `${locals.packageName}-*`
-		|| vuePackage === '*' 
+		|| vuePackage === '*'
 		|| (vuePackage.split(',')).includes(packageName)
 	);
 
 	const isReactPackage = typeof reactPackage === 'string' && (
 		packageName === locals.packageName
 		|| packageName === `${locals.packageName}-*`
-		|| reactPackage === '*' 
+		|| reactPackage === '*'
 		|| (reactPackage.split(',')).includes(packageName)
 	);
 
 	// 这个是给外部调用(z.)?test.config.ts用的
 	options.useVue = !!isVuePackage;
 	options.useReact = !!isReactPackage;
-	
-	let options$: UserConfig = {
+
+	const options$: UserConfig = {
 		environment,
 		coverage: {
 			enabled: !!coverage,
@@ -97,9 +97,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	};
 
 	if (fs.existsSync(`${cwd}/z.test.config.ts`)) {
-		options$.config = path.relative(cwd, path.resolve(cwd, './z.test.config.ts'));	
+		options$.config = path.relative(cwd, path.resolve(cwd, './z.test.config.ts'));
 	} else if (fs.existsSync(`${cwd}/test.config.ts`)) {
-		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));	
+		options$.config = path.relative(cwd, path.resolve(cwd, './test.config.ts'));
 	} else {
 		// 只有当使用默认配置时，才有的值
 		process.env.USE_VUE = isVuePackage ? '1' : '';
@@ -110,7 +110,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		 * .vue就无法搜集覆盖率了, 这里需要在shared.config.ts直接配置
 		 * 引入只是为了去除tsx执行的hack
 		 */
-		
+
 		options$.config = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 	}
 

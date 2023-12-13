@@ -1,5 +1,5 @@
 import * as path from 'node:path';
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 import { defineConfig, configDefaults, mergeConfig } from 'vitest/config';
 import type { UserConfig } from 'vite';
 
@@ -11,8 +11,8 @@ import react from '@vitejs/plugin-react-swc';
  * https://github.com/vuejs/core/issues/8303
  * to fix error: ReferenceError: __name is not defined
  */
-let __defProp = Object.defineProperty;
-let __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
+const __defProp = Object.defineProperty;
+const __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
 globalThis.__name = globalThis.__name || __name;
 
 // 当库里同时含有vue和react，vue的jsx要含前缀vue
@@ -22,10 +22,10 @@ const getViteConfig = () => {
 	if (useVue && useReact) {
 		return defineConfig({ plugins: [vue(), vueJSX({ include: /\.vue\.[jt]sx$/ }), react()] });
 	}
-	return useVue 
-		? defineConfig({ plugins: [vue(), vueJSX()] }) 
+	return useVue
+		? defineConfig({ plugins: [vue(), vueJSX()] })
 		: useReact
-			? defineConfig({ plugins: [react()] }) 
+			? defineConfig({ plugins: [react()] })
 			: {};
 };
 const cwd = process.cwd();
@@ -41,16 +41,16 @@ const TEST_PATTEN = `**/*.{test,spec}.[jt]s?(x)`;
 const COLLECT_PATTEN = `**/*.{[jt]s?(x),vue}`;
 
 if (workspace) {
-	let prefixDir = `${workspace}/${packageFolderName || '*'}`;
+	const prefixDir = `${workspace}/${packageFolderName || '*'}`;
 	tests.push(`${prefixDir}/__tests__/${TEST_PATTEN}`);
 	collects.push(`${prefixDir}/src/${COLLECT_PATTEN}`);
 
 	if (packageFolderName === '*') {
 		Object.keys(subpackagesMap).forEach((packageFolderName$: string) => {
-			let subpackages = subpackagesMap[packageFolderName$];
+			const subpackages = subpackagesMap[packageFolderName$];
 			if (subpackages.length) {
-				let prefixDir$ = `${workspace}/${packageFolderName$}`;
-				let subpackagesPatten = `{${subpackages.join(',')},}`;
+				const prefixDir$ = `${workspace}/${packageFolderName$}`;
+				const subpackagesPatten = `{${subpackages.join(',')},}`;
 
 				tests.push(`${prefixDir$}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
 				collects.push(`${prefixDir$}/${subpackagesPatten}/${COLLECT_PATTEN}`);
@@ -65,8 +65,8 @@ if (workspace) {
 			tests.push(`${prefixDir}/${subpackageFolderName}/__tests__/${TEST_PATTEN}`);
 			collects.push(`${prefixDir}/${subpackageFolderName}/${COLLECT_PATTEN}`);
 		} else {
-			let subpackages = subpackagesMap[packageFolderName];
-			let subpackagesPatten = `{${subpackages.join(',')},}`;
+			const subpackages = subpackagesMap[packageFolderName];
+			const subpackagesPatten = `{${subpackages.join(',')},}`;
 			tests.push(`${prefixDir}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
 			collects.push(`${prefixDir}/${subpackagesPatten}/${COLLECT_PATTEN}`);
 			collects.push(`${prefixDir}/index*.ts`);
@@ -86,27 +86,27 @@ const name = getPackageName('index');
 export default mergeConfig(getViteConfig(), defineConfig({
 	resolve: workspace
 		? {
-			alias: [
-				{
-					find: new RegExp(`^${name}$`),
-					replacement: replacement('index')
-				},
-				...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
-					if (subpackagesMap[cur].length) {
-						pre.push({
-							find: new RegExp(`^${getPackageName(cur)}$`),
-							replacement: replacement(cur, true)
-						});
-					}
-					return pre;
-				}, [] as any),
-				{
+				alias: [
+					{
+						find: new RegExp(`^${name}$`),
+						replacement: replacement('index')
+					},
+					...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
+						if (subpackagesMap[cur].length) {
+							pre.push({
+								find: new RegExp(`^${getPackageName(cur)}$`),
+								replacement: replacement(cur, true)
+							});
+						}
+						return pre;
+					}, [] as any),
+					{
 
-					find: new RegExp(`^${name}-(.*?)$`),
-					replacement: replacement('$1')
-				}
-			]
-		}
+						find: new RegExp(`^${name}-(.*?)$`),
+						replacement: replacement('$1')
+					}
+				]
+			}
 		: {},
 	test: {
 		globals: true,
@@ -130,4 +130,3 @@ export default mergeConfig(getViteConfig(), defineConfig({
 		}
 	}
 }) as UserConfig);
-

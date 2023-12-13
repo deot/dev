@@ -19,8 +19,8 @@ export const getOptions = async () => {
 			default: 'cli',
 			source: (_: any, input: any) => {
 				input = input || '';
-				return new Promise(($resolve => {
-					let filter = input 
+				return new Promise((($resolve) => {
+					const filter = input
 						? packages$.filter(item => item.includes(input))
 						: packages$;
 					$resolve(filter);
@@ -38,8 +38,8 @@ export const getOptions = async () => {
 			source: (answers: any, input: any) => {
 				const subpackages = [ALL_PACKAGE, ...subpackagesMap[answers.packageFolderName]];
 				input = input || '';
-				return new Promise(($resolve => {
-					let filter = input 
+				return new Promise((($resolve) => {
+					const filter = input
 						? subpackages.filter(item => item.includes(input))
 						: subpackages;
 					$resolve(filter);
@@ -64,14 +64,14 @@ export const getOptions = async () => {
 	];
 
 	registerPrompt('autocomplete', autocomplete);
-	let result = await prompt(question);
+	const result = await prompt(question);
 
-	result.packageFolderName = result.packageFolderName == ALL_PACKAGE 
-		? undefined 
+	result.packageFolderName = result.packageFolderName == ALL_PACKAGE
+		? undefined
 		: result.packageFolderName;
 
-	result.subpackageFolderName = result.subpackageFolderName == ALL_PACKAGE 
-		? undefined 
+	result.subpackageFolderName = result.subpackageFolderName == ALL_PACKAGE
+		? undefined
 		: result.subpackageFolderName;
 
 	result.watch = result.watch || isDev;

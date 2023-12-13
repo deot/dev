@@ -7,7 +7,7 @@ describe('test.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'test',
 				'--dry-run',
 				'--custom any-custom-info'
@@ -28,6 +28,5 @@ describe('test.ts', () => {
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stdout).toMatch(`custom%22%3A%22any-custom-info`);
 		expect(instance.stderr).toBe('');
-
 	}, 60000);
 });

@@ -1,5 +1,5 @@
 import * as path from 'node:path';
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import ora from 'ora';
@@ -48,8 +48,8 @@ export class Build {
 		this.packageDir = path.resolve(packageDir, workspace ? `./${packageFolderName}` : '');
 		this.packageSourceDir = path.resolve(this.packageDir, subpackages.length ? '' : './src');
 		this.packageOutDir = path.resolve(this.packageDir, './dist');
-		this.packageName = packageFolderName === packageFolderName$ 
-			? packageName 
+		this.packageName = packageFolderName === packageFolderName$
+			? packageName
 			: `${packageName}-${packageFolderName}`;
 		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
 		this.commandOptions = commandOptions;
@@ -61,7 +61,7 @@ export class Build {
 	}
 
 	async process() {
-		let start = Date.now();
+		const start = Date.now();
 		const { cwd, workspace } = Locals.impl();
 		const { packageSourceDir: srcDir, packageOptions, packageName, packageDir } = this;
 
@@ -77,7 +77,7 @@ export class Build {
 			return;
 		}
 
-		let files = fs.existsSync(srcDir)
+		const files = fs.existsSync(srcDir)
 			? fs
 				.readdirSync(srcDir)
 				.filter((i: string) => /^index(.*)\.(ts|js|s?css)$/.test(i))
@@ -108,7 +108,7 @@ export class Build {
 			message += typeStats.length ? `dts: ${chalk.yellow(typeDuration)}ms` : '';
 			message += ')';
 			Logger.log(message);
-			
+
 			scriptStats
 				.concat(styleStats)
 				.concat(typeStats)

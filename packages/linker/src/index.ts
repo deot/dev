@@ -7,11 +7,11 @@ import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	const locals = Locals.impl();
 	const { workspace, packageFolderNames } = locals;
-	
+
 	if (!workspace) {
 		return Logger.log(`<link> Monorepo Supported Only.`);
 	}
-	
+
 	if (typeof options.dryRun === 'undefined') {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
@@ -21,8 +21,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	const spinner = ora(`Links ...\n`);
 	spinner.start();
-	await Promise.all(packageFolderNames.map(i => {
-		return Shell.spawn(`${command}${i}`);	
+	await Promise.all(packageFolderNames.map((i) => {
+		return Shell.spawn(`${command}${i}`);
 	}));
 	spinner.stop();
 	Logger.log(`${chalk.green('Links Success')}`);

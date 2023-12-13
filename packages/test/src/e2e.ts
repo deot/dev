@@ -2,7 +2,7 @@ import { Launch } from './launch';
 
 export const TIME_OUT = 60 * 1000;
 export const impl = () => {
-	let launch = new Launch();
+	const launch = new Launch();
 
 	beforeAll(async () => {
 		await launch.createBrowser();

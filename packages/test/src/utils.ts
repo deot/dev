@@ -1,10 +1,10 @@
 /* eslint-disable no-await-in-loop */
-export const sleep = (s?: number) => new Promise(_ => { setTimeout(_, s || 0); });
+export const sleep = (s?: number) => new Promise((_) => { setTimeout(_, s || 0); });
 
 interface ExpectByPollingOptions {
 	interval?: number;
 	maxTries?: number;
-	to?: string; 
+	to?: string;
 }
 /**
  * @param poll ~
@@ -12,7 +12,7 @@ interface ExpectByPollingOptions {
  * @param options ~
  */
 export const expectByPolling = async (
-	poll: () => Promise<any> | any, 
+	poll: () => Promise<any> | any,
 	expected: any,
 	options?: ExpectByPollingOptions
 ) => {
@@ -24,11 +24,11 @@ export const expectByPolling = async (
 		const allowMatch = (!to || to === 'toMatch') && typeof expected === 'string' && typeof actual === 'string';
 
 		if (
-			(allowMatch && actual.indexOf(expected) > -1) 
+			(allowMatch && actual.indexOf(expected) > -1)
 			|| actual === expected
 			|| tries === maxTries - 1
 		) {
-			allowMatch 
+			allowMatch
 				? expect(actual).toMatch(expected)
 				: expect(actual)[to || 'toBe'](expected);
 			break;
@@ -39,9 +39,9 @@ export const expectByPolling = async (
 };
 
 export const def = <T = object>(
-	target: T, 
-	key: PropertyKey, 
-	value?: any, 
+	target: T,
+	key: PropertyKey,
+	value?: any,
 	options?: PropertyDescriptor
 ): T => {
 	return Object.defineProperty<T>(target, key, {

@@ -7,7 +7,7 @@ describe('update.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'update',
 				'--dry-run'
 			]

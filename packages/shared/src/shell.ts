@@ -12,17 +12,17 @@ const SPACE = ' ';
 const binDirectory = path.resolve(process.cwd(), './node_modules/.bin');
 
 const toPromise = <T extends {}, K = any>(target: T, promise: Promise<K>): T & IPromise<K> => {
-	let instance = target as (T & IPromise<K>);
-	
+	const instance = target as (T & IPromise<K>);
+
 	instance.then = (resolve, reject) => promise.then(resolve, reject);
-	instance.catch = (callback) => promise.catch(callback);
-	instance.finally = (callback) => promise.finally(callback);
+	instance.catch = callback => promise.catch(callback);
+	instance.finally = callback => promise.finally(callback);
 
 	return instance;
 };
 
-/* istanbul ignore next -- @preserve */ 
-export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory) 
+/* istanbul ignore next -- @preserve */
+export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory)
 	? fs
 		.readdirSync(binDirectory)
 		.reduce((pre: any, file: string) => {
@@ -36,7 +36,6 @@ export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory)
 		}, {})
 	: {};
 
-
 export const command = (command$: string, args?: string[]) => {
 	const v = (command$ + SPACE + (args || []).join(SPACE))
 		.match(/[^\s'"]+|'[^']*'|"[^"]*"/g);
@@ -45,7 +44,7 @@ export const command = (command$: string, args?: string[]) => {
 };
 
 export const exec = (command$: string, args?: string[], options?: any) => {
-	let command$$ = command(command$, args).join(SPACE);
+	const command$$ = command(command$, args).join(SPACE);
 	let reject: any;
 	let resolve: any;
 
@@ -75,13 +74,13 @@ export const exec = (command$: string, args?: string[], options?: any) => {
 
 // 如果args某个参数中有空格且不要求被分离，需要''或者""包裹
 export const spawn = (command$: string, args?: string[], options?: any) => {
-	let [command$$, ...args$] = command(command$, args).map((i: string) => LOCAL_COMMAND_MAP[i] || i);
-	args$ = args$.map((i: string) => i.replace(/^['"]|['"]$/g, ''));
+	const [command$$, ...args$] = command(command$, args).map((i: string) => LOCAL_COMMAND_MAP[i] || i);
+	const args$$ = args$.map((i: string) => i.replace(/^['"]|['"]$/g, ''));
 
 	const subprocess = childProcess.spawn(
 		command$$,
-		args$, 
-		{ 
+		args$$,
+		{
 			stdio: 'inherit',
 			...options
 		}

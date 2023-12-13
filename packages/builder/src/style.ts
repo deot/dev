@@ -3,17 +3,17 @@ import fs from 'fs-extra';
 import * as sass from 'sass';
 
 import postcss from 'postcss';
-import atImport from "postcss-import";
-import atUrl from "postcss-url";
-import flexBugs from "postcss-flexbugs-fixes";
-import cssnano from "cssnano";
-import autoprefixer from "autoprefixer";
+import atImport from 'postcss-import';
+import atUrl from 'postcss-url';
+import flexBugs from 'postcss-flexbugs-fixes';
+import cssnano from 'cssnano';
+import autoprefixer from 'autoprefixer';
 
 import type { Build } from './build';
 
 export const run = async (options: Build) => {
 	const { packageSourceDir: srcDir, packageOutDir: outDir } = options || {};
-	const styles = fs.existsSync(srcDir) 
+	const styles = fs.existsSync(srcDir)
 		? fs
 			.readdirSync(srcDir)
 			.filter((i: string) => /^index\.(.*)\.?s?css$/.test(i))
@@ -24,7 +24,7 @@ export const run = async (options: Build) => {
 			(preProcess: Promise<any>, file: any) => {
 				preProcess = preProcess
 					.then(() => {
-						let filepath = path.resolve(srcDir, file);
+						const filepath = path.resolve(srcDir, file);
 						const data = sass.compile(filepath, { style: 'compressed' });
 						return postcss()
 							// @imoport资源，引进使用的代码，而不是@import '../xxx';
@@ -40,7 +40,7 @@ export const run = async (options: Build) => {
 							.process(data.css, { from: filepath });
 					})
 					.then((source) => {
-						let output = path.resolve(outDir, `${file.replace(/\.scss$/g, '.css')}`);
+						const output = path.resolve(outDir, `${file.replace(/\.scss$/g, '.css')}`);
 						fs.outputFileSync(output, source.css);
 						return fs.stat(output);
 					})
@@ -51,7 +51,7 @@ export const run = async (options: Build) => {
 						});
 					});
 				return preProcess;
-			}, 
+			},
 			Promise.resolve()
 		);
 	return stats;

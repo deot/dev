@@ -1,6 +1,6 @@
 import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 import { defineConfig } from 'vitest/config';
 import type { UserConfig, ViteDevServer } from 'vite';
 
@@ -8,8 +8,8 @@ import type { UserConfig, ViteDevServer } from 'vite';
  * https://github.com/vuejs/core/issues/8303
  * to fix error: ReferenceError: __name is not defined
  */
-let __defProp = Object.defineProperty;
-let __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
+const __defProp = Object.defineProperty;
+const __name = (target: any, value: any) => __defProp(target, 'name', { value, configurable: true });
 globalThis.__name = globalThis.__name || __name;
 
 const cwd = process.cwd();
@@ -51,14 +51,14 @@ const getVirtualHtml = async (url: string) => {
 
 	const isExist = (ext: string) => {
 		const getFullpath = (dir: string) => path.join(dir, `${entry.replace(/(.*)(\..*)$/, '$1') + ext}`);
-		let last = prefix[prefix.length - 1];
-		let dirs = playDir.split(',');
+		const last = prefix[prefix.length - 1];
+		const dirs = playDir.split(',');
 
 		if (dirs.some((i: string) => i === last)) {
 			const fullpath = getFullpath(path.join(cwd, prefix.join('/')));
 			return fs.existsSync(fullpath) ? fullpath : false;
 		}
-		
+
 		for (let i = 0; i <= dirs.length; i++) {
 			let suffix = dirs[i];
 			if (last === suffix) {
@@ -78,8 +78,7 @@ const getVirtualHtml = async (url: string) => {
 		let dir = path.dirname(fullpath);
 		let preload = '';
 		while (dir.includes(cwd) && !preload) {
-			
-			let preloadFullPath = [
+			const preloadFullPath = [
 				path.resolve(dir, './z.dev.preload.ts'),
 				path.resolve(dir, './dev.preload.ts'),
 				path.resolve(dir, './z.preload.ts'),
@@ -95,7 +94,7 @@ const getVirtualHtml = async (url: string) => {
 
 		return preload;
 	};
-	
+
 	const htmlFullpath = isExist('.html');
 	if (htmlFullpath) {
 		return fs.readFileSync(htmlFullpath).toString();
@@ -133,7 +132,6 @@ const getVirtualHtml = async (url: string) => {
 	}
 };
 
-
 // alias
 const require$ = createRequire(cwd);
 const getPackageName = (name: string) => (require$(path.resolve(cwd, workspace ? `${workspace}/${name}` : '', 'package.json'))).name;
@@ -143,27 +141,27 @@ const name = getPackageName('index');
 export default defineConfig({
 	resolve: workspace
 		? {
-			alias: [
-				{
-					find: new RegExp(`^${name}$`),
-					replacement: replacement('index')
-				},
-				...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
-					if (subpackagesMap[cur].length) {
-						pre.push({
-							find: new RegExp(`^${getPackageName(cur)}$`),
-							replacement: replacement(cur, true)
-						});
-					}
-					return pre;
-				}, [] as any),
-				{
+				alias: [
+					{
+						find: new RegExp(`^${name}$`),
+						replacement: replacement('index')
+					},
+					...Object.keys(subpackagesMap).reduce((pre, cur: string) => {
+						if (subpackagesMap[cur].length) {
+							pre.push({
+								find: new RegExp(`^${getPackageName(cur)}$`),
+								replacement: replacement(cur, true)
+							});
+						}
+						return pre;
+					}, [] as any),
+					{
 
-					find: new RegExp(`^${name}-(.*?)$`),
-					replacement: replacement('$1')
-				}
-			]
-		}
+						find: new RegExp(`^${name}-(.*?)$`),
+						replacement: replacement('$1')
+					}
+				]
+			}
 		: {},
 	plugins: [
 		{
@@ -171,13 +169,13 @@ export default defineConfig({
 			configureServer(server: ViteDevServer) {
 				server.middlewares.use(async (req, res, next) => {
 					if (res.writableEnded) {
-					    return next();
+						return next();
 					}
 					if (req.url!.includes('html-proxy&')) {
 						return next();
 					}
 
-					let url = req.url?.replace(/[?#].*$/s, '') || '';					
+					const url = req.url?.replace(/[?#].*$/s, '') || '';
 					if (url === '/') return res.end(html);
 
 					// 文件已存在，这样xxx.png可以被获取，真实路径的.ts,.html都可以被获取
@@ -187,7 +185,7 @@ export default defineConfig({
 
 					let vHtml = await getVirtualHtml(url);
 					if (
-						(url?.endsWith('.html') || vHtml) 
+						(url?.endsWith('.html') || vHtml)
 						&& req.headers['sec-fetch-dest'] !== 'script'
 					) {
 						if (!vHtml) {

@@ -7,7 +7,7 @@ const useReactTogether = process.env.USE_REACT;
 // 当库里同时含有vue和react，vue的jsx要含前缀vue
 export default defineConfig({
 	plugins: [
-		vue(), 
+		vue(),
 		vueJsx({
 			include: /* istanbul ignore next -- @preserve */ useReactTogether ? /\.vue\.[jt]sx$/ : /\.[jt]sx$/
 		})

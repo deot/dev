@@ -2,7 +2,7 @@ import type { AnyFunction } from '@deot/dev-shared';
 
 describe('global.types.ts', () => {
 	it('dts', () => {
-		type DTS = { 
+		type DTS = {
 			fn?: AnyFunction;
 		};
 

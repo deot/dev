@@ -14,7 +14,7 @@ export const run = async (options: Build) => {
 	const locals = Locals.impl();
 	const { cwd, workspace } = locals;
 
-	const { 
+	const {
 		packageSourceDir: srcDir,
 		packageOutDir: outDir,
 		packageName,
@@ -28,7 +28,7 @@ export const run = async (options: Build) => {
 	const { scriptFormats, external, globals } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
-	let files = fs.existsSync(srcDir)
+	const files = fs.existsSync(srcDir)
 		? fs
 			.readdirSync(srcDir)
 			.filter((i: string) => /^index\.(.*)\.?(t|j)s$/.test(i))
@@ -40,7 +40,7 @@ export const run = async (options: Build) => {
 		const buildOptions = {
 			files: [filepath],
 			format,
-			external, 
+			external,
 			globals,
 			workspace,
 			packageName,
@@ -71,28 +71,28 @@ export const run = async (options: Build) => {
 			process.env.USE_REACT = isReactPackage ? '1' : '';
 			options$.configFile = path.relative(cwd, path.resolve(dirname, '../shared.config.ts'));
 			// 只有使用默认配置时才有效，否则就自行配置（这样可以配置单独Plugin的参数）
-			options$ = isVuePackage 
-				? mergeConfig(sharedVueConfig, options$) 
-				: isReactPackage 
+			options$ = isVuePackage
+				? mergeConfig(sharedVueConfig, options$)
+				: isReactPackage
 					? mergeConfig(sharedReactConfig, options$)
 					: options$;
 		}
 
 		process.env.BUILD_OPTIONS = encodeURIComponent(JSON.stringify(buildOptions));
 
-		let outputs: any = await createViteBuild(options$);
+		const outputs: any = await createViteBuild(options$);
 
 		outputs.forEach((i: any) => {
 			i.output.forEach((j: any) => {
 				// AssetOutput, // css
 				if (j.type === 'asset') {
-					let fileName = filepath.replace(/^(.*)((\..*\.js)|\.cjs|\.ts)/, `$1.${j.fileName}`);
+					const fileName = filepath.replace(/^(.*)((\..*\.js)|\.cjs|\.ts)/, `$1.${j.fileName}`);
 					fs.outputFileSync(`${outDir}/${fileName}`, j.source);
 					return;
-				} 
+				}
 
 				// ChunkOutput // js
-				if (j.type === 'chunk') { 
+				if (j.type === 'chunk') {
 					fs.outputFileSync(`${outDir}/${j.fileName}`, j.code);
 					return;
 				}
@@ -118,7 +118,7 @@ export const run = async (options: Build) => {
 
 	await serial;
 
-	let outputs = fs
+	const outputs = fs
 		.readdirSync(outDir)
 		.filter((i: string) => /^index(.*)(?!=(\.d))\.(cjs|js|style\.css)$/.test(i));
 
@@ -130,16 +130,16 @@ export const run = async (options: Build) => {
 	// 	'index.m.js' => 'index.m.ts', es
 	// 	'index.m.iife.js' => 'index.m.ts', iife
 	// 	'index.m.umd.cjs' => 'index.m.ts', umd
-	// 	
+	//
 	outputs.forEach((file: string) => {
-		let stat = fs.statSync(path.resolve(outDir, file));
+		const stat = fs.statSync(path.resolve(outDir, file));
 
 		stats.push({
 			file: file
 				.replace(/^(.*)(\.umd\.cjs|\.iife\.js)/, '$1.ts')
 				.replace(/^(.*)(\.js|\.cjs)/, '$1.ts'),
-			format: /\.style\.css$/.test(file) 
-				? 'css' 
+			format: /\.style\.css$/.test(file)
+				? 'css'
 				: /\.umd\.cjs$/.test(file)
 					? 'umd'
 					: /\.cjs$/.test(file)

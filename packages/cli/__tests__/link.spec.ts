@@ -7,14 +7,14 @@ describe('link.ts', () => {
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
-				resolve(__dirname, '../src/index.ts'), 
+				resolve(__dirname, '../src/index.ts'),
 				'link',
 				'--dry-run'
 			]
 		);
 
 		await instance.stop();
-		
+
 		const command = 'npx pnpm link ./packages/';
 
 		expect(instance.code).toBe(0);

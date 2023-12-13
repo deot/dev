@@ -142,7 +142,7 @@ export class Operater {
 	async clearValue(selector: string): Promise<void> {
 		return await this.page.$eval(
 			selector,
-			node => {
+			(node) => {
 				(node as HTMLInputElement).value = '';
 			}
 		);
@@ -155,7 +155,7 @@ export class Operater {
 	 */
 	sleep(time: number): Promise<any> {
 		return this.page.evaluate((time$: number) => {
-			return new Promise(r => {
+			return new Promise((r) => {
 				setTimeout(r, time$);
 			});
 		}, time);
@@ -163,7 +163,7 @@ export class Operater {
 
 	nextFrame() {
 		return this.page.evaluate(() => {
-			return new Promise(resolve => {
+			return new Promise((resolve) => {
 				requestAnimationFrame(() => {
 					requestAnimationFrame(resolve);
 				});

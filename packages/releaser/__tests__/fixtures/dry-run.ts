@@ -8,7 +8,6 @@ Release.run({
 	push: false,
 	keepLastTag: false,
 
-
 	// fake
 	commits: [
 		`feat(*): all changed by *`,

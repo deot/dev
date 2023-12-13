@@ -58,16 +58,12 @@ export const run = async (options: Build) => {
 		}, null, '\t'));
 
 		await Shell.spawn(isVuePackage ? 'vue-tsc' : 'tsc', ['-p', `${tempDir}/tsconfig.json`]);
-	}
+	};
 
 	try {
 		await tsc(false);
-	} catch(e) {
-		try {
-			await tsc(true);
-		} catch {
-			throw e;
-		}
+	} catch (e) {
+		await tsc(true);
 	}
 
 	const configPath = `${tempDir}/api-extractor.json`;
@@ -76,12 +72,12 @@ export const run = async (options: Build) => {
 		extends: path.relative(tempDir, path.resolve(dirname, '../api-extractor.shared.json')),
 		mainEntryPointFilePath: (workspace ? `./${workspace}/` : './') + path.relative(packageRootDir, `${packageSourceDir}/index.d.ts`), // workspace、时以temp/packages/*/src结构，否则APIExtractor会报错
 		dtsRollup: {
-			publicTrimmedFilePath: "../index.d.ts"
+			publicTrimmedFilePath: '../index.d.ts'
 		}
 	}, null, '\t'));
 
 	const result = Extractor.invoke(
-		ExtractorConfig.loadFileAndPrepare(configPath), 
+		ExtractorConfig.loadFileAndPrepare(configPath),
 		{
 			localBuild: true,
 			showVerboseMessages: false,
@@ -93,7 +89,7 @@ export const run = async (options: Build) => {
 			 *
 			 * 版本提示：
 			 * 2. console-compiler-version-notice
-			 * 	*** The target project appears to use TypeScript 5.1.6 which is newer 
+			 * 	*** The target project appears to use TypeScript 5.1.6 which is newer
 			 * 		than the bundled compiler engine; consider upgrading API Extractor.
 			 * 3. console-preamble
 			 * 	Analysis will use the bundled TypeScript version 5.0.4
@@ -106,7 +102,7 @@ export const run = async (options: Build) => {
 			 *   (TS2430) Interface 'IntrinsicElements' incorrectly extends interface 'NativeElements'
 			 *   (TS2590) Expression produces a union type that is too complex to represent
 			 */
-			
+
 			messageCallback: (message) => {
 				if (
 					message.messageId === 'console-compiler-version-notice'
@@ -124,7 +120,7 @@ export const run = async (options: Build) => {
 			`API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`
 		);
 		process.exitCode = 1;
-	}			
+	}
 
 	await fs.remove(tempDir);
 

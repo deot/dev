@@ -4,7 +4,7 @@ import { update } from './update';
 
 process.setMaxListeners(100);
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	options = { 
+	options = {
 		dryRun: true,
 		commit: true,
 		push: true,

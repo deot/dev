@@ -5,9 +5,9 @@ export const pickOptions = async (key: Modules, options?: Options) => {
 		enable: typeof options?.[key] === 'boolean' ? (options[key] as boolean) : true,
 		overrides: {},
 		...(typeof options?.[key] === 'object' ? (options[key] as ConfigOptions) : {})
-	}
-		
-	const overrides: Rules = options?.overrides?.[key] || {}
+	};
+
+	const overrides: Rules = options?.overrides?.[key] || {};
 
 	return {
 		...configOptions,
@@ -16,13 +16,13 @@ export const pickOptions = async (key: Modules, options?: Options) => {
 			...overrides
 		}
 	} as Required<ConfigOptions>;
-}
+};
 
-// 
+//
 export const cleanRules = (
-	key: Modules, 
-	all: Rules, 
-	recommended: Rules, 
+	key: Modules,
+	all: Rules,
+	recommended: Rules,
 	current: Rules
 ) => {
 	current = JSON.parse(JSON.stringify(current));
@@ -31,7 +31,7 @@ export const cleanRules = (
 	const invaild: string[] = [];
 	const keys = Object.keys(current);
 
-	keys.forEach(i => {
+	keys.forEach((i) => {
 		/* istanbul ignore next -- @preserve */
 		if (all[i] === undefined && recommended[i] === undefined) {
 			removed.push(i);
@@ -43,16 +43,16 @@ export const cleanRules = (
 			&& (current[i] === 0 || current[i] === 'off')
 		) {
 			invaild.push(i);
-		} 
-	})
+		}
+	});
 
 	// recommended部分还未deprecated，这里过滤一遍
-	Object.keys(recommended).forEach(i => {
+	Object.keys(recommended).forEach((i) => {
 		if (all[i] === undefined) {
 			deprecated.push(i);
 			delete current[i];
 		}
-	})
+	});
 
 	/* istanbul ignore next -- @preserve */
 	if (removed.length) {
@@ -70,4 +70,4 @@ export const cleanRules = (
 	}
 
 	return current;
-}
+};

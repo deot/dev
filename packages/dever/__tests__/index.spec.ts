@@ -31,18 +31,18 @@ describe('index', () => {
 			stdio: 'pipe'
 		});
 		let stdout = '';
-		const ready = new Promise<void>(resolve => {
+		const ready = new Promise<void>((resolve) => {
 			subprocess.stdout.on('data', (data) => {
 				stdout += data.toString().replace(/(\t|\n|\v|\r|\f|\s)/g, '');
 				if (!stdout.includes('index.html')) return;
 				resolve();
 			});
 		});
-		
+
 		try {
 			await ready;
 			subprocess.kill();
-		} catch (e) { 
+		} catch (e) {
 			process.env.CI && console.log(e);
 			!subprocess.killed && subprocess.kill();
 		}
@@ -58,7 +58,7 @@ describe('index', () => {
 		});
 		let expects = ['/components/button/index.html', '/vue/index.html', '/react/index.html'];
 
-		const ready = new Promise<void>(resolve => {
+		const ready = new Promise<void>((resolve) => {
 			const run = (url: string, timeout: number) => {
 				let ctx: Launch;
 				Promise.resolve()
@@ -71,8 +71,8 @@ describe('index', () => {
 					})
 					.then(() => {
 						return Promise.all([
-							ctx.operater.html("#test"),
-							ctx.operater.classList("#app")
+							ctx.operater.html('#test'),
+							ctx.operater.classList('#app')
 						]);
 					})
 					.then(([html, classList]) => {
@@ -93,10 +93,10 @@ describe('index', () => {
 										run(url, timeout + 100);
 									} else {
 										console.log(e, /task error/);
-										throw e;		
+										throw e;
 									}
 								},
-								resolve	
+								resolve
 							);
 					});
 			};
@@ -111,11 +111,11 @@ describe('index', () => {
 				});
 			});
 		});
-		 
+
 		try {
 			await ready;
 			subprocess.kill();
-		} catch (e) { 
+		} catch (e) {
 			process.env.CI && console.log(e);
 			!subprocess.killed && subprocess.kill();
 		}

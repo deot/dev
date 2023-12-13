@@ -49,7 +49,7 @@ export class Update {
 			const { dependencies = {}, devDependencies = {} } = packageOptionsMap[key];
 			const deps = { ...dependencies, ...devDependencies };
 			Object.keys(deps).forEach((packageName) => {
-				let version = deps[packageName];
+				const version = deps[packageName];
 				packageNames[packageName] = packageNames[packageName] || {};
 
 				if (typeof packageNames[packageName][version] !== 'string') {
@@ -71,8 +71,8 @@ export class Update {
 					const lastIndex = versions.indexOf(lastVersion);
 					const versions$ = versions.slice(0, lastIndex == -1 ? versions.length : lastIndex + 1);
 
-					Object.keys(packageNames[packageName]).forEach(version => {
-						let newVersion = fitVersion(versions$, version, commandOptions);
+					Object.keys(packageNames[packageName]).forEach((version) => {
+						const newVersion = fitVersion(versions$, version, commandOptions);
 						if (newVersion === version) {
 							delete packageNames[packageName][version];
 						} else {
@@ -83,7 +83,7 @@ export class Update {
 					if (!Object.keys(packageNames[packageName]).length) {
 						delete packageNames[packageName];
 					}
-					
+
 					resolve();
 				} catch (e) {
 					delete packageNames[packageName];
@@ -98,15 +98,15 @@ export class Update {
 	async updatePackageOptions(changed: any) {
 		const { packageOptionsMap, commandOptions } = this;
 
-		let packageFolderNames: string[] = [];
-		Object.keys(packageOptionsMap).forEach(packageDir => {
+		const packageFolderNames: string[] = [];
+		Object.keys(packageOptionsMap).forEach((packageDir) => {
 			const packageOptions = packageOptionsMap[packageDir];
 			const { devDependencies = {}, dependencies = {} } = packageOptions;
 
 			let isChanged = false;
-			[devDependencies, dependencies].forEach(target => {
-				Object.keys(target).forEach(packageName => {
-					let version = target[packageName];
+			[devDependencies, dependencies].forEach((target) => {
+				Object.keys(target).forEach((packageName) => {
+					const version = target[packageName];
 					if (changed[packageName]?.[version]) {
 						isChanged = true;
 						target[packageName] = changed[packageName][version];
@@ -119,14 +119,14 @@ export class Update {
 				if (packageDir !== cwd) {
 					packageFolderNames.push(packageDir.split('/').pop()!);
 				}
-				
+
 				if (commandOptions.dryRun) {
-					Logger.log(chalk.magenta(`CHANGED: `) + chalk.yellow(`Skipping ${path.relative(cwd, packageDir)} Update`));	
+					Logger.log(chalk.magenta(`CHANGED: `) + chalk.yellow(`Skipping ${path.relative(cwd, packageDir)} Update`));
 				} else {
 					fs.removeSync(`${packageDir}/node_modules`);
 					fs.outputFileSync(`${packageDir}/package.json`, JSON.stringify(packageOptions, null, 2));
 				}
-			} 
+			}
 		});
 
 		return packageFolderNames;
@@ -134,7 +134,7 @@ export class Update {
 
 	async updateLock() {
 		if (this.commandOptions.dryRun) {
-			Logger.log(chalk.yellow(`Skipping pnpm-lock.yaml Update`));	
+			Logger.log(chalk.yellow(`Skipping pnpm-lock.yaml Update`));
 		} else {
 			Logger.log(chalk.magenta(`CHANGED: `) + `pnpm-lock.yaml`);
 			const locals = Locals.impl();
@@ -147,9 +147,9 @@ export class Update {
 	async commit(message: string) {
 		const { commit, dryRun } = this.commandOptions;
 		if (!commit) {
-			Logger.log(chalk.magenta(`COMMIT: `) + 'Disabled.');	
+			Logger.log(chalk.magenta(`COMMIT: `) + 'Disabled.');
 		} else if (dryRun) {
-			Logger.log(chalk.magenta(`COMMIT: `) + chalk.yellow(`Skipping Git Commit`) + `\n${message}`);	
+			Logger.log(chalk.magenta(`COMMIT: `) + chalk.yellow(`Skipping Git Commit`) + `\n${message}`);
 		} else {
 			Logger.log(chalk.magenta(`COMMIT: `) + `package.json, pnpm-lock.yaml`);
 			await Shell.spawn('git', ['add', process.cwd()]);
@@ -160,9 +160,9 @@ export class Update {
 	async push() {
 		const { push, dryRun } = this.commandOptions;
 		if (!push) {
-			Logger.log(chalk.magenta(`PUSH: `) + 'Disabled.');	
+			Logger.log(chalk.magenta(`PUSH: `) + 'Disabled.');
 		} else if (dryRun) {
-			Logger.log(chalk.magenta(`PUSH: `) + chalk.yellow(`Skipping Git PUSH`));	
+			Logger.log(chalk.magenta(`PUSH: `) + chalk.yellow(`Skipping Git PUSH`));
 		} else {
 			Logger.log(chalk.yellow('Git Fetch...'));
 			await Shell.spawn('git', ['fetch', '--prune', '--prune-tags']);
@@ -175,14 +175,14 @@ export class Update {
 		const { test, dryRun } = this.commandOptions;
 
 		if (!test) {
-			Logger.log(chalk.magenta(`Test: `) + 'Disabled.');	
+			Logger.log(chalk.magenta(`Test: `) + 'Disabled.');
 		} else if (dryRun) {
-			Logger.log(chalk.yellow('Skipping Test'));	
+			Logger.log(chalk.yellow('Skipping Test'));
 			return;
 		} else {
 			Logger.log(chalk.yellow('Test...'));
 		}
-		
+
 		const { rootPackageOptions } = Locals.impl();
 		if (rootPackageOptions?.scripts?.test) {
 			await Shell.exec(`npm run test -- --package-name '*'`);
@@ -193,18 +193,18 @@ export class Update {
 		const spinner = ora(`Analyze ...`);
 		spinner.start();
 
-		let changed = await this.getPackageChanged();
+		const changed = await this.getPackageChanged();
 		spinner.stop();
 
 		let message = `deps updated \n\n`;
-		let keys = Object.keys(changed);
+		const keys = Object.keys(changed);
 		if (!keys.length) {
 			Logger.log(chalk.red(`No Package Update Found.`));
 			return;
 		}
 		Logger.log(chalk.magenta(`ANALYZE: `));
 		keys.forEach((key) => {
-			Object.keys(changed[key]).forEach((version => {
+			Object.keys(changed[key]).forEach(((version) => {
 				message += `${key}: ${version} -> ${changed[key][version]}\n`;
 				Logger.log(`${chalk.cyan(key)}: ${chalk.yellow(version)} -> ${chalk.green(changed[key][version])}`);
 			}));
@@ -212,11 +212,11 @@ export class Update {
 
 		const { all } = this.commandOptions;
 		let packageFolderNames = await this.updatePackageOptions(changed);
-		let hasChanged = packageFolderNames.length;
+		const hasChanged = packageFolderNames.length;
 		packageFolderNames = hasChanged && all ? ['*'] : packageFolderNames;
-		
+
 		message = `chore${hasChanged ? '(' : ''}${packageFolderNames.join(',')}${hasChanged ? ')' : ''}: ${message}`;
-		
+
 		await this.updateLock();
 		await this.test();
 		await this.commit(message);

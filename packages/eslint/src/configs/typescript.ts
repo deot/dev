@@ -1,5 +1,5 @@
-import pluginTs from "@typescript-eslint/eslint-plugin";
-import parserTs from "@typescript-eslint/parser";
+import pluginTs from '@typescript-eslint/eslint-plugin';
+import parserTs from '@typescript-eslint/parser';
 import { Options, FlatConfig } from '../types';
 import { pickOptions, cleanRules } from './_helper';
 
@@ -10,15 +10,15 @@ export const typescript = async (options$?: Options): Promise<FlatConfig[]> => {
 	}
 
 	const recommendedRules = (pluginTs.configs['eslint-recommended'] as any).overrides[0].rules;
-	const allRules =  (pluginTs.configs['all'] as any).rules;
+	const allRules = (pluginTs.configs['all'] as any).rules;
 
 	const rules = {
 		...recommendedRules,
-		"@typescript-eslint/no-shadow": 2, // https://github.com/typescript-eslint/typescript-eslint/issues/2483
-		"@typescript-eslint/no-unused-vars": 1,
-		"@typescript-eslint/member-delimiter-style": 1,
+		'@typescript-eslint/no-shadow': 2, // https://github.com/typescript-eslint/typescript-eslint/issues/2483
+		'@typescript-eslint/no-unused-vars': 1,
+		'@typescript-eslint/member-delimiter-style': 1,
 		// ignore duplicate rules
-		"no-unused-vars": 0
+		'no-unused-vars': 0
 	};
 
 	return [
@@ -38,9 +38,9 @@ export const typescript = async (options$?: Options): Promise<FlatConfig[]> => {
 			},
 			rules: {
 				...cleanRules(
-					'typescript', 
+					'typescript',
 					{ ...allRules, ...recommendedRules }, // all使用了extends, 但这里使用flat config
-					recommendedRules, 
+					recommendedRules,
 					rules
 				),
 				...options.overrides

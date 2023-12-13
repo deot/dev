@@ -1,4 +1,4 @@
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 import type { Command } from 'commander';
 import { program, Option } from 'commander';
 import * as Releaser from '@deot/dev-releaser';
@@ -87,7 +87,6 @@ addOptions(
 	Builder.run
 );
 
-
 // ddc release (dryRun默认为true)
 // 如果没任何option时，默认值为(no-会被处理): {
 //   dryRun: true,
@@ -108,7 +107,7 @@ addOptions(
 		.option('--no-push [boolean]', 'No Push')
 		.option('--force-update-package [string]', 'Force Update Package')
 		.option('--skip-update-package [string]', 'Skip Update Package')
-		.option('--custom-version [string]', 'Dry Run') 
+		.option('--custom-version [string]', 'Dry Run')
 		.option('--patch [boolean]', 'Patch')
 		.option('--major [boolean]', 'Major')
 		.option('--minor [boolean]', 'Minor')
@@ -148,7 +147,6 @@ addOptions(
 		.option('--all [boolean]', 'Update All Package'),
 	Updater.run
 );
-
 
 program.parse(process.argv);
 

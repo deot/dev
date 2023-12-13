@@ -34,8 +34,8 @@ describe('e2e.ts', () => {
 
 		// value, setValue, clearValue
 		expect(await operater.value('input')).toMatch('test');
-		
-		let value = 'e2e';
+
+		const value = 'e2e';
 		await operater.setValue('#input', value);
 		expect(await operater.value('input')).toBe(value);
 
@@ -56,16 +56,14 @@ describe('e2e.ts', () => {
 
 		// nextFrame
 		await operater.nextFrame();
-
 	}, E2E.TIME_OUT);
 
 	it('empty entry', async () => {
 		const { page, operater } = launch;
-	
-		let html1 = await operater.html('html');
-		let html2 = await page.$eval('html', (node: any) => node.innerHTML);
-		
+
+		const html1 = await operater.html('html');
+		const html2 = await page.$eval('html', (node: any) => node.innerHTML);
+
 		expect(html1).toBe(html2);
 	}, E2E.TIME_OUT);
 });
-

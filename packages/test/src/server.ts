@@ -4,17 +4,17 @@ import * as os from 'os';
 let defaultHost = '';
 export const host = (force?: boolean) => {
 	if (!force && defaultHost) return defaultHost;
-	let ips: string[] = [];
-	let ntwk = os.networkInterfaces();
-	for (let k in ntwk) {
+	const ips: string[] = [];
+	const ntwk = os.networkInterfaces();
+	for (const k in ntwk) {
 		for (let i = 0; i < ntwk[k]!.length; i++) {
-			let _add = ntwk[k]![i].address;
+			const _add = ntwk[k]![i].address;
 			if (_add && _add.split('.').length == 4 && !ntwk[k]![i].internal && ntwk[k]![i].family == 'IPv4') {
 				ips.push(ntwk[k]![i].address);
 			}
 		}
 	}
-			
+
 	/* istanbul ignore next -- @preserve */
 	return ips[0] || 'localhost';
 };

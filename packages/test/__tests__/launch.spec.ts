@@ -47,4 +47,3 @@ describe('launch.ts', () => {
 		await ctx.browser.close();
 	}, E2E.TIME_OUT);
 });
-

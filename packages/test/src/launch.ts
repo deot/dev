@@ -39,8 +39,8 @@ export class Launch {
 				throw new Error('page is not defined. createPage invote first');
 			}
 		});
-		
-		/* istanbul ignore next -- @preserve */  
+
+		/* istanbul ignore next -- @preserve */
 		this.puppeteerOptions = process.env.CI
 			? { args: ['--no-sandbox', '--disable-setuid-sandbox'] }
 			: {};
@@ -79,14 +79,14 @@ export class Launch {
 
 			this._page = new Promise((resolve) => {
 				(async () => {
-					let page = await this.browser!.newPage();
+					const page = await this.browser!.newPage();
 
 					await page.evaluateOnNewDocument(/* istanbul ignore next */ () => {
 						localStorage.clear();
 					});
 
-					/* istanbul ignore next -- @preserve */ 
-					this.options.logLevel !== 'slient' && page.on('console', e => {
+					/* istanbul ignore next -- @preserve */
+					this.options.logLevel !== 'slient' && page.on('console', (e) => {
 						const key = e.type();
 						console[key].call(console[key], `${key} from puppeteer: `, ...e.args().map(i => i.remoteObject()));
 					});

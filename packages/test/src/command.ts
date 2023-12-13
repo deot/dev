@@ -30,10 +30,10 @@ export class Command {
 
 	isClose: boolean;
 
-	schedule: { 
-		target: Promise<void>; 
+	schedule: {
+		target: Promise<void>;
 		complete: () => void;
-    };
+	};
 
 	constructor(command: string, args: string[]) {
 		this.target = new Promise((resolve, reject) => {
@@ -77,8 +77,8 @@ export class Command {
 			.filter(i => !!i)
 			.map(i => LOCAL_COMMAND_MAP[i] || i);
 
-		const emitter = childProcess.spawn(command$, args$, { 
-			stdio: ['pipe', 'pipe', 'pipe'] 
+		const emitter = childProcess.spawn(command$, args$, {
+			stdio: ['pipe', 'pipe', 'pipe']
 		});
 
 		emitter.on('close', (code) => {
@@ -93,8 +93,8 @@ export class Command {
 			!process.exitCode && (process.exitCode = 1);
 			this.reject({ code: process.exitCode, error });
 		});
-		 
-		emitter.stdout.on('data', e => {
+
+		emitter.stdout.on('data', (e) => {
 			this.stdout += e.toString();
 			this.schedule.complete(); // 主要node其他子任务执行时，这个回调会延迟，导致下一个按钮直接键入
 		});
@@ -111,7 +111,7 @@ export class Command {
 			this.emitter.stdin.end();
 			this.isClose = true;
 		}
-		
+
 		const response = await this.target;
 		return response;
 	}
@@ -120,11 +120,11 @@ export class Command {
 		if (!key || this.isClose) return;
 
 		await this.schedule.target;
-		this.schedule.target = new Promise(resolve => {
+		this.schedule.target = new Promise((resolve) => {
 			this.schedule.complete = resolve;
 		});
 
-		await new Promise(resolve => {
+		await new Promise((resolve) => {
 			this.emitter.stdin.write(
 				KEY_MAP[key.toUpperCase()] || key,
 				'utf8',
@@ -135,5 +135,3 @@ export class Command {
 		await new Promise(_ => setTimeout(_, timeout)); // eslint-disable-line
 	}
 }
-
-
