@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "lib": ["esnext", "dom"],
-    "types": ["vitest/globals", "puppeteer", "node"],
+    "types": ["vitest/globals", "puppeteer", "node", "eslint"],
     "jsx": "preserve",
     "strict": true,
     "sourceMap": false,

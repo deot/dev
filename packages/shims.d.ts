@@ -1,7 +1,11 @@
 // 第三方不存在d.ts时，用于忽略
 declare module 'lodash';
 declare module 'inquirer';
-declare module 'eslint';
+declare module '@eslint/js';
+declare module 'eslint-plugin-jsdoc';
+declare module 'eslint-plugin-markdown';
+declare module 'eslint-plugin-import';
+
 declare module 'inquirer-autocomplete-prompt';
 declare module 'fs-extra';
 declare module 'conventional-commits-parser';

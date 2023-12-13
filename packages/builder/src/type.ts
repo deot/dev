@@ -13,9 +13,9 @@ export const run = async (options: Build) => {
 
 	const done = () => {
 		const stats: Array<{ size: number; file: string }> = [];
-		let fullpath = `${packageOutDir}/index.d.ts`;
+		const fullpath = `${packageOutDir}/index.d.ts`;
 		if (fs.existsSync(fullpath)) {
-			let stat = fs.statSync(fullpath);
+			const stat = fs.statSync(fullpath);
 			stats.push({
 				file: 'index.d.ts',
 				size: stat.size
@@ -37,25 +37,38 @@ export const run = async (options: Build) => {
 		return done();
 	}
 
-	let tempDir = `${packageOutDir}/temp`;
-	let rootDir = path.relative(tempDir, process.cwd()); // '../../../..'
+	const tempDir = `${packageOutDir}/temp`;
+	const rootDir = path.relative(tempDir, process.cwd()); // '../../../..'
 
-	// 生成tsconfig用于输出dts
-	fs.outputFileSync(`${tempDir}/tsconfig.json`, JSON.stringify({
-		extends: `${rootDir}/tsconfig.json`,
-		compilerOptions: {
-			declaration: true,
-			emitDeclarationOnly: true,
-			allowJs: true,
-			rootDir,
-			outDir: '.'
-		},
-		include: [
-			path.relative(tempDir, path.resolve(packageSourceDir, `*`))
-		]
-	}, null, '\t'));
+	const tsc = async (skipLibCheck: boolean) => {
+		// 生成tsconfig用于输出dts
+		fs.outputFileSync(`${tempDir}/tsconfig.json`, JSON.stringify({
+			extends: `${rootDir}/tsconfig.json`,
+			compilerOptions: {
+				declaration: true,
+				emitDeclarationOnly: true,
+				allowJs: true,
+				outDir: '.',
+				skipLibCheck,
+				rootDir,
+			},
+			include: [
+				path.relative(tempDir, path.resolve(packageSourceDir, `*`))
+			]
+		}, null, '\t'));
 
-	await Shell.spawn(isVuePackage ? 'vue-tsc' : 'tsc', ['-p', `${tempDir}/tsconfig.json`]);
+		await Shell.spawn(isVuePackage ? 'vue-tsc' : 'tsc', ['-p', `${tempDir}/tsconfig.json`]);
+	}
+
+	try {
+		await tsc(false);
+	} catch(e) {
+		try {
+			await tsc(true);
+		} catch {
+			throw e;
+		}
+	}
 
 	const configPath = `${tempDir}/api-extractor.json`;
 	// 生成api-extractor用于合并dts

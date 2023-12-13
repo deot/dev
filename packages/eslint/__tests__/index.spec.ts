@@ -1,32 +1,145 @@
-import { ESLint } from 'eslint';
-import eslintrc from '..';
+import { Linter } from 'eslint';
+import { configuire } from '@deot/dev-eslint';
+import type { FlatConfig } from '@deot/dev-eslint';
 
-const rules = {
-	
-};
-const cli = new ESLint({
-	useEslintrc: false,
-	baseConfig: eslintrc,
-	...({ overrideConfig: { rules } }),
-});
+let config: FlatConfig[];
+const getFlatConfig = async () => {
+	if (!config) {
+		config = await configuire();
+	}
 
-const lint = async (text: string) => {
-	const linter = await cli.lintText(text);
-	return linter[0];
+	return config;
+}
+
+const lint = async (text: string, filename?: string) => {
+	const linter = new Linter({
+		configType: 'flat'
+	});
+
+	await getFlatConfig();
+	return {
+		data: linter.verify(text, config, filename),
+		config,
+		linter
+	};
 };
 
 describe('index.ts', () => {
-	it('success', async () => {
+	it('zero', async () => {
 		expect.hasAssertions();
-		const data = await lint(`let a = 1;\nconsole.log(a);`);
-		expect(data.messages.length).toBe(0);
+		const config$ = await configuire({
+			javascript: {
+				enable: false
+			},
+			vue: false,
+			react: false,
+			import: false,
+			typescript: false,
+			markdown: false,
+			jsdoc: false,
+			ignores: [
+				'!**/node_modules', // 用于移除默认值
+				'**/dist'
+			]
+		});
+		const { ignores } = config$[0];
+		expect(ignores).toBeTruthy();
+		expect(ignores!.includes('**/dist')).toBeTruthy();
+		expect(ignores!.includes('**/node_modules')).toBeFalsy();
 	});
 
-	it('semi', async () => {
+	it('success', async () => {
 		expect.hasAssertions();
-		const data = await lint(`console.log(1)`);
-		const it = data.messages[0];
-		expect(it.ruleId).toBe('semi');
-		expect(it.message).toBe('Missing semicolon.');
+		const { data } = await lint(``);
+		expect(data.length).toBe(0);
+	});
+
+	it('javascript', async () => {
+		expect.hasAssertions();
+		// globals
+		let code = '';
+		
+		code += `let a = 1;`;
+
+		const { data } = await lint(code);
+		expect(data[0].ruleId).toBe('no-unused-vars');
+	});
+
+	it('javascript, filename', async () => {
+		expect.hasAssertions();
+		// globals
+		let code = '';
+		
+		code += `let a = 1;`;
+		code += `console.log(a);`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data.length).toBe(0);
+	});
+
+	it('import', async () => {
+		expect.assertions(1);
+		let code = '';
+		
+		code += `import * as path from 'node:path';`;
+		code += `console.log(path);`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe(`import/newline-after-import`);
+	});
+
+	it('import/parsers', async () => {
+		expect.assertions(1);
+		let code = '';
+		
+		code += `import jsd from 'eslint-plugin-jsdoc';\n\n`;
+		code += `console.log(jsd);`;
+
+		const { data } = await lint(code, './any/any.ts');
+		try {
+			expect(data.length).toBe(0);
+		} catch {
+			throw data;
+		}
+	});
+
+
+	it('jsdoc', async () => {
+		expect.hasAssertions();
+		let code = '';
+		
+		code += `/*`;
+		code += ` * ~`;
+		code += ` */`;
+		code += `function sum(a, b) {`;
+		code += `	return a + b;`;
+		code += `}`;
+		code += `sum(1, 2);`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe('jsdoc/require-jsdoc');
+	});
+
+	it('typescript', async () => {
+		expect.hasAssertions();
+		let code = '';
+		
+		code += `const a:number = 1;`;
+
+		const { data } = await lint(code, './any/any.ts');
+		expect(data.some(i => i.ruleId === '@typescript-eslint/no-unused-vars')).toBeTruthy();
+	});
+
+	it('markdown', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+		
+		code += '```js\n';
+		code += 'console.log(123);\n';
+		code += '```';
+
+		const { data } = await lint(code, './any/any.md');
+		expect(data[0].ruleId).toBe(`no-console`);
 	});
 });

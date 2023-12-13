@@ -2,23 +2,33 @@
   "name": "@deot/dev-eslint",
   "version": "2.7.0",
   "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
-    "index.js"
+    "dist"
   ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@babel/eslint-plugin": "^7.23.5",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jsdoc": "^46.9.0",
-    "eslint-plugin-markdown": "^3.0.1"
+    "eslint-plugin-markdown": "^3.0.1",
+    "globals": "^13.24.0"
   },
   "devDependencies": {
+    "@types/eslint": "^8.44.8",
     "eslint": "^8.55.0"
   }
 }
