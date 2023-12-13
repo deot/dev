@@ -4,7 +4,7 @@ export type FlatConfig = Linter.FlatConfig;
 export type Rules = Linter.RulesRecord;
 export type Plugin = ESLint.Plugin;
 
-export type Modules = 'javascript' | 'typescript' | 'markdown' | 'jsdoc' | 'vue' | 'react' | 'import';
+export type Modules = 'stylistic' | 'javascript' | 'typescript' | 'markdown' | 'jsdoc' | 'vue' | 'react' | 'import';
 
 export interface ConfigOptions {
 	enable?: boolean;
@@ -18,5 +18,4 @@ export type Options = {
 	};
 } & {
 	[key in Modules]?: boolean | ConfigOptions
-}
-
+};

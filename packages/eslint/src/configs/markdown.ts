@@ -1,4 +1,4 @@
-import md from "eslint-plugin-markdown";
+import pluginMarkdown from 'eslint-plugin-markdown';
 import { Options, FlatConfig } from '../types';
 import { pickOptions } from './_helper';
 
@@ -8,25 +8,25 @@ export const markdown = async (options$?: Options): Promise<FlatConfig[]> => {
 		return [];
 	}
 
-	const config = md.configs.recommended.overrides[1];
+	const config = pluginMarkdown.configs.recommended.overrides[1];
 	return [
 		{
 			plugins: {
-				markdown: md
+				markdown: pluginMarkdown
 			}
 		},
 		{
-			files: ["**/*.md"],
-			processor: "markdown/markdown"
+			files: ['**/*.md'],
+			processor: 'markdown/markdown'
 		},
 		{
-			files: ["**/*.md/*.ts"],
+			files: ['**/*.md/*.ts'],
 			rules: {
-				"@typescript-eslint/no-unused-vars": 0
+				'@typescript-eslint/no-unused-vars': 0
 			}
 		},
 		{
-			files: ["**/*.md/**"],
+			files: ['**/*.md/**'],
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
@@ -36,7 +36,7 @@ export const markdown = async (options$?: Options): Promise<FlatConfig[]> => {
 			},
 			rules: {
 				...config.rules,
-				"no-console": 1,
+				'no-console': 1,
 				...options.overrides,
 			}
 		}

@@ -1,4 +1,4 @@
-import jsd from "eslint-plugin-jsdoc";
+import pluginJsdoc from 'eslint-plugin-jsdoc';
 import { Options, FlatConfig } from '../types';
 import { pickOptions, cleanRules } from './_helper';
 
@@ -8,18 +8,18 @@ export const jsdoc = async (options$?: Options): Promise<FlatConfig[]> => {
 		return [];
 	}
 
-	const recommendedRules = jsd.configs['flat/recommended-typescript'].rules;
+	const recommendedRules = pluginJsdoc.configs['flat/recommended-typescript'].rules;
 
 	const rules = {
 		...recommendedRules,
-		"jsdoc/check-tag-names": 0
+		'jsdoc/check-tag-names': 0
 	};
 
 	return [
-		// 单独安装plugins, 
+		// 单独安装plugins,
 		{
 			plugins: {
-				jsdoc: jsd	
+				jsdoc: pluginJsdoc
 			}
 		},
 		{

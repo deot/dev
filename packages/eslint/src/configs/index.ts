@@ -4,3 +4,4 @@ export * from './jsdoc';
 export * from './markdown';
 export * from './ignores';
 export * from './imports';
+export * from './stylistic';

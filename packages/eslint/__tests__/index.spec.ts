@@ -9,7 +9,7 @@ const getFlatConfig = async () => {
 	}
 
 	return config;
-}
+};
 
 const lint = async (text: string, filename?: string) => {
 	const linter = new Linter({
@@ -37,6 +37,7 @@ describe('index.ts', () => {
 			typescript: false,
 			markdown: false,
 			jsdoc: false,
+			stylistic: false,
 			ignores: [
 				'!**/node_modules', // 用于移除默认值
 				'**/dist'
@@ -58,7 +59,7 @@ describe('index.ts', () => {
 		expect.hasAssertions();
 		// globals
 		let code = '';
-		
+
 		code += `let a = 1;`;
 
 		const { data } = await lint(code);
@@ -69,9 +70,9 @@ describe('index.ts', () => {
 		expect.hasAssertions();
 		// globals
 		let code = '';
-		
-		code += `let a = 1;`;
-		code += `console.log(a);`;
+
+		code += `let a = 1;\n`;
+		code += `console.log(a);\n`;
 
 		const { data } = await lint(code, './any/any.js');
 		expect(data.length).toBe(0);
@@ -80,7 +81,7 @@ describe('index.ts', () => {
 	it('import', async () => {
 		expect.assertions(1);
 		let code = '';
-		
+
 		code += `import * as path from 'node:path';`;
 		code += `console.log(path);`;
 
@@ -91,9 +92,9 @@ describe('index.ts', () => {
 	it('import/parsers', async () => {
 		expect.assertions(1);
 		let code = '';
-		
+
 		code += `import jsd from 'eslint-plugin-jsdoc';\n\n`;
-		code += `console.log(jsd);`;
+		code += `console.log(jsd);\n`;
 
 		const { data } = await lint(code, './any/any.ts');
 		try {
@@ -103,11 +104,10 @@ describe('index.ts', () => {
 		}
 	});
 
-
 	it('jsdoc', async () => {
 		expect.hasAssertions();
 		let code = '';
-		
+
 		code += `/*`;
 		code += ` * ~`;
 		code += ` */`;
@@ -123,7 +123,7 @@ describe('index.ts', () => {
 	it('typescript', async () => {
 		expect.hasAssertions();
 		let code = '';
-		
+
 		code += `const a:number = 1;`;
 
 		const { data } = await lint(code, './any/any.ts');
@@ -134,12 +134,48 @@ describe('index.ts', () => {
 		expect.hasAssertions();
 
 		let code = '';
-		
+
 		code += '```js\n';
 		code += 'console.log(123);\n';
 		code += '```';
 
 		const { data } = await lint(code, './any/any.md');
 		expect(data[0].ruleId).toBe(`no-console`);
+	});
+
+	it('stylistic/indent', async () => {
+		expect.hasAssertions();
+		let code = '';
+
+		code += `if (typeof window === 'undefined') {\n`;
+		code += `  console.log('any');\n`;
+		code += `}\n`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe('@stylistic/indent');
+	});
+
+	it('stylistic/semi', async () => {
+		expect.hasAssertions();
+		let code = '';
+
+		code += `if (typeof window === 'undefined') {\n`;
+		code += `	console.log('any')\n`;
+		code += `}\n`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe('@stylistic/semi');
+	});
+
+	it('stylistic/quotes', async () => {
+		expect.hasAssertions();
+		let code = '';
+
+		code += `if (typeof window === 'undefined') {\n`;
+		code += `	console.log("any");\n`;
+		code += `}\n`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe('@stylistic/quotes');
 	});
 });
