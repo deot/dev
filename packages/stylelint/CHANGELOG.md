@@ -1,5 +1,18 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.8.0
+
+_2023-12-14_
+
+### Features
+
+- feat: use `stylelint-codeguide` ([0231064](https://github.com/deot/dev/commit/023106433ff2e3b5efdca1647c4d06fcd09cc665))
+- feat: deprecated stylistic rules ([cb98871](https://github.com/deot/dev/commit/cb98871a805fb8ebb9838020c803b3c68127d957))
+
+### Updates
+
+- chore: deps updated ([1b75dc0](https://github.com/deot/dev/commit/1b75dc09c65d6ca44d2f169aa18a1449bcf12133))
+
 ## v2.7.0
 
 _2023-12-06_

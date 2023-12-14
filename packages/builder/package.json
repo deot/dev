@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-builder",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,9 +29,9 @@
     }
   },
   "dependencies": {
-    "@deot/dev-react": "^2.7.0",
-    "@deot/dev-shared": "^2.7.0",
-    "@deot/dev-vue": "^2.7.0",
+    "@deot/dev-react": "^2.8.0",
+    "@deot/dev-shared": "^2.8.0",
+    "@deot/dev-vue": "^2.8.0",
     "@microsoft/api-extractor": "^7.38.5",
     "autoprefixer": "^10.4.16",
     "chalk": "^5.3.0",

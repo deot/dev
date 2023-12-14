@@ -1,5 +1,20 @@
 # @deot/dev ChangeLog
 
+## v2.8.0
+
+_2023-12-14_
+
+### Features
+
+- feat(eslint): use `@stylistic/eslint-plugin` ([6c511fa](https://github.com/deot/dev/commit/6c511fa37acdddc95628e64b9e523ae7e8d2cd90))
+- feat(eslint): deprecated stylistic rules, initial commit ([de31299](https://github.com/deot/dev/commit/de31299a681f40d7e2db494c308eaa34d140155c))
+- feat(stylelint): use `stylelint-codeguide` ([0231064](https://github.com/deot/dev/commit/023106433ff2e3b5efdca1647c4d06fcd09cc665))
+- feat(stylelint): deprecated stylistic rules ([cb98871](https://github.com/deot/dev/commit/cb98871a805fb8ebb9838020c803b3c68127d957))
+
+### Updates
+
+- chore: deps updated ([1b75dc0](https://github.com/deot/dev/commit/1b75dc09c65d6ca44d2f169aa18a1449bcf12133))
+
 ## v2.7.1
 
 _2023-12-07_
