@@ -91,6 +91,7 @@ export default defineConfig({
 		rollupOptions: {
 			external: external$,
 			output: {
+				exports: 'named',
 				globals: usedForBrowser
 					? (globals || external).split(',')
 							.filter((i: string) => !!i)
