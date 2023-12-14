@@ -197,5 +197,15 @@ export default {
 			'speak'
 		],
 	},
-	ignoreFiles: ['**/*.js', '**/*.jsx'],
+	ignoreFiles: [
+		'**/node_modules/**',
+		'**/dist/**',
+		'**/temp/**',
+		'**/tmp/**',
+		'**/coverage/**',
+		'**/*.js',
+		'**/*.ts',
+		'**/*.tsx',
+		'**/*.jsx'
+	]
 };
