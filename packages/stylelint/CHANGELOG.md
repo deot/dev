@@ -1,5 +1,13 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.8.1
+
+_2023-12-14_
+
+### Features
+
+- feat: ignore files updated ([8a75630](https://github.com/deot/dev/commit/8a75630b4748b345b9f9f5032762d1437c7caf38))
+
 ## v2.8.0
 
 _2023-12-14_

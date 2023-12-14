@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.8.1
+
+_2023-12-14_
+
+### Features
+
+- feat: remove deprecated tips ([a754b75](https://github.com/deot/dev/commit/a754b757868dcd5c5f21aac996cf98ecf0df3dfd))
+
 ## v2.8.0
 
 _2023-12-14_
