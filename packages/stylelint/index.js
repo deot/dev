@@ -1,6 +1,5 @@
-module.exports = {
-	root: true,
-	plugins: ['stylelint-order'],
+export default {
+	plugins: ['stylelint-order', 'stylelint-codeguide'],
 	extends: ['stylelint-config-standard-scss'],
 	rules: {
 		'selector-pseudo-class-no-unknown': [
@@ -41,6 +40,13 @@ module.exports = {
 		],
 		'function-no-unknown': null,
 		'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
+
+		// stylistic
+		'codeguide/indentation': 'tab',
+		'codeguide/declaration-colon-space-after': 'always-single-line',
+		'codeguide/declaration-colon-space-before': 'never',
+		'codeguide/declaration-block-trailing-semicolon': 'always',
+
 		// Specify the alphabetical order of the attributes in the declaration block
 		'order/properties-order': [
 			'position',

@@ -1,6 +1,7 @@
 import stylelint from 'stylelint';
 import stylelintrc from '..';
 
+// @vitest-environment node
 const lint = async (text: string) => {
 	const resultObject = await stylelint.lint({
 		config: stylelintrc,
@@ -13,7 +14,10 @@ describe('index.js', () => {
 	it('success', async () => {
 		expect.hasAssertions();
 		try {
-			const data = await lint(`a { color: inherit; }\n`);
+			let code = '';
+			code += `a { color: inherit; }\n`;
+
+			const data = await lint(code);
 			expect(data.errored).toBe(false);
 		} catch (e) {
 			console.log(e);
@@ -22,7 +26,11 @@ describe('index.js', () => {
 
 	it('single line comments', async () => {
 		expect.hasAssertions();
-		const data = await lint(`// allow`);
+		let code = '';
+
+		code += `// allow`;
+
+		const data = await lint(code);
 		expect(data.errored).toBe(false);
 	});
 
@@ -42,41 +50,55 @@ describe('index.js', () => {
 
 	it('unit-no-unknown, rpx', async () => {
 		expect.hasAssertions();
-		const data = await lint(`a { font-size: 12rpx; }`);
+		let code = '';
+		code += `a { font-size: 12rpx; }`;
+
+		const data = await lint(code);
 		expect(data.errored).toBe(false);
 	});
 
 	it('unit-no-unknown, xxx disallow', async () => {
 		expect.hasAssertions();
-		const data = await lint(`a { font-size: 12xxx; }`);
+		let code = '';
+		code += `a { font-size: 12xxx; }`;
+
+		const data = await lint(code);
 		expect(data.errored).toBe(true);
+		expect(data.report).toMatch('Unexpected unknown unit \\"xxx\\" (unit-no-unknown)');
 	});
 
 	it('stylelint-order', async () => {
 		expect.hasAssertions();
-		const data = await lint(`a { bottom: 2px; top: 1px; }`);
-		expect(data.output).toMatch('Expected \\"top\\" to come before \\"bottom\\" (order/properties-order)');
+
+		let code = '';
+		code += `a { bottom: 2px; top: 1px; }`;
+
+		const data = await lint(code);
+		expect(data.report).toMatch('Expected \\"top\\" to come before \\"bottom\\" (order/properties-order)');
 	});
 });
 
 /**
  * https://stylelint.io/migration-guide/to-15
- * 代码风格的提示已经移除, 现在都不会校正了;
+ * 代码风格的提示从stylelint中移除
  * 包含
  * 	1. 结尾需要分号
  * 	2. 缩进
  * 	3. ....
+ *
+ * 现使用移植的第三方库来检查代码风格
+ * https://github.com/firefoxic/stylelint-codeguide
  */
-describe('deprecated', () => {
+describe('stylistic', () => {
 	it('semicolon', async () => {
 		expect.hasAssertions();
 		const data = await lint(`a { color: inherit }`);
-		expect(data.errored).toBe(false);
+		expect(data.report).toMatch(`Expected a trailing semicolon (declaration-block-trailing-semicolon)`);
 	});
 
 	it('indentation', async () => {
 		expect.hasAssertions();
 		const data = await lint(`a {\n    color: inherit \n}`);
-		expect(data.errored).toBe(false);
+		expect(data.report).toMatch(`Expected indentation of 1 tab (indentation)`);
 	});
 });
