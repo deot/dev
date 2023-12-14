@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.8.3
+
+_2023-12-14_
+
+### Features
+
+- feat: support expose default config ([46b6d4b](https://github.com/deot/dev/commit/46b6d4b7154854546479e537b0d8288f4d480699))
+
 ## v2.8.2
 
 _2023-12-14_

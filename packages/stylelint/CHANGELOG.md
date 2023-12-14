@@ -1,5 +1,13 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.8.2
+
+_2023-12-14_
+
+### Features
+
+- feat: allow configure self ([d163259](https://github.com/deot/dev/commit/d1632599cbe774edefd3773206127e90607fdd1a))
+
 ## v2.8.1
 
 _2023-12-14_

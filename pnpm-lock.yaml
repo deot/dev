@@ -84,7 +84,7 @@ importers:
         specifier: ^2.8.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../builder
       '@deot/dev-linker':
         specifier: ^2.8.0
@@ -201,10 +201,10 @@ importers:
         specifier: ^2.8.0
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../cli
       '@deot/dev-deps':
         specifier: ^2.8.0
@@ -213,7 +213,7 @@ importers:
         specifier: ^2.8.0
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.8.2
+        specifier: ^2.8.3
         version: link:../eslint
       '@deot/dev-linker':
         specifier: ^2.8.0
@@ -225,7 +225,7 @@ importers:
         specifier: ^2.8.0
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.8.1
+        specifier: ^2.8.2
         version: link:../stylelint
       '@deot/dev-test':
         specifier: ^2.8.0

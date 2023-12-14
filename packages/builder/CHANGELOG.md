@@ -1,5 +1,13 @@
 # @deot/dev-builder ChangeLog
 
+## v2.8.1
+
+_2023-12-14_
+
+### Features
+
+- feat: allow `default` export ([35b96c1](https://github.com/deot/dev/commit/35b96c15a6a47e1943919eec0b7382a706a31043))
+
 ## v2.8.0
 
 _2023-12-14_

@@ -1,5 +1,15 @@
 # @deot/dev ChangeLog
 
+## v2.8.3
+
+_2023-12-14_
+
+### Features
+
+- feat(builder): allow `default` export ([35b96c1](https://github.com/deot/dev/commit/35b96c15a6a47e1943919eec0b7382a706a31043))
+- feat(eslint): support expose default config ([46b6d4b](https://github.com/deot/dev/commit/46b6d4b7154854546479e537b0d8288f4d480699))
+- feat(stylelint): allow configure self ([d163259](https://github.com/deot/dev/commit/d1632599cbe774edefd3773206127e90607fdd1a))
+
 ## v2.8.2
 
 _2023-12-14_
