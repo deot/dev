@@ -2,6 +2,7 @@
   "name": "@deot/dev-stylelint",
   "version": "2.8.1",
   "main": "index.js",
+  "type": "module",
   "files": [
     "index.js"
   ],
