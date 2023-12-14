@@ -1,11 +1,11 @@
 import { Linter } from 'eslint';
-import { configure } from '@deot/dev-eslint';
+import flatConfigPromise, { configure } from '@deot/dev-eslint';
 import type { FlatConfig } from '@deot/dev-eslint';
 
 let config: FlatConfig[];
 const getFlatConfig = async () => {
 	if (!config) {
-		config = await configure();
+		config = await flatConfigPromise;
 	}
 
 	return config;
