@@ -1,16 +1,20 @@
 import stylelint from 'stylelint';
-import stylelintrc from '..';
+import configPromise, { configure } from '@deot/dev-stylelint';
 
 // @vitest-environment node
 const lint = async (text: string) => {
 	const resultObject = await stylelint.lint({
-		config: stylelintrc,
+		config: await configPromise,
 		code: text
 	});
 	return resultObject;
 };
 
 describe('index.js', () => {
+	it('basic', async () => {
+		expect(typeof configure).toBe('function');
+	});
+
 	it('success', async () => {
 		expect.hasAssertions();
 		try {
