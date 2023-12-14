@@ -1,7 +1,7 @@
 import * as C from './configs';
 import type { FlatConfig, Options } from './types';
 
-export const configuire = async (options?: Options, ...userConfigs: FlatConfig[]): Promise<FlatConfig[]> => {
+export const configure = async (options?: Options, ...userConfigs: FlatConfig[]): Promise<FlatConfig[]> => {
 	const configs: FlatConfig[] = [
 		...(await C.ignores(options?.ignores)),
 		...(await C.javascript(options)),

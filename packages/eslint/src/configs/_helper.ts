@@ -54,18 +54,19 @@ export const cleanRules = (
 		}
 	});
 
+	const isTest = process.env.NODE_ENV === 'UNIT' && !process.env.CI;
 	/* istanbul ignore next -- @preserve */
-	if (removed.length) {
+	if (isTest && removed.length) {
 		console.error(key + ': ' + removed.join(',') + ' has removed!\n');
 	}
 
 	/* istanbul ignore next -- @preserve */
-	if (invaild.length) {
+	if (isTest && invaild.length) {
 		console.error(key + ': ' + invaild.join(',') + ' has off default!\n');
 	}
 
 	/* istanbul ignore next -- @preserve */
-	if (deprecated.length) {
+	if (isTest && deprecated.length) {
 		console.error(key + ': ' + deprecated.join(',') + ' has deprecated!\n');
 	}
 

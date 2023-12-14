@@ -1,11 +1,11 @@
 import { Linter } from 'eslint';
-import { configuire } from '@deot/dev-eslint';
+import { configure } from '@deot/dev-eslint';
 import type { FlatConfig } from '@deot/dev-eslint';
 
 let config: FlatConfig[];
 const getFlatConfig = async () => {
 	if (!config) {
-		config = await configuire();
+		config = await configure();
 	}
 
 	return config;
@@ -27,7 +27,7 @@ const lint = async (text: string, filename?: string) => {
 describe('index.ts', () => {
 	it('zero', async () => {
 		expect.hasAssertions();
-		const config$ = await configuire({
+		const config$ = await configure({
 			javascript: {
 				enable: false
 			},
