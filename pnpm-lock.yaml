@@ -213,7 +213,7 @@ importers:
         specifier: ^2.8.0
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.8.1
+        specifier: ^2.8.2
         version: link:../eslint
       '@deot/dev-linker':
         specifier: ^2.8.0

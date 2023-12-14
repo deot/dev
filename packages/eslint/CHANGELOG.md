@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.8.2
+
+_2023-12-14_
+
+### Bugfixes
+
+- fix: migrate to esm ([a498da4](https://github.com/deot/dev/commit/a498da47d0580c6a463783298112ca1c1f3e4a4c))
+
 ## v2.8.1
 
 _2023-12-14_
