@@ -1,19 +1,15 @@
+import type { Config } from 'stylelint';
+
 /**
  * 导出一个可配置的stylelint配置项
  * 1. async方便扩展（可以像@deot/dev-eslint）
  * @returns 配置项(Promise)
  */
-export const configure = async () => {
+export const configure = async (): Promise<Config> => {
 	return {
 		plugins: ['stylelint-order', 'stylelint-codeguide'],
 		extends: ['stylelint-config-standard-scss'],
 		rules: {
-			'selector-pseudo-class-no-unknown': [
-				true,
-				{
-					ignorePseudoClasses: ['global'],
-				}
-			],
 			'at-rule-no-unknown': [
 				true,
 				{
@@ -30,13 +26,23 @@ export const configure = async () => {
 						'extend',
 						'return',
 						'debug',
-						'while'
+						'while',
+						'error'
 					],
 				}
 			],
 			'no-empty-source': null,
-			'named-grid-areas-no-invalid': null,
 			'no-descending-specificity': null,
+
+			'block-no-empty': null,
+			'selector-class-pattern': '[a-zA-Z0-9_-]+',
+			'selector-pseudo-class-no-unknown': [
+				true,
+				{
+					ignorePseudoClasses: ['global'],
+				}
+			],
+			'named-grid-areas-no-invalid': null,
 			'font-family-no-missing-generic-family-keyword': null,
 			'rule-empty-line-before': [
 				'always',
@@ -46,6 +52,9 @@ export const configure = async () => {
 			],
 			'function-no-unknown': null,
 			'unit-no-unknown': [true, { ignoreUnits: ['rpx'] }],
+
+			// scss
+			'scss/dollar-variable-pattern': '[a-zA-Z0-9_-]+',
 
 			// stylistic
 			'codeguide/indentation': 'tab',

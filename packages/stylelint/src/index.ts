@@ -1,7 +1,9 @@
+import type { Config } from 'stylelint';
 import { configure } from './configure';
 
-export {
-	configure
-};
+const config: Promise<Config> = configure();
 
-export default configure();
+export {
+	configure,
+	config as default
+};
