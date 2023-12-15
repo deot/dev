@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.8.2
+
+_2023-12-15_
+
+### Bugfixes
+
+- fix(builder): single repo should't collect relations ([dccc259](https://github.com/deot/dev/commit/dccc25916140f25dffe79d50656d30bfba37e9b2))
+
 ## v2.8.1
 
 _2023-12-14_
