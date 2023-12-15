@@ -72,27 +72,32 @@
 [npm-react-image]: https://img.shields.io/npm/v/@deot/dev-react.svg
 [npm-react-url]: https://www.npmjs.com/package/@deot/dev-react
 
+[npm-commitlint-image]: https://img.shields.io/npm/v/@deot/dev-commitlint.svg
+[npm-commitlint-url]: https://www.npmjs.com/package/@deot/dev-commitlint
+
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
-| 包名                              | 版本                                               | 说明                                     |
-| ------------------------------- | ------------------------------------------------ | -------------------------------------- |
-| [cli](packages/cli)             | [![npm][npm-cli-image]][npm-cli-url]             | 开发指令集`dev`、`build`、`test`、`link`、`add` |
-| [test](packages/test)           | [![npm][npm-test-image]][npm-test-url]           | 测试工具                                   |
-| [shared](packages/shared)       | [![npm][npm-shared-image]][npm-shared-url]       | 公共方法                                   |
-| [dever](packages/dever)         | [![npm][npm-dever-image]][npm-dever-url]         | 开发服务集成                                 |
-| [adder](packages/adder)         | [![npm][npm-adder-image]][npm-adder-url]         | 添加依赖/包集成                               |
-| [linker](packages/linker)       | [![npm][npm-linker-image]][npm-linker-url]       | 软链接集成                                  |
-| [builder](packages/builder)     | [![npm][npm-builder-image]][npm-builder-url]     | 打包集成(`ts/js/scss/css`)                 |
-| [tester](packages/tester)       | [![npm][npm-tester-image]][npm-tester-url]       | 测试集成                                   |
-| [releaser](packages/releaser)   | [![npm][npm-releaser-image]][npm-releaser-url]   | 发布集成                                   |
-| [eslint](packages/eslint)       | [![npm][npm-eslint-image]][npm-eslint-url]       | ESLint配置项                              |
-| [stylelint](packages/stylelint) | [![npm][npm-stylelint-image]][npm-stylelint-url] | Stylelint配置项                           |
-| [deps](packages/deps)           | [![npm][npm-deps-image]][npm-deps-url]           | 额外依赖提取                                 |
-| [updater](packages/updater)     | [![npm][npm-updater-image]][npm-updater-url]     | 更新依赖包版本                                |
-| [vue](packages/vue)             | [![npm][npm-vue-image]][npm-vue-url]             | `Vue`相关集成                              |
-| [react](packages/react)         | [![npm][npm-react-image]][npm-react-url]         | `React`相关集成                            |
-| [index](packages/index)         | [![npm][npm-image]][npm-url]                     | 当前所有包的合集                               |
+| 包名                                | 版本                                                 | 说明                                     |
+| --------------------------------- | -------------------------------------------------- | -------------------------------------- |
+| [cli](packages/cli)               | [![npm][npm-cli-image]][npm-cli-url]               | 开发指令集`dev`、`build`、`test`、`link`、`add` |
+| [test](packages/test)             | [![npm][npm-test-image]][npm-test-url]             | 测试工具                                   |
+| [shared](packages/shared)         | [![npm][npm-shared-image]][npm-shared-url]         | 公共方法                                   |
+| [dever](packages/dever)           | [![npm][npm-dever-image]][npm-dever-url]           | 开发服务集成                                 |
+| [adder](packages/adder)           | [![npm][npm-adder-image]][npm-adder-url]           | 添加依赖/包集成                               |
+| [linker](packages/linker)         | [![npm][npm-linker-image]][npm-linker-url]         | 软链接集成                                  |
+| [builder](packages/builder)       | [![npm][npm-builder-image]][npm-builder-url]       | 打包集成(`ts/js/scss/css`)                 |
+| [tester](packages/tester)         | [![npm][npm-tester-image]][npm-tester-url]         | 测试集成                                   |
+| [releaser](packages/releaser)     | [![npm][npm-releaser-image]][npm-releaser-url]     | 发布集成                                   |
+| [eslint](packages/eslint)         | [![npm][npm-eslint-image]][npm-eslint-url]         | ESLint配置项                              |
+| [stylelint](packages/stylelint)   | [![npm][npm-stylelint-image]][npm-stylelint-url]   | Stylelint配置项                           |
+| [commitlint](packages/commitlint) | [![npm][npm-commitlint-image]][npm-commitlint-url] | 用于验证git提交, `--edit`                    |
+| [deps](packages/deps)             | [![npm][npm-deps-image]][npm-deps-url]             | 额外依赖提取                                 |
+| [updater](packages/updater)       | [![npm][npm-updater-image]][npm-updater-url]       | 更新依赖包版本                                |
+| [vue](packages/vue)               | [![npm][npm-vue-image]][npm-vue-url]               | `Vue`相关集成                              |
+| [react](packages/react)           | [![npm][npm-react-image]][npm-react-url]           | `React`相关集成                            |
+| [index](packages/index)           | [![npm][npm-image]][npm-url]                       | 当前所有包的合集                               |
+
 
 
 ## Contributing

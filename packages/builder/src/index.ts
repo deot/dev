@@ -22,10 +22,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (locals.workspace && packageFolderName === '*') {
 		inputs = locals.normalizePackageFolderNames;
 	} else {
-		inputs = [packageFolderName];
+		inputs = packageFolderName.split(',');
 	}
 
-	// 当仅打包一个时，需要寻找关联需要提前打包的模块
+	// 当仅打包一个或多个时，需要寻找关联需要提前打包的模块
 	if (options.packageName && options.packageName !== '*') {
 		let relations: string[] = [];
 		const walk = (packageNames: string[]) => {
@@ -36,7 +36,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 				}
 			});
 		};
-		walk(locals.packageRelation[options.packageName]);
+
+		(options.packageName.split(',')).forEach(((packageName$: string) => {
+			walk(locals.packageRelation[packageName$]);
+		}));
 
 		relations = relations
 			.filter((i, index, source) => source.indexOf(i) === index)

@@ -39,35 +39,40 @@
 [npm-deps-url]: https://www.npmjs.com/package/@deot/dev-deps
 
 [npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
-[npm-updater-url]: https://www.npmjs.com/package/@deot/dev-deps
+[npm-updater-url]: https://www.npmjs.com/package/@deot/dev-updater
 
 [npm-vue-image]: https://img.shields.io/npm/v/@deot/dev-vue.svg
-[npm-vue-url]: https://www.npmjs.com/package/@deot/dev-deps
+[npm-vue-url]: https://www.npmjs.com/package/@deot/dev-vue
 
 [npm-react-image]: https://img.shields.io/npm/v/@deot/dev-react.svg
-[npm-react-url]: https://www.npmjs.com/package/@deot/dev-deps
+[npm-react-url]: https://www.npmjs.com/package/@deot/dev-react
+
+[npm-commitlint-image]: https://img.shields.io/npm/v/@deot/dev-commitlint.svg
+[npm-commitlint-url]: https://www.npmjs.com/package/@deot/dev-commitlint
 
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
-| 包名                                           | 版本                                               |
-| -------------------------------------------- | ------------------------------------------------ |
-| [cli](packages/cli/CHANGELOG.md)             | [![npm][npm-cli-image]][npm-cli-url]             |
-| [test](packages/test/CHANGELOG.md)           | [![npm][npm-test-image]][npm-test-url]           |
-| [shared](packages/shared/CHANGELOG.md)       | [![npm][npm-shared-image]][npm-shared-url]       |
-| [dever](packages/dever/CHANGELOG.md)         | [![npm][npm-dever-image]][npm-dever-url]         |
-| [adder](packages/adder/CHANGELOG.md)         | [![npm][npm-adder-image]][npm-adder-url]         |
-| [linker](packages/linker/CHANGELOG.md)       | [![npm][npm-linker-image]][npm-linker-url]       |
-| [builder](packages/builder/CHANGELOG.md)     | [![npm][npm-builder-image]][npm-builder-url]     |
-| [tester](packages/tester/CHANGELOG.md)       | [![npm][npm-tester-image]][npm-tester-url]       |
-| [releaser](packages/releaser/CHANGELOG.md)   | [![npm][npm-releaser-image]][npm-releaser-url]   |
-| [eslint](packages/eslint/CHANGELOG.md)       | [![npm][npm-eslint-image]][npm-eslint-url]       |
-| [stylelint](packages/stylelint/CHANGELOG.md) | [![npm][npm-stylelint-image]][npm-stylelint-url] |
-| [deps](packages/deps/CHANGELOG.md)           | [![npm][npm-deps-image]][npm-deps-url]           |
-| [updater](packages/updater/CHANGELOG.md)     | [![npm][npm-updater-image]][npm-updater-url]     |
-| [vue](packages/vue/CHANGELOG.md)     | [![npm][npm-vue-image]][npm-vue-url]     |
-| [react](packages/react/CHANGELOG.md)     | [![npm][npm-react-image]][npm-react-url]     |
-| [index](packages/index/CHANGELOG.md)         | [![npm][npm-image]][npm-url]                     |
+| 包名                                             | 版本                                                 |
+| ---------------------------------------------- | -------------------------------------------------- |
+| [cli](packages/cli/CHANGELOG.md)               | [![npm][npm-cli-image]][npm-cli-url]               |
+| [test](packages/test/CHANGELOG.md)             | [![npm][npm-test-image]][npm-test-url]             |
+| [shared](packages/shared/CHANGELOG.md)         | [![npm][npm-shared-image]][npm-shared-url]         |
+| [dever](packages/dever/CHANGELOG.md)           | [![npm][npm-dever-image]][npm-dever-url]           |
+| [adder](packages/adder/CHANGELOG.md)           | [![npm][npm-adder-image]][npm-adder-url]           |
+| [linker](packages/linker/CHANGELOG.md)         | [![npm][npm-linker-image]][npm-linker-url]         |
+| [builder](packages/builder/CHANGELOG.md)       | [![npm][npm-builder-image]][npm-builder-url]       |
+| [tester](packages/tester/CHANGELOG.md)         | [![npm][npm-tester-image]][npm-tester-url]         |
+| [releaser](packages/releaser/CHANGELOG.md)     | [![npm][npm-releaser-image]][npm-releaser-url]     |
+| [eslint](packages/eslint/CHANGELOG.md)         | [![npm][npm-eslint-image]][npm-eslint-url]         |
+| [stylelint](packages/stylelint/CHANGELOG.md)   | [![npm][npm-stylelint-image]][npm-stylelint-url]   |
+| [commitlint](packages/commitlint/CHANGELOG.md) | [![npm][npm-commitlint-image]][npm-commitlint-url] |
+| [deps](packages/deps/CHANGELOG.md)             | [![npm][npm-deps-image]][npm-deps-url]             |
+| [updater](packages/updater/CHANGELOG.md)       | [![npm][npm-updater-image]][npm-updater-url]       |
+| [vue](packages/vue/CHANGELOG.md)               | [![npm][npm-vue-image]][npm-vue-url]               |
+| [react](packages/react/CHANGELOG.md)           | [![npm][npm-react-image]][npm-react-url]           |
+| [index](packages/index/CHANGELOG.md)           | [![npm][npm-image]][npm-url]                       |
+
 
 
 

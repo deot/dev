@@ -112,6 +112,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
 
+  packages/commitlint: {}
+
   packages/deps:
     dependencies:
       '@types/eslint':

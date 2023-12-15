@@ -108,7 +108,7 @@ export const getPackageFolderName = (packageName$: string, cwd?: string) => {
 	if (!workspace) return '';
 
 	if (packageName$ === packageName) return packageFolderName;
-	return packageName$?.replace(new RegExp(`${packageName}-?`), '');
+	return packageName$?.replace(new RegExp(`${packageName}-?`, 'g'), '');
 };
 
 export const getRealPackageName = (names?: string, cwd?: string) => {

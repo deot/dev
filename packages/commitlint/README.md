@@ -1,0 +1,2 @@
+# @deot/dev-commitlint
+

@@ -14,7 +14,6 @@
   },
   "files": [
     "dist",
-    "commitlint.js",
     "tsconfig.shared.json"
   ],
   "license": "MIT",
