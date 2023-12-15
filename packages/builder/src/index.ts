@@ -26,9 +26,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	}
 
 	// 当仅打包一个或多个时，需要寻找关联需要提前打包的模块
-	if (options.packageName && options.packageName !== '*') {
+	if (locals.workspace && options.packageName && options.packageName !== '*') {
 		let relations: string[] = [];
-		const walk = (packageNames: string[]) => {
+		const walk = (packageNames: string[] = []) => {
 			relations = packageNames.concat(relations);
 			packageNames.forEach((i) => {
 				if (locals.packageRelation[i].length) {
