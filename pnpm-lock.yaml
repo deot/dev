@@ -208,6 +208,9 @@ importers:
       '@deot/dev-cli':
         specifier: ^2.8.1
         version: link:../cli
+      '@deot/dev-commitlint':
+        specifier: ^2.8.0
+        version: link:../commitlint
       '@deot/dev-deps':
         specifier: ^2.8.0
         version: link:../deps

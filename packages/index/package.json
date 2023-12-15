@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@deot/dev-adder": "^2.8.0",
+    "@deot/dev-commitlint": "^2.8.0",
     "@deot/dev-builder": "^2.8.1",
     "@deot/dev-cli": "^2.8.1",
     "@deot/dev-deps": "^2.8.0",
