@@ -1,5 +1,13 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.8.3
+
+_2023-12-15_
+
+### Features
+
+- feat: allow placeholder file & `*pattern` changed to `[a-zA-Z0-9_-]+` ([19ea5b2](https://github.com/deot/dev/commit/19ea5b20bf76e105b4bbd674e67ab095e32e2a9a))
+
 ## v2.8.2
 
 _2023-12-14_

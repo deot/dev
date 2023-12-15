@@ -230,7 +230,7 @@ importers:
         specifier: ^2.8.0
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.8.2
+        specifier: ^2.8.3
         version: link:../stylelint
       '@deot/dev-test':
         specifier: ^2.8.0
