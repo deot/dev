@@ -17,7 +17,15 @@ export const javascript = async (options$?: Options): Promise<FlatConfig[]> => {
 		'no-undef': 1,
 		'no-debugger': 1,
 		'no-unused-vars': 1,
-		'no-useless-escape': 0
+		'no-useless-escape': 0,
+		'prefer-const': [
+			2,
+			{
+				destructuring: 'all',
+				ignoreReadBeforeAssign: false,
+			}
+		]
+
 	};
 
 	return [

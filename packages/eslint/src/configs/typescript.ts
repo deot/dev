@@ -1,5 +1,5 @@
 import pluginTs from '@typescript-eslint/eslint-plugin';
-import parserTs from '@typescript-eslint/parser';
+import * as parserTs from '@typescript-eslint/parser';
 import { Options, FlatConfig } from '../types';
 import { pickOptions, cleanRules } from './_helper';
 

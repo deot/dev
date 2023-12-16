@@ -71,7 +71,7 @@ describe('index.ts', () => {
 		// globals
 		let code = '';
 
-		code += `let a = 1;\n`;
+		code += `const a = 1;\n`;
 		code += `console.log(a);\n`;
 
 		const { data } = await lint(code, './any/any.js');
@@ -128,6 +128,22 @@ describe('index.ts', () => {
 
 		const { data } = await lint(code, './any/any.ts');
 		expect(data.some(i => i.ruleId === '@typescript-eslint/no-unused-vars')).toBeTruthy();
+	});
+
+	it('javascript/prefer-const, boundary problem', async () => {
+		expect.hasAssertions();
+		// globals
+		let code = '';
+
+		// 这个会要求改成 `const b = Math.ceil(a); 不会自动fixed`
+		code += `export const fn = (a) => {\n`;
+		code += `	let b;\n`;
+		code += `	b = Math.ceil(a);\n`;
+		code += `	return a + b;\n`;
+		code += `};\n`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe(`prefer-const`);
 	});
 
 	it('markdown', async () => {
