@@ -20,7 +20,8 @@
     "update:try": "npm run update -- --no-dry-run --no-commit --no-push --no-test",
     "release:try": "npm run release -- --no-dry-run --no-publish --no-push --no-tag --no-commit",
     "bin:link": "cd ./packages/cli && npm link",
-    "bin:unlink": "cd ./packages/cli && npm unlink -g"
+    "bin:unlink": "cd ./packages/cli && npm unlink -g",
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "scripts-info": {
     "init": "首次安装",
