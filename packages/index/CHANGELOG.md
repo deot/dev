@@ -1,5 +1,17 @@
 # @deot/dev ChangeLog
 
+## v2.8.7
+
+_2023-12-16_
+
+### Bugfixes
+
+- fix(dever): find fullpath overflow ([b05262d](https://github.com/deot/dev/commit/b05262d584d186d3284f38500181295ae1448c15))
+
+### Features
+
+- feat(eslint): `prefer-const`, only warns if all variables in destructuring can be const ([7a7f92d](https://github.com/deot/dev/commit/7a7f92dfca61f72384ea3372ec5669aa2bc0a5c7))
+
 ## v2.8.6
 
 _2023-12-15_

@@ -215,10 +215,10 @@ importers:
         specifier: ^2.8.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.8.3
+        specifier: ^2.8.4
         version: link:../eslint
       '@deot/dev-linker':
         specifier: ^2.8.0

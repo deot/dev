@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.8.1
+
+_2023-12-16_
+
+### Bugfixes
+
+- fix: find fullpath overflow ([b05262d](https://github.com/deot/dev/commit/b05262d584d186d3284f38500181295ae1448c15))
+
 ## v2.8.0
 
 _2023-12-14_

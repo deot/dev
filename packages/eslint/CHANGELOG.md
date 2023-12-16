@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.8.4
+
+_2023-12-16_
+
+### Features
+
+- feat: `prefer-const`, only warns if all variables in destructuring can be const ([7a7f92d](https://github.com/deot/dev/commit/7a7f92dfca61f72384ea3372ec5669aa2bc0a5c7))
+
 ## v2.8.3
 
 _2023-12-14_
