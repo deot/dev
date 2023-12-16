@@ -59,7 +59,7 @@ const getVirtualHtml = async (url: string) => {
 			return fs.existsSync(fullpath) ? fullpath : false;
 		}
 
-		for (let i = 0; i <= dirs.length; i++) {
+		for (let i = 0; i < dirs.length; i++) {
 			let suffix = dirs[i];
 			if (last === suffix) {
 				suffix = '';

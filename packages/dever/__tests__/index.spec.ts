@@ -50,13 +50,13 @@ describe('index', () => {
 	}, 60000);
 
 	it('monorepo', async () => {
-		expect.assertions(6);
+		expect.assertions(8);
 
 		const subprocess = Shell.spawn(`npm`, ['run', 'dev'], {
 			cwd: path.resolve('./packages/_/monorepo'),
 			stdio: 'pipe'
 		});
-		let expects = ['/components/button/index.html', '/vue/index.html', '/react/index.html'];
+		let expects = ['/components/button/index.html', '/components/ext/index.html', '/vue/index.html', '/react/index.html'];
 
 		const ready = new Promise<void>((resolve) => {
 			const run = (url: string, timeout: number) => {
