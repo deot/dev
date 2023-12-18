@@ -106,7 +106,7 @@ importers:
         version: 11.1.0
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../test
       cross-env:
         specifier: ^7.0.3
@@ -160,7 +160,7 @@ importers:
         version: 5.0.8(sass@1.69.5)
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../test
       cross-env:
         specifier: ^7.0.3
@@ -206,7 +206,7 @@ importers:
         specifier: ^2.8.2
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.8.2
+        specifier: ^2.8.3
         version: link:../cli
       '@deot/dev-commitlint':
         specifier: ^2.8.1
@@ -215,7 +215,7 @@ importers:
         specifier: ^2.8.0
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.8.1
+        specifier: ^2.8.2
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^2.8.4
@@ -233,7 +233,7 @@ importers:
         specifier: ^2.8.3
         version: link:../stylelint
       '@deot/dev-test':
-        specifier: ^2.8.0
+        specifier: ^2.8.1
         version: link:../test
       '@deot/dev-tester':
         specifier: ^2.8.0

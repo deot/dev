@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.8.2
+
+_2023-12-18_
+
+### Features
+
+- feat(test): add `Scheduler` ([eaeb92c](https://github.com/deot/dev/commit/eaeb92c4dc1423bfd3b6b121084a6d59150cfb1a))
+
 ## v2.8.1
 
 _2023-12-16_

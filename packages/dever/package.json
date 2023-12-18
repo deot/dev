@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-dever",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +28,7 @@
     "vite": "^5.0.8"
   },
   "devDependencies": {
-    "@deot/dev-test": "^2.8.0",
+    "@deot/dev-test": "^2.8.1",
     "cross-env": "^7.0.3"
   }
 }

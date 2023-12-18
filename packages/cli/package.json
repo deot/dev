@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-cli",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "@deot/dev-test": "^2.8.0"
+    "@deot/dev-test": "^2.8.1"
   },
   "bin": {
     "ddc": "bin/cli.js"
