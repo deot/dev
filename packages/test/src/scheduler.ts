@@ -46,7 +46,7 @@ export class Scheduler<T = any> {
 		return this;
 	};
 
-	then(resolve: Func<T>, reject: Func<T>) {
+	then(resolve: Func<T>, reject?: Func<T>) {
 		return this._task.then(resolve, reject);
 	}
 

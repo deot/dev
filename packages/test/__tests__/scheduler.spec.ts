@@ -101,4 +101,18 @@ describe('scheduler.ts', () => {
 
 		await scheduler;
 	});
+
+	it('next, mircotask', async () => {
+		expect.assertions(1);
+		const scheduler = new Scheduler();
+		const next = vi.fn(scheduler.next);
+		Promise.resolve().then(next);
+
+		// 这里的_task还是上一个
+		scheduler.then(() => {
+			expect(next).toBeCalledTimes(1);
+		});
+
+		await Promise.resolve();
+	});
 });
