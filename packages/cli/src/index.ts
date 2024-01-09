@@ -141,6 +141,7 @@ addOptions(
 		.option('--no-commit [boolean]', 'No Commit')
 		.option('--no-push [boolean]', 'No Push')
 		.option('--no-test [boolean]', 'No Test')
+		.option('--no-change-log [boolean]', 'No Change Log')
 		.option('--patch [boolean]', 'Patch')
 		.option('--major [boolean]', 'Major')
 		.option('--minor [boolean]', 'Minor')

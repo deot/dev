@@ -24,6 +24,7 @@ export class Update {
 		push: boolean;
 		test: boolean;
 		all: boolean;
+		changeLog: boolean;
 	};
 
 	constructor(commandOptions: Update['commandOptions']) {
@@ -210,12 +211,19 @@ export class Update {
 			}));
 		});
 
-		const { all } = this.commandOptions;
+		const { all, changeLog } = this.commandOptions;
 		let packageFolderNames = await this.updatePackageOptions(changed);
 		const hasChanged = packageFolderNames.length;
 		packageFolderNames = hasChanged && all ? ['*'] : packageFolderNames;
 
-		message = `chore${hasChanged ? '(' : ''}${packageFolderNames.join(',')}${hasChanged ? ')' : ''}: ${message}`;
+		if (changeLog) {
+			message = `chore${hasChanged ? '(' : ''}${packageFolderNames.join(',')}${hasChanged ? ')' : ''}: ${message}`;
+		} else {
+			const locals = Locals.impl();
+			const { workspace } = locals;
+			// 这样的release时，不会被收集到change log 中
+			message = `${workspace ? 'chore' : 'void'}: ${message}`;
+		}
 
 		await this.updateLock();
 		await this.test();

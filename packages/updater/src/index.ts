@@ -9,6 +9,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		commit: true,
 		push: true,
 		test: true,
+		changeLog: true,
 		major: false,
 		minor: false,
 		patch: false,
