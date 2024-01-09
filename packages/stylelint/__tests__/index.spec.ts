@@ -40,15 +40,15 @@ describe('index.js', () => {
 
 	it('stylelint-config-standard-scss', async () => {
 		expect.hasAssertions();
-		const data = await lint(`
-			@use 'sass:meta';
+		let code = '';
 
-			@function color($value) {
-				@return if(meta.type-of($value) == 'string', $value, 'inherit');
-			}
+		code += `@use 'sass:meta';\n\n`;
+		code += `@function color($value) {\n`;
+		code += `	@return if(meta.type-of($value) == 'string', $value, 'inherit');\n`;
+		code += `}\n\n`;
+		code += `a { color: color(1); }\n`;
 
-			a { color: color(1); }
-		`);
+		const data = await lint(code);
 		expect(data.errored).toBe(false);
 	});
 
@@ -97,12 +97,12 @@ describe('stylistic', () => {
 	it('semicolon', async () => {
 		expect.hasAssertions();
 		const data = await lint(`a { color: inherit }`);
-		expect(data.report).toMatch(`Expected a trailing semicolon (declaration-block-trailing-semicolon)`);
+		expect(data.report).toMatch(`Expected a trailing semicolon (@stylistic/declaration-block-trailing-semicolon)`);
 	});
 
 	it('indentation', async () => {
 		expect.hasAssertions();
 		const data = await lint(`a {\n    color: inherit \n}`);
-		expect(data.report).toMatch(`Expected indentation of 1 tab (indentation)`);
+		expect(data.report).toMatch(`Expected indentation of 1 tab (@stylistic/indentation)`);
 	});
 });

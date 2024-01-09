@@ -7,7 +7,7 @@ import type { Config } from 'stylelint';
  */
 export const configure = async (): Promise<Config> => {
 	return {
-		plugins: ['stylelint-order', 'stylelint-codeguide'],
+		plugins: ['stylelint-order', '@stylistic/stylelint-plugin'],
 		extends: ['stylelint-config-standard-scss'],
 		rules: {
 			'at-rule-no-unknown': [
@@ -57,10 +57,10 @@ export const configure = async (): Promise<Config> => {
 			'scss/dollar-variable-pattern': '[a-zA-Z0-9_-]+',
 
 			// stylistic
-			'codeguide/indentation': 'tab',
-			'codeguide/declaration-colon-space-after': 'always-single-line',
-			'codeguide/declaration-colon-space-before': 'never',
-			'codeguide/declaration-block-trailing-semicolon': 'always',
+			'@stylistic/indentation': 'tab',
+			'@stylistic/declaration-colon-space-after': 'always-single-line',
+			'@stylistic/declaration-colon-space-before': 'never',
+			'@stylistic/declaration-block-trailing-semicolon': 'always',
 
 			// Specify the alphabetical order of the attributes in the declaration block
 			'order/properties-order': [
