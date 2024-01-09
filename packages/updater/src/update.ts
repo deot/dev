@@ -141,7 +141,7 @@ export class Update {
 			const locals = Locals.impl();
 			const { cwd } = locals;
 			await fs.remove(`${cwd}/node_modules`);
-			await Shell.spawn('npx', ['pnpm', 'install', '--lockfile-only']);
+			await Shell.spawn('npx', ['pnpm', 'install', '--no-frozen-lockfile']);
 		}
 	}
 
