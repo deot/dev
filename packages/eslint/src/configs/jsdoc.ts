@@ -1,5 +1,5 @@
 import pluginJsdoc from 'eslint-plugin-jsdoc';
-import { Options, FlatConfig } from '../types';
+import { Options, FlatConfig, Rules } from '../types';
 import { pickOptions, cleanRules } from './_helper';
 
 export const jsdoc = async (options$?: Options): Promise<FlatConfig[]> => {
@@ -8,9 +8,9 @@ export const jsdoc = async (options$?: Options): Promise<FlatConfig[]> => {
 		return [];
 	}
 
-	const recommendedRules = pluginJsdoc.configs['flat/recommended-typescript'].rules;
+	const recommendedRules = pluginJsdoc.configs['flat/recommended-typescript'].rules as Rules;
 
-	const rules = {
+	const rules: Rules = {
 		...recommendedRules,
 		'jsdoc/check-tag-names': 0
 	};
