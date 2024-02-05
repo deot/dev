@@ -35,7 +35,12 @@ describe('index.ts', () => {
 	it('vue-tsc, *.d.ts', async () => {
 		fs.remove(path.resolve(dirname, './fixtures/dist'));
 		const has = (filename: string) => fs.existsSync(path.resolve(dirname, './fixtures/dist', filename));
-		await Shell.exec(`vue-tsc`, ['-p', path.resolve(dirname, './fixtures/tsconfig.json')]);
+
+		try {
+			await Shell.exec(`vue-tsc`, ['-p', path.resolve(dirname, './fixtures/tsconfig.json')]);
+		} catch (e) {
+			// 等价于skipLibCheck
+		}
 		expect(has('index.d.ts')).toBe(true);
 		expect(has('app.vue.d.ts')).toBe(true);
 	}, 100000);

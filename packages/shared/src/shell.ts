@@ -55,7 +55,11 @@ export const exec = (command$: string, args?: string[], options?: any) => {
 	const subprocess = childProcess.exec(command$$, options, (error, stdout, stderr) => {
 		process.off('beforeExit', handler);
 		if (error) {
-			reject(error);
+			reject({
+				...error,
+				stderr: stderr.toString(),
+				stdout: stdout.toString()
+			});
 			return;
 		}
 		resolve({
