@@ -56,7 +56,7 @@ export class Launch {
 
 			this._browser = puppeteer.launch({
 				...this.puppeteerOptions,
-				headless: 'new'
+				headless: true
 			});
 
 			this._browser.then((browser) => {
