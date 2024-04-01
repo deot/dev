@@ -8,7 +8,7 @@ export const markdown = async (options$?: Options): Promise<FlatConfig[]> => {
 		return [];
 	}
 
-	const config = pluginMarkdown.configs.recommended.overrides[1];
+	const config = pluginMarkdown.configs.recommended[2];
 	return [
 		{
 			plugins: {
