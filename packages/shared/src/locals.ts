@@ -50,7 +50,6 @@ export const getNormalizePackage = (dataMap: any) => {
 		});
 	});
 
-	// eslint-disable-next-line no-sequences
 	const needUseMap: any = Object.keys(dataMap).reduce((pre, key) => (pre[key] = 0, pre), {});
 	const queue: string[] = [];
 

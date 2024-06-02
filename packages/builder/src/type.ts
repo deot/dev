@@ -70,6 +70,7 @@ export const run = async (options: Build) => {
 	// 生成api-extractor用于合并dts
 	fs.outputFileSync(configPath, JSON.stringify({
 		extends: path.relative(tempDir, path.resolve(dirname, '../api-extractor.shared.json')),
+		// eslint-disable-next-line @stylistic/max-len
 		mainEntryPointFilePath: (workspace ? `./${workspace}/` : './') + path.relative(packageRootDir, `${packageSourceDir}/index.d.ts`), // workspace、时以temp/packages/*/src结构，否则APIExtractor会报错
 		dtsRollup: {
 			publicTrimmedFilePath: '../index.d.ts'

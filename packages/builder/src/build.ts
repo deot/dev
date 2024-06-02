@@ -51,7 +51,7 @@ export class Build {
 		this.packageName = packageFolderName === packageFolderName$
 			? packageName
 			: `${packageName}-${packageFolderName}`;
-		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
+		this.packageOptions = require$(`${this.packageDir}/package.json`);
 		this.commandOptions = commandOptions;
 
 		const { reactPackage, vuePackage, nodePackage } = commandOptions;

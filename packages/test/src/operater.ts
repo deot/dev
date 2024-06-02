@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 import type { Page, ClickOptions } from 'puppeteer';
 
 export class Operater {

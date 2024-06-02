@@ -79,7 +79,7 @@ const question = [
 (async () => {
 	registerPrompt('autocomplete', autocomplete);
 	const { mode, dependentName, args, packageName } = await prompt(question);
-	let command = mode === 'dependent'
+	const command = mode === 'dependent'
 		? `add ${dependentName} ${args.join(' ')} --scope=${packageName}`
 		: `create ${packageName}`;
 

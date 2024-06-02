@@ -21,7 +21,6 @@ describe('test.ts', () => {
 		await instance.press('enter', 0);
 		await instance.stop();
 
-		// eslint-disable-next-line max-len
 		const command = 'cross-env NODE_ENV=UNIT TEST_OPTIONS=%7B(.*)?%22watch%22%3Atrue(.*)?%7D (./node_modules/.bin/)?vitest';
 
 		expect(instance.code).toBe(0);

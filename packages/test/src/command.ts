@@ -132,6 +132,6 @@ export class Command {
 			);
 		});
 
-		await new Promise(_ => setTimeout(_, timeout)); // eslint-disable-line
+		await new Promise(_ => setTimeout(_, timeout));
 	}
 }

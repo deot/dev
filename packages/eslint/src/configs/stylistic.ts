@@ -15,8 +15,7 @@ export const stylistic = async (options$?: Options): Promise<FlatConfig[]> => {
 		jsx: true,
 	});
 
-	const allRules = config.rules as FlatConfig['rules'];
-
+	const allRules = config.rules as Rules;
 	const rules: Rules = {
 		...allRules,
 		'@stylistic/comma-dangle': ['warn', {
@@ -30,7 +29,8 @@ export const stylistic = async (options$?: Options): Promise<FlatConfig[]> => {
 			allowSingleLine: true
 		}],
 		'@stylistic/member-delimiter-style': 1,
-		'@stylistic/max-statements-per-line': ['off', { max: 1 }]
+		'@stylistic/max-statements-per-line': ['off', { max: 1 }],
+		'@stylistic/max-len': [1, { code: 150 }]
 	};
 
 	return [

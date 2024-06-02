@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 export const sleep = (s?: number) => new Promise((_) => { setTimeout(_, s || 0); });
 
 interface ExpectByPollingOptions {

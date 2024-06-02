@@ -1,15 +1,15 @@
 import * as path from 'node:path';
 import { createRequire } from 'node:module';
 import fs from 'fs-extra';
-import parser from 'conventional-commits-parser';
+import { CommitParser } from 'conventional-commits-parser';
 import chalk from 'chalk';
 import semver from 'semver';
-import inquirer from 'inquirer';
+import { createPromptModule } from 'inquirer';
 import { Shell, Logger, Locals } from '@deot/dev-shared';
 
 const cwd = process.cwd();
 const require$ = createRequire(cwd);
-const { prompt } = inquirer;
+const prompt = createPromptModule();
 
 const HASH = '-hash-';
 const SUFFIX = '🐒💨🙊';
@@ -18,6 +18,7 @@ const parserOptions = {
 	noteKeywords: ['BREAKING CHANGE', 'Breaking Change']
 };
 const reBreaking = new RegExp(`(${parserOptions.noteKeywords.join(')|(')})`);
+const commitParser = new CommitParser();
 
 interface Notes {
 	breaking: string[];
@@ -89,7 +90,7 @@ export class Release {
 		this.packageDir = config.dir;
 		this.packageName = Locals.getPackageName(config.name);
 		this.packageFolderName = config.name;
-		this.packageOptions = require$(`${this.packageDir}/package.json`); // eslint-disable-line
+		this.packageOptions = require$(`${this.packageDir}/package.json`);
 		this.packageRelation = packageRelation[this.packageName] || [];
 		this.config = config;
 
@@ -130,21 +131,22 @@ export class Release {
 		}
 
 		const allowTypes = ['feat', `fix`, `break change`, `style`, `perf`, `types`, `refactor`, `chore`];
-		// eslint-disable-next-line max-len
+
+		// eslint-disable-next-line @stylistic/max-len
 		const rePlugin = new RegExp(`^(${allowTypes.join('|')})${workspace ? `\\(([,\\w-]+(,))?${packageFolderName}((,)[,\\w-]+)?\\)` : '(\\(.+\\))?'}: .*`, 'i');
 		const reAll = workspace && new RegExp(`^(${allowTypes.join('|')})\\(\\*\\): .*`, 'i');
 
 		// commandOptions.commits 仅测试使用
 		const allCommits = commandOptions.commits || stdout.split(SUFFIX);
-		const commits = allCommits
+		const commits: Release['commits'] = allCommits
 			.filter((commit: string) => {
 				const chunk = commit.trim();
 				return chunk && (rePlugin.test(chunk) || (reAll && reAll.test(chunk)));
 			})
 			.map((commit) => {
-				const node = parser.sync(commit);
+				const node = commitParser.parse(commit) as any;
 				const body = (node.body || node.footer) as string;
-				if (!node.type) node.type = parser.sync(node.header?.replace(/\(.+\)!?:/, ':') || '').type;
+				if (!node.type) node.type = commitParser.parse(node.header?.replace(/\(.+\)!?:/, ':') || '').type;
 				if (!node.hash) node.hash = commit.split(HASH).pop()?.trim();
 
 				node.breaking = reBreaking.test(body) || /!:/.test(node.header as string);
@@ -183,10 +185,10 @@ export class Release {
 				skip = result.skip;
 			} else if (
 				typeof skipUpdatePackage === 'string'
-					&& (
-						skipUpdatePackage === '*'
-						|| skipUpdatePackage.split(',').includes(this.packageName)
-					)
+				&& (
+					skipUpdatePackage === '*'
+					|| skipUpdatePackage.split(',').includes(this.packageName)
+				)
 			) {
 				skip = true;
 			}
@@ -216,10 +218,10 @@ export class Release {
 				force = result.force;
 			} else if (
 				typeof forceUpdatePackage === 'string'
-					&& (
-						forceUpdatePackage === '*'
-						|| forceUpdatePackage.split(',').includes(this.packageName)
-					)
+				&& (
+					forceUpdatePackage === '*'
+					|| forceUpdatePackage.split(',').includes(this.packageName)
+				)
 			) {
 				force = true;
 			}
@@ -283,7 +285,6 @@ export class Release {
 				? ''
 				: ` ([${hash?.substring(0, 7)}](${homepage}/commit/${hash}))`;
 
-			// eslint-disable-next-line no-unsafe-optional-chaining
 			let message = header?.trim();
 			if (workspace && !effect) {
 				message = message.replace(/\(.+\)!?:/, ':');

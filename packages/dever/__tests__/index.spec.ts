@@ -1,4 +1,3 @@
-/* eslint-disable no-promise-executor-return */
 import * as path from 'node:path';
 import { Locals, Shell } from '@deot/dev-shared';
 import * as Dever from '@deot/dev-dever';

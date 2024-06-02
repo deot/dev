@@ -78,7 +78,7 @@ describe('index.ts', () => {
 		expect(data.length).toBe(0);
 	});
 
-	it('import', async () => {
+	it('import-x', async () => {
 		expect.assertions(1);
 		let code = '';
 
@@ -86,7 +86,7 @@ describe('index.ts', () => {
 		code += `console.log(path);`;
 
 		const { data } = await lint(code, './any/any.js');
-		expect(data[0].ruleId).toBe(`import/newline-after-import`);
+		expect(data[0].ruleId).toBe(`import-x/newline-after-import`);
 	});
 
 	it('import/parsers', async () => {
@@ -193,5 +193,17 @@ describe('index.ts', () => {
 
 		const { data } = await lint(code, './any/any.js');
 		expect(data[0].ruleId).toBe('@stylistic/quotes');
+	});
+
+	it('stylistic/max-len', async () => {
+		expect.hasAssertions();
+		let code = '';
+
+		code += `if (typeof window === 'undefined') {\n`;
+		code += `  console.log('${'any'.padEnd(150)}');\n`;
+		code += `}\n`;
+
+		const { data } = await lint(code, './any/any.js');
+		expect(data[0].ruleId).toBe('@stylistic/max-len');
 	});
 });

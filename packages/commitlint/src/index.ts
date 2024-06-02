@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 
-// eslint-disable-next-line max-len
+// eslint-disable-next-line @stylistic/max-len
 const commitRE = /^(revert: )?(void|fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
 const mergeRE = /Merge branch /;
 
