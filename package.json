@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "custom devs",
   "type": "module",
-  "packageManager": "pnpm@8.x.x",
+  "packageManager": "pnpm@latest",
   "scripts": {
-    "prepare": "husky install && npm run build -- --package-name eslint,commitlint --no-dts",
+    "prepare": "husky && npm run build -- --package-name eslint,commitlint --no-dts",
     "init": "npx pnpm install",
     "init:force": "rm -rf ./node_modules pnpm-lock.yaml ./packages/*/node_modules && npm run init",
     "lint": "eslint packages --color",
