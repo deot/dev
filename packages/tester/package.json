@@ -25,7 +25,7 @@
     "@deot/dev-vue": "^2.8.0",
     "@vitest/coverage-istanbul": "^1.6.0",
     "cross-env": "^7.0.3",
-    "inquirer": "^9.2.23",
+    "inquirer": "^9.3.4",
     "inquirer-autocomplete-prompt": "^3.0.1",
     "jsdom": "^24.1.0",
     "vitest": "^1.6.0"
