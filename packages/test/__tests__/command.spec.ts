@@ -14,6 +14,7 @@ describe('command.ts', () => {
 		await instance.press('enter');
 		await instance.press('enter');
 		await instance.press('package');
+		await instance.press('enter');
 		await instance.stop();
 
 		const command = 'create package';
@@ -41,6 +42,7 @@ describe('command.ts', () => {
 		await instance.press('dependent');
 		await instance.press('enter');
 		await instance.press('a');
+		await instance.press('enter');
 
 		await instance.stop();
 
@@ -63,12 +65,10 @@ describe('command.ts', () => {
 		await instance.press('enter');
 		await instance.press('enter');
 		await instance.press('enter');
-		try {
-			await instance.stop();
-		} catch (e) {
-			instance.press('enter'); // 无效
-			expect(instance.code).toBe(null);
-			expect(instance.stderr).toBe('');
-		}
+		await instance.stop();
+		instance.press('enter'); // 无效
+		// NodeJS@22.x.x: ExitPromptError: User force closed the prompt with 0 null; 强制退出也是0
+		// https://github.com/SBoudrias/Inquirer.js/issues/1454
+		expect(instance.code).toBe(0);
 	}, 10000);
 });

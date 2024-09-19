@@ -16,7 +16,6 @@ export const typescript = async (options$?: Options): Promise<FlatConfig[]> => {
 		...recommendedRules,
 		'@typescript-eslint/no-shadow': 2, // https://github.com/typescript-eslint/typescript-eslint/issues/2483
 		'@typescript-eslint/no-unused-vars': 1,
-		'@typescript-eslint/member-delimiter-style': 1,
 		// ignore duplicate rules
 		'no-unused-vars': 0
 	};

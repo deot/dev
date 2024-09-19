@@ -4,12 +4,11 @@ import fs from 'fs-extra';
 import { CommitParser } from 'conventional-commits-parser';
 import chalk from 'chalk';
 import semver from 'semver';
-import { createPromptModule } from 'inquirer';
+import { input, confirm } from '@inquirer/prompts';
 import { Shell, Logger, Locals } from '@deot/dev-shared';
 
 const cwd = process.cwd();
 const require$ = createRequire(cwd);
-const prompt = createPromptModule();
 
 const HASH = '-hash-';
 const SUFFIX = '🐒💨🙊';
@@ -173,16 +172,10 @@ export class Release {
 		if (commits.length && skipUpdatePackage) {
 			let skip = false;
 			if (typeof skipUpdatePackage === 'boolean' && skipUpdatePackage) {
-				const result = await prompt([
-					{
-						type: 'confirm',
-						name: 'skip',
-						message: `Skip Update（${this.packageName}@${this.packageOptions.version}）：`,
-						default: true
-					}
-				]);
-
-				skip = result.skip;
+				skip = await confirm({
+					message: `Skip Update（${this.packageName}@${this.packageOptions.version}）：`,
+					default: true
+				});
 			} else if (
 				typeof skipUpdatePackage === 'string'
 				&& (
@@ -206,16 +199,10 @@ export class Release {
 		if (!commits.length && forceUpdatePackage) {
 			let force = false;
 			if (typeof forceUpdatePackage === 'boolean' && forceUpdatePackage) {
-				const result = await prompt([
-					{
-						type: 'confirm',
-						name: 'force',
-						message: `Force Update（${this.packageName}@${this.packageOptions.version}）：`,
-						default: true
-					}
-				]);
-
-				force = result.force;
+				force = await confirm({
+					message: `Force Update（${this.packageName}@${this.packageOptions.version}）：`,
+					default: true
+				});
 			} else if (
 				typeof forceUpdatePackage === 'string'
 				&& (
@@ -331,10 +318,8 @@ export class Release {
 			newVersion = commandOptions.customVersion;
 
 			if (!(/\d+.\d+.\d+/.test(newVersion)) || version === newVersion) {
-				const result = await prompt([
+				newVersion = await input(
 					{
-						type: 'input',
-						name: 'version',
 						message: `Custom Update Version（${this.packageName}@${version}）：`,
 						default: '',
 						validate: (answer: any) => {
@@ -348,8 +333,7 @@ export class Release {
 							return true;
 						}
 					}
-				]);
-				newVersion = result.version;
+				);
 			}
 		} else {
 			const intersection: any[] = [

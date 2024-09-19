@@ -1,79 +1,61 @@
-import inquirer from 'inquirer';
-import autocomplete from 'inquirer-autocomplete-prompt';
+import { search, confirm } from '@inquirer/prompts';
 import { Locals } from '@deot/dev-shared';
 
 const ALL_PACKAGE = 'All Packages';
-
-const { prompt, registerPrompt } = inquirer;
 
 export const getOptions = async () => {
 	const isDev = process.env.NODE_ENV === 'development';
 
 	const { packageFolderNames, subpackagesMap } = Locals.impl();
 	const packages$ = [ALL_PACKAGE, ...packageFolderNames] as string[];
-	const question = [
-		{
-			type: 'autocomplete',
-			message: `Select Package To ${isDev ? 'Develop' : 'Test'}:`,
-			name: 'packageFolderName',
-			default: 'cli',
-			source: (_: any, input: any) => {
-				input = input || '';
-				return new Promise((($resolve) => {
-					const filter = input
-						? packages$.filter(item => item.includes(input))
-						: packages$;
-					$resolve(filter);
-				}));
-			}
-		},
-		{
-			type: 'autocomplete',
+	const packageFolderName = await search({
+		message: `Select Package To ${isDev ? 'Develop' : 'Test'}:`,
+		source: (term) => {
+			const input = typeof term === 'undefined' ? 'cli' : term;
+			return new Promise((($resolve) => {
+				const filter = input
+					? packages$.filter(item => item.includes(input))
+					: packages$;
+
+				$resolve(filter);
+			}));
+		}
+	});
+	let subpackageFolderName = '';
+	let watch = false;
+
+	if (subpackagesMap[packageFolderName as string]?.length) {
+		subpackageFolderName = await search({
 			message: `Select Subpackage To ${isDev ? 'Develop' : 'Test'}:`,
-			name: 'subpackageFolderName',
-			default: '',
-			when: (answers: any) => {
-				return !!subpackagesMap[answers.packageFolderName]?.length;
-			},
-			source: (answers: any, input: any) => {
-				const subpackages = [ALL_PACKAGE, ...subpackagesMap[answers.packageFolderName]];
-				input = input || '';
-				return new Promise((($resolve) => {
+			source: (term) => {
+				const input = typeof term === 'undefined' ? '' : term;
+				const subpackages = [ALL_PACKAGE, ...subpackagesMap[packageFolderName as string]];
+				return new Promise<string[]>((($resolve) => {
 					const filter = input
 						? subpackages.filter(item => item.includes(input))
 						: subpackages;
 					$resolve(filter);
 				}));
 			}
-		},
-		{
-			type: 'confirm',
+		});
+	}
+	if (!isDev) {
+		watch = await confirm({
 			message: 'Watch Mode?',
-			name: 'watch',
-			when: () => !isDev,
-			default: (answers: any) => {
-				return answers.packageFolderName !== ALL_PACKAGE;
-			}
-		},
-		{
-			type: 'confirm',
-			message: 'Coverage Analyze?',
-			name: 'coverage',
-			default: true
-		}
-	];
+			default: packageFolderName !== ALL_PACKAGE
+		});
+	}
 
-	registerPrompt('autocomplete', autocomplete);
-	const result = await prompt(question);
+	const coverage = await confirm({
+		message: 'Coverage Analyze?',
+		default: true
+	});
 
-	result.packageFolderName = result.packageFolderName == ALL_PACKAGE
-		? undefined
-		: result.packageFolderName;
+	return {
+		packageFolderName: packageFolderName == ALL_PACKAGE ? undefined : packageFolderName,
+		subpackageFolderName: subpackageFolderName == ALL_PACKAGE ? undefined : subpackageFolderName,
+		watch: watch || isDev,
+		coverage
 
-	result.subpackageFolderName = result.subpackageFolderName == ALL_PACKAGE
-		? undefined
-		: result.subpackageFolderName;
-
-	result.watch = result.watch || isDev;
-	return result;
+	};
 };

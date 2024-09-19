@@ -16,6 +16,7 @@ describe('add.ts', () => {
 		await instance.press('enter');
 		await instance.press('enter');
 		await instance.press('package');
+		await instance.press('enter');
 		await instance.stop();
 
 		const command = 'npx pnpm link ./packages/package';
