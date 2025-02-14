@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-tester",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,9 +20,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-react": "^2.8.0",
-    "@deot/dev-shared": "^2.8.0",
-    "@deot/dev-vue": "^2.8.0",
+    "@deot/dev-react": "^2.9.0",
+    "@deot/dev-shared": "^2.9.0",
+    "@deot/dev-vue": "^2.9.0",
     "@vitest/coverage-istanbul": "^3.0.5",
     "cross-env": "^7.0.3",
     "inquirer": "^12.4.1",
