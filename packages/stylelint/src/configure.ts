@@ -15,6 +15,7 @@ export const configure = async (): Promise<Config> => {
 				{
 					ignoreAtRules: [
 						'use',
+						'forward',
 						'for',
 						'function',
 						'if',
