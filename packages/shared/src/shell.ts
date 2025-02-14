@@ -24,16 +24,16 @@ const toPromise = <T extends {}, K = any>(target: T, promise: Promise<K>): T & I
 /* istanbul ignore next -- @preserve */
 export const LOCAL_COMMAND_MAP = fs.existsSync(binDirectory)
 	? fs
-		.readdirSync(binDirectory)
-		.reduce((pre: any, file: string) => {
-			const fullpath = path.resolve(binDirectory, file);
-			// 获取文件信息
-			const stat = fs.statSync(fullpath);
-			if (stat.isFile()) {
-				pre[file] = `./node_modules/.bin/${file}`;
-			}
-			return pre;
-		}, {})
+			.readdirSync(binDirectory)
+			.reduce((pre: any, file: string) => {
+				const fullpath = path.resolve(binDirectory, file);
+				// 获取文件信息
+				const stat = fs.statSync(fullpath);
+				if (stat.isFile()) {
+					pre[file] = `./node_modules/.bin/${file}`;
+				}
+				return pre;
+			}, {})
 	: {};
 
 export const command = (command$: string, args?: string[]) => {
@@ -92,7 +92,8 @@ export const spawn = (command$: string, args?: string[], options?: any) => {
 	const promise = new Promise((resolve, reject) => {
 		subprocess.on('close', (code) => {
 			process.off('beforeExit', handler);
-			if (code === 0) {
+			// https://nodejs.org/docs/latest/api/process.html#exit-codes
+			if (typeof code === 'number' && (code === 0 || code >= 128)) {
 				resolve(code);
 			} else {
 				reject(code);

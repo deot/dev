@@ -6,9 +6,9 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -19,9 +19,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@testing-library/react": "^16.0.1",
-    "@vitejs/plugin-react-swc": "^3.7.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@testing-library/react": "^16.2.0",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

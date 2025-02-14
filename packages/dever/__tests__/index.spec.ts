@@ -70,6 +70,12 @@ describe('index', () => {
 					})
 					.then(() => {
 						return Promise.all([
+							ctx.page.waitForSelector('#test'),
+							ctx.page.waitForSelector('#app')
+						]);
+					})
+					.then(() => {
+						return Promise.all([
 							ctx.operater.html('#test'),
 							ctx.operater.classList('#app')
 						]);
@@ -105,7 +111,7 @@ describe('index', () => {
 				data.split('➜')[0].split('>').filter((i: any) => !!i).forEach((url: string) => {
 					url = url.match(/(.*)(http:.*)/)?.[2] || '';
 					if (url && expects.some(i => url.includes(i))) {
-						run(url, 500);
+						run(url, 1000);
 					}
 				});
 			});
@@ -113,10 +119,16 @@ describe('index', () => {
 
 		try {
 			await ready;
-			subprocess.kill();
+			subprocess.kill('SIGTERM');
+			await new Promise<void>((resolve, reject) => {
+				setTimeout(() => {
+					if (subprocess.killed) return resolve();
+					if (!subprocess.killed) return reject('try force to exit');
+				}, 2000);
+			});
 		} catch (e) {
 			process.env.CI && console.log(e);
-			!subprocess.killed && subprocess.kill();
+			!subprocess.killed && subprocess.kill('SIGKILL');
 		}
 	}, 150000);
 });

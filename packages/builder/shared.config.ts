@@ -37,8 +37,8 @@ const external$ = !usedForBrowser
 				.map(i => new RegExp(`^${i}$`))
 		]
 	: external.split(',')
-		.filter((i: string) => !!i)
-		.map((i: string) => new RegExp(`^${i}$`));
+			.filter((i: string) => !!i)
+			.map((i: string) => new RegExp(`^${i}$`));
 
 // alias
 const replacement = (name: string) => path.resolve(cwd, `./packages/${name}`);
@@ -84,6 +84,7 @@ export default defineConfig({
 		minify: false,
 		target: 'esnext',
 		lib: {
+			cssFileName: 'style',
 			entry: files.map((file: string) => path.resolve(packageSourceDir, file)),
 			formats: [format],
 			name: getGlobalName(packageName)

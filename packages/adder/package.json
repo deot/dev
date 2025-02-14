@@ -6,9 +6,9 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -19,9 +19,9 @@
     "access": "public"
   },
   "dependencies": {
-    "fs-extra": "^11.2.0",
-    "inquirer": "^11.0.1",
-    "ora": "^8.1.0",
+    "fs-extra": "^11.3.0",
+    "inquirer": "^12.4.1",
+    "ora": "^8.2.0",
     "@deot/dev-shared": "^2.8.0"
   }
 }

@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import type { PuppeteerLaunchOptions, Browser, Page } from 'puppeteer';
+import type { LaunchOptions, Browser, Page } from 'puppeteer';
 import { Operater } from './operater';
 
 export class Launch {
@@ -13,7 +13,7 @@ export class Launch {
 
 	private _page!: Promise<Page>;
 
-	puppeteerOptions: PuppeteerLaunchOptions;
+	puppeteerOptions: LaunchOptions;
 
 	options: {
 		logLevel?: string;
