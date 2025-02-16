@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,7 @@
     "@deot/dev-eslint": "^2.9.0",
     "@deot/dev-linker": "^2.9.0",
     "@deot/dev-shared": "^2.9.0",
-    "@deot/dev-stylelint": "^2.9.0",
+    "@deot/dev-stylelint": "^2.9.1",
     "@deot/dev-test": "^2.9.0",
     "@deot/dev-tester": "^2.9.0",
     "@deot/dev-releaser": "^2.9.0",

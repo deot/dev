@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.9.1
+
+_2025-02-16_
+
+### Features
+
+- feat(stylelint): ignore `@forward` rule ([058f8e2](https://github.com/deot/dev/commit/058f8e2b8f1483e17fa01d2d5ec30f40df406985))
+
 ## v2.9.0
 
 _2025-02-14_

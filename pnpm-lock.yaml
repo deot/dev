@@ -227,7 +227,7 @@ importers:
         specifier: ^2.9.0
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.9.0
+        specifier: ^2.9.1
         version: link:../stylelint
       '@deot/dev-test':
         specifier: ^2.9.0
