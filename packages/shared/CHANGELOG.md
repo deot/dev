@@ -1,5 +1,13 @@
 # @deot/dev-shared ChangeLog
 
+## v2.9.1
+
+_2025-04-07_
+
+### Updates
+
+- chore: deps updated ([95d4066](https://github.com/deot/dev/commit/95d40669eccf98339ef228bd6a0e01db24f38bfb))
+
 ## v2.9.0
 
 _2025-02-14_
