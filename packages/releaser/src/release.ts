@@ -57,6 +57,7 @@ export class Release {
 	}>;
 
 	commandOptions: {
+		coverage: boolean; // test
 		dryRun: boolean;
 		tag: boolean;
 		commit: boolean;
@@ -474,7 +475,7 @@ export class Release {
 			Logger.log(chalk.yellow('Test...'));
 		}
 
-		await Shell.exec(`npm run test -- --package-name ${this.packageName}`);
+		await Shell.exec(`npm run test -- --package-name ${this.packageName}${commandOptions.coverage ? '' : ' --no-coverage'}`);
 	}
 
 	async build() {

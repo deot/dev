@@ -105,6 +105,7 @@ addOptions(
 		.option('--no-publish [boolean]', 'No Publish')
 		.option('--no-commit [boolean]', 'No Commit')
 		.option('--no-push [boolean]', 'No Push')
+		.option('--no-coverage [boolean]', 'Coverage Analyze')
 		.option('--force-update-package [string]', 'Force Update Package')
 		.option('--skip-update-package [string]', 'Skip Update Package')
 		.option('--custom-version [string]', 'Dry Run')

@@ -25,6 +25,7 @@ describe('index', () => {
 		const v = instance.stdout;
 		// logs
 		[
+			'coverage: true',
 			'No files will be modified.',
 			// 0
 			'feat: all changed by * ([00000](https://github.com/deot/dev/commit/00000))',

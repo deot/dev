@@ -6,6 +6,7 @@ import { release, Release } from './release';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
 	options = {
+		coverage: true,
 		dryRun: true,
 		tag: true,
 		publish: true,
@@ -22,7 +23,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	if (options.dryRun) {
 		Logger.log(
 			chalk.magenta(`DRY RUN: `)
-			+ 'No files will be modified.'
+			+ 'No files will be modified.',
+			options
 		);
 	}
 

@@ -2,6 +2,7 @@ import * as Release from '../../src';
 
 Release.run({
 	dryRun: true,
+	coverage: true,
 	tag: false,
 	commit: false,
 	publish: false,
