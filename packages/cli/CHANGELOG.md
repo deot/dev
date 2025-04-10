@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.9.2
+
+_2025-04-10_
+
+### Features
+
+- feat: support test without coverage ([92c2e66](https://github.com/deot/dev/commit/92c2e66573626edb6a0beacaeefb0e6142f4c13b))
+
 ## v2.9.1
 
 _2025-04-07_
