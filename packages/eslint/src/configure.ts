@@ -9,7 +9,8 @@ export const configure = async (options?: Options, ...userConfigs: FlatConfig[])
 		...(await C.jsdoc(options)),
 		...(await C.markdown(options)),
 		...(await C.imports(options)),
-		...(await C.stylistic(options))
+		...(await C.stylistic(options)),
+		...(await C.vue(options))
 	];
 
 	return configs.concat(userConfigs);

@@ -206,4 +206,30 @@ describe('index.ts', () => {
 		const { data } = await lint(code, './any/any.js');
 		expect(data[0].ruleId).toBe('@stylistic/max-len');
 	});
+
+	it('vue/html-indent', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+
+		code += '<template>\n';
+		code += '  <div>123</div>\n';
+		code += '</template>';
+
+		const { data } = await lint(code, './any/any.vue');
+		expect(data[0].ruleId).toBe(`vue/html-indent`);
+	});
+
+	it('vue/require-v-for-key', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+
+		code += '<template>\n';
+		code += '	<div v-for="i in 5">{{ i }}</div>\n';
+		code += '</template>';
+
+		const { data } = await lint(code, './any/any.vue');
+		expect(data[0].ruleId).toBe(`vue/require-v-for-key`);
+	});
 });
