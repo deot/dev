@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.9.3
+
+_2025-04-14_
+
+### Bugfixes
+
+- fix: support vue/comment-directive ([ca6946a](https://github.com/deot/dev/commit/ca6946a22adc7be292a83e325d8db2824570939b))
+
 ## v2.9.2
 
 _2025-04-14_
