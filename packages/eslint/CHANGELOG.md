@@ -1,5 +1,13 @@
 # @deot/dev-eslint ChangeLog
 
+## v2.9.2
+
+_2025-04-14_
+
+### Features
+
+- feat: add vue plugin ([cdf6fed](https://github.com/deot/dev/commit/cdf6fed6342a8fb9fc2667e803f21ac88f8a8e2b))
+
 ## v2.9.1
 
 _2025-04-07_
