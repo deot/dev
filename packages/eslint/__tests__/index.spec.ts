@@ -214,7 +214,7 @@ describe('index.ts', () => {
 
 		code += '<template>\n';
 		code += '  <div>123</div>\n';
-		code += '</template>';
+		code += '</template>\n';
 
 		const { data } = await lint(code, './any/any.vue');
 		expect(data[0].ruleId).toBe(`vue/html-indent`);
@@ -227,9 +227,23 @@ describe('index.ts', () => {
 
 		code += '<template>\n';
 		code += '	<div v-for="i in 5">{{ i }}</div>\n';
-		code += '</template>';
+		code += '</template>\n';
 
 		const { data } = await lint(code, './any/any.vue');
 		expect(data[0].ruleId).toBe(`vue/require-v-for-key`);
+	});
+
+	it('vue/comment-directive', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+
+		code += '<template>\n';
+		code += '	<!-- eslint-disable vue/require-v-for-key -->\n';
+		code += '	<div v-for="i in 5">{{ i }}</div>\n';
+		code += '</template>\n';
+
+		const { data } = await lint(code, './any/any.vue');
+		expect(data.length).toBe(0);
 	});
 });

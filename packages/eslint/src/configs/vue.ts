@@ -9,12 +9,9 @@ export const vue = async (options$?: Options): Promise<FlatConfig[]> => {
 		return [];
 	}
 
-	const baseRules = pluginVue.configs['base'].rules as Rules;
 	const essentialRules = pluginVue.configs['essential'].rules as Rules;
-	const recommendedRules = { ...baseRules, ...essentialRules } as Rules;
-
 	const rules: Rules = {
-		...recommendedRules,
+		...essentialRules,
 		'vue/html-indent': ['error', 'tab'],
 		'vue/no-multiple-template-root': 0,
 		'vue/multi-word-component-names': 0,
@@ -28,6 +25,7 @@ export const vue = async (options$?: Options): Promise<FlatConfig[]> => {
 				vue: pluginVue
 			}
 		},
+		...pluginVue.configs['flat/base'],
 		{
 			files: ['**/*.vue'],
 			languageOptions: {
@@ -37,7 +35,7 @@ export const vue = async (options$?: Options): Promise<FlatConfig[]> => {
 				}
 			},
 			rules: {
-				...cleanRules('vue', recommendedRules, recommendedRules, rules),
+				...cleanRules('vue', essentialRules, essentialRules, rules),
 				...options.overrides
 			}
 		}
