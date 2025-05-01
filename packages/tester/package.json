@@ -23,10 +23,10 @@
     "@deot/dev-react": "^2.9.1",
     "@deot/dev-shared": "^2.9.1",
     "@deot/dev-vue": "^2.9.1",
-    "@vitest/coverage-istanbul": "^3.1.1",
+    "@vitest/coverage-istanbul": "^3.1.2",
     "cross-env": "^7.0.3",
-    "inquirer": "^12.5.2",
-    "jsdom": "^26.0.0",
-    "vitest": "^3.1.1"
+    "inquirer": "^12.6.0",
+    "jsdom": "^26.1.0",
+    "vitest": "^3.1.2"
   }
 }

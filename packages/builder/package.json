@@ -32,7 +32,7 @@
     "@deot/dev-react": "^2.9.1",
     "@deot/dev-shared": "^2.9.1",
     "@deot/dev-vue": "^2.9.1",
-    "@microsoft/api-extractor": "^7.52.2",
+    "@microsoft/api-extractor": "^7.52.6",
     "autoprefixer": "^10.4.21",
     "chalk": "^5.4.1",
     "cssnano": "^7.0.6",
@@ -42,10 +42,10 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^16.1.0",
     "postcss-url": "^10.1.3",
-    "sass": "^1.86.3",
-    "vite": "^6.2.5"
+    "sass": "^1.87.0",
+    "vite": "^6.3.4"
   },
   "devDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
