@@ -133,7 +133,7 @@ export class Update {
 		return packageFolderNames;
 	}
 
-	async updateLock() {
+	async updateLock(message: string) {
 		if (this.commandOptions.dryRun) {
 			Logger.log(chalk.yellow(`Skipping pnpm-lock.yaml Update`));
 		} else {
@@ -142,6 +142,10 @@ export class Update {
 			const { cwd } = locals;
 			await fs.remove(`${cwd}/node_modules`);
 			await Shell.spawn('npx', ['pnpm', 'install', '--no-frozen-lockfile']);
+			// 需要更新puppeteer/chrome
+			if (message.includes('puppeteer')) {
+				await Shell.spawn('node', ['node_modules/puppeteer/install.mjs']);
+			}
 		}
 	}
 
@@ -205,10 +209,10 @@ export class Update {
 		}
 		Logger.log(chalk.magenta(`ANALYZE: `));
 		keys.forEach((key) => {
-			Object.keys(changed[key]).forEach(((version) => {
+			Object.keys(changed[key]).forEach((version) => {
 				message += `${key}: ${version} -> ${changed[key][version]}\n`;
 				Logger.log(`${chalk.cyan(key)}: ${chalk.yellow(version)} -> ${chalk.green(changed[key][version])}`);
-			}));
+			});
 		});
 
 		const { all, changeLog } = this.commandOptions;
@@ -225,7 +229,7 @@ export class Update {
 			message = `${workspace ? 'chore' : 'void'}: ${message}`;
 		}
 
-		await this.updateLock();
+		await this.updateLock(message);
 		await this.test();
 		await this.commit(message);
 		await this.push();

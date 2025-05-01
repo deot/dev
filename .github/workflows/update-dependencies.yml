@@ -88,7 +88,6 @@ jobs:
           git config --global user.name "Update Workflow"
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
 
-      # If the puppeteer is updated in the next step, the current action will fail to execute
       - name: Run init
         run: |
           npm run init
