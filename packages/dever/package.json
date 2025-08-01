@@ -25,10 +25,10 @@
     "@deot/dev-shared": "^2.9.1",
     "@deot/dev-vue": "^2.9.1",
     "ejs": "^3.1.10",
-    "vite": "^6.3.4"
+    "vite": "^7.0.6"
   },
   "devDependencies": {
     "@deot/dev-test": "^2.9.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^10.0.0"
   }
 }

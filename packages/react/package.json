@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@testing-library/react": "^16.3.0",
-    "@vitejs/plugin-react-swc": "^3.9.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }

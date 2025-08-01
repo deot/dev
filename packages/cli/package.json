@@ -27,10 +27,10 @@
     "@deot/dev-tester": "^2.9.1",
     "@deot/dev-releaser": "^2.9.2",
     "@deot/dev-updater": "^2.9.1",
-    "commander": "^13.1.0"
+    "commander": "^14.0.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "@deot/dev-test": "^2.9.1"
   },
   "bin": {
