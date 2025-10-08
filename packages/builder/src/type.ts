@@ -47,6 +47,7 @@ export const run = async (options: Build) => {
 			compilerOptions: {
 				declaration: true,
 				emitDeclarationOnly: true,
+				noEmit: false,
 				allowJs: true,
 				outDir: '.',
 				skipLibCheck,
