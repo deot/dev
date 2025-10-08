@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.9.5",
+  "version": "2.9.6",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,19 +21,19 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-adder": "^2.9.1",
-    "@deot/dev-commitlint": "^2.9.1",
-    "@deot/dev-builder": "^2.9.1",
-    "@deot/dev-cli": "^2.9.2",
-    "@deot/dev-deps": "^2.9.1",
-    "@deot/dev-dever": "^2.9.1",
-    "@deot/dev-eslint": "^2.9.3",
-    "@deot/dev-linker": "^2.9.1",
-    "@deot/dev-shared": "^2.9.1",
-    "@deot/dev-stylelint": "^2.9.2",
-    "@deot/dev-test": "^2.9.1",
-    "@deot/dev-tester": "^2.9.1",
-    "@deot/dev-releaser": "^2.9.2",
-    "@deot/dev-updater": "^2.9.1"
+    "@deot/dev-adder": "^2.9.2",
+    "@deot/dev-commitlint": "^2.9.2",
+    "@deot/dev-builder": "^2.9.2",
+    "@deot/dev-cli": "^2.9.3",
+    "@deot/dev-deps": "^2.9.2",
+    "@deot/dev-dever": "^2.9.2",
+    "@deot/dev-eslint": "^2.9.4",
+    "@deot/dev-linker": "^2.9.2",
+    "@deot/dev-shared": "^2.9.2",
+    "@deot/dev-stylelint": "^2.9.3",
+    "@deot/dev-test": "^2.9.2",
+    "@deot/dev-tester": "^2.9.2",
+    "@deot/dev-releaser": "^2.9.3",
+    "@deot/dev-updater": "^2.9.2"
   }
 }

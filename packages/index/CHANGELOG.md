@@ -1,5 +1,21 @@
 # @deot/dev ChangeLog
 
+## v2.9.6
+
+_2025-10-08_
+
+### Features
+
+- feat(updater): chorme reinstall when puppeteer updated ([fbe09ba](https://github.com/deot/dev/commit/fbe09ba890d72ffede501c656c8c7654eee54a8f))
+
+### Updates
+
+- chore: deps updated ([e78407d](https://github.com/deot/dev/commit/e78407dc1ae4389f3bcdd545f68acfb4fded0351))
+- chore: deps updated ([84e2790](https://github.com/deot/dev/commit/84e27906f625a0dae3522686d03924285507deb6))
+- chore: deps updated ([17b07be](https://github.com/deot/dev/commit/17b07be5f3f7624758b299406edcde7a1a6fc3e0))
+- chore: deps updated ([276fc02](https://github.com/deot/dev/commit/276fc0209caa2fe5810586bcce6f54f67240031e))
+- chore(builder): set the default value for noEmit ([742a883](https://github.com/deot/dev/commit/742a88307963bb9e80d9a744b9213d170f47552b))
+
 ## v2.9.5
 
 _2025-04-14_

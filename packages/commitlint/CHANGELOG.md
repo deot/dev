@@ -1,5 +1,16 @@
 # @deot/dev-commitlint ChangeLog
 
+## v2.9.2
+
+_2025-10-08_
+
+### Updates
+
+- chore: deps updated ([e78407d](https://github.com/deot/dev/commit/e78407dc1ae4389f3bcdd545f68acfb4fded0351))
+- chore: deps updated ([84e2790](https://github.com/deot/dev/commit/84e27906f625a0dae3522686d03924285507deb6))
+- chore: deps updated ([17b07be](https://github.com/deot/dev/commit/17b07be5f3f7624758b299406edcde7a1a6fc3e0))
+- chore: deps updated ([276fc02](https://github.com/deot/dev/commit/276fc0209caa2fe5810586bcce6f54f67240031e))
+
 ## v2.9.1
 
 _2025-04-07_
