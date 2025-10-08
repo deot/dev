@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@deot/dev-shared": "^2.9.1",
-    "chalk": "^5.6.0",
-    "fs-extra": "^11.3.1",
-    "ora": "^8.2.0",
-    "semver": "^7.7.2"
+    "chalk": "^5.6.2",
+    "fs-extra": "^11.3.2",
+    "ora": "^9.0.0",
+    "semver": "^7.7.3"
   }
 }
