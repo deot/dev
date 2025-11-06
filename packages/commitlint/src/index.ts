@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 
 // eslint-disable-next-line @stylistic/max-len
-const commitRE = /^(revert: )?(void|fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
-const mergeRE = /Merge branch /;
+const commitRE = /^(revert:? "?|Revert "?)?(void|fix|feat|docs|style|perf|test|types|build|chore|refactor|workflow|ci|wip|release|breaking change)(\(.+\))?: .{1,50}/;
+const mergeRE = /Merge (remote-tracking )?branch /;
 
 export const run = (commitMessage: string) => {
 	let content = '';
@@ -27,6 +27,7 @@ export const run = (commitMessage: string) => {
 		content += `	- breaking change：破坏性修改\n`;
 		content += `	- void：无类型，通常用于初始化\n`;
 		content += `	- Merge branch 'foo' into 'bar'\n`;
+		content += `	- Revert ""\n`;
 	}
 	return content;
 };

@@ -6,6 +6,9 @@ describe('index.ts', () => {
 		expect(run('feat: any')).toBeFalsy();
 		expect(run('void: any\n')).toBeFalsy();
 		expect(run('revert: feat: any')).toBeFalsy();
+		expect(run('Revert "style: any"')).toBeFalsy();
+		expect(run(`Merge remote-tracking branch 'origin/xx' into test`)).toBeFalsy();
+
 		expect(run(`Merge branch 'foo' into 'bar'`)).toBeFalsy();
 	});
 
