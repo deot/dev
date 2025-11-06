@@ -25,7 +25,7 @@
     "@deot/dev-shared": "^2.9.2",
     "@deot/dev-vue": "^2.9.2",
     "ejs": "^3.1.10",
-    "vite": "^7.1.9"
+    "vite": "^7.2.1"
   },
   "devDependencies": {
     "@deot/dev-test": "^2.9.2",

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "custom devs",
   "type": "module",
-  "packageManager": "pnpm@latest",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "prepare": "husky && npm run build -- --package-name eslint,commitlint --no-dts",
     "init": "npx pnpm install",

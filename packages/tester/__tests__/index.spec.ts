@@ -54,7 +54,7 @@ describe('index', () => {
 
 		// console.log(stdout);
 		expect(stdout).toMatch(`1 passed`);
-		expect(stdout).toMatch(' index.ts |');
+		expect(stdout).toMatch(' index.m.ts |');
 	}, 60000);
 
 	it('singlerepo', async () => {

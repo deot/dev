@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "fs-extra": "^11.3.2",
-    "inquirer": "^12.9.6",
+    "inquirer": "^12.10.0",
     "ora": "^9.0.0",
     "@deot/dev-shared": "^2.9.2"
   }

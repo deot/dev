@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
 import { startVitest } from 'vitest/node';
-import type { UserConfig } from 'vitest';
+import type { CliOptions } from 'vitest/node';
 import fs from 'fs-extra';
 import { getOptions } from './prompt';
 
@@ -87,7 +87,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	options.useVue = !!isVuePackage;
 	options.useReact = !!isReactPackage;
 
-	const options$: UserConfig = {
+	const options$: CliOptions = {
 		environment,
 		coverage: {
 			enabled: !!coverage,

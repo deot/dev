@@ -1,1 +1,1 @@
-export const Button = 'Hello World!';
+export const MButton = 'Hello World!';

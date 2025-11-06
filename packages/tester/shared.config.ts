@@ -115,7 +115,6 @@ export default mergeConfig(getViteConfig(), defineConfig({
 			enabled: true,
 			provider: 'istanbul',
 			reporter: ['text', 'html'],
-			all: false,
 			thresholds: {
 				branches: 85,
 				statements: 95,

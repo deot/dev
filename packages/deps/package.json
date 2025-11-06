@@ -7,10 +7,10 @@
   },
   "dependencies": {
     "@types/eslint": "^9.6.1",
-    "@types/node": "^24.7.0",
-    "eslint": "^9.37.0",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.3",
+    "lint-staged": "^16.2.6",
     "stylelint": "^16.25.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"

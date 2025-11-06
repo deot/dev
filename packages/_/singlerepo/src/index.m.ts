@@ -1,3 +1,3 @@
 import './for-index-m.scss';
 
-export const TEST = 1;
+export const MTEST = 1;
