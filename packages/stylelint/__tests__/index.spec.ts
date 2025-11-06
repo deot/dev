@@ -2,10 +2,11 @@ import stylelint from 'stylelint';
 import configPromise, { configure } from '@deot/dev-stylelint';
 
 // @vitest-environment node
-const lint = async (text: string) => {
+const lint = async (text: string, codeFilename?: string) => {
 	const resultObject = await stylelint.lint({
 		config: await configPromise,
-		code: text
+		code: text,
+		codeFilename
 	});
 	return resultObject;
 };
@@ -49,6 +50,22 @@ describe('index.js', () => {
 		code += `a { color: color(1); }\n`;
 
 		const data = await lint(code);
+		expect(data.errored).toBe(false);
+	});
+
+	it('stylelint-config-standard-vue', async () => {
+		expect.hasAssertions();
+		let code = '';
+
+		code += '<style lang="scss">';
+		code += `@use 'sass:meta';\n\n`;
+		code += `@function color($value) {\n`;
+		code += `	@return if(meta.type-of($value) == 'string', $value, 'inherit');\n`;
+		code += `}\n\n`;
+		code += `a { color: color(1); }\n`;
+		code += '</style>';
+
+		const data = await lint(code, './any.vue');
 		expect(data.errored).toBe(false);
 	});
 

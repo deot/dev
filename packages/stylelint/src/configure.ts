@@ -8,7 +8,7 @@ import type { Config } from 'stylelint';
 export const configure = async (): Promise<Config> => {
 	return {
 		plugins: ['stylelint-order', '@stylistic/stylelint-plugin'],
-		extends: ['stylelint-config-standard-scss'],
+		extends: ['stylelint-config-standard-scss', 'stylelint-config-recommended-vue/scss'],
 		rules: {
 			'at-rule-no-unknown': [
 				true,
