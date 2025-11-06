@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-commitlint",
-  "version": "2.9.2",
+  "version": "2.9.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",

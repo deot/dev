@@ -1,5 +1,17 @@
 # @deot/dev-commitlint ChangeLog
 
+## v2.9.7
+
+_2025-11-06_
+
+### Features
+
+- feat: allow `Revert` & `Merge remote-tracking` ([3ffa2c8](https://github.com/deot/dev/commit/3ffa2c8df21d66e9fdf9d14519ed3b5e280e6956))
+
+### Updates
+
+- chore: deps updated ([e48958d](https://github.com/deot/dev/commit/e48958dd046e9a1a0ee3e848c70e819852b01dbc))
+
 ## v2.9.2
 
 _2025-10-08_

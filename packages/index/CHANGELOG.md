@@ -1,5 +1,18 @@
 # @deot/dev ChangeLog
 
+## v2.9.7
+
+_2025-11-06_
+
+### Features
+
+- feat(commitlint): allow `Revert` & `Merge remote-tracking` ([3ffa2c8](https://github.com/deot/dev/commit/3ffa2c8df21d66e9fdf9d14519ed3b5e280e6956))
+- feat(stylelint): add vue plugin ([6753401](https://github.com/deot/dev/commit/675340155961204cfd6c7d8f81175ac5b1631430))
+
+### Updates
+
+- chore: deps updated ([e48958d](https://github.com/deot/dev/commit/e48958dd046e9a1a0ee3e848c70e819852b01dbc))
+
 ## v2.9.6
 
 _2025-10-08_
