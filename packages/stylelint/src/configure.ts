@@ -34,6 +34,8 @@ export const configure = async (): Promise<Config> => {
 			],
 			'no-empty-source': null,
 			'no-descending-specificity': null,
+			'nesting-selector-no-missing-scoping-root': null,
+			'block-no-redundant-nested-style-rules': null,
 
 			'block-no-empty': null,
 			'selector-class-pattern': '[a-zA-Z0-9_-]+',

@@ -2,11 +2,11 @@ import stylelint from 'stylelint';
 import configPromise, { configure } from '@deot/dev-stylelint';
 
 // @vitest-environment node
-const lint = async (text: string, codeFilename?: string) => {
+const lint = async (text: string, options?: stylelint.LinterOptions) => {
 	const resultObject = await stylelint.lint({
 		config: await configPromise,
 		code: text,
-		codeFilename
+		...options
 	});
 	return resultObject;
 };
@@ -65,7 +65,7 @@ describe('index.js', () => {
 		code += `a { color: color(1); }\n`;
 		code += '</style>';
 
-		const data = await lint(code, './any.vue');
+		const data = await lint(code, { codeFilename: './any.vue' });
 		expect(data.errored).toBe(false);
 	});
 
@@ -96,6 +96,39 @@ describe('index.js', () => {
 
 		const data = await lint(code);
 		expect(data.report).toMatch('Expected \\"top\\" to come before \\"bottom\\" (order/properties-order)');
+	});
+
+	it('nesting-selector-no-missing-scoping-root/ignore', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+		code += `@include b(any) {\n`;
+		code += `	@include when(any) {\n`;
+		code += `		&:hover {\n`;
+		code += `			color: red;\n`;
+		code += `		}\n`;
+		code += `	}\n`;
+		code += `}\n`;
+
+		const data = await lint(code);
+		expect(data.errored).toBe(false);
+	});
+	it('block-no-redundant-nested-style-rule/ignore', async () => {
+		expect.hasAssertions();
+
+		let code = '';
+		code += `@include b(any) {\n`;
+		code += `	@include when(any) {\n`;
+		code += `		& {\n`;
+		code += `			::after {\n`;
+		code += `				color: red;\n`;
+		code += `			}\n`;
+		code += `		}\n`;
+		code += `	}\n`;
+		code += `}\n`;
+
+		const data = await lint(code, { fix: true });
+		expect(data.errored).toBe(false);
 	});
 });
 
