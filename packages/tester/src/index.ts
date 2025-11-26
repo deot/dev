@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import * as os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import type { Options } from '@deot/dev-shared';
 import { Utils, Shell, Logger, Locals } from '@deot/dev-shared';
@@ -89,6 +90,10 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	const options$: CliOptions = {
 		environment,
+		execArgv: [
+			'--localstorage-file',
+			path.resolve(os.tmpdir(), `vitest-${process.pid}.localstorage`),
+		],
 		coverage: {
 			enabled: !!coverage,
 		},
