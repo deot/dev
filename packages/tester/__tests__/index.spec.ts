@@ -66,4 +66,14 @@ describe('index', () => {
 
 		expect(response).toBe(0);
 	}, 60000);
+
+	it('monorepo, single file', async () => {
+		expect.hasAssertions();
+		const { stdout } = await Shell.exec(`npm`, ['run', 'test', `-- --include 'packages/components/__tests__/index.spec.ts'`], {
+			cwd: path.resolve('./packages/_/monorepo'),
+			stdio: 'pipe'
+		});
+
+		expect(stdout).toMatch('1 passed');
+	}, 60000);
 });

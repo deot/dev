@@ -21,7 +21,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		options.dryRun = process.env.NODE_ENV === 'UNIT';
 	}
 
-	if (locals.workspace && !options.packageName) {
+	if (locals.workspace && (!options.packageName && !options.include)) {
 		const promptOptions = await getOptions();
 		options = {
 			...options,
@@ -92,7 +92,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		environment,
 		execArgv: [
 			'--localstorage-file',
-			path.resolve(os.tmpdir(), `vitest-${process.pid}.localstorage`),
+			path.resolve(os.tmpdir(), `vitest-${process.pid}.localstorage`)
 		],
 		coverage: {
 			enabled: !!coverage,

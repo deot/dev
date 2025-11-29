@@ -128,7 +128,8 @@ addOptions(
 		.option('--vue-package <string>')
 		.option('--react-package <string>')
 		.option('--watch [boolean]', 'Watch Test')
-		.option('--environment <string>', 'Environment', 'jsdom'),
+		.option('--environment <string>', 'Environment', 'jsdom')
+		.option('--include <string>', 'File Test RegExp'),
 	Tester.run
 );
 

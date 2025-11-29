@@ -32,7 +32,7 @@ const cwd = process.cwd();
 
 // options
 const options = JSON.parse(decodeURIComponent(process.env.TEST_OPTIONS || '{}'));
-const { workspace, packageFolderName = '*', subpackageFolderName, subpackagesMap } = options;
+const { include, workspace, packageFolderName = '*', subpackageFolderName, subpackagesMap } = options;
 
 let tests: string[] = [];
 let collects: string[] = [];
@@ -40,41 +40,45 @@ let collects: string[] = [];
 const TEST_PATTEN = `**/*.{test,spec}.[jt]s?(x)`;
 const COLLECT_PATTEN = `**/*.{[jt]s?(x),vue}`;
 
-if (workspace) {
-	const prefixDir = `${workspace}/${packageFolderName || '*'}`;
-	tests.push(`${prefixDir}/__tests__/${TEST_PATTEN}`);
-	collects.push(`${prefixDir}/src/${COLLECT_PATTEN}`);
-
-	if (packageFolderName === '*') {
-		Object.keys(subpackagesMap).forEach((packageFolderName$: string) => {
-			const subpackages = subpackagesMap[packageFolderName$];
-			if (subpackages.length) {
-				const prefixDir$ = `${workspace}/${packageFolderName$}`;
-				const subpackagesPatten = `{${subpackages.join(',')},}`;
-
-				tests.push(`${prefixDir$}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
-				collects.push(`${prefixDir$}/${subpackagesPatten}/${COLLECT_PATTEN}`);
-				collects.push(`${prefixDir$}/index*.ts`);
-			}
-		});
-	} else if (subpackagesMap[packageFolderName]?.length) {
-		if (subpackageFolderName) {
-			tests = [];
-			collects = [];
-
-			tests.push(`${prefixDir}/${subpackageFolderName}/__tests__/${TEST_PATTEN}`);
-			collects.push(`${prefixDir}/${subpackageFolderName}/${COLLECT_PATTEN}`);
-		} else {
-			const subpackages = subpackagesMap[packageFolderName];
-			const subpackagesPatten = `{${subpackages.join(',')},}`;
-			tests.push(`${prefixDir}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
-			collects.push(`${prefixDir}/${subpackagesPatten}/${COLLECT_PATTEN}`);
-			collects.push(`${prefixDir}/index*.ts`);
-		}
-	}
+if (include) {
+	tests.push(include);
 } else {
-	tests.push(`__tests__/${TEST_PATTEN}`);
-	collects.push(`src/${COLLECT_PATTEN}`);
+	if (workspace) {
+		const prefixDir = `${workspace}/${packageFolderName || '*'}`;
+		tests.push(`${prefixDir}/__tests__/${TEST_PATTEN}`);
+		collects.push(`${prefixDir}/src/${COLLECT_PATTEN}`);
+
+		if (packageFolderName === '*') {
+			Object.keys(subpackagesMap).forEach((packageFolderName$: string) => {
+				const subpackages = subpackagesMap[packageFolderName$];
+				if (subpackages.length) {
+					const prefixDir$ = `${workspace}/${packageFolderName$}`;
+					const subpackagesPatten = `{${subpackages.join(',')},}`;
+
+					tests.push(`${prefixDir$}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
+					collects.push(`${prefixDir$}/${subpackagesPatten}/${COLLECT_PATTEN}`);
+					collects.push(`${prefixDir$}/index*.ts`);
+				}
+			});
+		} else if (subpackagesMap[packageFolderName]?.length) {
+			if (subpackageFolderName) {
+				tests = [];
+				collects = [];
+
+				tests.push(`${prefixDir}/${subpackageFolderName}/__tests__/${TEST_PATTEN}`);
+				collects.push(`${prefixDir}/${subpackageFolderName}/${COLLECT_PATTEN}`);
+			} else {
+				const subpackages = subpackagesMap[packageFolderName];
+				const subpackagesPatten = `{${subpackages.join(',')},}`;
+				tests.push(`${prefixDir}/${subpackagesPatten}/__tests__/${TEST_PATTEN}`);
+				collects.push(`${prefixDir}/${subpackagesPatten}/${COLLECT_PATTEN}`);
+				collects.push(`${prefixDir}/index*.ts`);
+			}
+		}
+	} else {
+		tests.push(`__tests__/${TEST_PATTEN}`);
+		collects.push(`src/${COLLECT_PATTEN}`);
+	}
 }
 
 // alias
