@@ -1,5 +1,15 @@
 # @deot/dev-cli ChangeLog
 
+## v2.9.8
+
+_2025-12-02_
+
+### Updates
+
+- chore: deps updated ([75abb5d](https://github.com/deot/dev/commit/75abb5db42c41682e6056e6fe56c4033e2a4666f))
+- chore(tester): support single file test ([5cdbb7d](https://github.com/deot/dev/commit/5cdbb7d049dcbc26a5264bcafd854f7de2e2fe2d))
+- chore(tester): support web storage with node v25 ([53df797](https://github.com/deot/dev/commit/53df7974c75e66aeb4019988de11fb63fd9aa41a))
+
 ## v2.9.7
 
 _2025-11-06_

@@ -1,5 +1,17 @@
 # @deot/dev-stylelint ChangeLog
 
+## v2.9.8
+
+_2025-12-02_
+
+### Features
+
+- feat: ignore rules when nested ([b4f2895](https://github.com/deot/dev/commit/b4f28959b9eedf6ec1fd7804b19a89cbab5f19f3))
+
+### Updates
+
+- chore: deps updated ([75abb5d](https://github.com/deot/dev/commit/75abb5db42c41682e6056e6fe56c4033e2a4666f))
+
 ## v2.9.7
 
 _2025-11-06_
