@@ -1,5 +1,17 @@
 # @deot/dev ChangeLog
 
+## v2.9.9
+
+_2026-01-14_
+
+### Features
+
+- feat(commitlint): support file-path check & *-exclude ([cd1f183](https://github.com/deot/dev/commit/cd1f18368b1ac241194ae56f7fc2cfdf5d3d542c))
+
+### Updates
+
+- chore: deps updated ([250fa0d](https://github.com/deot/dev/commit/250fa0d7bd532a2256ab7f9301dbb9f1ade40be3))
+
 ## v2.9.8
 
 _2025-12-02_
