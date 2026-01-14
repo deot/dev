@@ -1,5 +1,8 @@
 {
   "**/*.{js,ts,jsx,tsx,md}": [
     "eslint --fix"
+  ],
+  "*": [
+    "node packages/commitlint/dist/index.js --file-path"
   ]
 }
