@@ -1,1 +1,1 @@
-node packages/commitlint/dist/index.js --edit $1
+node packages/commitlint/dist/index.js --message $1
