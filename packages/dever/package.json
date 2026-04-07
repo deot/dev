@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-dever",
-  "version": "2.9.9",
+  "version": "2.9.10",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,14 +21,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-react": "^2.9.9",
-    "@deot/dev-shared": "^2.9.9",
-    "@deot/dev-vue": "^2.9.9",
+    "@deot/dev-react": "^2.9.10",
+    "@deot/dev-shared": "^2.9.10",
+    "@deot/dev-vue": "^2.9.10",
     "ejs": "^5.0.1",
     "vite": "^8.0.5"
   },
   "devDependencies": {
-    "@deot/dev-test": "^2.9.9",
+    "@deot/dev-test": "^2.9.10",
     "cross-env": "^10.1.0"
   }
 }

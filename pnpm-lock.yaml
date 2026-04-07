@@ -14,7 +14,7 @@ importers:
   packages/adder:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       fs-extra:
         specifier: ^11.3.4
@@ -29,13 +29,13 @@ importers:
   packages/builder:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../vue
       '@microsoft/api-extractor':
         specifier: ^7.58.1
@@ -81,32 +81,32 @@ importers:
   packages/cli:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../builder
       '@deot/dev-linker':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../updater
       commander:
         specifier: ^14.0.3
         version: 14.0.3
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../test
       cross-env:
         specifier: ^10.1.0
@@ -144,13 +144,13 @@ importers:
   packages/dever:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../vue
       ejs:
         specifier: ^5.0.1
@@ -160,7 +160,7 @@ importers:
         version: 8.0.5(@emnapi/core@1.4.5)(@emnapi/runtime@1.4.5)(@types/node@25.5.2)(esbuild@0.27.0)(sass@1.99.0)(tsx@4.21.0)(yaml@2.8.3)
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../test
       cross-env:
         specifier: ^10.1.0
@@ -206,52 +206,52 @@ importers:
   packages/index:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../cli
       '@deot/dev-commitlint':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../commitlint
       '@deot/dev-deps':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../eslint
       '@deot/dev-linker':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../stylelint
       '@deot/dev-test':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../updater
 
   packages/linker:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       chalk:
         specifier: ^5.6.2
@@ -278,7 +278,7 @@ importers:
   packages/releaser:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       chalk:
         specifier: ^5.6.2
@@ -324,7 +324,7 @@ importers:
   packages/test:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       puppeteer:
         specifier: ^24.40.0
@@ -333,13 +333,13 @@ importers:
   packages/tester:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../vue
       '@vitest/coverage-istanbul':
         specifier: ^4.1.2
@@ -360,7 +360,7 @@ importers:
   packages/updater:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       chalk:
         specifier: ^5.6.2
@@ -400,7 +400,7 @@ importers:
         version: 3.2.6(typescript@6.0.2)
     devDependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.9
+        specifier: ^2.9.10
         version: link:../shared
       fs-extra:
         specifier: ^11.3.4
@@ -2703,6 +2703,7 @@ packages:
   glob@10.3.10:
     resolution: {integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==}
     engines: {node: '>=16 || 14 >=14.17'}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@10.4.5:

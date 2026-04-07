@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-adder",
-  "version": "2.9.9",
+  "version": "2.9.10",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,6 +22,6 @@
     "fs-extra": "^11.3.4",
     "inquirer": "^13.4.0",
     "ora": "^9.3.0",
-    "@deot/dev-shared": "^2.9.9"
+    "@deot/dev-shared": "^2.9.10"
   }
 }

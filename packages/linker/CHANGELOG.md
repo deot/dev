@@ -1,5 +1,13 @@
 # @deot/dev-linker ChangeLog
 
+## v2.9.10
+
+_2026-04-07_
+
+### Updates
+
+- chore: deps updated ([5de972c](https://github.com/deot/dev/commit/5de972ca5b9463b2a2d4e48e6ea04752f0f7f4f1))
+
 ## v2.9.9
 
 _2026-01-14_
