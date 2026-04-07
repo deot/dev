@@ -10,15 +10,13 @@ export const getOptions = async () => {
 	const packages$ = [ALL_PACKAGE, ...packageFolderNames] as string[];
 	const packageFolderName = await search({
 		message: `Select Package To ${isDev ? 'Develop' : 'Test'}:`,
-		source: (term) => {
+		source: async (term, _) => {
 			const input = typeof term === 'undefined' ? 'cli' : term;
-			return new Promise((($resolve) => {
-				const filter = input
-					? packages$.filter(item => item.includes(input))
-					: packages$;
+			const filter = input
+				? packages$.filter(item => item.includes(input))
+				: packages$;
 
-				$resolve(filter);
-			}));
+			return filter;
 		}
 	});
 	let subpackageFolderName = '';
@@ -27,15 +25,13 @@ export const getOptions = async () => {
 	if (subpackagesMap[packageFolderName as string]?.length) {
 		subpackageFolderName = await search({
 			message: `Select Subpackage To ${isDev ? 'Develop' : 'Test'}:`,
-			source: (term) => {
+			source: async (term, _) => {
 				const input = typeof term === 'undefined' ? '' : term;
 				const subpackages = [ALL_PACKAGE, ...subpackagesMap[packageFolderName as string]];
-				return new Promise<string[]>((($resolve) => {
-					const filter = input
-						? subpackages.filter(item => item.includes(input))
-						: subpackages;
-					$resolve(filter);
-				}));
+				const filter = input
+					? subpackages.filter(item => item.includes(input))
+					: subpackages;
+				return filter;
 			}
 		});
 	}

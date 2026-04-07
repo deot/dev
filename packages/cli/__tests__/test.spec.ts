@@ -18,6 +18,7 @@ describe('test.ts', () => {
 		await instance.press('enter', 0);
 		await instance.press('y', 1000);
 		await instance.press('enter', 0);
+		await instance.press('y', 1000);
 		await instance.press('enter', 0);
 		await instance.stop();
 

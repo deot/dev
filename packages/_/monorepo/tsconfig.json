@@ -1,13 +1,12 @@
 {
   "extends": "../../../packages/index/tsconfig.shared.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@deot/dev": ["../../../packages/index/src"],
       "@deot/dev-*": ["../../../packages/*/src"],
-      "@demo/helper": ["packages/index/src"],
-      "@demo/helper-components": ["packages/components/index.ts"],
-      "@demo/helper-*": ["packages/*/src"]
+      "@demo/helper": ["./packages/index/src"],
+      "@demo/helper-components": ["./packages/components/index.ts"],
+      "@demo/helper-*": ["./packages/*/src"]
     }
   },
   "include": [

@@ -4,7 +4,9 @@
   "compiler": {
     "overrideTsconfig": {
       "compilerOptions": {
-        "paths": null
+        "paths": null,
+        "module": "esnext",
+        "moduleResolution": "bundler"
       }
     }
   },

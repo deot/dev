@@ -68,7 +68,9 @@ export const exec = (command$: string, args?: string[], options?: any) => {
 		});
 	});
 
-	const handler = /* istanbul ignore next */ () => {
+	/* istanbul ignore next */
+	const handler = () => {
+		/* istanbul ignore next */
 		!subprocess.killed && subprocess.kill('SIGHUP');
 	};
 
@@ -106,7 +108,9 @@ export const spawn = (command$: string, args?: string[], options?: any) => {
 		});
 	});
 
-	const handler = /* istanbul ignore next */ () => {
+	/* istanbul ignore next */
+	const handler = () => {
+		/* istanbul ignore next */
 		!subprocess.killed && subprocess.kill('SIGHUP');
 	};
 

@@ -1,6 +1,6 @@
 import type { Linter, ESLint } from 'eslint';
 
-export type FlatConfig = Linter.FlatConfig;
+export type FlatConfig = Linter.Config;
 export type Rules = Linter.RulesRecord;
 export type Plugin = ESLint.Plugin;
 

@@ -44,4 +44,15 @@ describe('index.ts', () => {
 		expect(has('index.d.ts')).toBe(true);
 		expect(has('app.vue.d.ts')).toBe(true);
 	}, 100000);
+
+	it('USE_REACT jsx include pattern', async () => {
+		vi.stubEnv('USE_REACT', '1');
+		vi.resetModules();
+		try {
+			const { default: config } = await import('../src/index.ts');
+			expect(config).toBeDefined();
+		} finally {
+			vi.unstubAllEnvs();
+		}
+	});
 });

@@ -1,7 +1,6 @@
 {
   "extends": "../../../packages/index/tsconfig.shared.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@deot/dev": ["../../../packages/index/src"],
       "@deot/dev-*": ["../../../packages/*/src"]

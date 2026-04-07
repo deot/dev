@@ -24,8 +24,8 @@ export const cleanRules = (
 	all: Rules,
 	recommended: Rules,
 	current: Rules
-) => {
-	current = JSON.parse(JSON.stringify(current));
+): Rules => {
+	current = JSON.parse(JSON.stringify(current)) as Rules;
 	const deprecated: string[] = [];
 	const removed: string[] = [];
 	const invaild: string[] = [];

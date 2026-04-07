@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { Locals } from '@deot/dev-shared';
-import { render } from 'ejs';
+import ejs from 'ejs';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -46,7 +46,7 @@ export const get = (playDir: string) => {
 	walk('.', playDir.split(','));
 
 	const tpl = fs.readFileSync(path.resolve(dirname, '../index.ejs'));
-	target.html = render(tpl.toString(), {
+	target.html = ejs.render(tpl.toString(), {
 		title: 'demo',
 		base: '/',
 		pages: target.entries

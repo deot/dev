@@ -46,13 +46,17 @@ export class Command {
 		this.stdout = '';
 		this.stderr = '';
 
-		this.emitter = this.start(command, args);
-		this.isClose = false;
-
 		this.schedule = {
 			target: Promise.resolve(),
 			complete: /* istanbul ignore next */ () => {}
 		};
+
+		this.schedule.target = new Promise((resolve) => {
+			this.schedule.complete = resolve;
+		});
+
+		this.emitter = this.start(command, args);
+		this.isClose = false;
 	}
 
 	_handleEnd(fn: any) {
@@ -82,6 +86,8 @@ export class Command {
 		});
 
 		emitter.on('close', (code) => {
+			this.schedule.complete();
+			/* istanbul ignore next */
 			if (code !== 0) {
 				this.reject({ code });
 			} else {
@@ -90,6 +96,7 @@ export class Command {
 		});
 
 		emitter.on('error', /* istanbul ignore next */ (error) => {
+			this.schedule.complete();
 			!process.exitCode && (process.exitCode = 1);
 			this.reject({ code: process.exitCode, error });
 		});
