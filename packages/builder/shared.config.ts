@@ -89,7 +89,7 @@ export default defineConfig({
 			formats: [format],
 			name: getGlobalName(packageName)
 		},
-		rollupOptions: {
+		rolldownOptions: {
 			external: external$,
 			output: {
 				exports: 'named',
