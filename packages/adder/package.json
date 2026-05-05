@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "fs-extra": "^11.3.4",
-    "inquirer": "^13.4.0",
-    "ora": "^9.3.0",
+    "inquirer": "^13.4.2",
+    "ora": "^9.4.0",
     "@deot/dev-shared": "^2.9.10"
   }
 }

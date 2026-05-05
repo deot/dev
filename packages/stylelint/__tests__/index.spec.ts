@@ -85,7 +85,7 @@ describe('index.js', () => {
 
 		const data = await lint(code);
 		expect(data.errored).toBe(true);
-		expect(data.report).toMatch('Unexpected unknown unit \\"xxx\\" (unit-no-unknown)');
+		expect(data.report).toMatch('Unknown unit \\"xxx\\" (unit-no-unknown)');
 	});
 
 	it('stylelint-order', async () => {
