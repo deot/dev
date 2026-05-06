@@ -37,10 +37,22 @@ export const run = async (options: Build) => {
 		return done();
 	}
 
+	const cwd = process.cwd();
 	const tempDir = `${packageOutDir}/temp`;
-	const rootDir = path.relative(tempDir, process.cwd()); // '../../../..'
+	const rootDir = path.relative(tempDir, cwd); // '../../../..'
 
 	const tsc = async (skipLibCheck: boolean) => {
+		const include = [
+			path.relative(tempDir, path.resolve(packageSourceDir, `*`))
+		];
+
+		// 允许使用shims （include会被替换，待考虑合并include方案）
+		for (const candidate of ['packages/shims.d.ts', 'shims.d.ts']) {
+			const abs = path.resolve(cwd, candidate);
+			if (fs.existsSync(abs)) {
+				include.push(path.relative(tempDir, abs));
+			}
+		}
 		// 生成tsconfig用于输出dts
 		fs.outputFileSync(`${tempDir}/tsconfig.json`, JSON.stringify({
 			extends: `${rootDir}/tsconfig.json`,
@@ -53,9 +65,7 @@ export const run = async (options: Build) => {
 				skipLibCheck,
 				rootDir,
 			},
-			include: [
-				path.relative(tempDir, path.resolve(packageSourceDir, `*`))
-			]
+			include
 		}, null, '\t'));
 
 		await Shell.spawn(isVuePackage ? 'vue-tsc' : 'tsc', ['-p', `${tempDir}/tsconfig.json`]);
