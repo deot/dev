@@ -1,5 +1,13 @@
 # @deot/dev-vue ChangeLog
 
+## v2.9.11
+
+_2026-05-06_
+
+### Updates
+
+- chore: deps updated ([16a734e](https://github.com/deot/dev/commit/16a734edbb0f8387133d7caa44bb6db0b92201ab))
+
 ## v2.9.10
 
 _2026-04-07_

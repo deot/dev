@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-deps",
-  "version": "2.9.10",
+  "version": "2.9.11",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
