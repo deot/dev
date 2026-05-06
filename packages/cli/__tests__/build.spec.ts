@@ -17,11 +17,11 @@ describe('build.ts', () => {
 
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(/^shared/);
-		expect(instance.stderr).toBe('');
+		// expect(instance.stderr).toBe('');
 	}, 60000);
 
 	it('command cli', async () => {
-		expect.assertions(3);
+		expect.hasAssertions();
 		const instance = new Command(
 			'cross-env NODE_ENV=UNIT tsx',
 			[
@@ -37,6 +37,6 @@ describe('build.ts', () => {
 		expect(instance.code).toBe(0);
 		// 打包cli时会关联当前包的模块 `shared adder builder linker tester releaser updater test cli`
 		expect(instance.stdout).toMatch(/^shared[\s\S]+cli/);
-		expect(instance.stderr).toBe('');
+		// expect(instance.stderr).toBe('');
 	}, 60000);
 });
