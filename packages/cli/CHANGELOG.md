@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.9.12
+
+_2026-05-06_
+
+### Features
+
+- feat(builder): build with `shims.d.ts` ([306c6fc](https://github.com/deot/dev/commit/306c6fc493c648583c45b3bb241d6563de589167))
+
 ## v2.9.11
 
 _2026-05-06_
