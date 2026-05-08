@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.9.12",
+  "version": "2.9.13",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "@deot/dev-adder": "^2.9.11",
     "@deot/dev-commitlint": "^2.9.11",
     "@deot/dev-builder": "^2.9.12",
-    "@deot/dev-cli": "^2.9.12",
+    "@deot/dev-cli": "^2.9.13",
     "@deot/dev-deps": "^2.9.11",
     "@deot/dev-dever": "^2.9.11",
     "@deot/dev-eslint": "^2.9.11",
@@ -32,7 +32,7 @@
     "@deot/dev-shared": "^2.9.11",
     "@deot/dev-stylelint": "^2.9.11",
     "@deot/dev-test": "^2.9.11",
-    "@deot/dev-tester": "^2.9.11",
+    "@deot/dev-tester": "^2.9.12",
     "@deot/dev-releaser": "^2.9.11",
     "@deot/dev-updater": "^2.9.11"
   }

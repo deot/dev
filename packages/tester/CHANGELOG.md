@@ -1,5 +1,13 @@
 # @deot/dev-tester ChangeLog
 
+## v2.9.12
+
+_2026-05-08_
+
+### Features
+
+- feat: support setupFiles auto ([af0e211](https://github.com/deot/dev/commit/af0e2112ae52b200c251766cd020f3df73dc9bfb))
+
 ## v2.9.11
 
 _2026-05-06_

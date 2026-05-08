@@ -93,7 +93,7 @@ importers:
         specifier: ^2.9.11
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.9.11
+        specifier: ^2.9.12
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.9.11
@@ -209,7 +209,7 @@ importers:
         specifier: ^2.9.12
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.9.12
+        specifier: ^2.9.13
         version: link:../cli
       '@deot/dev-commitlint':
         specifier: ^2.9.11
@@ -239,7 +239,7 @@ importers:
         specifier: ^2.9.11
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.9.11
+        specifier: ^2.9.12
         version: link:../tester
       '@deot/dev-updater':
         specifier: ^2.9.11
