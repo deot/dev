@@ -101,6 +101,13 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		watch: !!(watch || isDev)
 	};
 
+	// setupFiles
+	if (fs.existsSync(`${cwd}/z.test.setup.ts`)) {
+		options$.setupFiles = [path.relative(cwd, path.resolve(cwd, './z.test.setup.ts'))];
+	} else if (fs.existsSync(`${cwd}/test.setup.ts`)) {
+		options$.setupFiles = [path.relative(cwd, path.resolve(cwd, './test.setup.ts'))];
+	}
+
 	if (fs.existsSync(`${cwd}/z.test.config.ts`)) {
 		options$.config = path.relative(cwd, path.resolve(cwd, './z.test.config.ts'));
 	} else if (fs.existsSync(`${cwd}/test.config.ts`)) {

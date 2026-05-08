@@ -6,6 +6,8 @@
 
 ## 自定义配置
 
+#### options
+
 提供环境变量`TEST_OPTIONS`
 
 ```ts
@@ -16,6 +18,7 @@ interface TEST_OPTIONS {
 	coverage: boolean;
 }
 ```
+#### configFile
 
 根目录创建`test.config.ts`, 可以选择`configShared`合并或单独基于`TEST_OPTIONS`配置
 > 也可以是`z.test.config.ts`, 前缀主要是置底
@@ -41,6 +44,11 @@ export default mergeConfig(
 );
 ```
 取`test.config.ts`, 是为了方便从`vitest`转其他测试工具时，可以不改变文件名
+
+#### setupFiles
+
+自动加载setupFiles `test.setup.ts`
+> 也可以是`z.test.setup.ts`, 前缀主要是置底
 
 ## 其它
 
@@ -106,7 +114,7 @@ Ran all test suites.
 ```
 
 #### Vitest(0.32.0)
-```
+```shell
 ➜  dev git:(main) ✗ npm run test -- --package-name '*'
 
 > test
