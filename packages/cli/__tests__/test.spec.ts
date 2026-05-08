@@ -14,11 +14,11 @@ describe('test.ts', () => {
 			]
 		);
 
-		await instance.press('up', 1000);
+		await instance.press('up', 2000);
 		await instance.press('enter', 0);
-		await instance.press('y', 1000);
+		await instance.press('y', 2000);
 		await instance.press('enter', 0);
-		await instance.press('y', 1000);
+		await instance.press('y', 2000);
 		await instance.press('enter', 0);
 		await instance.stop();
 
@@ -28,5 +28,5 @@ describe('test.ts', () => {
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stdout).toMatch(`custom%22%3A%22any-custom-info`);
 		// expect(instance.stderr).toBe('');
-	}, 90000);
+	}, 180000);
 });

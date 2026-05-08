@@ -1,9 +1,12 @@
+linkWorkspacePackages: true
 shamefullyHoist: true
 
-linkWorkspacePackages: true
-
 packages:
-  - 'packages/*'
+  - packages/*
 
-overrides:
-  "baseline-browser-mapping": "*"
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  puppeteer: true
+  unrs-resolver: true
