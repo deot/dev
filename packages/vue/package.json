@@ -20,15 +20,15 @@
   },
   "dependencies": {
     "@testing-library/vue": "^8.1.0",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
-    "@vue/test-utils": "^2.4.10",
-    "vite": "^8.0.10",
-    "vue": "^3.5.33",
-    "vue-tsc": "^3.2.8"
+    "@vue/test-utils": "^2.4.11",
+    "vite": "^8.0.16",
+    "vue": "^3.5.35",
+    "vue-tsc": "^3.3.4"
   },
   "devDependencies": {
     "@deot/dev-shared": "^2.9.11",
-    "fs-extra": "^11.3.4"
+    "fs-extra": "^11.3.5"
   }
 }

@@ -10,3 +10,7 @@ allowBuilds:
   esbuild: true
   puppeteer: true
   unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - '@vue/*'
+  - 'vue-tsc'

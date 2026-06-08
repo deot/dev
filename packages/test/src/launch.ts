@@ -50,7 +50,7 @@ export class Launch {
 		if (force || !this._browser) {
 			if (force && this._browser) {
 				this._browser.then((browser) => {
-					browser.isConnected() && browser.close();
+					browser.connected && browser.close();
 				});
 			}
 

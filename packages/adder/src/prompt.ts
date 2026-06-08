@@ -27,13 +27,13 @@ export const getOptions = async () => {
 			message: 'Select Package To Install:',
 			source: (term) => {
 				const v = typeof term === 'undefined' ? 'index' : term;
-				return new Promise<string[]>((($resolve) => {
+				return new Promise<string[]>(($resolve) => {
 					const filter = v
 						? packageFolderNames.filter(item => item.includes(v))
 						: packageFolderNames;
 
 					$resolve(filter);
-				}));
+				});
 			}
 		});
 		dependentName = await input({
@@ -59,7 +59,7 @@ export const getOptions = async () => {
 					value: '-O',
 				}
 			],
-			default: 'package'
+			default: '-S'
 		});
 
 		packageName = Locals.getPackageName(packageFolderName);

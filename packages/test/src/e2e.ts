@@ -21,7 +21,7 @@ export const impl = () => {
 
 	afterAll(async () => {
 		/* istanbul ignore else -- @preserve */
-		if (launch.browser.isConnected()) {
+		if (launch.browser.connected) {
 			await launch.browser.close();
 		}
 	});
