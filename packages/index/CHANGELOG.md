@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.9.14
+
+_2026-06-08_
+
+### Updates
+
+- chore: deps updated ([e74c3e4](https://github.com/deot/dev/commit/e74c3e4fe965357c8c7e446d5e01eb1a598f8a3c))
+
 ## v2.9.13
 
 _2026-05-08_
