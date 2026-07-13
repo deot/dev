@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-test",
-  "version": "2.9.12",
+  "version": "2.9.13",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@deot/dev-shared": "^2.9.12",
+    "@deot/dev-shared": "^2.9.13",
     "puppeteer": "^25.3.0"
   }
 }

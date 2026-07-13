@@ -1,5 +1,13 @@
 # @deot/dev-cli ChangeLog
 
+## v2.9.15
+
+_2026-07-13_
+
+### Updates
+
+- chore: deps updated ([2069539](https://github.com/deot/dev/commit/2069539c40a2f1099df19392b2f0ba0b8273b837))
+
 ## v2.9.14
 
 _2026-06-08_
