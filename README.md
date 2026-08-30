@@ -1,220 +1,186 @@
 [ci-image]: https://github.com/deot/dev/actions/workflows/ci.yml/badge.svg?branch=main
 [ci-url]: https://github.com/deot/dev/actions/workflows/ci.yml
-
-[![build status][ci-image]][ci-url]
-
-# deot/dev
-
-用于第三方仓库统一环境
-
-所有的相关的开发环境，统一更新，升级时如果有多仓库，仅更新此仓库即可，无需同时更新太多依赖性，以追求最新且稳定的开发环境
-
-> 需要依赖当前的`tsconfig.json`, `.eslintrc.cjs`等，这些配置项可以用`extends`导出
-> 如果执行`dev`, `test`, `build`需要扩展，可以配置`*.config.ts`来进行扩展
-> 具体可以参考以下`demo`
-
-
-- [demo by @deot/dev](https://github.com/deot/dev-demo)
-- [demo by self](https://github.com/deot/dev-self-demo)：这个最终演变成`@deot/dev`，方便`@deot/dev`了解具体运作
-
-目前基于`@deot/dev`的库
-
-- [@deot/helper](https://github.com/deot/helper): 工具类库
-- [@deot/http](https://github.com/deot/http): 网络请求库
-- [@deot/style](https://github.com/deot/style): 样式库
-- [@deot/vc](https://github.com/deot/vc): `Vue`组件库
-- [@deot/rc](https://github.com/deot/rc): `React`组件库
-
-## Monorepo
-
-[npm-cli-image]: https://img.shields.io/npm/v/@deot/dev-cli.svg
-[npm-cli-url]: https://www.npmjs.com/package/@deot/dev-cli
-
-[npm-test-image]: https://img.shields.io/npm/v/@deot/dev-test.svg
-[npm-test-url]: https://www.npmjs.com/package/@deot/dev-test
-
-[npm-shared-image]: https://img.shields.io/npm/v/@deot/dev-shared.svg
-[npm-shared-url]: https://www.npmjs.com/package/@deot/dev-shared
-
-[npm-dever-image]: https://img.shields.io/npm/v/@deot/dev-dever.svg
-[npm-dever-url]: https://www.npmjs.com/package/@deot/dev-dever
-
-[npm-adder-image]: https://img.shields.io/npm/v/@deot/dev-adder.svg
-[npm-adder-url]: https://www.npmjs.com/package/@deot/dev-adder
-
-[npm-linker-image]: https://img.shields.io/npm/v/@deot/dev-linker.svg
-[npm-linker-url]: https://www.npmjs.com/package/@deot/dev-linker
-
-[npm-builder-image]: https://img.shields.io/npm/v/@deot/dev-builder.svg
-[npm-builder-url]: https://www.npmjs.com/package/@deot/dev-builder
-
-[npm-tester-image]: https://img.shields.io/npm/v/@deot/dev-tester.svg
-[npm-tester-url]: https://www.npmjs.com/package/@deot/dev-tester
-
-[npm-releaser-image]: https://img.shields.io/npm/v/@deot/dev-releaser.svg
-[npm-releaser-url]: https://www.npmjs.com/package/@deot/dev-releaser
-
-[npm-eslint-image]: https://img.shields.io/npm/v/@deot/dev-eslint.svg
-[npm-eslint-url]: https://www.npmjs.com/package/@deot/dev-eslint
-
-[npm-stylelint-image]: https://img.shields.io/npm/v/@deot/dev-stylelint.svg
-[npm-stylelint-url]: https://www.npmjs.com/package/@deot/dev-stylelint
-
-[npm-deps-image]: https://img.shields.io/npm/v/@deot/dev-deps.svg
-[npm-deps-url]: https://www.npmjs.com/package/@deot/dev-deps
-
-[npm-updater-image]: https://img.shields.io/npm/v/@deot/dev-updater.svg
-[npm-updater-url]: https://www.npmjs.com/package/@deot/dev-updater
-
-[npm-vue-image]: https://img.shields.io/npm/v/@deot/dev-vue.svg
-[npm-vue-url]: https://www.npmjs.com/package/@deot/dev-vue
-
-[npm-react-image]: https://img.shields.io/npm/v/@deot/dev-react.svg
-[npm-react-url]: https://www.npmjs.com/package/@deot/dev-react
-
-[npm-commitlint-image]: https://img.shields.io/npm/v/@deot/dev-commitlint.svg
-[npm-commitlint-url]: https://www.npmjs.com/package/@deot/dev-commitlint
-
 [npm-image]: https://img.shields.io/npm/v/@deot/dev.svg
 [npm-url]: https://www.npmjs.com/package/@deot/dev
 
-| 包名                                | 版本                                                 | 说明                                     |
-| --------------------------------- | -------------------------------------------------- | -------------------------------------- |
-| [cli](packages/cli)               | [![npm][npm-cli-image]][npm-cli-url]               | 开发指令集`dev`、`build`、`test`、`link`、`add` |
-| [test](packages/test)             | [![npm][npm-test-image]][npm-test-url]             | 测试工具                                   |
-| [shared](packages/shared)         | [![npm][npm-shared-image]][npm-shared-url]         | 公共方法                                   |
-| [dever](packages/dever)           | [![npm][npm-dever-image]][npm-dever-url]           | 开发服务集成                                 |
-| [adder](packages/adder)           | [![npm][npm-adder-image]][npm-adder-url]           | 添加依赖/包集成                               |
-| [linker](packages/linker)         | [![npm][npm-linker-image]][npm-linker-url]         | 软链接集成                                  |
-| [builder](packages/builder)       | [![npm][npm-builder-image]][npm-builder-url]       | 打包集成(`ts/js/scss/css`)                 |
-| [tester](packages/tester)         | [![npm][npm-tester-image]][npm-tester-url]         | 测试集成                                   |
-| [releaser](packages/releaser)     | [![npm][npm-releaser-image]][npm-releaser-url]     | 发布集成                                   |
-| [eslint](packages/eslint)         | [![npm][npm-eslint-image]][npm-eslint-url]         | ESLint配置项                              |
-| [stylelint](packages/stylelint)   | [![npm][npm-stylelint-image]][npm-stylelint-url]   | Stylelint配置项                           |
-| [commitlint](packages/commitlint) | [![npm][npm-commitlint-image]][npm-commitlint-url] | 用于验证git提交, `--edit`                    |
-| [deps](packages/deps)             | [![npm][npm-deps-image]][npm-deps-url]             | 额外依赖提取                                 |
-| [updater](packages/updater)       | [![npm][npm-updater-image]][npm-updater-url]       | 更新依赖包版本                                |
-| [vue](packages/vue)               | [![npm][npm-vue-image]][npm-vue-url]               | `Vue`相关集成                              |
-| [react](packages/react)           | [![npm][npm-react-image]][npm-react-url]           | `React`相关集成                            |
-| [index](packages/index)           | [![npm][npm-image]][npm-url]                       | 当前所有包的合集                               |
+[![build status][ci-image]][ci-url]
+[![npm][npm-image]][npm-url]
 
+# @deot/dev
 
+`@deot/dev` 是面向 JavaScript / TypeScript 库的统一开发工具链。它把开发、测试、构建、依赖管理和发布流程拆成独立包，并通过 `ddc` CLI 和聚合包提供一致入口，适用于 Monorepo 与 Single Repo。
 
-## Contributing
+## 特性
 
-这是一个 [monorepo](https://en.wikipedia.org/wiki/Monorepo) 仓库 ，使用 [pnpm](https://pnpm.io/) 管理
+- **统一命令**：`dev`、`build`、`test`、`link`、`add`、`update`、`release` 共用一套包发现和参数约定。
+- **仓库感知**：自动识别 `packages/`、聚合包、包间依赖及组件式子包。
+- **可扩展配置**：支持 `z.dev.config.ts`、`z.build.config.ts`、`z.test.config.ts` 等项目级覆盖。
+- **框架集成**：内置 Vue、Vue JSX、React SWC、ESLint、Stylelint 与 Vitest 配置。
+- **独立安装**：工作流、配置和测试能力均可按需安装，也可通过 `@deot/dev` 一次引入。
 
-#### 安装环境
+## 基于本工具链的项目
 
-```console
-$ npm run init 
+- [`@deot/helper`](https://github.com/deot/helper)：JavaScript / TypeScript 工具集。
+- [`@deot/http`](https://github.com/deot/http)：多端 HTTP 请求工具。
+- [`@deot/style`](https://github.com/deot/style)：Sass / CSS 基础样式与工具类。
+- [`@deot/vc`](https://github.com/deot/vc)：Vue 3 桌面端与移动端组件库。
+- [`@deot/env`](https://github.com/deot/env)：Vue / Vite 项目的统一开发环境。
 
-$ 或
-$ pnpm install
+## 安装
+
+```bash
+pnpm add -D @deot/dev
 ```
 
-#### 添加依赖或添加新的包
+聚合包会安装 `ddc` CLI 及各工作流依赖。只使用某项能力时，也可以直接安装对应子包。
 
-```console
-$ npm run add
+## 快速开始
+
+在项目根 `package.json` 中声明需要的命令：
+
+```json
+{
+	"scripts": {
+		"link": "ddc link",
+		"dev": "ddc dev",
+		"build": "ddc build",
+		"test": "ddc test",
+		"add": "ddc add",
+		"update": "ddc update",
+		"release": "ddc release"
+	},
+	"devDependencies": {
+		"@deot/dev": "^2.9.15"
+	}
+}
 ```
 
-#### 关联
+常用命令：
 
-```console
-$ npm run link
+```bash
+# 选择包并启动示例
+npm run dev
+
+# 构建全部包
+npm run build -- --package-name '*'
+
+# 测试全部包，不收集覆盖率
+npm run test -- --package-name '*' --no-coverage
 ```
 
-#### 测试
+完整命令和选项见 [`@deot/dev-cli`](./packages/cli/README.md)。
 
-```console
-$ npm run test
+## 项目约定
 
-# 或者 直接添加参数
-$ npm run test -- --package-name '*' --watch
+Monorepo 默认使用 `packages/`，其中 `packages/index` 是聚合包：
+
+```text
+project/
+├── packages/
+│   ├── index/
+│   │   ├── src/index.ts
+│   │   ├── __tests__/index.spec.ts
+│   │   └── package.json
+│   └── shared/
+│       ├── src/index.ts
+│       ├── __tests__/index.spec.ts
+│       └── package.json
+├── pnpm-workspace.yaml
+├── tsconfig.json
+├── z.dev.config.ts
+├── z.build.config.ts
+├── z.test.config.ts
+└── package.json
 ```
 
-#### 开发
+Single Repo 不需要 `packages/`，源码和测试分别位于根 `src/`、`__tests__/`。开发、构建和测试配置文件名保持一致。
 
-```console
-$ npm run dev
+### 配置扩展
 
-# 或者 直接添加参数
-$ npm run dev -- --package-name '*'
+| 流程 | 优先读取 | 默认配置 |
+| --- | --- | --- |
+| 开发 | `z.dev.config.ts`、`dev.config.ts` | `@deot/dev-dever/shared.config.ts` |
+| 构建 | `z.build.config.ts`、`build.config.ts` | `@deot/dev-builder/shared.config.ts` |
+| 测试 | `z.test.config.ts`、`test.config.ts` | `@deot/dev-tester/shared.config.ts` |
+| 测试预加载 | `z.test.setup.ts`、`test.setup.ts` | 无 |
+
+`z.` 前缀用于让共享配置文件在目录排序中靠后，不改变其功能。
+
+### TypeScript 与 Lint
+
+```json
+{
+	"extends": "@deot/dev/tsconfig.shared.json"
+}
 ```
 
-#### 打包
-
-```console
-$ npm run build
-
-# 或者 直接添加参数
-$ npm run build -- --package-name '*'
+```js
+// eslint.config.js
+export { default } from '@deot/dev-eslint';
 ```
 
-#### 代码检查
-
-```console
-$ npm run lint
+```js
+// stylelint.config.js
+export { default } from '@deot/dev-stylelint';
 ```
 
-#### 发布/自动生成 ChangeLog
+## 包结构
 
-```console
-$ npm run release
+| 包 | 职责 |
+| --- | --- |
+| [`@deot/dev`](./packages/index/README.md) | 聚合工作流与公共工具，并导出共享 tsconfig。 |
+| [`@deot/dev-cli`](./packages/cli/README.md) | `ddc` 命令行入口。 |
+| [`@deot/dev-adder`](./packages/adder/README.md) | 在 Monorepo 中创建包或添加依赖。 |
+| [`@deot/dev-linker`](./packages/linker/README.md) | 链接 Monorepo 内的本地包。 |
+| [`@deot/dev-dever`](./packages/dever/README.md) | Vite 开发服务与示例入口发现。 |
+| [`@deot/dev-builder`](./packages/builder/README.md) | JS、类型和样式构建。 |
+| [`@deot/dev-tester`](./packages/tester/README.md) | Vitest 执行、包选择和覆盖率配置。 |
+| [`@deot/dev-releaser`](./packages/releaser/README.md) | 测试、构建、版本、Changelog、发布与 Git 流程。 |
+| [`@deot/dev-updater`](./packages/updater/README.md) | 依赖版本检查和批量更新。 |
+| [`@deot/dev-eslint`](./packages/eslint/README.md) | 可组合的 ESLint Flat Config。 |
+| [`@deot/dev-stylelint`](./packages/stylelint/README.md) | Sass、Vue 与样式顺序配置。 |
+| [`@deot/dev-vue`](./packages/vue/README.md) | Vue 和 Vue JSX 的 Vite 插件配置。 |
+| [`@deot/dev-react`](./packages/react/README.md) | React SWC 的 Vite 插件配置。 |
+| [`@deot/dev-commitlint`](./packages/commitlint/README.md) | Commit message 和文件路径校验。 |
+| [`@deot/dev-deps`](./packages/deps/README.md) | 集中安装工具链的公共开发依赖。 |
+| [`@deot/dev-shared`](./packages/shared/README.md) | 仓库发现、Shell、日志和通用类型。 |
+| [`@deot/dev-test`](./packages/test/README.md) | 命令交互、Puppeteer 和异步测试辅助。 |
+
+## 本仓库开发
+
+```bash
+pnpm install
+
+npm run lint
+npm run typecheck
+npm run test -- --package-name '*' --no-coverage
+npm run build -- --package-name '*'
 ```
 
-##### 可选参数
+### 文档站
 
-| 参数                        | 备注                                                      |
-| ------------------------- | ------------------------------------------------------- |
-| `--no-dry-run`            | 默认`dry run`不输出任何文件                                      |
-| `--no-tag`                | 默认输出`tag`                                               |
-| `--no-publish`            | 默认发布到`npm`                                              |
-| `--no-commit`             | 默认提交到`git commit`                                       |
-| `--no-push`               | 默认执行`git push`                                          |
-| `--force-update-package`  | 即时没找到commit也会强制更新, 如`@xxx/xxx,@xxx/xxx`或`**`，不输入会弹出确认框` |
-| `--skip-update-package`   | 跳过要更新的包，如`@xxx/xxx,@xxx/xxx`或`**`，不输入会弹出确认框             |
-| `--custom-version`        | 指定更新版本号，如`x.x.x`，不输入会弹出输入框                              |
-| `--patch,--major,--minor` | 自动更新版本号的格式                                              |
-| `--keep-last-tag`         | 清理tags，仅保留最后一个版本的tag                                    |
+文档站由 [`@deot/docs`](https://github.com/deot/docs) 提供，直接聚合本 README 与各包 README：
 
-##### `Commit`收录的格式
-
-- `break change`
-- `feat`
-- `fix`
-- `style`
-- `perf`
-- `types`
-- `refactor`
-- `chore`
-
-> 自动增加`PR`和`issue`的地址, `commit`内含`Breaking Change`或`!:`会自动把版本改为`major`
-
-```shell
-refactor(index): remove deprecated \n BREAKING CHANGE: any
-
-fix(index): ci tag (#2)
-
-fix(shared): error (close #1)
+```bash
+npm run docs:dev
 ```
 
-##### `Commit`多仓库更新
+根 `index.html` 可直接部署；GitHub Pages 深链同时依赖根 `404.html`。
 
-```shell
-style(index,shared): warning
-style(*): warning
+### 发布
+
+`release` 默认为 dry run，不修改文件：
+
+```bash
+npm run release
+npm run release -- --no-dry-run
 ```
 
-##### `Commit`无影响的格式
+版本、发布和 Git 选项见 [`@deot/dev-releaser`](./packages/releaser/README.md)。依赖更新见 [`@deot/dev-updater`](./packages/updater/README.md)。
 
-```shell
-fix: invaild commit
-```
+## 相关链接
 
-## 关联
-
-[CONTRIBUTING](./.github/CONTRIBUTING.md)
-
-[LICENSE (MIT)](./LICENSE)
+- [贡献指南](./.github/CONTRIBUTING.md)
+- [示例项目：@deot/dev](https://github.com/deot/dev-demo)
+- [示例项目：自行配置](https://github.com/deot/dev-self-demo)
+- [MIT License](./LICENSE)

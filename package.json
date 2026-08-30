@@ -11,6 +11,7 @@
     "lint": "eslint packages --color",
     "lint:fix": "npm run lint -- --fix",
     "link": "tsx ./packages/cli/src/index.ts link",
+    "docs:dev": "doc dev --workspace .",
     "dev": "tsx ./packages/cli/src/index.ts dev",
     "build": "tsx ./packages/cli/src/index.ts build",
     "test": "tsx ./packages/cli/src/index.ts test",
@@ -46,5 +47,8 @@
   "homepage": "https://github.com/deot/dev#readme",
   "devDependencies-info": {
     "*": "devDependencies移入@deot/dev-deps，并设置.npmrc shamefully-hoist = true"
+  },
+  "devDependencies": {
+    "@deot/docs": "^1.0.9"
   }
 }

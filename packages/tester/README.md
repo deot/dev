@@ -1,169 +1,60 @@
 # @deot/dev-tester
 
-测试
+使用 Vitest 执行 Single Repo、Monorepo 和组件式子包测试，并提供统一覆盖率与框架插件配置。通常通过 `ddc test` 使用。
 
-- 优先执行`scripts`下的`test`
+## 使用
+
+```bash
+ddc test --package-name shared --no-coverage
+```
+
+没有传 `packageName` 或 `include` 时，Monorepo 会交互选择包。
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `packageName` | 交互选择 | 包文件夹名、完整包名或 `*`。 |
+| `subpackage` | 空 | 组件式包中的子包名。 |
+| `include` | 自动发现 | 直接指定测试 Glob。 |
+| `environment` | `jsdom` | Vitest environment。 |
+| `coverage` | `true` | 是否收集 Istanbul 覆盖率；CLI 用 `--no-coverage` 关闭。 |
+| `watch` | `false` | 是否监听。开发环境会自动监听。 |
+| `vuePackage` | 空 | 为所选包启用 Vue 插件。 |
+| `reactPackage` | 空 | 为所选包启用 React 插件。 |
+
+若目标包声明自己的 `scripts.test`，工具会进入该包执行 `npm run test`。
+
+## 文件发现
+
+- Single Repo：`__tests__/**/*.{test,spec}.[jt]s?(x)`。
+- Monorepo：`packages/<package>/__tests__/**`，并收集相应 `src/` 覆盖率。
+- 组件式包：同时覆盖包根入口和带 `__tests__` 的子目录。
+- `include` 存在时仅执行给定 Glob。
+
+共享配置默认启用 Istanbul，并要求 branches 85%、statements 95%、functions 95%、lines 95%。
 
 ## 自定义配置
 
-#### options
-
-提供环境变量`TEST_OPTIONS`
+优先读取 `z.test.config.ts`，其次读取 `test.config.ts`；Setup 文件同样优先 `z.test.setup.ts`，其次 `test.setup.ts`。
 
 ```ts
-interface TEST_OPTIONS {
-	packageFolderName?: string;
-	workspace?: string;
-	watch: boolean;
-	coverage: boolean;
-}
-```
-#### configFile
+import { defineConfig, mergeConfig } from 'vitest/config';
+import configShared from './node_modules/@deot/dev-tester/shared.config';
 
-根目录创建`test.config.ts`, 可以选择`configShared`合并或单独基于`TEST_OPTIONS`配置
-> 也可以是`z.test.config.ts`, 前缀主要是置底
-
-```ts
-import { mergeConfig, defineConfig } from 'vitest/config';
-import type { UserConfig } from 'vite';
-import configShared from './node_modules/@deot/dev-tester/shared.config'; // 这样调用时才会被编译
-
-export default mergeConfig(
-	configShared,
-	defineConfig({
-		test: {
-			coverage: {
-				provider: 'istanbul',
-				exclude: [
-					`packages/cli/src/**/*.ts`,
-					`packages/*er/src/**/*.ts`
-				]
-			}
+export default mergeConfig(configShared, defineConfig({
+	test: {
+		coverage: {
+			exclude: ['packages/cli/src/**']
 		}
-	}) as UserConfig
-);
-```
-取`test.config.ts`, 是为了方便从`vitest`转其他测试工具时，可以不改变文件名
-
-#### setupFiles
-
-自动加载setupFiles `test.setup.ts`
-> 也可以是`z.test.setup.ts`, 前缀主要是置底
-
-## 其它
-
-- 已从`jest` -> `vitest`
-
-## 测试日志
-
-#### Jest(29.5.0) 
-
-> MacBook Pro (15-inch, 2016) - i7-6820HQ & 16GB
-
-```shell
-➜  dev git:(main) ✗ npm run test -- --package-name '*'
-
-> test
-> tsx ./packages/cli/src/index.ts test --package-name *
-
- PASS  packages/shared/__tests__/locals.spec.ts (10.698 s)
-
- PASS  packages/shared/__tests__/shell.spec.ts (10.732 s)
- PASS  packages/test/__tests__/command.spec.ts (16.028 s)
- PASS  packages/cli/__tests__/test.spec.ts (25.399 s)
- PASS  packages/releaser/__tests__/index.spec.ts (25.624 s)
- PASS  packages/cli/__tests__/build.spec.ts (37.999 s)
- PASS  packages/cli/__tests__/add.spec.ts (39.3 s)
- PASS  packages/shared/__tests__/utils.spec.ts
- PASS  packages/stylelint/__tests__/index.spec.ts (18.35 s)
- PASS  packages/cli/__tests__/release.spec.ts (19.994 s)
- PASS  packages/cli/__tests__/link.spec.ts (14.567 s)
- PASS  packages/cli/__tests__/dev.spec.ts (15.482 s)
- PASS  packages/linker/__tests__/index.spec.ts
- PASS  packages/dever/__tests__/index.spec.ts
- PASS  packages/tester/__tests__/index.spec.ts (69.246 s)
- PASS  packages/shared/__tests__/global.spec.ts
- PASS  packages/adder/__tests__/index.spec.ts (5.537 s)
- PASS  packages/cli/__tests__/singlerepo.spec.ts (74.416 s)
- PASS  packages/cli/__tests__/monorepo.spec.ts (81.316 s)
- PASS  packages/eslint/__tests__/index.spec.ts (81.453 s)
- PASS  packages/index/__tests__/index.spec.ts (46.985 s)
- PASS  packages/builder/__tests__/index.spec.ts (132.796 s)
--------------|---------|----------|---------|---------|-------------------
-File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
--------------|---------|----------|---------|---------|-------------------
-All files    |     100 |      100 |     100 |     100 |
- index/src   |     100 |      100 |     100 |     100 |
-  index.ts   |     100 |      100 |     100 |     100 |
- shared/src  |     100 |      100 |     100 |     100 |
-  index.ts   |     100 |      100 |     100 |     100 |
-  locals.ts  |     100 |      100 |     100 |     100 |
-  logger.ts  |     100 |      100 |     100 |     100 |
-  shell.ts   |     100 |      100 |     100 |     100 |
-  utils.ts   |     100 |      100 |     100 |     100 |
- test/src    |     100 |      100 |     100 |     100 |
-  command.ts |     100 |      100 |     100 |     100 |
-  index.ts   |     100 |      100 |     100 |     100 |
--------------|---------|----------|---------|---------|-------------------
-
-Test Suites: 22 passed, 22 total
-Tests:       50 passed, 50 total
-Snapshots:   0 total
-Time:        147.764 s
-Ran all test suites.
+	}
+}));
 ```
 
-#### Vitest(0.32.0)
-```shell
-➜  dev git:(main) ✗ npm run test -- --package-name '*'
+执行期间会把 URL 编码的选择结果写入 `TEST_OPTIONS`，供配置读取。
 
-> test
-> tsx ./packages/cli/src/index.ts test --package-name *
+## 公共入口
 
+```ts
+import { run } from '@deot/dev-tester';
 
- RUN  v0.32.0 /Users/deot/Desktop/workspace/dev
-	  Coverage enabled with istanbul
-
- · packages/test/__tests__/command.spec.ts (3)
- ✓ packages/test/__tests__/command.spec.ts (3) 5011ms
- ✓ packages/cli/__tests__/add.spec.ts (2) 32338ms
- ✓ packages/shared/__tests__/locals.spec.ts (3)
- ✓ packages/shared/__tests__/shell.spec.ts (5)
- ✓ packages/cli/__tests__/build.spec.ts (2) 30757ms
- ✓ packages/cli/__tests__/test.spec.ts (1) 14478ms
- ✓ packages/releaser/__tests__/index.spec.ts (2) 4553ms
- ✓ packages/tester/__tests__/index.spec.ts (4) 42230ms
- ✓ packages/builder/__tests__/index.spec.ts (4) 65721ms
- ✓ packages/cli/__tests__/singlerepo.spec.ts (3) 61712ms
- ✓ packages/cli/__tests__/monorepo.spec.ts (3) 66319ms
- ✓ packages/eslint/__tests__/index.spec.ts (2) 1487ms
- ✓ packages/stylelint/__tests__/index.spec.ts (2) 1192ms
- ✓ packages/shared/__tests__/utils.spec.ts (3)
- ✓ packages/cli/__tests__/release.spec.ts (1) 16392ms
- ✓ packages/cli/__tests__/link.spec.ts (1) 13863ms
- ✓ packages/cli/__tests__/dev.spec.ts (1) 12761ms
- ✓ packages/index/__tests__/index.spec.ts (1)
- ✓ packages/linker/__tests__/index.spec.ts (2)
- ✓ packages/adder/__tests__/index.spec.ts (2)
- ✓ packages/dever/__tests__/index.spec.ts (2)
- ✓ packages/shared/__tests__/global.spec.ts (1)
-
- Test Files  22 passed (22)
-	  Tests  50 passed (50)
-   Start at  10:47:12
-   Duration  74.17s (transform 520ms, setup 2ms, collect 18.69s, tests 368.93s, environment 6ms, prepare 5.60s)
-
- % Coverage report from istanbul
--------------|---------|----------|---------|---------|-------------------
-File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
--------------|---------|----------|---------|---------|-------------------
-All files    |   98.93 |    95.12 |     100 |     100 |
- shared/src  |   98.56 |     94.2 |     100 |     100 |
-  locals.ts  |   97.59 |    95.23 |     100 |     100 | 72,104
-  logger.ts  |     100 |      100 |     100 |     100 |
-  shell.ts   |     100 |    85.71 |     100 |     100 | 9-16
-  utils.ts   |     100 |      100 |     100 |     100 |
- test/src    |     100 |      100 |     100 |     100 |
-  command.ts |     100 |      100 |     100 |     100 |
--------------|---------|----------|---------|---------|-------------------
+await run({ packageName: 'shared', coverage: false });
 ```

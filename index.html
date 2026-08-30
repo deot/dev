@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<!-- 404.html stores GitHub Pages deep links for @deot/docs-client to restore. -->
+<html lang="zh-CN">
+<head>
+	<title>@deot/dev 文档</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-client/dist/index.style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-renderer/dist/index.style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-markdown/dist/index.style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-playground/dist/index.style.css">
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		const repositoryRaw = 'https://raw.githubusercontent.com/deot/dev/refs/heads/main/';
+		const repositoryBlob = 'https://github.com/deot/dev/blob/main/';
+		const locales = {
+			'zh-CN': { label: '简体中文' },
+			'en-US': { label: 'English' }
+		};
+		const packageGroups = [
+			{
+				label: { 'zh-CN': '主包', 'en-US': 'Main Package' },
+				items: [{ label: '@deot/dev', value: 'index' }]
+			},
+			{
+				label: { 'zh-CN': '工作流', 'en-US': 'Workflow' },
+				items: [
+					{ label: '@deot/dev-cli', value: 'cli' },
+					{ label: '@deot/dev-adder', value: 'adder' },
+					{ label: '@deot/dev-linker', value: 'linker' },
+					{ label: '@deot/dev-dever', value: 'dever' },
+					{ label: '@deot/dev-builder', value: 'builder' },
+					{ label: '@deot/dev-tester', value: 'tester' },
+					{ label: '@deot/dev-releaser', value: 'releaser' },
+					{ label: '@deot/dev-updater', value: 'updater' }
+				]
+			},
+			{
+				label: { 'zh-CN': '配置', 'en-US': 'Configuration' },
+				items: [
+					{ label: '@deot/dev-eslint', value: 'eslint' },
+					{ label: '@deot/dev-stylelint', value: 'stylelint' },
+					{ label: '@deot/dev-vue', value: 'vue' },
+					{ label: '@deot/dev-react', value: 'react' },
+					{ label: '@deot/dev-commitlint', value: 'commitlint' },
+					{ label: '@deot/dev-deps', value: 'deps' }
+				]
+			},
+			{
+				label: { 'zh-CN': '基础能力', 'en-US': 'Foundation' },
+				items: [
+					{ label: '@deot/dev-shared', value: 'shared' },
+					{ label: '@deot/dev-test', value: 'test' }
+				]
+			}
+		];
+		const packages = packageGroups.flatMap(group => group.items);
+		const packageReadmes = Object.fromEntries(packages.map(item => [
+			item.value,
+			`packages/${item.value}/README.md`
+		]));
+		const readmes = { guide: 'README.md', ...packageReadmes };
+		const readmeRoutes = Object.fromEntries(Object.entries(readmes).flatMap(([value, source]) => {
+			const route = `/packages/${value}`;
+			if (source === 'README.md') return [[source, route]];
+			const directory = source.slice(0, -'/README.md'.length);
+			return [
+				[source, route],
+				[directory, route],
+				[`${directory}/`, route]
+			];
+		}));
+		const localeReadmes = Object.fromEntries(Object.keys(locales).map(lang => [lang, readmes]));
+		const sidebars = Object.fromEntries(Object.keys(locales).map(lang => [
+			lang,
+			[
+				{
+					label: lang === 'zh-CN' ? '简介' : 'Introduction',
+					value: '/packages/guide'
+				},
+				...packageGroups.map(group => ({
+					label: group.label[lang],
+					children: group.items.map(item => ({
+						label: item.label,
+						value: `/packages/${item.value}`
+					}))
+				}))
+			]
+		]));
+
+		const createHomeDocument = (lang) => {
+			const t = (zh, en) => (lang === 'zh-CN' ? zh : en);
+			const accent = '#2563eb';
+			const accentSecondary = '#14b8a6';
+			const accents = [accent, accentSecondary, '#8b5cf6'];
+			const action = {
+				label: t('开始使用', 'Quick Start'),
+				to: `/${lang}/packages/guide`,
+				variant: 'solid',
+				size: 'large',
+				color: accent,
+				textColor: '#ffffff'
+			};
+			const stack = {
+				marginTop: 0,
+				marginBottom: 80,
+				paddingTop: 0,
+				paddingBottom: 0,
+				maxWidth: 1200
+			};
+			const block = (id, type, props, appearance = stack) => ({
+				id,
+				module: { type, version: 1, props },
+				appearance
+			});
+			const cards = items => items.map((item, index) => ({
+				...item,
+				icon: item.icon || String(index + 1).padStart(2, '0'),
+				accent: item.accent || accents[index % accents.length]
+			}));
+
+			return {
+				schemaVersion: 2,
+				meta: { id: `dev-home-${lang}`, title: '@deot/dev' },
+				layout: {
+					mode: 'sortable',
+					maxWidth: 1920,
+					minHeight: 600,
+					background: '#ffffff'
+				},
+				blocks: [
+					block('home-hero', 'hero', {
+						eyebrow: '@deot/dev',
+						title: t('统一 JavaScript / TypeScript 库的开发工作流', 'One workflow for JavaScript / TypeScript libraries'),
+						description: t(
+							'用一套 CLI 和共享配置完成开发、测试、构建、依赖更新与发布。',
+							'Use one CLI and shared configuration for development, testing, builds, dependency updates and releases.'
+						),
+						align: 'left',
+						accent,
+						accentSecondary,
+						background: '',
+						showVisual: true,
+						minHeight: 500,
+						highlights: [
+							{ value: '17', label: t('发布包', 'Published packages') },
+							{ value: 'CLI', label: t('统一指令', 'Unified commands') },
+							{ value: 'Vue / React', label: t('框架集成', 'Framework integrations') }
+						],
+						actions: [action]
+					}, { ...stack, marginBottom: 64, fullWidth: true }),
+					block('home-features', 'features', {
+						eyebrow: t('能力', 'Capabilities'),
+						title: t('从本地开发到稳定发布', 'From local development to reliable releases'),
+						description: t(
+							'既可直接使用聚合包，也可按职责安装独立子包。',
+							'Use the aggregate package or install focused packages by responsibility.'
+						),
+						columns: 3,
+						gap: 24,
+						items: cards([
+							{
+								title: t('统一工作流', 'Unified workflow'),
+								description: t('ddc 统一 dev、build、test、link、add、update 与 release。', 'ddc unifies dev, build, test, link, add, update and release.'),
+								badge: 'CLI',
+								icon: 'link'
+							},
+							{
+								title: t('仓库结构兼容', 'Repository-aware'),
+								description: t('自动识别 Monorepo、Single Repo、包依赖和组件式子包。', 'Discover monorepos, single repositories, package relations and component subpackages.'),
+								badge: 'Workspace',
+								icon: 'grid'
+							},
+							{
+								title: t('可扩展配置', 'Extensible configuration'),
+								description: t('通过置底配置文件扩展 Vite、Vitest、Vue、React 和 Lint。', 'Extend Vite, Vitest, Vue, React and linting through project configuration.'),
+								badge: 'Config',
+								icon: 'setting'
+							}
+						])
+					}),
+					block('home-steps', 'steps', {
+						eyebrow: t('开始', 'Start'),
+						title: t('三步接入开发工具链', 'Adopt the toolchain in three steps'),
+						columns: 3,
+						items: cards([
+							{ title: t('安装', 'Install'), description: 'pnpm add -D @deot/dev' },
+							{ title: t('配置', 'Configure'), description: t('复用共享配置并声明项目脚本。', 'Reuse shared configuration and declare project scripts.') },
+							{ title: t('执行', 'Run'), description: t('通过 ddc 或 npm scripts 运行工作流。', 'Run the workflow through ddc or npm scripts.') }
+						])
+					}),
+					block('home-ecosystem', 'cta', {
+						eyebrow: t('生态', 'Ecosystem'),
+						title: t('基于 @deot/dev 的项目', 'Projects built on @deot/dev'),
+						description: t(
+							'工具、请求、样式、Vue 组件与 Vue/Vite 环境共享同一套基础架构。',
+							'Helpers, HTTP, styles, Vue components and Vue/Vite environments share the same foundation.'
+						),
+						align: 'center',
+						accent,
+						accentSecondary,
+						background: '',
+						actions: [
+							{ label: '@deot/helper', to: 'https://github.com/deot/helper', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
+							{ label: '@deot/http', to: 'https://github.com/deot/http', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
+							{ label: '@deot/style', to: 'https://github.com/deot/style', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
+							{ label: '@deot/vc', to: 'https://github.com/deot/vc', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
+							{ label: '@deot/env', to: 'https://github.com/deot/env', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' }
+						]
+					}, { ...stack, marginBottom: 0, fullWidth: true })
+				]
+			};
+		};
+
+		const pathSegments = location.pathname.split('/');
+		const localeIndex = pathSegments.findIndex(segment => Boolean(locales[segment]));
+		const basePath = localeIndex >= 0
+			? `${pathSegments.slice(0, localeIndex).join('/')}/`
+			: location.pathname.endsWith('/')
+				? location.pathname
+				: new URL('./', location.href).pathname;
+
+		window.$docs = {
+			base: new URL(basePath, location.origin).href,
+			namespace: '@deot/dev-site',
+			repository: 'https://github.com/deot/dev',
+			theme: { default: 'system' },
+			locales,
+			routes: Object.fromEntries([
+				['/', {
+					content: {
+						'zh-CN': createHomeDocument('zh-CN'),
+						'en-US': createHomeDocument('en-US')
+					}
+				}],
+				...Object.keys(readmes).map(value => [`/packages/${value}`, {
+					value,
+					content: 'default',
+					sidebar: sidebars,
+					header: 'default',
+					footer: 'default',
+					extra: null
+				}]),
+				['*', '/packages/guide']
+			]),
+			resolve: {
+				markdown: ({ lang, value }) => (
+					localeReadmes[lang] || localeReadmes['zh-CN']
+				)[value],
+				resource: ({ source, runtime }) => {
+					if (source === 'README.md' || /^packages\/[^/]+\/README\.md$/.test(source)) {
+						return runtime.mode === 'development'
+							? `/${source}`
+							: new URL(source, repositoryRaw).href;
+					}
+					return undefined;
+				},
+				link: ({ href, lang, source }) => {
+					const logicalOrigin = 'https://docs.local';
+					let target;
+					try {
+						target = new URL(href, new URL(source, `${logicalOrigin}/`));
+					} catch {
+						return undefined;
+					}
+					if (target.origin !== logicalOrigin) return undefined;
+					const path = target.pathname.replace(/^\//, '');
+					const route = readmeRoutes[path];
+					if (route) return `/${lang}${route}${target.search}${target.hash}`;
+					return `${new URL(path, repositoryBlob).href}${target.search}${target.hash}`;
+				}
+			},
+			modules: {}
+		};
+	</script>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@deot/docs-client/+esm"></script>
+</body>
+</html>

@@ -1,50 +1,52 @@
 # @deot/dev-dever
 
-开发
+基于 Vite 启动示例开发服务，自动发现 HTML、TypeScript、Vue 和 React 示例入口。通常通过 `ddc dev` 使用。
 
-- 优先执行`scripts`下的`dev`
+## 使用
+
+```bash
+ddc dev --package-name components --play-dir examples
+```
+
+| 选项 | 说明 |
+| --- | --- |
+| `packageName` | 选择包；在 Monorepo 中会标准化为完整包名。 |
+| `playDir` | 示例目录名，默认由 CLI 传入 `examples`，支持逗号分隔。 |
+| `vuePackage` | 为指定包启用 Vue 与 Vue JSX 插件。 |
+| `reactPackage` | 为指定包启用 React SWC 插件。 |
+| `dryRun` | 仅输出 `development`。 |
+
+若目标包自己的 `package.json` 声明了 `scripts.dev`，工具会进入该包执行 `npm run dev`，不再使用共享服务。
+
+## 入口发现
+
+- 扫描示例目录中的 `.html`、`.ts`、`.vue`、`.tsx` 入口。
+- 没有 HTML 时按入口类型生成虚拟页面。
+- 从入口目录向仓库根查找预加载文件，优先级为 `z.dev.preload.ts`、`dev.preload.ts`、`z.preload.ts`、`preload.ts`。
+- 服务启动后打印每个入口的访问地址。
 
 ## 自定义配置
 
-提供环境变量`DEV_OPTIONS`
+优先读取 `z.dev.config.ts`，其次读取 `dev.config.ts`；两者都不存在时使用随包发布的 `shared.config.ts`。
 
 ```ts
-interface DEV_OPTIONS {
-	packageFolderName?: string;
-	workspace?: string;
-	entries: string[];
-	html: string;
-}
-```
-
-根目录创建`dev.config.ts`, 可以选择`configShared`合并或单独基于`DEV_OPTIONS`配置
-> 也可以是`z.dev.config.ts`, 前缀主要是置底
-
-```ts
-import { mergeConfig, defineConfig } from 'vite';
-import type { UserConfig } from 'vite';
-import configShared from './node_modules/@deot/dev-dever/shared.config'; // 这样调用时才会被编译
+import { defineConfig, mergeConfig } from 'vite';
+import configShared from './node_modules/@deot/dev-dever/shared.config';
 
 export default mergeConfig(
 	configShared,
 	defineConfig({
-		plugins: [
-			vue(),
-			react()
-		]
-	}) as UserConfig
+		server: { port: 5174 }
+	})
 );
 ```
 
-取`dev.config.ts`, 是为了方便从`vite`转其他开发工具时，可以不改变文件名
+执行期间会把 URL 编码的 JSON 写入 `DEV_OPTIONS`，供配置读取。常用字段包括 `workspace`、`entries`、`html`、`subpackagesMap`、`useVue` 和 `useReact`。
 
-## 预加载配置`preload.ts`
+## 公共入口
 
-会查找当前文件夹路径下往前查找`preload.ts`文件，直至`process.cwd()`，如果存件，就近添加`preload.ts`
+```ts
+import { run } from '@deot/dev-dever';
 
-文件查找优先级
-
-- `z.dev.preload.ts`
-- `dev.preload.ts`
-- `z.preload.ts`
-- `preload.ts`
+await run({ packageName: 'components', playDir: 'examples' });
+```
