@@ -176,7 +176,10 @@ export default defineConfig({
 					}
 
 					const url = req.url?.replace(/[?#].*$/s, '') || '';
-					if (url === '/') return res.end(html);
+					if (url === '/') {
+						res.setHeader('Content-Type', 'text/html; charset=utf-8');
+						return res.end(html);
+					}
 
 					// 文件已存在，这样xxx.png可以被获取，真实路径的.ts,.html都可以被获取
 					if (fs.existsSync(path.join(cwd, url))) {
@@ -188,6 +191,7 @@ export default defineConfig({
 						(url?.endsWith('.html') || vHtml)
 						&& req.headers['sec-fetch-dest'] !== 'script'
 					) {
+						res.setHeader('Content-Type', 'text/html; charset=utf-8');
 						if (!vHtml) {
 							return res.end(html);
 						}
