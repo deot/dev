@@ -222,7 +222,7 @@ importers:
         specifier: ^2.9.13
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../dever
       '@deot/dev-eslint':
         specifier: ^2.9.13

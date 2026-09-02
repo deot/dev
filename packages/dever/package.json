@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev-dever",
-  "version": "2.9.13",
+  "version": "2.9.14",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

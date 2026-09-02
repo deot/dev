@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.9.16
+
+_2026-09-02_
+
+### Bugfixes
+
+- fix(dever): set content-type for virtual html responses ([e9a787c](https://github.com/deot/dev/commit/e9a787ca3abdea13539a08406293b4f236070014))
+
 ## v2.9.15
 
 _2026-07-13_
