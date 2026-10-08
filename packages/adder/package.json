@@ -19,8 +19,8 @@
     "access": "public"
   },
   "dependencies": {
-    "fs-extra": "^11.3.6",
-    "inquirer": "^14.0.2",
+    "fs-extra": "^11.4.1",
+    "inquirer": "^14.2.3",
     "ora": "^9.4.1",
     "@deot/dev-shared": "^2.9.13"
   }

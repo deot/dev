@@ -49,6 +49,6 @@
     "*": "devDependencies移入@deot/dev-deps，并设置.npmrc shamefully-hoist = true"
   },
   "devDependencies": {
-    "@deot/docs": "^1.0.9"
+    "@deot/docs": "^1.1.5"
   }
 }
