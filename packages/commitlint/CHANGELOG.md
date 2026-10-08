@@ -1,5 +1,13 @@
 # @deot/dev-commitlint ChangeLog
 
+## v2.9.14
+
+_2026-10-08_
+
+### Updates
+
+- chore: deps updated ([ff93649](https://github.com/deot/dev/commit/ff9364995bb9c2a48d972fe7bddf47fb1a753ab9))
+
 ## v2.9.13
 
 _2026-07-13_

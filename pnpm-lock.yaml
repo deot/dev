@@ -15,7 +15,7 @@ importers:
   packages/adder:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       fs-extra:
         specifier: ^11.4.1
@@ -30,13 +30,13 @@ importers:
   packages/builder:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../vue
       '@microsoft/api-extractor':
         specifier: ^7.59.4
@@ -85,32 +85,32 @@ importers:
   packages/cli:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../builder
       '@deot/dev-linker':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-tester':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../updater
       commander:
         specifier: ^15.0.0
         version: 15.0.0
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../test
       cross-env:
         specifier: ^10.1.0
@@ -148,13 +148,13 @@ importers:
   packages/dever:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../vue
       ejs:
         specifier: ^7.0.1
@@ -164,7 +164,7 @@ importers:
         version: 8.3.4(@types/node@26.6.4)(esbuild@0.28.0)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
     devDependencies:
       '@deot/dev-test':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../test
       cross-env:
         specifier: ^10.1.0
@@ -210,52 +210,52 @@ importers:
   packages/index:
     dependencies:
       '@deot/dev-adder':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../adder
       '@deot/dev-builder':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../builder
       '@deot/dev-cli':
-        specifier: ^2.9.15
+        specifier: ^2.9.16
         version: link:../cli
       '@deot/dev-commitlint':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../commitlint
       '@deot/dev-deps':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../deps
       '@deot/dev-dever':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../dever
       '@deot/dev-eslint':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../eslint
       '@deot/dev-linker':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../linker
       '@deot/dev-releaser':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../releaser
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../stylelint
       '@deot/dev-test':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../test
       '@deot/dev-tester':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../tester
       '@deot/dev-updater':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../updater
 
   packages/linker:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       chalk:
         specifier: ^6.0.1
@@ -282,7 +282,7 @@ importers:
   packages/releaser:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       chalk:
         specifier: ^6.0.1
@@ -328,7 +328,7 @@ importers:
   packages/test:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       puppeteer:
         specifier: ^25.13.0
@@ -337,13 +337,13 @@ importers:
   packages/tester:
     dependencies:
       '@deot/dev-react':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../react
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-vue':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../vue
       '@vitest/coverage-istanbul':
         specifier: ^5.0.3
@@ -367,7 +367,7 @@ importers:
   packages/updater:
     dependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       chalk:
         specifier: ^6.0.1
@@ -407,7 +407,7 @@ importers:
         version: 3.3.12(typescript@6.0.3)
     devDependencies:
       '@deot/dev-shared':
-        specifier: ^2.9.13
+        specifier: ^2.9.14
         version: link:../shared
       fs-extra:
         specifier: ^11.4.1

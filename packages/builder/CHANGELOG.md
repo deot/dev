@@ -1,5 +1,17 @@
 # @deot/dev-builder ChangeLog
 
+## v2.9.15
+
+_2026-10-08_
+
+### Features
+
+- feat: add package-selective build compression ([9cf0bf4](https://github.com/deot/dev/commit/9cf0bf45809b9ce418ff6bc07e9a453e19420be7))
+
+### Updates
+
+- chore: deps updated ([ff93649](https://github.com/deot/dev/commit/ff9364995bb9c2a48d972fe7bddf47fb1a753ab9))
+
 ## v2.9.14
 
 _2026-07-13_
