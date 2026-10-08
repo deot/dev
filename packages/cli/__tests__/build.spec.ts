@@ -9,7 +9,11 @@ describe('build.ts', () => {
 			[
 				resolve(__dirname, '../src/index.ts'),
 				'build',
-				'--dry-run'
+				'--dry-run',
+				'--minify-package',
+				'*',
+				'--eval-package',
+				'shared'
 			]
 		);
 
@@ -18,6 +22,16 @@ describe('build.ts', () => {
 		expect(instance.code).toBe(0);
 		expect(instance.stdout).toMatch(/^shared/);
 		// expect(instance.stderr).toBe('');
+	}, 60000);
+
+	it.each(['--minify', '--eval'])('rejects the removed boolean flag %s', async (flag) => {
+		const instance = new Command('cross-env NODE_ENV=UNIT tsx', [
+			resolve(__dirname, '../src/index.ts'), 'build', '--dry-run', flag
+		]);
+		await expect(instance.stop()).rejects.toMatchObject({
+			code: 1,
+			stderr: expect.stringContaining(`unknown option '${flag}'`)
+		});
 	}, 60000);
 
 	it('command cli', async () => {

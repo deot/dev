@@ -80,6 +80,8 @@ addOptions(
 		.option('--script-formats <string>', 'Script Formats(Output)', 'es,cjs')
 		.option('--external <string>', 'External, IIFE/UMD Used(Output)')
 		.option('--globals <string>', 'Globals, IIFE/UMD Used(Output)')
+		.option('--minify-package <names>', 'Minify JavaScript for selected packages (* or comma-separated names)')
+		.option('--eval-package <names>', 'Emit embedded gzip JavaScript executed with eval for selected packages')
 		.option('--node-package <string>')
 		.option('--vue-package <string>')
 		.option('--react-package <string>')

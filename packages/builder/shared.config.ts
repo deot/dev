@@ -82,6 +82,7 @@ export default defineConfig({
 	resolve: { alias },
 	build: {
 		minify: false,
+		cssMinify: false,
 		target: 'esnext',
 		lib: {
 			cssFileName: 'style',
@@ -93,6 +94,7 @@ export default defineConfig({
 			external: external$,
 			output: {
 				exports: 'named',
+				comments: { annotation: true },
 				globals: usedForBrowser
 					? (globals || external).split(',')
 							.filter((i: string) => !!i)

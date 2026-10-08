@@ -7,6 +7,8 @@ import type { InlineConfig } from 'vite';
 import sharedVueConfig from '@deot/dev-vue';
 import sharedReactConfig from '@deot/dev-react';
 import type { Build } from './build';
+import * as Eval from './eval';
+import * as Minify from './minify';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,15 +25,17 @@ export const run = async (options: Build) => {
 		commandOptions,
 		isNodePackage,
 		isVuePackage,
-		isReactPackage
+		isReactPackage,
+		minify,
+		eval: evalEnabled
 	} = options || {};
 	const { scriptFormats, external, globals } = commandOptions;
 
 	const stats: Array<{ format?: string; size: number; file: string }> = [];
 	const files = fs.existsSync(srcDir)
 		? fs
-			.readdirSync(srcDir)
-			.filter((i: string) => /^index\.(.*)\.?(t|j)s$/.test(i))
+				.readdirSync(srcDir)
+				.filter((i: string) => /^index\.(.*)\.?(t|j)s$/.test(i))
 		: [];
 
 	if (!files.length) return stats;
@@ -42,6 +46,8 @@ export const run = async (options: Build) => {
 			format,
 			external,
 			globals,
+			minify: minify ?? false,
+			eval: evalEnabled,
 			workspace,
 			packageName,
 			packageDir,
@@ -53,11 +59,11 @@ export const run = async (options: Build) => {
 			useReact: false
 		};
 		// vite每次执行是会清空outDir，这里由自己写入
-		let options$: InlineConfig = {
+		let options$: InlineConfig = mergeConfig({
 			build: {
 				write: false
 			}
-		};
+		}, Minify.create(minify));
 
 		buildOptions.useVue = !!isVuePackage;
 		buildOptions.useReact = !!isReactPackage;
@@ -98,6 +104,7 @@ export const run = async (options: Build) => {
 				}
 			});
 		});
+		await Eval.run(outputs, { enabled: evalEnabled, format, filepath, outDir });
 		return outputs;
 	};
 

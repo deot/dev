@@ -15,6 +15,8 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	options.vuePackage = Locals.getRealPackageName(options.vuePackage);
 	options.reactPackage = Locals.getRealPackageName(options.reactPackage);
 	options.nodePackage = Locals.getRealPackageName(options.nodePackage);
+	options.minifyPackage = Locals.getRealPackageName(options.minifyPackage?.split(',').map((name: string) => name.trim()).join(','));
+	options.evalPackage = Locals.getRealPackageName(options.evalPackage?.split(',').map((name: string) => name.trim()).join(','));
 
 	const packageFolderName = Locals.getPackageFolderName(options.packageName || '*');
 

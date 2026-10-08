@@ -47,10 +47,22 @@ pnpm add -D @deot/dev-cli
 | `--script-formats <string>` | `es,cjs` | 输出脚本格式。 |
 | `--external <string>` | 空 | IIFE/UMD 外部依赖，逗号分隔。 |
 | `--globals <string>` | 空 | 浏览器格式的全局变量映射。 |
+| `--minify-package <names>` | 未指定 | 命中包开启 JS 压缩，传入名单后未命中包关闭；未传时沿用配置，自定义底层输出设置优先。 |
+| `--eval-package <names>` | 未指定 | 为命中包额外生成 `dist/eval/`：完整压缩、去掉全部 JS 注释，再内嵌 gzip 并通过 eval 执行。 |
 | `--node-package <string>` | 空 | 标记 Node 包。 |
 | `--vue-package <string>` | 空 | 标记 Vue 包。 |
 | `--react-package <string>` | 空 | 标记 React 包。 |
 | `--no-dts` | 开启声明 | 不生成类型声明。 |
+
+两个名单独立，支持整值 `'*'` 或逗号分隔的包名；Monorepo 可写包目录名或完整包名，名单项两侧空格会去除。每个参与构建的包（含自动补构建的依赖包）分别匹配，名单不扩大构建范围。共享配置默认关闭 JS 压缩和 eval。子包有自己的 `scripts.build` 时仍由该脚本控制，命中名单时会提示，不转发名单。
+
+```bash
+ddc build --minify-package '*' --eval-package 'shared,components'
+```
+
+eval 以极限压缩为目标，其副本始终完整 minify 并去掉全部 JS 注释，再 gzip；解压器及未封装的配套 JS 分块也会压缩并去注释。普通产物由 `--minify-package` 独立控制，保留共享配置的优化注释。只要存在可安全封装的分块，即使体积增大也生成 eval 版本；控制台显示体积变化，并在增大时提示。格式和语义限制仍可能导致跳过。eval 版本内置解压代码，无需消费端安装 fflate 或 jsPDF，也不依赖 HTTP gzip。它需要允许 eval 的 CSP，并有同步解压、再次打包的限制，详见 [builder README](../builder/README.md#可选-eval-版本)。
+
+将两个名单写入 package.json 的 `scripts.build` 后，release 原有的 `npm run build -- --package-name 当前包` 调用同样会使用名单；release 无需额外参数。
 
 ## `ddc test`
 

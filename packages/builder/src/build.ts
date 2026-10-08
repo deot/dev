@@ -32,6 +32,8 @@ export class Build {
 		reactPackage: string;
 		external: string;
 		globals: string;
+		minifyPackage?: string;
+		evalPackage?: string;
 	};
 
 	isVuePackage: boolean;
@@ -39,6 +41,10 @@ export class Build {
 	isReactPackage: boolean;
 
 	isNodePackage: boolean;
+
+	minify?: boolean;
+
+	eval: boolean;
 
 	constructor(packageFolderName: string, commandOptions: Build['commandOptions']) {
 		const { workspace, packageDir, packageName, packageFolderName: packageFolderName$, subpackagesMap } = Locals.impl();
@@ -54,10 +60,14 @@ export class Build {
 		this.packageOptions = require$(`${this.packageDir}/package.json`);
 		this.commandOptions = commandOptions;
 
-		const { reactPackage, vuePackage, nodePackage } = commandOptions;
+		const { reactPackage, vuePackage, nodePackage, minifyPackage, evalPackage } = commandOptions;
 		this.isVuePackage = typeof vuePackage === 'string' && (vuePackage === '*' || (vuePackage.split(',')).includes(this.packageName));
 		this.isReactPackage = typeof reactPackage === 'string' && (reactPackage === '*' || (reactPackage.split(',')).includes(this.packageName));
 		this.isNodePackage = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(this.packageName));
+		this.minify = typeof minifyPackage === 'string'
+			? minifyPackage === '*' || minifyPackage.split(',').includes(this.packageName)
+			: undefined;
+		this.eval = typeof evalPackage === 'string' && (evalPackage === '*' || evalPackage.split(',').includes(this.packageName));
 	}
 
 	async process() {
@@ -71,6 +81,7 @@ export class Build {
 			&& packageOptions?.scripts?.build
 			&& packageDir !== cwd
 		) {
+			if (this.minify || this.eval) Logger.info(`${packageName}: 压缩由自定义 scripts.build 控制，包选择参数不会传入脚本`);
 			await Shell.spawn(`npm`, ['run', 'build'], {
 				cwd: packageDir
 			});
