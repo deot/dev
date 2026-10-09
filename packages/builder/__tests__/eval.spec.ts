@@ -38,7 +38,7 @@ describe('eval artifacts', () => {
 	const emitted = () => fs.pathExists(path.join(directory, 'eval'));
 
 	beforeEach(async () => {
-		directory = await fs.mkdtemp(path.join(os.tmpdir(), 'builder-eval-'));
+		directory = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'builder-eval-')));
 		await fs.outputJson(path.join(directory, 'package.json'), { type: 'module' });
 		logs = vi.spyOn(Logger, 'info').mockImplementation(() => {});
 	});
@@ -94,6 +94,108 @@ ${padding} export function helper(value){return value+text.length;}`, 'chunks/de
 		expect(await module.lazy()).toBe(48001);
 		expect(module.initialized()).toBe(1);
 		expect((await fs.readdir(path.join(directory, 'eval/chunks'))).filter(i => i.startsWith('eval-runtime-'))).toHaveLength(1);
+	});
+
+	it('retains URL dependencies and keeps remote imports lazy', async () => {
+		const data = 'data:text/javascript,export const value=7';
+		await run(output(chunk(`import {value} from ${JSON.stringify(data)};
+export function read(){return value;}
+export function remote(){return import('https://cdn.jsdelivr.net/npm/quill/+esm');}
+export function blob(){return import('blob:https://example.com/module');}
+export function load(url){return import(url);}`, 'index.js', [data], ['https://cdn.jsdelivr.net/npm/quill/+esm'])));
+		const module = await load();
+		expect(module.read()).toBe(7);
+		expect((await module.load(data)).value).toBe(7);
+		expect(unpack(await fs.readFile(path.join(directory, 'eval/index.js'), 'utf8'))).toContain('https://cdn.jsdelivr.net/npm/quill/+esm');
+		expect(logs).not.toHaveBeenCalledWith(expect.stringContaining('unverifiable module dependencies'));
+	});
+
+	it('resolves computed imports to eval chunks and keeps external paths relative to ordinary modules', async () => {
+		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=13;');
+		await fs.outputFile(path.join(directory, 'chunks/dependency.js'), 'throw new Error("ordinary chunk loaded");');
+		await run(output(
+			chunk(`import {value} from './chunks/dependency.js';
+export function read(){return value;}
+export function load(name,options){return import(name,options);}`, 'index.js', ['chunks/dependency.js']),
+			chunk(`globalThis.__evalInitialization=(globalThis.__evalInitialization||0)+1;
+export const value=7; export function load(name){return import(name);}`, 'chunks/dependency.js')
+		));
+		const module = await load();
+		const dependency = await module.load('./chunks/dependency.js');
+		expect(module.read()).toBe(7);
+		expect(await module.load(pathToFileURL(path.join(directory, 'chunks/dependency.js')))).toBe(dependency);
+		expect(globalThis.__evalInitialization).toBe(1);
+		expect((await module.load('./outside.js')).value).toBe(13);
+		expect((await dependency.load('../outside.js')).value).toBe(13);
+		expect((await module.load('./chunks/dependency.js?version=2#fragment')).value).toBe(7);
+		expect(globalThis.__evalInitialization).toBe(2);
+		let conversions = 0;
+		expect(await module.load({ toString: () => { conversions++; return './chunks/dependency.js'; } })).toBe(dependency);
+		expect(conversions).toBe(1);
+		const error = new Error('specifier conversion');
+		await expect(module.load({ toString: () => { throw error; } })).rejects.toBe(error);
+		await expect(module.load(Symbol('specifier'))).rejects.toBeInstanceOf(TypeError);
+	});
+
+	it('preserves dynamic import attributes and nested import expressions', async () => {
+		await fs.outputJson(path.join(directory, 'outside.json'), { value: 9 });
+		await run(output(chunk(`export function load(name,options){return import(name,options);}
+export function order(name,options){return import(name,options());}
+export async function nested(name){return import((await import(name)).next);}`)));
+		const module = await load();
+		expect((await module.load('./outside.json', { with: { type: 'json' } })).default).toEqual({ value: 9 });
+		const inner = 'data:text/javascript,export const value=11';
+		const outer = `data:text/javascript,export const next=${JSON.stringify(inner)}`;
+		expect((await module.nested(outer)).value).toBe(11);
+		const order: string[] = [];
+		await module.order({ toString: () => { order.push('source'); return inner; } }, () => { order.push('options'); return {}; });
+		expect(order).toEqual(['options', 'source']);
+	});
+
+	it('resolves dynamic imports in unsupported copies without capturing existing helper names', async () => {
+		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=17;');
+		await run(output(
+			chunk(`export let count=0; export function increment(){count++;}
+export function load(name){return import(name);}
+export function helperType(){return typeof __evalImport0;}`, 'chunks/counter.js'),
+			chunk('export const value=1;')
+		));
+		const copied = await load('chunks/counter.js');
+		copied.increment();
+		expect(copied.count).toBe(1);
+		expect(copied.helperType()).toBe('undefined');
+		expect((await copied.load('../outside.js')).value).toBe(17);
+		expect(logs).toHaveBeenCalledWith(expect.stringContaining('mutable or non-local export'));
+	});
+
+	it('keeps the hashbang first when adding a resolver to an unsupported copy', async () => {
+		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=19;');
+		const outputs = output(
+			chunk('#!/usr/bin/env node\nexport function load(name){return import(name);}', 'cli.js'),
+			chunk('export const value=1;')
+		);
+		const original = structuredClone(outputs);
+		await run(outputs);
+		const copied = await fs.readFile(path.join(directory, 'eval/cli.js'), 'utf8');
+		expect(copied.startsWith('#!/usr/bin/env node\n')).toBe(true);
+		expect((await (await load('cli.js')).load('./outside.js')).value).toBe(19);
+		expect(outputs).toEqual(original);
+		expect(logs).toHaveBeenCalledWith(expect.stringContaining('hashbang'));
+	});
+
+	it.each(['', 'export const url=import.meta.url;'])('does not inject bindings visible to direct eval (%s)', async (extra) => {
+		vi.mocked(build).mockClear();
+		const outputs = output(
+			chunk(`export function load(name){return import(name);}
+export function inspect(){return eval('typeof __evalImport0');}${extra}`, 'direct.js'),
+			chunk('export const value=1;')
+		);
+		const original = structuredClone(outputs);
+		await run(outputs);
+		expect(await emitted()).toBe(false);
+		expect(build).not.toHaveBeenCalled();
+		expect(outputs).toEqual(original);
+		expect(logs).toHaveBeenCalledWith(expect.stringContaining('direct.js -> direct eval with dynamic import'));
 	});
 
 	it('copies unsupported mutable chunks alongside packed chunks, preserving live imported values', async () => {
@@ -154,6 +256,39 @@ const text="/* string content */ // string content";
 		expect((await load()).read()).toEqual([7, 7, 7]);
 	});
 
+	it('distinguishes exported bindings from shadowed local writes after minification', async () => {
+		await run(output(chunk(`const e=7;
+function read(e){e++;return e;}
+function local(){var e=1;e++;return e;}
+function block(){let result=0;{let e=1;e++;result=e;}return result;}
+function caught(){try{throw 1;}catch(e){e++;return e;}}
+function loop(){let result=0;for(let e of [1,2]){e++;result+=e;}return result;}
+export {e as value,read,local,block,caught,loop};`)));
+		const module = await load();
+		expect(module.value).toBe(7);
+		expect(module.read(2)).toBe(3);
+		expect(module.local()).toBe(2);
+		expect(module.block()).toBe(2);
+		expect(module.caught()).toBe(2);
+		expect(module.loop()).toBe(5);
+		expect(logs).not.toHaveBeenCalledWith(expect.stringContaining('mutable or non-local export'));
+	});
+
+	it('preserves live exports written by switch discriminants outside the case scope', async () => {
+		await run(output(
+			chunk(`let e=0;
+function next(get){switch(e++){case 0:let e=get();return ()=>e;case 1:return null;default:return get();}}
+export {e as value,next};`),
+			chunk('export const safe=1;', 'chunks/safe.js')
+		));
+		const module = await load();
+		expect(module.next(() => 7)()).toBe(7);
+		expect(module.value).toBe(1);
+		expect(module.next(() => 8)).toBeNull();
+		expect(module.value).toBe(2);
+		expect(logs).toHaveBeenCalledWith(expect.stringContaining('mutable or non-local export'));
+	});
+
 	it('avoids capture of every referenced helper name, including typeof before initialization', async () => {
 		await run(output(chunk(`${padding}
 globalThis.__evalNames=[typeof __eval0,typeof __eval1,typeof __eval2];
@@ -167,7 +302,7 @@ export function initialNames(){return globalThis.__evalNames;}`)));
 	it.each([
 		['outside module that could point back to the ordinary entry', 'import \'./outside.js\';', []],
 		['bare external module', 'import \'external\';', ['external']],
-		['unresolved dynamic import', 'export function load(name){return import(name);}', []],
+		['unresolved require', 'export function load(name){return require(name);}', []],
 		['missing dynamic chunk', 'export function load(){return import(\'./missing.js\');}', []]
 	])('skips the whole graph with %s', async (_reason, code, imports) => {
 		await run(output(chunk(`${padding}${code}`, 'index.js', imports as string[]), chunk(padding, 'good.js')));
@@ -189,6 +324,8 @@ export function initialNames(){return globalThis.__evalNames;}`)));
 		['mutable or non-local export', 'export let value=0; ({value}={value:1});'],
 		['mutable or non-local export', 'export let value=0; for(value of [1]){}'],
 		['mutable or non-local export', 'export function value(){} value=()=>1;'],
+		['mutable or non-local export', 'export let value=0; export function increment(){value++;}'],
+		['mutable or non-local export', 'export let value=0; function shadow(){let value=1;value++;} export function increment(){shadow();value++;}'],
 		['top-level await', 'await Promise.resolve();'],
 		['import.meta', 'export const url=import.meta.url;'],
 		['direct eval', 'eval("1");'],

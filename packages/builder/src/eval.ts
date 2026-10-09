@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import fs from 'fs-extra';
+import chalk from 'chalk';
 import { Logger } from '@deot/dev-shared';
 import { build, minifySync, parseSync, Visitor } from 'vite';
 import type { ESTree, Rolldown } from 'vite';
@@ -26,18 +27,21 @@ interface Analysis {
 	names: Set<string>;
 	writes: Set<string>;
 	dependencies: string[];
-	unknownDependency: boolean;
+	dynamicImports: ESTree.ImportExpression[];
+	unknownDependency: string;
 	reason: string;
 }
 
 const require$ = createRequire(import.meta.url);
 const decoders = new Map<string, Promise<string>>();
 const bytes = (source: string | Uint8Array) => typeof source === 'string' ? Buffer.byteLength(source) : source.length;
-const skip = (file: string, reason: string) => Logger.info(`eval: ${file} skipped (${reason})`);
+const skip = (file: string, reason: string) => Logger.info(`${chalk.cyan('eval:')} ${chalk.magenta(file)} ${chalk.yellow(`skipped (${reason})`)}`);
 const reportSize = (file: string, original: number, packed: number) => {
 	const difference = packed - original;
 	const message = difference > 0 ? '体积增加，按用户选择仍生成' : difference < 0 ? '体积减少' : '体积不变';
-	Logger.info(`eval: ${file} ${original} → ${packed} bytes (${difference > 0 ? '+' : ''}${difference} bytes; ${message})`);
+	const color = difference > 0 ? chalk.yellow : difference < 0 ? chalk.green : chalk.gray;
+	Logger.info(`${chalk.cyan('eval:')} ${chalk.magenta(file)} ${chalk.blue(`${original} → ${packed} bytes`)} `
+		+ color(`(${difference > 0 ? '+' : ''}${difference} bytes; ${message})`));
 };
 
 const editCode = (code: string, edits: Edit[]) => edits
@@ -80,13 +84,37 @@ const analyze = (filename: string, source: string, format: string): Analysis => 
 		names: new Set(),
 		writes: new Set(),
 		dependencies: [],
-		unknownDependency: false,
+		dynamicImports: [],
+		unknownDependency: '',
 		reason: parsed.program.hashbang ? 'hashbang' : ''
 	};
+	interface Scope {
+		parent?: Scope;
+		functionScope: boolean;
+		names: Set<string>;
+	}
+	let scope: Scope = { functionScope: true, names: new Set() };
 	let functionDepth = 0;
-	const enterFunction = () => { functionDepth++; };
-	const leaveFunction = () => { functionDepth--; };
-	const addWrites = (node: ESTree.Node) => bindingNames(node).forEach(name => result.writes.add(name));
+	let directEval = false;
+	const switchScopes: boolean[] = [];
+	const pendingWrites: Array<{ scope: Scope; names: string[] }> = [];
+	const enterScope = (functionScope = false, names: string[] = []) => {
+		scope = { parent: scope, functionScope, names: new Set(names) };
+	};
+	const leaveScope = () => { scope = scope.parent!; };
+	const enterFunction = (node: ESTree.Function | ESTree.ArrowFunctionExpression) => {
+		if (node.type === 'FunctionDeclaration' && node.id) scope.names.add(node.id.name);
+		const names = node.params.flatMap(bindingNames);
+		if (node.type === 'FunctionExpression' && node.id) names.push(node.id.name);
+		enterScope(true, names);
+		functionDepth++;
+	};
+	const leaveFunction = () => { leaveScope(); functionDepth--; };
+	const enterClass = (node: ESTree.Class) => {
+		if (node.type === 'ClassDeclaration' && node.id) scope.names.add(node.id.name);
+		enterScope(false, node.id ? [node.id.name] : []);
+	};
+	const addWrites = (node: ESTree.Node) => pendingWrites.push({ scope, names: bindingNames(node) });
 	new Visitor({
 		'Identifier': (node) => { result.names.add(node.name); },
 		'FunctionDeclaration': enterFunction,
@@ -95,25 +123,62 @@ const analyze = (filename: string, source: string, format: string): Analysis => 
 		'FunctionExpression:exit': leaveFunction,
 		'ArrowFunctionExpression': enterFunction,
 		'ArrowFunctionExpression:exit': leaveFunction,
+		'BlockStatement': () => { enterScope(); },
+		'BlockStatement:exit': leaveScope,
+		'StaticBlock': () => { enterScope(true); },
+		'StaticBlock:exit': leaveScope,
+		'ClassDeclaration': enterClass,
+		'ClassDeclaration:exit': leaveScope,
+		'ClassExpression': enterClass,
+		'ClassExpression:exit': leaveScope,
+		'CatchClause': (node) => { enterScope(false, node.param ? bindingNames(node.param) : []); },
+		'CatchClause:exit': leaveScope,
+		'SwitchStatement': () => { switchScopes.push(false); },
+		'SwitchCase': () => {
+			// The discriminant runs before the case block's lexical scope exists.
+			if (!switchScopes[switchScopes.length - 1]) {
+				enterScope();
+				switchScopes[switchScopes.length - 1] = true;
+			}
+		},
+		'SwitchStatement:exit': () => { if (switchScopes.pop()) leaveScope(); },
+		'ForStatement': () => { enterScope(); },
+		'ForStatement:exit': leaveScope,
+		'VariableDeclaration': (node) => {
+			let bindingScope = scope;
+			if (node.kind === 'var') while (!bindingScope.functionScope) bindingScope = bindingScope.parent!;
+			bindingNames(node).forEach(name => bindingScope.names.add(name));
+		},
 		'AssignmentExpression': (node) => { addWrites(node.left); },
 		'UpdateExpression': (node) => { addWrites(node.argument); },
-		'ForInStatement': (node) => { addWrites(node.left); },
+		'ForInStatement': (node) => { enterScope(); addWrites(node.left); },
+		'ForInStatement:exit': leaveScope,
 		'ForOfStatement': (node) => {
+			enterScope();
 			addWrites(node.left);
 			if (node.await && !functionDepth) result.reason = 'top-level await';
 		},
+		'ForOfStatement:exit': leaveScope,
 		'AwaitExpression': () => { if (!functionDepth) result.reason = 'top-level await'; },
 		'MetaProperty': (node) => { if (node.meta.name === 'import') result.reason = 'import.meta'; },
 		'CallExpression': (node) => {
 			if (node.callee.type !== 'Identifier') return;
-			if (node.callee.name === 'eval') result.reason = 'direct eval';
-			if (node.callee.name === 'require') result.unknownDependency = true;
+			if (node.callee.name === 'eval') { directEval = true; result.reason = 'direct eval'; }
+			if (node.callee.name === 'require') result.unknownDependency = 'require()';
 		},
 		'ImportExpression': (node) => {
 			if (node.source.type === 'Literal' && typeof node.source.value === 'string') result.dependencies.push(node.source.value);
-			else result.unknownDependency = true;
+			else result.dynamicImports.push(node);
 		}
 	}).visit(parsed.program);
+	if (directEval && result.dynamicImports.length) result.unknownDependency = 'direct eval with dynamic import';
+	pendingWrites.forEach((write) => {
+		write.names.forEach((name) => {
+			let bindingScope = write.scope;
+			while (bindingScope.parent && !bindingScope.names.has(name)) bindingScope = bindingScope.parent;
+			if (!bindingScope.parent) result.writes.add(name);
+		});
+	});
 	parsed.program.body.forEach((node) => {
 		if (node.type === 'ImportDeclaration' || node.type === 'ExportAllDeclaration' || node.type === 'ExportNamedDeclaration') {
 			if (node.source) result.dependencies.push(node.source.value);
@@ -167,7 +232,31 @@ export function decode(payload) {
 	const data = new Uint8Array(binary.length);
 	for (let i = 0; i < binary.length; i++) data[i] = binary.charCodeAt(i);
 	return strFromU8(gunzipSync(data));
+}
+${decoderFormat === 'es'
+				? `export function createImportResolver(referrer, filename, files) {
+	const root = new URL('../'.repeat(filename.split('/').length - 1) || './', referrer);
+	const originalRoot = new URL('../', root);
+	const originalReferrer = new URL(filename, originalRoot);
+	const modules = new Map(files.map(file => [new URL(file, originalRoot).href, new URL(file, root).href]));
+	return specifier => ({
+		toString() {
+			const value = \`\${specifier}\`;
+			if (!/^(?:\\.{1,2}\\/|\\/|[a-z][a-z\\d+.-]*:)/i.test(value)) return value;
+			const resolved = new URL(value, originalReferrer);
+			const search = resolved.search;
+			const hash = resolved.hash;
+			resolved.search = '';
+			resolved.hash = '';
+			const local = modules.get(resolved.href);
+			if (local) resolved.href = local;
+			resolved.search = search;
+			resolved.hash = hash;
+			return resolved.href;
+		}
+	});
 }`
+				: ''}`
 						: null
 				}],
 				build: {
@@ -186,7 +275,33 @@ export function decode(payload) {
 	return decoders.get(decoderFormat)!;
 };
 
-const packES = (analysis: Analysis, runtimeFile: string, filename: string): string | null => {
+const prepareDynamicImports = (analysis: Analysis, runtimeFile: string, filename: string, files: string[]) => {
+	let sequence = 0;
+	const [factory, resolver] = [0, 1].map(() => {
+		let name: string;
+		do { name = `__evalImport${sequence++}`; } while (analysis.names.has(name));
+		analysis.names.add(name);
+		return name;
+	});
+	let specifier = path.posix.relative(path.posix.dirname(filename), runtimeFile);
+	if (!specifier.startsWith('.')) specifier = `./${specifier}`;
+	const edits: Edit[] = [];
+	analysis.dynamicImports.forEach(({ source }) => {
+		// Insertions also support nested import expressions without overlapping replacements.
+		edits.push({ start: source.start, end: source.start, code: `${resolver}(` },
+			{ start: source.end, end: source.end, code: ')' });
+	});
+	const position = analysis.program.hashbang?.end || 0;
+	edits.push({
+		start: position,
+		end: position,
+		code: `${position ? '\n' : ''}import{createImportResolver as ${factory}}from${JSON.stringify(specifier)};`
+			+ `const ${resolver}=${factory}(import.meta.url,${JSON.stringify(filename)},${JSON.stringify(files)});`
+	});
+	return { code: editCode(analysis.code, edits), resolver };
+};
+
+const packES = (analysis: Analysis, runtimeFile: string, filename: string, resolver = ''): string | null => {
 	const { code, program, names, writes } = analysis;
 	let sequence = 0;
 	// References also reserve names, so undeclared typeof references cannot be captured.
@@ -210,7 +325,9 @@ const packES = (analysis: Analysis, runtimeFile: string, filename: string): stri
 		return ids;
 	};
 	for (const node of program.body) {
-		if (node.type === 'ImportDeclaration' || node.type === 'ExportAllDeclaration' || (node.type === 'ExportNamedDeclaration' && node.source)) {
+		if (node.type === 'ImportDeclaration' || node.type === 'ExportAllDeclaration' || (node.type === 'ExportNamedDeclaration' && node.source)
+			|| (node.type === 'VariableDeclaration' && node.declarations.length === 1
+				&& node.declarations[0].id.type === 'Identifier' && node.declarations[0].id.name === resolver)) {
 			preamble.push(code.slice(node.start, node.end));
 			edits.push({ start: node.start, end: node.end, code: '' });
 		} else if (node.type === 'ExportNamedDeclaration') {
@@ -273,15 +390,21 @@ export const run = async (outputs: Rolldown.RolldownOutput[], context: Context) 
 		const chunks = output.output.filter(i => i.type === 'chunk');
 		const analyses = new Map(chunks.map(i => [i.fileName, analyze(i.fileName, i.code, format)]));
 		const graph = new Map<string, string[]>();
-		let closed = true;
+		let dependencyFailure = '';
 		chunks.forEach((chunk) => {
 			const analysis = analyses.get(chunk.fileName)!;
-			const dependencies = analysis.dependencies.map(id => path.posix.normalize(path.posix.join(path.posix.dirname(chunk.fileName), id)));
-			if (analysis.unknownDependency || analysis.dependencies.some(id => !/^\.\.?\//u.test(id)) || dependencies.some(id => !analyses.has(id))
-				|| [...chunk.imports, ...chunk.dynamicImports].some(id => !analyses.has(id))) closed = false;
+			const dependencies: string[] = [];
+			if (analysis.unknownDependency) dependencyFailure ||= `${chunk.fileName} -> ${analysis.unknownDependency}`;
+			analysis.dependencies.forEach((id) => {
+				if (/^(?:https?:\/\/|data:|blob:)/u.test(id)) return;
+				const file = path.posix.normalize(path.posix.join(path.posix.dirname(chunk.fileName), id));
+				if (!/^\.\.?\//u.test(id) || !analyses.has(file)) dependencyFailure ||= `${chunk.fileName} -> ${id}`;
+				else dependencies.push(file);
+			});
+			// Emitted specifiers are authoritative; output metadata may use resolved external IDs.
 			graph.set(chunk.fileName, dependencies);
 		});
-		if (!closed) { skip(filepath, 'unverifiable module dependencies'); continue; }
+		if (dependencyFailure) { skip(filepath, `unverifiable module dependencies: ${dependencyFailure}`); continue; }
 		const cycles = findCycles(graph);
 		const candidate = new Map<string, string | Uint8Array>();
 		let originalSize = 0;
@@ -303,15 +426,24 @@ export const run = async (outputs: Rolldown.RolldownOutput[], context: Context) 
 		for (const chunk of chunks) {
 			const original = analyses.get(chunk.fileName)!;
 			if (cycles.has(chunk.fileName)) original.reason = 'circular dependency';
-			if (original.reason) { skip(chunk.fileName, original.reason); continue; }
+			if (format !== 'es' && original.dynamicImports.length) original.reason = 'dynamic module path';
+			if (original.reason && (format !== 'es' || !original.dynamicImports.length)) { skip(chunk.fileName, original.reason); continue; }
 			// Minify the complete ES module so imports and references are renamed together.
-			const analysis = analyze(chunk.fileName, candidate.get(chunk.fileName) as string, format);
+			let analysis = analyze(chunk.fileName, candidate.get(chunk.fileName) as string, format);
 			runtime ||= await decoder(format);
 			runtimeFile ||= `chunks/eval-runtime-${createHash('sha256').update(runtime).digest('hex').slice(0, 12)}.js`;
 			if (candidate.has(runtimeFile)) { skip(filepath, 'decoder filename collision'); return; }
+			let resolver = '';
+			if (format === 'es' && analysis.dynamicImports.length) {
+				const prepared = prepareDynamicImports(analysis, runtimeFile, chunk.fileName, [...analyses.keys()]);
+				resolver = prepared.resolver;
+				candidate.set(chunk.fileName, prepared.code);
+				analysis = analyze(chunk.fileName, prepared.code, format);
+			}
+			if (original.reason) { skip(chunk.fileName, original.reason); continue; }
 			const payload = format === 'es' ? '' : gzipSync(Buffer.from(analysis.code), { level: 9 }).toString('base64');
 			const packed = format === 'es'
-				? packES(analysis, runtimeFile, chunk.fileName)
+				? packES(analysis, runtimeFile, chunk.fileName, resolver)
 				: `(()=>{${runtime}\n(0,eval)(__EvalDecoder.decode(${JSON.stringify(payload)}));})();\n`;
 			if (!packed) { skip(chunk.fileName, analysis.reason); continue; }
 			candidate.set(chunk.fileName, packed);
