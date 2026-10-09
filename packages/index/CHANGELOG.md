@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.9.18
+
+_2026-10-09_
+
+### Bugfixes
+
+- fix(builder): support dynamic imports in eval builds ([39f7398](https://github.com/deot/dev/commit/39f73987be12680601a3b2206a714c039418adee))
+
 ## v2.9.17
 
 _2026-10-08_
