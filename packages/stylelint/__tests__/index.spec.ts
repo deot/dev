@@ -69,6 +69,17 @@ describe('index.js', () => {
 		expect(data.errored).toBe(false);
 	});
 
+	it.each(['', ' lang="scss"'])('fix Vue style block%s', async (lang) => {
+		const code = '<template><div class="example">example</div></template>\n'
+			+ '<script setup>const message = "example";</script>\n'
+			+ `<style${lang}>.example { color: red }</style>`;
+
+		const data = await lint(code, { codeFilename: './any.vue', fix: true });
+		expect(data.errored).toBe(false);
+		expect(data.results[0].warnings).toEqual([]);
+		expect(data.code).toBe(code.replace('color: red }', 'color: red; }'));
+	});
+
 	it('unit-no-unknown, rpx', async () => {
 		expect.hasAssertions();
 		let code = '';
