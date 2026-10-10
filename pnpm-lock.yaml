@@ -240,7 +240,7 @@ importers:
         specifier: ^2.9.14
         version: link:../shared
       '@deot/dev-stylelint':
-        specifier: ^2.9.14
+        specifier: ^2.9.15
         version: link:../stylelint
       '@deot/dev-test':
         specifier: ^2.9.14

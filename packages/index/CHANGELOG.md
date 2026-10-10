@@ -1,5 +1,13 @@
 # @deot/dev ChangeLog
 
+## v2.9.19
+
+_2026-10-10_
+
+### Bugfixes
+
+- fix(stylelint): upgrade Vue config for compatible syntax peers ([a08bd87](https://github.com/deot/dev/commit/a08bd87e629aa8cef8c817f691eb7f0db32dde28))
+
 ## v2.9.18
 
 _2026-10-09_
