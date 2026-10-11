@@ -6,7 +6,7 @@ import * as Tester from '@deot/dev-tester';
 describe('index', () => {
 	it('config', () => {
 		const it = Locals.impl();
-		expect(it.cwd).toMatch('/dev');
+		expect(it.cwd).toBe(process.cwd());
 	});
 
 	it('run', async () => {

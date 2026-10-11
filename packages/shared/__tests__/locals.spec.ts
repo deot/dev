@@ -48,7 +48,7 @@ describe('shared.ts', () => {
 		const it = Locals.impl();
 		expect(it.workspace).toBe('packages');
 		expect(it.packageName).toBe('@deot/dev');
-		expect(it.packageDir).toMatch(`/dev/packages`);
+		expect(it.packageDir).toBe(path.resolve(process.cwd(), 'packages'));
 		expect(it.packageFolderNames.length > 0).toBe(true);
 		expect(it.homepage).toBe(`https://github.com/deot/dev`);
 	});
