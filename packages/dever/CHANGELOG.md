@@ -1,5 +1,13 @@
 # @deot/dev-dever ChangeLog
 
+## v2.9.16
+
+_2026-10-13_
+
+### Bugfixes
+
+- fix: preserve demo search context and improve layout ([c6722a6](https://github.com/deot/dev/commit/c6722a6086f4330a8ae30fc213db92f257c1981c))
+
 ## v2.9.15
 
 _2026-10-08_
