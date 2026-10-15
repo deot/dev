@@ -5,7 +5,8 @@
 ## 使用
 
 ```bash
-ddc build --package-name '*' --script-formats es,cjs
+ddc build --package-name '*'
+ddc build --package-name '*' --cjs-package '*'
 ```
 
 构建入口匹配包源码目录中的 `index*.ts`、`index*.js`、`index*.css`、`index*.scss`。组件式包没有 `src/` 时从包根查找入口。
@@ -13,15 +14,23 @@ ddc build --package-name '*' --script-formats es,cjs
 | 选项 | 默认值 | 说明 |
 | --- | --- | --- |
 | `packageName` | `*` | 一个包、逗号分隔的多个包或全部包。 |
-| `scriptFormats` | `es,cjs` | Vite library 输出格式。 |
+| `esPackage` | `*` | 为命中包在 dist 根目录生成 ES。 |
+| `cjsPackage` | 空 | 为命中包在 dist 根目录生成 CJS。 |
+| `iifePackage` | 空 | 为命中包在 dist 根目录生成 IIFE。 |
+| `umdPackage` | 空 | 为命中包在 dist 根目录生成 UMD。 |
+| `bundlePackage` | 空 | 为命中包额外生成 `dist/bundle/` ES。 |
 | `dts` | `true` | 是否生成并整理声明文件。 |
-| `external` | 空 | IIFE/UMD 外部依赖。 |
-| `globals` | 空 | 浏览器格式全局变量映射，可写为 `package:Global`。 |
+| `bundleExternal` | 空 | Bundle 外置依赖，逗号分隔。 |
+| `iifeExternal` | 空 | 普通 IIFE 外置依赖，逗号分隔。 |
+| `umdExternal` | 空 | 普通 UMD 外置依赖，逗号分隔。 |
+| `globals` | 空 | IIFE/UMD 共用的全局变量映射，可写为 `package:Global`；未指定时从当前格式的 external 名单推导。 |
 | `minifyPackage` | 未指定 | 设置哪些包开启 JS 压缩，对应 CLI `--minify-package <names>`。 |
-| `evalPackage` | 未指定 | 设置哪些包额外生成内嵌 gzip 并通过 eval 执行的版本，对应 CLI `--eval-package <names>`。 |
+| `evalPackage` | 未指定 | 设置哪些包从 Bundle 额外生成内嵌 gzip 并通过 eval 执行的版本，对应 CLI `--eval-package <names>`。 |
 | `nodePackage` | 空 | 标记 Node 包。 |
 | `vuePackage` | 空 | 标记 Vue 包。 |
 | `reactPackage` | 空 | 标记 React 包。 |
+
+格式与 Bundle 包名单支持整值 `'*'`、逗号分隔的目录名或完整包名，名单项两侧空格会去除。默认 CLI 和程序调用都只生成普通 ES；`esPackage: ''`（CLI `--es-package ''`）可关闭它。四份格式名单只控制 dist 根目录，Bundle 独立输出 ES，不要求同时开启普通 ES。名单不扩大 `packageName` 选择的范围，也不向依赖传播。CJS 产物运行时需要的内部依赖，应在对应名单中同步开启 CJS。`nodePackage` 仍排除普通 IIFE/UMD。
 
 两个压缩名单支持整值 `'*'` 或逗号分隔的包名；Monorepo 可使用包目录名或完整包名，名单项两侧空格会去除。名单仅控制实际参与构建的包，不扩大 `packageName` 选定的范围。未指定名单时，共享配置的 JS 压缩和 eval 均关闭。
 
@@ -40,31 +49,54 @@ export default mergeConfig(configShared, defineConfig({
 }));
 ```
 
-每个脚本格式构建时都会把 URL 编码的 JSON 写入 `BUILD_OPTIONS`。配置可读取 `format`、`workspace`、`files`、`packageName`、`packageSourceDir`、`packageOptions`、`external`、`globals`、`minify` 和 `eval`。
+每个脚本格式构建时都会把 URL 编码的 JSON 写入 `BUILD_OPTIONS`。`variant` 为 `standard` 或 `bundle`，`outDir` 为当前版本的实际输出目录。配置可读取 `format`、`workspace`、`files`、`packageName`、`packageSourceDir`、`packageOptions`、`variant`、`outDir`、`bundleExternal`、`iifeExternal`、`umdExternal`、`globals`、`minify` 和 `eval`。
 
 CLI 未传 `--minify-package`（程序调用未传 `minifyPackage`）时不注入 `build.minify`；共享配置默认关闭，自定义配置由 Vite 自行处理。传入名单后，命中的包设置 `build.minify: true`，未命中的包设置 `false`。仅覆盖 `build.minify`，自定义 `build.rolldownOptions.output.minify`、`output.comments` 和 `build.cssMinify` 保留优先级，实际输出由这些设置共同决定。`BUILD_OPTIONS.minify` 和 `BUILD_OPTIONS.eval` 是当前包按名单解析后的布尔值，未指定名单时为 `false`。
 
 共享配置保留优化注释，ES 沿用 [Vite 库模式的压缩策略](https://vite.dev/config/build-options#build-minify)，保留下游 tree-shaking 所需信息。共享配置固定 `cssMinify: false` 并保留现有 cssnano 压缩，避免 JS 开关联带开启 Vite CSS 压缩。声明生成和普通产物文件名沿用原有行为。
 
-## 可选 eval 版本
-
-两个名单独立使用：`--minify-package` 控制普通产物；`--eval-package` 对 eval 副本执行完整 JS 压缩，不要求同时传入 minify 名单：
+## 可选 Bundle 版本
 
 ```bash
-ddc build --minify-package '*'
-ddc build --eval-package 'shared,components'
-ddc build --minify-package '*' --eval-package 'shared,components'
+ddc build --bundle-package client
+ddc build --es-package '' --bundle-package '*'
 ```
 
-`--eval-package` 以极限压缩为目标，为命中的包在普通产物之外生成 `dist/eval/`，沿用入口、分块及资源命名。eval 副本先执行 compress、mangle 和紧凑代码生成，去掉全部 JS 注释（含版权和优化注释），正文再以 gzip level 9 压缩并用 base64 内嵌；浏览器同步解压，再通过 eval 执行。ES 先整体压缩以同步更新 import 绑定及引用，再分离 import/export；直接 eval 读取压缩后的 import 绑定，目录内共享解压模块。浏览器 IIFE/UMD 保留全局导出名称，内嵌解压器并在全局环境执行脚本。解压器及不支持 gzip 封装的配套 JS 分块同样压缩并去注释。普通产物仍按原配置及 minify 名单处理，保留共享配置的优化注释。解压代码由 builder 独立打包，消费端无需安装 fflate 或 jsPDF。
+`bundlePackage` 为命中包从源码额外构建 ES，写入 `dist/bundle/`，保留普通产物。Bundle 默认将依赖一起打包，仅按 `bundleExternal` 外置；普通 ES/CJS 仍默认外置依赖，普通 IIFE/UMD 分别读取 `iifeExternal`、`umdExternal`，三个名单互不合并。模块 ID 沿用原匹配规则。项目显式设置 `build.rolldownOptions.external` 可以覆盖 Bundle 默认值。
 
-这与 HTTP gzip 不同：HTTP gzip 使用 `Content-Encoding: gzip`，由浏览器在传输层自动解压；eval 版本仍是普通 JavaScript 文件，不生成额外 `.gz`，也无需服务器提供 gzip 支持。命中名单且至少一个分块能安全封装时一定生成，即使体积增加。控制台显示分块和整组的原体积、新体积及差值，增大时提示“体积增加，按用户选择仍生成”。整组比较使用未经过 HTTP 压缩的运行时产物大小，排除 sourcemap 文件及映射注释，并计入 base64、外壳、资源与解压器；全部分块均不支持时提示原因，不写入对应版本。
+Bundle 默认将 `process.env.NODE_ENV` 替换为 `"production"`，生产环境和 JS 压缩独立。项目顶层 `define` 可以覆盖该值，例如 `define: { 'process.env.NODE_ENV': JSON.stringify('development') }`；构建钩子保护合并后的值，避免被 Vite 的最终转换选项覆盖。普通 ES/CJS 保留原有环境行为，IIFE/UMD 沿用原有策略。不注入 Node `process` 替身、不提供 CDN 回退，依赖仍需适用于当前构建目标。
 
-支持受限浏览器 ES、IIFE/UMD，跳过 CJS。HTTP(S)、data 和 blob URL 依赖保留原有加载方式，不会阻止本地分块封装。ES 支持变量形式的动态 import：运行时命中本次输出的模块时加载 eval 副本，其他相对路径按普通产物位置解析，本次输出内的静态和动态引用共用同一模块实例并保留加载选项；此类路径可能依赖普通目录中的额外文件，应一并保留普通产物。已知但缺失的本地分块、裸模块依赖或无法验证的 require 仍导致整组跳过，日志列出具体文件及依赖。直接 eval 与变量动态 import 同时出现时也会整组跳过，避免新增辅助绑定影响 eval 可见的作用域。IIFE/UMD 的变量动态 import 分块保持直接执行代码。
+Bundle 的 JS、动态 chunks、提取的 CSS 和资源写入自身目录，沿用 Vite 或项目的分包及命名设置。独立样式入口与声明仍只在 dist 根目录生成一次。共享配置不自动修改 package.json exports。
 
-可变或非本地导出、循环依赖、顶层 await、`import.meta`、已有直接 eval、匿名默认函数或类等分块保持直接执行代码，压缩后的副本仍会写入依赖图。导出检查按实际词法作用域判断，局部同名变量的写入不会误判为修改导出。含顶层严格模式指令的 IIFE/UMD 跳过，以保护全局导出。eval 版本不提供 sourcemap。
+```text
+dist/
+├── index.js          普通 ES
+├── index.cjs         显式开启的 CJS
+├── index.d.ts        共用声明
+├── bundle/
+│   └── index.js      Bundle ES
+└── eval/
+    └── index.js      Bundle 的 eval 副本
+```
 
-使用环境需允许 eval，例如 CSP 的 `script-src` 必须允许 `unsafe-eval`。同步解压及重新解析脚本会增加初始化耗时，适合测量后确认有收益的浏览器直接加载场景。正文对后续打包工具不可见，不适合依赖下游 tree-shaking；再次打包、重命名绑定或改变分块路径可能破坏直接 eval 对 import 的引用，应使用普通产物重新构建。
+Bundle 的依赖策略、默认生产环境和 define 保护由 builder 注入，自定义配置不需要导入共享配置即可生效，项目显式设置的 external 和 define 优先。其他构建配置仍由项目自行管理，可读取 `BUILD_OPTIONS.variant` 和其他上下文。
+
+## 可选 eval 版本
+
+```bash
+ddc build --bundle-package '*' --eval-package '*'
+ddc build --bundle-package client --eval-package client --minify-package client
+```
+
+`evalPackage` 仅处理命中包的 Bundle ES 内存构建结果，额外写入 `dist/eval/`，不会改写普通或 Bundle 产物。包必须同时命中 `bundlePackage`、`evalPackage`；仅命中 eval 时提示跳过，不隐式开启 Bundle，也不使用普通或 IIFE/UMD 产物。Eval 继承 Bundle 的环境值。JS 压缩名单与 eval 名单独立：eval 副本始终完整压缩、去掉全部 JS 注释（含版权和优化注释），正文再以 gzip level 9 压缩并用 base64 内嵌。浏览器同步解压，通过 eval 执行；ES 整体压缩后分离 import/export，保留压缩后的 import 绑定及引用，目录内共享解压模块。消费端无需安装 fflate 或 jsPDF。
+
+这与 HTTP gzip 不同：产物仍是普通 JavaScript，不生成额外 `.gz`，无需服务器提供 `Content-Encoding: gzip`。只要至少一个分块可以安全封装就生成，即使体积增加。日志比较 Bundle 与 eval 整组的运行时大小，排除 sourcemap，并计入 base64、外壳、资源和解压器；全部分块均不支持时提示原因，不创建 eval 目录。
+
+保留入口、chunks 和资源命名。变量动态 import 命中本次 Bundle 输出时加载对应 eval 副本，静态和动态引用共用模块实例并保留加载选项、查询参数和 hash；其他相对路径按 `dist/bundle/` 的原模块位置解析，因此应保留 Bundle 目录。HTTP(S)、data、blob URL 保留原加载方式。缺失的本地分块、裸模块依赖或无法验证的 require 导致整组跳过；显式 `bundleExternal` 可能因此阻止 eval 生成。
+
+可变或非本地导出、循环依赖、顶层 await、`import.meta`、直接 eval、匿名默认函数或类等分块保持直接执行代码，压缩后的副本仍写入依赖图。直接 eval 与变量动态 import 同时出现时整组跳过。导出检查按实际词法作用域判断。Eval 不提供 sourcemap，解压器和不支持封装的 JS 副本同样压缩并去注释。
+
+运行环境需允许 eval，例如 CSP 的 `script-src` 允许 `unsafe-eval`。同步解压和脚本解析会增加初始化耗时，适合测量后确认有收益的浏览器直接加载场景。正文对下游打包工具不可见，不适合 tree-shaking 或再次打包；需要再次构建时使用普通产物。
 
 ## release 共用 build 脚本
 
@@ -73,7 +105,7 @@ ddc build --minify-package '*' --eval-package 'shared,components'
 ```json
 {
   "scripts": {
-    "build": "ddc build --minify-package '*' --eval-package 'shared,components'",
+    "build": "ddc build --minify-package '*' --bundle-package 'shared,components' --eval-package 'shared,components'",
     "release": "ddc release"
   }
 }
@@ -86,7 +118,13 @@ release 沿用 `npm run build -- --package-name 当前包`，因此构建时会�
 ```ts
 import { run } from '@deot/dev-builder';
 
-await run({ packageName: 'shared', scriptFormats: 'es,cjs', dryRun: true });
+await run({ packageName: 'shared', cjsPackage: '*', dryRun: true });
 ```
 
 包的公共入口只导出 `run`；内部 `Build` 实例不是该入口的稳定导出。
+
+## 迁移
+
+移除 `scriptFormats` / `--script-formats`：按输出格式分别配置包名单。旧默认 `es,cjs` 对应新默认 ES 加 `--cjs-package '*'`。移除 `external` / `--external`：IIFE 和 UMD 分别使用对应 external 参数。`globals` 继续共用。旧参数不保留别名。
+
+本仓库的 `npm run build` 显式开启 CJS，以保留现有 `require` 发布入口；这不改变 builder 对其他项目默认仅 ES 的行为。

@@ -32,7 +32,7 @@ describe('eval artifacts', () => {
 	let directory: string;
 	let logs: ReturnType<typeof vi.spyOn>;
 	const run = (outputs: Rolldown.RolldownOutput[], format = 'es', enabled = true, filepath = 'index.ts') => Eval.run(outputs, {
-		enabled, format, filepath, outDir: directory
+		enabled, format, filepath, sourceDir: path.join(directory, 'bundle'), targetDir: path.join(directory, 'eval')
 	});
 	const load = (filename = 'index.js') => importFile(pathToFileURL(path.join(directory, 'eval', filename)).href);
 	const emitted = () => fs.pathExists(path.join(directory, 'eval'));
@@ -110,9 +110,9 @@ export function load(url){return import(url);}`, 'index.js', [data], ['https://c
 		expect(logs).not.toHaveBeenCalledWith(expect.stringContaining('unverifiable module dependencies'));
 	});
 
-	it('resolves computed imports to eval chunks and keeps external paths relative to ordinary modules', async () => {
-		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=13;');
-		await fs.outputFile(path.join(directory, 'chunks/dependency.js'), 'throw new Error("ordinary chunk loaded");');
+	it('resolves computed imports to eval chunks and keeps external paths relative to bundle modules', async () => {
+		await fs.outputFile(path.join(directory, 'bundle/outside.js'), 'export const value=13;');
+		await fs.outputFile(path.join(directory, 'bundle/chunks/dependency.js'), 'throw new Error("ordinary chunk loaded");');
 		await run(output(
 			chunk(`import {value} from './chunks/dependency.js';
 export function read(){return value;}
@@ -123,7 +123,7 @@ export const value=7; export function load(name){return import(name);}`, 'chunks
 		const module = await load();
 		const dependency = await module.load('./chunks/dependency.js');
 		expect(module.read()).toBe(7);
-		expect(await module.load(pathToFileURL(path.join(directory, 'chunks/dependency.js')))).toBe(dependency);
+		expect(await module.load(pathToFileURL(path.join(directory, 'bundle/chunks/dependency.js')))).toBe(dependency);
 		expect(globalThis.__evalInitialization).toBe(1);
 		expect((await module.load('./outside.js')).value).toBe(13);
 		expect((await dependency.load('../outside.js')).value).toBe(13);
@@ -138,7 +138,7 @@ export const value=7; export function load(name){return import(name);}`, 'chunks
 	});
 
 	it('preserves dynamic import attributes and nested import expressions', async () => {
-		await fs.outputJson(path.join(directory, 'outside.json'), { value: 9 });
+		await fs.outputJson(path.join(directory, 'bundle/outside.json'), { value: 9 });
 		await run(output(chunk(`export function load(name,options){return import(name,options);}
 export function order(name,options){return import(name,options());}
 export async function nested(name){return import((await import(name)).next);}`)));
@@ -153,7 +153,7 @@ export async function nested(name){return import((await import(name)).next);}`))
 	});
 
 	it('resolves dynamic imports in unsupported copies without capturing existing helper names', async () => {
-		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=17;');
+		await fs.outputFile(path.join(directory, 'bundle/outside.js'), 'export const value=17;');
 		await run(output(
 			chunk(`export let count=0; export function increment(){count++;}
 export function load(name){return import(name);}
@@ -169,7 +169,7 @@ export function helperType(){return typeof __evalImport0;}`, 'chunks/counter.js'
 	});
 
 	it('keeps the hashbang first when adding a resolver to an unsupported copy', async () => {
-		await fs.outputFile(path.join(directory, 'outside.js'), 'export const value=19;');
+		await fs.outputFile(path.join(directory, 'bundle/outside.js'), 'export const value=19;');
 		const outputs = output(
 			chunk('#!/usr/bin/env node\nexport function load(name){return import(name);}', 'cli.js'),
 			chunk('export const value=1;')

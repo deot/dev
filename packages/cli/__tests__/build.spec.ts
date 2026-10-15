@@ -10,6 +10,23 @@ describe('build.ts', () => {
 				resolve(__dirname, '../src/index.ts'),
 				'build',
 				'--dry-run',
+				'--es-package=',
+				'--cjs-package',
+				'*',
+				'--iife-package',
+				'shared',
+				'--umd-package',
+				'shared',
+				'--bundle-package',
+				'*',
+				'--bundle-external',
+				'vue',
+				'--iife-external',
+				'vue',
+				'--umd-external',
+				'react',
+				'--globals',
+				'vue:Vue',
 				'--minify-package',
 				'*',
 				'--eval-package',
@@ -24,7 +41,7 @@ describe('build.ts', () => {
 		// expect(instance.stderr).toBe('');
 	}, 60000);
 
-	it.each(['--minify', '--eval'])('rejects the removed boolean flag %s', async (flag) => {
+	it.each(['--minify', '--eval', '--script-formats', '--external'])('rejects the removed flag %s', async (flag) => {
 		const instance = new Command('cross-env NODE_ENV=UNIT tsx', [
 			resolve(__dirname, '../src/index.ts'), 'build', '--dry-run', flag
 		]);

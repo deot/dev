@@ -15,7 +15,9 @@ const buildOptions = JSON.parse(decodeURIComponent(process.env.BUILD_OPTIONS || 
 
 const {
 	format,
-	external = '',
+	variant = 'standard',
+	iifeExternal = '',
+	umdExternal = '',
 	globals = '',
 	workspace,
 	files = [],
@@ -25,6 +27,7 @@ const {
 } = buildOptions;
 
 const usedForBrowser = /(iife|umd)/.test(format);
+const external = format === 'iife' ? iifeExternal : umdExternal;
 const external$ = !usedForBrowser
 	? [
 			/^node:/,
@@ -37,6 +40,7 @@ const external$ = !usedForBrowser
 				.map(i => new RegExp(`^${i}$`))
 		]
 	: external.split(',')
+			.map((i: string) => i.trim())
 			.filter((i: string) => !!i)
 			.map((i: string) => new RegExp(`^${i}$`));
 
@@ -91,7 +95,7 @@ export default defineConfig({
 			name: getGlobalName(packageName)
 		},
 		rolldownOptions: {
-			external: external$,
+			external: variant === 'standard' ? external$ : undefined,
 			output: {
 				exports: 'named',
 				comments: { annotation: true },

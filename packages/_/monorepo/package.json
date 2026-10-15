@@ -6,7 +6,7 @@
   "scripts": {
     "cli": "../../../node_modules/.bin/tsx ../../cli/src/index.ts",
     "dev": "npm run cli -- dev  --vue-package vue,components --react-package react",
-    "build": "npm run cli -- build --vue-package vue,components --react-package react  --script-formats es,cjs,iife --external vue,react",
+    "build": "npm run cli -- build --vue-package vue,components --react-package react  --cjs-package '*' --iife-package '*' --iife-external vue,react",
     "test": "npm run cli -- test --vue-package vue,components --react-package react",
     "release": "npm run cli -- release",
     "update": "npm run cli -- update"

@@ -23,8 +23,8 @@ describe('build compression options', () => {
 		const entry = pathToFileURL(path.join(root, 'packages/builder/src/index.ts')).href;
 		const command = options
 			? ['--input-type=module', '-e', `import { run } from ${JSON.stringify(entry)};
-await run(${JSON.stringify({ scriptFormats: 'es', dts: false, ...options })});`]
-			: [path.join(root, 'packages/cli/src/index.ts'), 'build', '--script-formats', 'es', '--no-dts', ...args];
+await run(${JSON.stringify({ dts: false, ...options })});`]
+			: [path.join(root, 'packages/cli/src/index.ts'), 'build', '--no-dts', ...args];
 		return execute(process.execPath, ['--import', tsx, ...command], {
 			cwd: directory,
 			env: { ...process.env, TSX_TSCONFIG_PATH: path.join(root, 'tsconfig.json') }
@@ -38,7 +38,7 @@ const custom=${JSON.stringify(buildOptions)};
 export default {
 	...shared,
 	build:{...shared.build,...custom,rolldownOptions:{...shared.build.rolldownOptions,...custom.rolldownOptions}},
-	plugins:[{name:'observe-options',configResolved(config){
+	plugins:[...(shared.plugins||[]),{name:'observe-options',configResolved(config){
 		const command=JSON.parse(decodeURIComponent(process.env.BUILD_OPTIONS));
 		fs.writeFileSync(command.packageDir+'/observed.json',JSON.stringify({
 			minify:config.build.minify,cssMinify:config.build.cssMinify,output:config.build.rolldownOptions.output,
@@ -53,7 +53,7 @@ export default {
 			private: true, type: 'module',
 			scripts: {
 				cli: `node --import "${tsx}" "${path.join(root, 'packages/cli/src/index.ts')}"`,
-				build: 'npm run cli -- build --script-formats es,iife --no-dts --minify-package \'*\' --eval-package beta'
+				build: 'npm run cli -- build --iife-package \'*\' --bundle-package beta --no-dts --minify-package \'*\' --eval-package beta'
 			}
 		});
 		for (const folder of ['index', 'alpha', 'beta', 'custom']) {
@@ -100,7 +100,7 @@ export function read(longParameterName=1){
 		[false, true, ['--eval-package', '*']],
 		[true, true, ['--minify-package', '*', '--eval-package', '*']]
 	])('CLI supports independent minify=%s and eval=%s', async (minify, evalEnabled, args) => {
-		await invoke(args as string[]);
+		await invoke([...(evalEnabled ? ['--bundle-package', '*'] : []), ...args as string[]]);
 		const observed = await fs.readJson(path.join(directory, 'observed.json'));
 		expect(!!observed.minify).toBe(minify);
 		expect(observed.command.minify).toBe(minify);
@@ -162,11 +162,11 @@ export function read(longParameterName=1){
 	}, 30000);
 
 	it('minifies JS, retains optimization annotations and allows downstream ES tree-shaking', async () => {
-		await invoke(['--script-formats', 'es,iife']);
+		await invoke(['--iife-package', '*']);
 		const baseline = await read();
 		const baselineIIFE = await read('index.iife.js');
 		const css = await read('index.style.css');
-		await invoke(['--script-formats', 'es,iife', '--minify-package', '@test/builder']);
+		await invoke(['--iife-package', '*', '--minify-package', '@test/builder']);
 		const minified = await read();
 		const minifiedIIFE = await read('index.iife.js');
 		expect(Buffer.byteLength(minified)).toBeLessThan(Buffer.byteLength(baseline));
@@ -190,24 +190,35 @@ export function read(longParameterName=1){
 	it('matches trimmed folder and full names independently for every package', async () => {
 		await workspace();
 		await configure({ minify: true });
-		await invoke([], { minifyPackage: ' alpha, @test/builder ', evalPackage: ' @test/builder-beta, beta ' });
+		await invoke([], {
+			cjsPackage: ' alpha ',
+			iifePackage: ' @test/builder-beta ',
+			umdPackage: '@test/builder',
+			bundlePackage: ' beta ',
+			minifyPackage: ' alpha, @test/builder ',
+			evalPackage: ' @test/builder-beta, beta '
+		});
 		for (const folder of ['index', 'alpha', 'beta']) {
 			const observed = await observedPackage(folder);
 			expect(observed.minify).toBe(folder === 'beta' ? false : 'oxc');
 			expect(observed.command.minify).toBe(folder !== 'beta');
 			expect(observed.command.eval).toBe(folder === 'beta');
 			expect(await fs.pathExists(packageArtifact(folder, 'eval/index.js'))).toBe(folder === 'beta');
+			expect(await fs.pathExists(packageArtifact(folder, 'index.cjs'))).toBe(folder === 'alpha');
+			expect(await fs.pathExists(packageArtifact(folder, 'index.iife.js'))).toBe(folder === 'beta');
+			expect(await fs.pathExists(packageArtifact(folder, 'index.umd.cjs'))).toBe(folder === 'index');
 		}
 	}, 30000);
 
 	it('wildcards match the selected package without expanding the build scope', async () => {
 		await workspace();
-		await invoke(['--package-name', 'index', '--minify-package', '*', '--eval-package', '*']);
+		await invoke(['--package-name', 'index', '--bundle-package', '*', '--minify-package', '*', '--eval-package', '*']);
 		const observed = await observedPackage('index');
 		expect(observed.command.minify).toBe(true);
 		expect(observed.command.eval).toBe(true);
 		expect(await fs.pathExists(packageArtifact('index', 'eval/index.js'))).toBe(true);
 		expect(await fs.pathExists(packageArtifact('alpha', 'index.js'))).toBe(false);
+		expect(await fs.pathExists(packageArtifact('alpha', 'bundle'))).toBe(false);
 		expect(await fs.pathExists(packageArtifact('beta', 'index.js'))).toBe(false);
 		expect(await fs.pathExists(path.join(directory, 'packages/custom/arguments.json'))).toBe(false);
 	}, 30000);
@@ -215,7 +226,7 @@ export function read(longParameterName=1){
 	it('matches automatically built dependencies separately from the requested package', async () => {
 		await workspace();
 		await configure({ minify: true });
-		await invoke(['--package-name', 'beta', '--minify-package', 'beta', '--eval-package', 'alpha']);
+		await invoke(['--package-name', 'beta', '--bundle-package', 'alpha', '--minify-package', 'beta', '--eval-package', 'alpha']);
 		const dependency = await observedPackage('alpha');
 		const requested = await observedPackage('beta');
 		expect(dependency.minify).toBe(false);
@@ -237,9 +248,8 @@ export function read(longParameterName=1){
 		expect((await observedPackage('alpha')).command.eval).toBe(false);
 		expect((await observedPackage('beta')).command.minify).toBe(true);
 		expect((await observedPackage('beta')).command.eval).toBe(true);
-		const sandbox = { atob, Uint8Array } as any;
-		runInNewContext(await fs.readFile(packageArtifact('beta', 'eval/index.iife.js'), 'utf8'), sandbox);
-		expect(sandbox.BuilderBeta.read()).toBe(2);
+		expect(await fs.pathExists(packageArtifact('beta', 'index.iife.js'))).toBe(true);
+		expect(await fs.pathExists(packageArtifact('beta', 'eval/index.iife.js'))).toBe(false);
 		expect((await importFile(pathToFileURL(packageArtifact('beta', 'eval/index.js')).href)).read()).toBe(2);
 		expect(await fs.pathExists(packageArtifact('alpha', 'eval'))).toBe(false);
 		expect(await fs.pathExists(packageArtifact('index', 'index.js'))).toBe(false);

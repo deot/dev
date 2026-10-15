@@ -5,16 +5,21 @@ import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 import { build } from './build';
 
 export const run = (options: Options) => Utils.autoCatch(async () => {
-	options = {
-		scriptFormats: 'es,cjs',
-		...options
-	};
+	options = { ...options };
+	options.esPackage ??= '*';
+	options.cjsPackage ??= '';
+	options.iifePackage ??= '';
+	options.umdPackage ??= '';
+	options.bundlePackage ??= '';
 	const locals = Locals.impl();
 
 	options.packageName = Locals.getRealPackageName(options.packageName);
 	options.vuePackage = Locals.getRealPackageName(options.vuePackage);
 	options.reactPackage = Locals.getRealPackageName(options.reactPackage);
 	options.nodePackage = Locals.getRealPackageName(options.nodePackage);
+	(['esPackage', 'cjsPackage', 'iifePackage', 'umdPackage', 'bundlePackage']).forEach((key) => {
+		options[key] = Locals.getRealPackageName(options[key].split(',').map((name: string) => name.trim()).join(','));
+	});
 	options.minifyPackage = Locals.getRealPackageName(options.minifyPackage?.split(',').map((name: string) => name.trim()).join(','));
 	options.evalPackage = Locals.getRealPackageName(options.evalPackage?.split(',').map((name: string) => name.trim()).join(','));
 

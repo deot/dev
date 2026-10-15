@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { Utils, Logger, Shell, Locals } from '@deot/dev-shared';
 import * as Script from './script';
+import * as Bundle from './bundle';
 import * as Style from './style';
 import * as Type from './type';
 
@@ -26,11 +27,17 @@ export class Build {
 	commandOptions: {
 		dryRun: boolean;
 		dts: boolean;
-		scriptFormats: string;
+		esPackage: string;
+		cjsPackage: string;
+		iifePackage: string;
+		umdPackage: string;
+		bundlePackage: string;
 		nodePackage: string;
 		vuePackage: string;
 		reactPackage: string;
-		external: string;
+		bundleExternal?: string;
+		iifeExternal?: string;
+		umdExternal?: string;
 		globals: string;
 		minifyPackage?: string;
 		evalPackage?: string;
@@ -41,6 +48,10 @@ export class Build {
 	isReactPackage: boolean;
 
 	isNodePackage: boolean;
+
+	formats: string[];
+
+	bundle: boolean;
 
 	minify?: boolean;
 
@@ -64,6 +75,11 @@ export class Build {
 		this.isVuePackage = typeof vuePackage === 'string' && (vuePackage === '*' || (vuePackage.split(',')).includes(this.packageName));
 		this.isReactPackage = typeof reactPackage === 'string' && (reactPackage === '*' || (reactPackage.split(',')).includes(this.packageName));
 		this.isNodePackage = typeof nodePackage === 'string' && (nodePackage === '*' || (nodePackage.split(',')).includes(this.packageName));
+		const matches = (names: string) => names === '*' || names.split(',').includes(this.packageName);
+		this.formats = (['es', 'cjs', 'iife', 'umd'] as const).filter((format) => {
+			return matches(commandOptions[`${format}Package`]) && (!this.isNodePackage || ['es', 'cjs'].includes(format));
+		});
+		this.bundle = matches(commandOptions.bundlePackage);
 		this.minify = typeof minifyPackage === 'string'
 			? minifyPackage === '*' || minifyPackage.split(',').includes(this.packageName)
 			: undefined;
@@ -102,6 +118,9 @@ export class Build {
 
 			// vite在构建时会清理dist
 			const scriptStats = await Script.run(this);
+			const bundleStats = this.bundle ? await Bundle.run(this) : [];
+			if (this.eval && !this.bundle) Logger.info(`${packageName}: eval skipped (requires bundlePackage)`);
+			const stats = [...scriptStats, ...bundleStats].flatMap(result => result.stats);
 			const scriptDuration = Date.now() - start;
 
 			const styleStats = await Style.run(this);
@@ -115,12 +134,12 @@ export class Build {
 			let message = '';
 			message += `${chalk.cyan(`${packageName}`)}: ${chalk.green('Success')} ${chalk.blue(`${Date.now() - start}ms`)}(`;
 			message += styleStats.length ? `css: ${chalk.yellow(styleDuration)}ms; ` : '';
-			message += scriptStats.length ? `js: ${chalk.yellow(scriptDuration)}ms${typeStats.length ? '; ' : ''}` : '';
+			message += stats.length ? `js: ${chalk.yellow(scriptDuration)}ms${typeStats.length ? '; ' : ''}` : '';
 			message += typeStats.length ? `dts: ${chalk.yellow(typeDuration)}ms` : '';
 			message += ')';
 			Logger.log(message);
 
-			scriptStats
+			[...new Map(stats.map(stat => [`${stat.file}:${stat.format}`, stat])).values()]
 				.concat(styleStats)
 				.concat(typeStats)
 				.forEach((stat) => {

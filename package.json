@@ -13,7 +13,7 @@
     "link": "tsx ./packages/cli/src/index.ts link",
     "docs:dev": "doc dev --workspace .",
     "dev": "tsx ./packages/cli/src/index.ts dev",
-    "build": "tsx ./packages/cli/src/index.ts build",
+    "build": "tsx ./packages/cli/src/index.ts build --cjs-package '*'",
     "test": "tsx ./packages/cli/src/index.ts test",
     "add": "tsx ./packages/cli/src/index.ts add",
     "update": "tsx ./packages/cli/src/index.ts update",

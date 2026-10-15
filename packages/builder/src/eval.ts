@@ -12,7 +12,8 @@ interface Context {
 	enabled: boolean;
 	format: string;
 	filepath: string;
-	outDir: string;
+	sourceDir: string;
+	targetDir: string;
 }
 
 interface Edit {
@@ -234,9 +235,9 @@ export function decode(payload) {
 	return strFromU8(gunzipSync(data));
 }
 ${decoderFormat === 'es'
-				? `export function createImportResolver(referrer, filename, files) {
+				? `export function createImportResolver(referrer, filename, files, sourceRootRelative) {
 	const root = new URL('../'.repeat(filename.split('/').length - 1) || './', referrer);
-	const originalRoot = new URL('../', root);
+	const originalRoot = new URL(sourceRootRelative, root);
 	const originalReferrer = new URL(filename, originalRoot);
 	const modules = new Map(files.map(file => [new URL(file, originalRoot).href, new URL(file, root).href]));
 	return specifier => ({
@@ -275,7 +276,7 @@ ${decoderFormat === 'es'
 	return decoders.get(decoderFormat)!;
 };
 
-const prepareDynamicImports = (analysis: Analysis, runtimeFile: string, filename: string, files: string[]) => {
+const prepareDynamicImports = (analysis: Analysis, runtimeFile: string, filename: string, files: string[], sourceRootRelative: string) => {
 	let sequence = 0;
 	const [factory, resolver] = [0, 1].map(() => {
 		let name: string;
@@ -296,7 +297,8 @@ const prepareDynamicImports = (analysis: Analysis, runtimeFile: string, filename
 		start: position,
 		end: position,
 		code: `${position ? '\n' : ''}import{createImportResolver as ${factory}}from${JSON.stringify(specifier)};`
-			+ `const ${resolver}=${factory}(import.meta.url,${JSON.stringify(filename)},${JSON.stringify(files)});`
+			+ `const ${resolver}=${factory}(import.meta.url,${JSON.stringify(filename)},${JSON.stringify(files)},`
+			+ `${JSON.stringify(sourceRootRelative)});`
 	});
 	return { code: editCode(analysis.code, edits), resolver };
 };
@@ -383,9 +385,11 @@ const packES = (analysis: Analysis, runtimeFile: string, filename: string, resol
 };
 
 export const run = async (outputs: Rolldown.RolldownOutput[], context: Context) => {
-	if (!context.enabled) return;
-	const { format, filepath, outDir } = context;
-	if (!['es', 'iife', 'umd'].includes(format)) { skip(filepath, `${format} format`); return; }
+	const stats: Array<{ file: string; format?: string; size: number }> = [];
+	if (!context.enabled) return stats;
+	const { format, filepath, sourceDir, targetDir } = context;
+	const sourceRootRelative = `${path.relative(targetDir, sourceDir).split(path.sep).join('/') || '.'}/`;
+	if (!['es', 'iife', 'umd'].includes(format)) { skip(filepath, `${format} format`); return stats; }
 	for (const output of outputs) {
 		const chunks = output.output.filter(i => i.type === 'chunk');
 		const analyses = new Map(chunks.map(i => [i.fileName, analyze(i.fileName, i.code, format)]));
@@ -432,10 +436,10 @@ export const run = async (outputs: Rolldown.RolldownOutput[], context: Context) 
 			let analysis = analyze(chunk.fileName, candidate.get(chunk.fileName) as string, format);
 			runtime ||= await decoder(format);
 			runtimeFile ||= `chunks/eval-runtime-${createHash('sha256').update(runtime).digest('hex').slice(0, 12)}.js`;
-			if (candidate.has(runtimeFile)) { skip(filepath, 'decoder filename collision'); return; }
+			if (candidate.has(runtimeFile)) { skip(filepath, 'decoder filename collision'); return stats; }
 			let resolver = '';
 			if (format === 'es' && analysis.dynamicImports.length) {
-				const prepared = prepareDynamicImports(analysis, runtimeFile, chunk.fileName, [...analyses.keys()]);
+				const prepared = prepareDynamicImports(analysis, runtimeFile, chunk.fileName, [...analyses.keys()], sourceRootRelative);
 				resolver = prepared.resolver;
 				candidate.set(chunk.fileName, prepared.code);
 				analysis = analyze(chunk.fileName, prepared.code, format);
@@ -448,12 +452,20 @@ export const run = async (outputs: Rolldown.RolldownOutput[], context: Context) 
 			if (!packed) { skip(chunk.fileName, analysis.reason); continue; }
 			candidate.set(chunk.fileName, packed);
 			packedCount++;
-			reportSize(chunk.fileName, bytes(original.code), bytes(packed));
+			reportSize(`${path.basename(targetDir)}/${chunk.fileName}`, bytes(original.code), bytes(packed));
 		}
 		if (!packedCount) continue;
 		if (format === 'es') candidate.set(runtimeFile, runtime!);
 		const packedSize = [...candidate.values()].reduce((sum, source) => sum + bytes(source), 0);
-		for (const [file, source] of candidate) await fs.outputFile(path.resolve(outDir, 'eval', file), source);
-		reportSize(`${filepath} ${format.toUpperCase()} (${packedCount} chunks, including decoder)`, originalSize, packedSize);
+		for (const [file, source] of candidate) {
+			await fs.outputFile(path.resolve(targetDir, file), source);
+			stats.push({ file, format: file.endsWith('.js') ? format : file.endsWith('.css') ? 'css' : undefined, size: bytes(source) });
+		}
+		reportSize(
+			`${path.basename(targetDir)}/${filepath} ${format.toUpperCase()} (${packedCount} chunks, including decoder)`,
+			originalSize,
+			packedSize
+		);
 	}
+	return stats;
 };

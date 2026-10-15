@@ -44,25 +44,37 @@ pnpm add -D @deot/dev-cli
 | 选项 | 默认值 | 说明 |
 | --- | --- | --- |
 | `--package-name <string>` | 交互选择 | 构建一个、多个或全部包。 |
-| `--script-formats <string>` | `es,cjs` | 输出脚本格式。 |
-| `--external <string>` | 空 | IIFE/UMD 外部依赖，逗号分隔。 |
-| `--globals <string>` | 空 | 浏览器格式的全局变量映射。 |
+| `--es-package <names>` | `*` | 在 dist 根目录输出 ES 的包。 |
+| `--cjs-package <names>` | 空 | 在 dist 根目录输出 CJS 的包。 |
+| `--iife-package <names>` | 空 | 在 dist 根目录输出 IIFE 的包。 |
+| `--umd-package <names>` | 空 | 在 dist 根目录输出 UMD 的包。 |
+| `--bundle-package <names>` | 空 | 额外输出 `dist/bundle/` ES 的包，不要求开启普通 ES。 |
+| `--bundle-external <string>` | 空 | Bundle 外置依赖，逗号分隔。 |
+| `--iife-external <string>` | 空 | 普通 IIFE 外置依赖，逗号分隔。 |
+| `--umd-external <string>` | 空 | 普通 UMD 外置依赖，逗号分隔。 |
+| `--globals <string>` | 空 | IIFE/UMD 共用的全局变量映射，缺省时从对应 external 名单推导。 |
 | `--minify-package <names>` | 未指定 | 命中包开启 JS 压缩，传入名单后未命中包关闭；未传时沿用配置，自定义底层输出设置优先。 |
-| `--eval-package <names>` | 未指定 | 为命中包额外生成 `dist/eval/`：完整压缩、去掉全部 JS 注释，再内嵌 gzip 并通过 eval 执行。 |
+| `--eval-package <names>` | 未指定 | 为同时命中 Bundle 的包额外生成 `dist/eval/`：完整压缩、去掉全部 JS 注释，再内嵌 gzip 并通过 eval 执行。 |
 | `--node-package <string>` | 空 | 标记 Node 包。 |
 | `--vue-package <string>` | 空 | 标记 Vue 包。 |
 | `--react-package <string>` | 空 | 标记 React 包。 |
 | `--no-dts` | 开启声明 | 不生成类型声明。 |
 
-两个名单独立，支持整值 `'*'` 或逗号分隔的包名；Monorepo 可写包目录名或完整包名，名单项两侧空格会去除。每个参与构建的包（含自动补构建的依赖包）分别匹配，名单不扩大构建范围。共享配置默认关闭 JS 压缩和 eval。子包有自己的 `scripts.build` 时仍由该脚本控制，命中名单时会提示，不转发名单。
+格式、Bundle 和压缩名单独立，支持整值 `'*'` 或逗号分隔的包名；Monorepo 可写包目录名或完整包名，名单项两侧空格会去除。每个参与构建的包（含自动补构建的依赖包）分别匹配，名单不扩大构建范围。共享配置默认关闭 JS 压缩和 eval。子包有自己的 `scripts.build` 时仍由该脚本控制，命中名单时会提示，不转发名单。
 
 ```bash
-ddc build --minify-package '*' --eval-package 'shared,components'
+ddc build --minify-package '*' --bundle-package 'shared,components' --eval-package 'shared,components'
 ```
+
+默认只输出普通 ES，`--es-package ''` 可禁用；其他格式按包额外开启。格式名单不向依赖传播，CJS 运行依赖应同步开启 CJS。Bundle 保留普通产物，默认打入依赖并将 `process.env.NODE_ENV` 替换为 `"production"`，项目显式配置可覆盖。普通 ES/CJS 仍默认外置依赖并保留环境行为。Bundle、IIFE、UMD 的 external 名单分别使用，不合并。
+
+Eval 仅基于 Bundle 结果生成，不改变普通和 Bundle 产物；仅开启 eval 时提示跳过，不自动开启 Bundle。变量动态 import 的来源路径是 `dist/bundle/`，应保留该目录。
+
+旧 `--script-formats`、`--external` 已移除，不保留别名；原 `--script-formats es,cjs` 改为 `--cjs-package '*'`。
 
 eval 以极限压缩为目标，其副本始终完整 minify 并去掉全部 JS 注释，再 gzip；解压器及未封装的配套 JS 分块也会压缩并去注释。普通产物由 `--minify-package` 独立控制，保留共享配置的优化注释。只要存在可安全封装的分块，即使体积增大也生成 eval 版本；控制台显示体积变化，并在增大时提示。格式和语义限制仍可能导致跳过。eval 版本内置解压代码，无需消费端安装 fflate 或 jsPDF，也不依赖 HTTP gzip。它需要允许 eval 的 CSP，并有同步解压、再次打包的限制，详见 [builder README](../builder/README.md#可选-eval-版本)。
 
-将两个名单写入 package.json 的 `scripts.build` 后，release 原有的 `npm run build -- --package-name 当前包` 调用同样会使用名单；release 无需额外参数。
+将这些名单写入 package.json 的 `scripts.build` 后，release 原有的 `npm run build -- --package-name 当前包` 调用同样会使用名单；release 无需额外参数。
 
 ## `ddc test`
 
