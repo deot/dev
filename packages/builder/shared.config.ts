@@ -6,12 +6,33 @@ import atUrl from 'postcss-url';
 import flexBugs from 'postcss-flexbugs-fixes';
 import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
-import type { UserConfig } from 'vite';
+import type { Alias, LibraryFormats, UserConfig } from 'vite';
+
+interface BuildOptions {
+	format: LibraryFormats;
+	variant?: 'standard' | 'bundle';
+	iifeExternal?: string;
+	umdExternal?: string;
+	globals?: string;
+	workspace?: string;
+	files?: string[];
+	packageName: string;
+	packageSourceDir: string;
+	packageOptions?: {
+		dependencies?: Record<string, string>;
+		peerDependencies?: Record<string, string>;
+	};
+}
+
+const parseList = (value: string) => value.split(',').map(item => item.trim()).filter(Boolean);
+const getGlobalName = (name: string) => {
+	return name.replace(/(_|-|^|.*\/)([^-_\/@])/g, (_match: string, _prefix: string, character: string) => character.toUpperCase());
+};
 
 const cwd = process.cwd();
 
 // options
-const buildOptions = JSON.parse(decodeURIComponent(process.env.BUILD_OPTIONS || '{}'));
+const buildOptions: BuildOptions = JSON.parse(decodeURIComponent(process.env.BUILD_OPTIONS || '{}'));
 
 const {
 	format,
@@ -26,46 +47,54 @@ const {
 	packageOptions = {}
 } = buildOptions;
 
-const usedForBrowser = /(iife|umd)/.test(format);
-const external = format === 'iife' ? iifeExternal : umdExternal;
-const external$ = !usedForBrowser
-	? [
-			/^node:/,
-			/^[a-zA-Z@]/,
-			...Object
-				.keys({
+const isGlobalFormat = format === 'iife' || format === 'umd';
+const externalNames = isGlobalFormat ? parseList(format === 'iife' ? iifeExternal : umdExternal) : [];
+
+let external: RegExp[] | undefined;
+if (variant === 'standard') {
+	external = isGlobalFormat
+		? externalNames.map(name => new RegExp(`^${name}$`))
+		: [
+				/^node:/,
+				/^[a-zA-Z@]/,
+				...Object.keys({
 					...packageOptions.dependencies,
 					...packageOptions.peerDependencies
-				})
-				.map(i => new RegExp(`^${i}$`))
-		]
-	: external.split(',')
-			.map((i: string) => i.trim())
-			.filter((i: string) => !!i)
-			.map((i: string) => new RegExp(`^${i}$`));
+				}).map(name => new RegExp(`^${name}$`))
+			];
+}
+
+const outputGlobals: Record<string, string> = {};
+if (isGlobalFormat) {
+	const names = parseList(globals);
+	for (const item of names.length ? names : externalNames) {
+		const [name, value] = item.split(':').map(part => part.trim());
+		if (name) {
+			outputGlobals[name] = value || getGlobalName(name);
+		}
+	}
+}
 
 // alias
-const replacement = (name: string) => path.resolve(cwd, `./packages/${name}`);
-const { name } = createRequire(cwd)(path.resolve(cwd, workspace ? `${workspace}/index` : '', 'package.json'));
+const alias: Alias[] = [];
+if (workspace && isGlobalFormat) {
+	const { name }: { name: string } = createRequire(cwd)(path.resolve(cwd, workspace, 'index/package.json'));
+	const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	const replacement = (folder: string) => path.resolve(cwd, workspace, folder);
+	alias.push(
+		{
+			find: new RegExp(`^${escapedName}$`),
+			replacement: replacement('index')
+		},
+		{
+			find: new RegExp(`^${escapedName}-(.*?)$`),
+			replacement: replacement('$1')
+		}
+	);
+}
 
-const alias = workspace && usedForBrowser
-	? [
-			{
-				find: new RegExp(`^${name}$`),
-				replacement: replacement('index')
-			},
-			{
-
-				find: new RegExp(`^${name}-(.*?)$`),
-				replacement: replacement('$1')
-			}
-		]
-	: [];
-
-const getGlobalName = (name$: string) => name$.replace(/(_|-|^|.*\/)([^-_\/@])/g, (_match: any, _$1: any, $2: string) => $2.toUpperCase());
-
-export default defineConfig({
-	define: usedForBrowser
+const config: UserConfig = {
+	define: isGlobalFormat
 		? {
 				'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 			}
@@ -90,28 +119,19 @@ export default defineConfig({
 		target: 'esnext',
 		lib: {
 			cssFileName: 'style',
-			entry: files.map((file: string) => path.resolve(packageSourceDir, file)),
+			entry: files.map(file => path.resolve(packageSourceDir, file)),
 			formats: [format],
 			name: getGlobalName(packageName)
 		},
 		rolldownOptions: {
-			external: variant === 'standard' ? external$ : undefined,
+			external,
 			output: {
 				exports: 'named',
 				comments: { annotation: true },
-				globals: usedForBrowser
-					? (globals || external).split(',')
-							.filter((i: string) => !!i)
-							.reduce((pre: any, cur: string) => {
-								const [key, value] = cur.split(':');
-								if (key) {
-									pre[key] = value || getGlobalName(key);
-								}
-								return pre;
-							}, {})
-					: {}
-
+				globals: outputGlobals
 			}
 		}
 	}
-}) as UserConfig;
+};
+
+export default defineConfig(config);

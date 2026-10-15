@@ -49,7 +49,25 @@ export default mergeConfig(configShared, defineConfig({
 }));
 ```
 
+共享配置的默认导出保持为 Vite 配置对象，可以通过 `mergeConfig`、对象展开或直接赋值扩展。`mergeConfig` 会追加 external 数组，因此 `external: []` 不会清空已有规则；数组与回调合并还会产生包含函数的非法数组。需要替换 external 时，在合并后直接赋值或用对象展开替换该属性，例如：
+
+```ts
+const config = mergeConfig(configShared, { build: { sourcemap: true } });
+
+config.build = {
+	...config.build,
+	rolldownOptions: {
+		...config.build?.rolldownOptions,
+		external: () => false
+	}
+};
+
+export default config;
+```
+
 每个脚本格式构建时都会把 URL 编码的 JSON 写入 `BUILD_OPTIONS`。`variant` 为 `standard` 或 `bundle`，`outDir` 为当前版本的实际输出目录。配置可读取 `format`、`workspace`、`files`、`packageName`、`packageSourceDir`、`packageOptions`、`variant`、`outDir`、`bundleExternal`、`iifeExternal`、`umdExternal`、`globals`、`minify` 和 `eval`。
+
+IIFE/UMD 的 external 和 globals 名单会去除逗号项两侧的空白，globals 还会去除映射键和值两侧的空白，例如 `globals: ' vue : Vue , react : React '`。显式 globals 名单规范化后非空时只使用该名单，不与 external 推导结果合并；为空时从当前格式的 external 推导。`vue:` 的空映射值仍自动推导为 `Vue`，重复键由后项覆盖。
 
 CLI 未传 `--minify-package`（程序调用未传 `minifyPackage`）时不注入 `build.minify`；共享配置默认关闭，自定义配置由 Vite 自行处理。传入名单后，命中的包设置 `build.minify: true`，未命中的包设置 `false`。仅覆盖 `build.minify`，自定义 `build.rolldownOptions.output.minify`、`output.comments` 和 `build.cssMinify` 保留优先级，实际输出由这些设置共同决定。`BUILD_OPTIONS.minify` 和 `BUILD_OPTIONS.eval` 是当前包按名单解析后的布尔值，未指定名单时为 `false`。
 
