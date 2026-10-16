@@ -1,5 +1,13 @@
 # @deot/dev-vue ChangeLog
 
+## v2.10.0
+
+_2026-10-16_
+
+### Updates
+
+- chore(shared): force-publish `2.9.14` -> `2.10.0`
+
 ## v2.9.14
 
 _2026-10-08_

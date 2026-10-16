@@ -1,5 +1,18 @@
 # @deot/dev-builder ChangeLog
 
+## v2.10.0
+
+_2026-10-16_
+
+### Features
+
+- feat: add package format selection and bundled ES output ([552fcb5](https://github.com/deot/dev/commit/552fcb5a0c7ce2cfc39b3b173c0adc97dc2c4236))
+
+### Updates
+
+- style: organize shared config and fix globals and aliases ([8e20624](https://github.com/deot/dev/commit/8e2062401373eb7ad7af8e7097c690416c9a9b1e))
+- chore(shared): force-publish `2.9.14` -> `2.10.0`
+
 ## v2.9.16
 
 _2026-10-09_

@@ -1,5 +1,17 @@
 # @deot/dev-dever ChangeLog
 
+## v2.10.0
+
+_2026-10-16_
+
+### Bugfixes
+
+- fix: correct workflows and expand test coverage ([1723ed9](https://github.com/deot/dev/commit/1723ed9a928a944dfd6d56e4f33115892f781217))
+
+### Updates
+
+- chore(shared): force-publish `2.9.14` -> `2.10.0`
+
 ## v2.9.16
 
 _2026-10-13_
