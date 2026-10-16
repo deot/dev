@@ -10,16 +10,13 @@ describe('test.ts', () => {
 				resolve(__dirname, '../src/index.ts'),
 				'test',
 				'--dry-run',
+				'--package-name',
+				'*',
+				'--watch',
 				'--custom any-custom-info'
 			]
 		);
 
-		await instance.press('up', 2000);
-		await instance.press('enter', 0);
-		await instance.press('y', 2000);
-		await instance.press('enter', 0);
-		await instance.press('y', 2000);
-		await instance.press('enter', 0);
 		await instance.stop();
 
 		const command = 'cross-env NODE_ENV=UNIT TEST_OPTIONS=%7B(.*)?%22watch%22%3Atrue(.*)?%7D (./node_modules/.bin/)?vitest';
@@ -28,5 +25,5 @@ describe('test.ts', () => {
 		expect(instance.stdout).toMatch(new RegExp(command));
 		expect(instance.stdout).toMatch(`custom%22%3A%22any-custom-info`);
 		// expect(instance.stderr).toBe('');
-	}, 180000);
+	}, 60000);
 });

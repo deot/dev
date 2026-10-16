@@ -20,14 +20,27 @@ describe('shared.ts', () => {
 			c: []
 		})).toEqual(['c', 'b', 'a']);
 
-		try {
-			Locals.getNormalizePackage({
-				a: ['b'],
-				b: ['a'],
-			});
-		} catch (e) {
-			expect(1).toBe(1);
+		expect(() => Locals.getNormalizePackage({
+			a: ['b'],
+			b: ['a'],
+		})).toThrow('a b deps loop');
+	});
+
+	it('orders shared dependencies before all dependents without mutating the graph', () => {
+		const graph = { app: ['left', 'right'], left: ['shared'], right: ['shared'], shared: [], alone: [] };
+		const original = structuredClone(graph);
+		const result = Locals.getNormalizePackage(graph);
+		expect(new Set(result)).toEqual(new Set(Object.keys(graph)));
+		for (const [name, dependencies] of Object.entries(graph)) {
+			for (const dependency of dependencies) {
+				expect(result.indexOf(dependency)).toBeLessThan(result.indexOf(name));
+			}
 		}
+		expect(graph).toEqual(original);
+	});
+
+	it('rejects a self dependency', () => {
+		expect(() => Locals.getNormalizePackage({ self: ['self'] })).toThrow('self self deps loop');
 	});
 
 	it('getRealPackageName', () => {
@@ -60,6 +73,29 @@ describe('shared.ts', () => {
 		expect(it.packageName).toBe('@deot/dev-shared');
 		expect(it.packageDir).toMatch(`/shared`);
 		expect(it.packageFolderNames.length).toBe(0);
+	});
+
+	it('keeps single-package names and reuses the configuration for the same directory', () => {
+		const cwd = path.resolve('./packages/shared');
+		expect(Locals.impl(cwd)).toBe(Locals.impl(cwd));
+		expect(Locals.getPackageName('other', cwd)).toBe('@deot/dev-shared');
+		expect(Locals.getPackageFolderName('@deot/dev-shared', cwd)).toBe('');
+		expect(Locals.getRealPackageName('left,right', cwd)).toBe('left,right');
+	});
+
+	it('discovers package metadata, dependency order and subpackages in the monorepo fixture', () => {
+		const cwd = path.resolve('./packages/_/monorepo');
+		const config = Locals.impl(cwd);
+		expect(config.packageName).toBe('@demo/helper');
+		expect(config.packageFolderNames).not.toContain('shims.d.ts');
+		expect(config.subpackagesMap['components']).toEqual(['button']);
+		expect(config.packageDirsMap['shared']).toBe(path.join(cwd, 'packages/shared'));
+		expect(config.normalizePackageNames).toHaveLength(config.packageFolderNames.length);
+		for (const [name, dependencies] of Object.entries(config.packageRelation as Record<string, string[]>)) {
+			for (const dependency of dependencies) {
+				expect(config.normalizePackageNames.indexOf(dependency)).toBeLessThan(config.normalizePackageNames.indexOf(name));
+			}
+		}
 	});
 
 	it('subpackage', () => {

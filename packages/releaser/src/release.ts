@@ -192,8 +192,8 @@ export class Release {
 			}
 		}
 
-		await this.updateVersion();
 		await this.updateCommits(commits);
+		await this.updateVersion();
 
 		const { forceUpdatePackage } = commandOptions;
 		// 强制更新
@@ -314,7 +314,7 @@ export class Release {
 	private async updateVersion() {
 		const { packageOptions, commits, commandOptions } = this;
 		const { version } = packageOptions;
-		let newVersion = '';
+		let newVersion: string;
 		if (commandOptions.customVersion) {
 			newVersion = commandOptions.customVersion;
 

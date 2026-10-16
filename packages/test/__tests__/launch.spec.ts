@@ -6,44 +6,50 @@ describe('launch.ts', () => {
 
 	it('browser', async () => {
 		const ctx = new Launch();
+		expect(() => ctx.browser.close()).toThrow('browser is not defined');
 		try {
+			const task = ctx.createBrowser();
+			expect(ctx.createBrowser()).toBe(task);
+			const first = await task;
+			expect(ctx.browser).toBe(first);
+			const second = await ctx.createBrowser(true);
+			expect(second).not.toBe(first);
+			expect(ctx.browser).toBe(second);
+			await expect.poll(() => first.connected).toBe(false);
+		} finally {
 			await ctx.browser.close();
-		} catch {
-			await ctx.createBrowser();
-			await ctx.createBrowser();
-			await ctx.createBrowser(true);
-			await ctx.browser.close();
-			expect(typeof ctx.browser.close).toBe('function');
 		}
 	}, E2E.TIME_OUT);
 
 	it('page', async () => {
 		const ctx = new Launch();
-
+		expect(() => ctx.page.goto(baseUrl)).toThrow('page is not defined');
 		try {
-			await ctx.page.goto(baseUrl);
-		} catch {
-			await ctx.createPage();
-			await ctx.createPage();
-			await ctx.createPage(true);
-			await ctx.page.goto(baseUrl);
-			expect(typeof ctx.page.goto).toBe('function');
+			const first = await ctx.createPage();
+			expect(await ctx.createPage()).toBe(first);
+			const second = await ctx.createPage(true);
+			expect(second).not.toBe(first);
+			expect(ctx.page).toBe(second);
+			await expect.poll(() => first.isClosed()).toBe(true);
+			await second.goto(baseUrl);
+			expect(await ctx.operater.value('#input')).toBe('test');
+		} finally {
+			await ctx.browser.close();
 		}
-
-		await ctx.browser.close();
 	}, E2E.TIME_OUT);
 
 	it('operater', async () => {
 		const ctx = new Launch();
-
+		expect(() => ctx.operater.value('input')).toThrow('operater is not defined');
 		try {
-			await ctx.operater.value('input');
-		} catch {
+			const first = ctx.operater;
 			await ctx.createPage();
-			expect(typeof ctx.operater.value).toBe('function');
+			expect(ctx.operater === first).toBe(false);
+			expect(ctx.operater.page).toBe(ctx.page);
+			await ctx.createPage(true);
+			expect(ctx.operater.page).toBe(ctx.page);
+		} finally {
+			await ctx.browser.close();
 		}
-
-		expect(typeof ctx.page).toBe('object');
-		await ctx.browser.close();
 	}, E2E.TIME_OUT);
 });

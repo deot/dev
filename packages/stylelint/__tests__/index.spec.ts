@@ -17,16 +17,35 @@ describe('index.js', () => {
 	});
 
 	it('success', async () => {
-		expect.hasAssertions();
-		try {
-			let code = '';
-			code += `a { color: inherit; }\n`;
+		const data = await lint('a { color: inherit; }\n');
+		expect(data.errored).toBe(false);
+		expect(data.results[0].warnings).toEqual([]);
+	});
 
-			const data = await lint(code);
-			expect(data.errored).toBe(false);
-		} catch (e) {
-			console.log(e);
-		}
+	it('creates independent configurations so caller overrides do not affect later consumers', async () => {
+		const first = await configure();
+		first.rules!['unit-no-unknown'] = null;
+		const second = await configure();
+		expect(second.rules!['unit-no-unknown']).not.toBeNull();
+		expect(second.plugins).toEqual(['stylelint-order', '@stylistic/stylelint-plugin']);
+	});
+
+	it('autofixes property ordering and produces a clean result when linted again', async () => {
+		const result = await lint('a {\n\tbottom: 2px;\n\ttop: 1px;\n}\n', { fix: true });
+		expect(result.code).toBe('a {\n\ttop: 1px;\n\tbottom: 2px;\n}\n');
+		const checked = await lint(result.code!);
+		expect(checked.errored).toBe(false);
+		expect(checked.results[0].warnings).toEqual([]);
+	});
+
+	it('ignores template and script content while checking invalid units in a Vue style block', async () => {
+		const code = '<template><div>text</div></template>\n<script setup>const value = "12xxx";</script>\n'
+			+ '<style lang="scss">.example { font-size: 12xxx; }</style>';
+		const result = await lint(code, { codeFilename: 'component.vue' });
+		expect(result.errored).toBe(true);
+		expect(result.results[0].warnings).toEqual(expect.arrayContaining([
+			expect.objectContaining({ rule: 'unit-no-unknown', line: 3 })
+		]));
 	});
 
 	it('single line comments', async () => {

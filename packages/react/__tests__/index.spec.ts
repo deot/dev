@@ -29,18 +29,20 @@ describe('index.ts', () => {
 		};
 		options.configFile = path.resolve(dirname, '../src/index.ts');
 		const { output } = (await build(options))[0];
-		expect(typeof output[0].code === 'string').toBe(true);
+		expect(output[0]).toMatchObject({ type: 'chunk', exports: ['default'] });
+		expect(output[0].code).toContain('Hello World');
+		expect(output[0].code).not.toContain('<div>');
 	});
 
 	it('tsc, *.d.ts', async () => {
-		fs.remove(path.resolve(dirname, './fixtures/dist'));
+		await fs.remove(path.resolve(dirname, './fixtures/dist'));
 		const has = (filename: string) => fs.existsSync(path.resolve(dirname, './fixtures/dist', filename));
-		try {
-			await Shell.exec(`tsc`, ['-p', path.resolve(dirname, './fixtures/tsconfig.json')]);
-		} catch (e) {
-			// 等价于skipLibCheck
-		}
+		await Shell.exec(`"${path.resolve('node_modules/.bin/tsc')}"`, [
+			'-p', `"${path.resolve(dirname, './fixtures/tsconfig.json')}"`, '--skipLibCheck'
+		]);
 		expect(has('index.d.ts')).toBe(true);
 		expect(has('app.d.ts')).toBe(true);
+		expect(await fs.readFile(path.resolve(dirname, './fixtures/dist/index.d.ts'), 'utf8')).toContain('export { App }');
+		expect(await fs.readFile(path.resolve(dirname, './fixtures/dist/app.d.ts'), 'utf8')).toContain('export default');
 	}, 100000);
 });

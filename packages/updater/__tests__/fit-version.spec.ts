@@ -1,6 +1,26 @@
 import { fitVersion } from '../src/fit-version';
 
 describe('fit-version.ts', () => {
+	it.each([
+		['workspace:*', {}, 'workspace:*'],
+		['file:../local', {}, 'file:../local'],
+		['^0.1.0', {}, '^0.1.1'],
+		['~1.0.0', { major: true, minor: true, patch: true }, '~2.0.0'],
+		['1.0.0', { minor: true, patch: true }, '1.1.0'],
+		['^1.0.0', { patch: true }, '^1.0.1'],
+		['^1.0.0', {}, '^1.1.0'],
+		['^9.0.0', {}, '^9.0.0']
+	])('fits %s with %j while preserving the input prefix', (version, options, expected) => {
+		const versions = ['0.1.0', '0.1.1', '1.0.0', '1.0.1', '1.1.0', '2.0.0-beta.1', '2.0.0'];
+		const original = [...versions];
+		expect(fitVersion(versions, version, options as any)).toBe(expected);
+		expect(versions).toEqual(original);
+	});
+
+	it('does not select prereleases for a stable version range', () => {
+		expect(fitVersion(['1.0.0', '1.1.0-beta.1', '2.0.0-rc.1'], '^1.0.0')).toBe('^1.0.0');
+	});
+
 	it('config', () => {
 		const versions = [
 			'1.0.0',

@@ -95,7 +95,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 	await server.listen();
 
 	const { local = [], network = [] } = server.resolvedUrls || {};
-	const url = network[0] || local[0] || `http://localhost:${server.config.server.port}`;
+	const url = network[0] || local[0] || `http://localhost:${server.config.server.port}/`;
 
 	entries.forEach((item: string) => Logger.log(`  > ${item}: ${chalk.cyan(`${url}${item}.html`)}`));
 

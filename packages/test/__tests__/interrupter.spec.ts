@@ -1,6 +1,47 @@
 import { Interrupter } from '@deot/dev-test';
 
 describe('interrupter.ts', () => {
+	it('delivers values to concurrent subscribers and creates a fresh pending task after next', async () => {
+		const interrupter = new Interrupter<number>();
+		const first = interrupter.then(value => value);
+		const second = interrupter.then(value => value);
+		await interrupter.next(12);
+		await expect(first).resolves.toBe(12);
+		await expect(second).resolves.toBe(12);
+		const completed = vi.fn();
+		const pending = interrupter.then(completed);
+		await Promise.resolve();
+		expect(completed).not.toHaveBeenCalled();
+		expect(interrupter.finish(24)).toBe(interrupter);
+		await pending;
+		expect(completed).toHaveBeenCalledExactlyOnceWith(24);
+	});
+
+	it('recovers after nextWithError and retains the final value after finish', async () => {
+		const interrupter = Interrupter.of({});
+		const error = new Error('retry');
+		const failed = interrupter.catch(reason => reason);
+		await interrupter.nextWithError(error);
+		await expect(failed).resolves.toBe(error);
+		interrupter.finish(5);
+		await interrupter.next(6);
+		await interrupter.nextWithError(new Error('ignored'));
+		await expect(interrupter).resolves.toBe(5);
+	});
+
+	it('finally preserves rejection and a finished failure cannot be overwritten', async () => {
+		const interrupter = new Interrupter();
+		const error = new Error('final failure');
+		const complete = vi.fn();
+		const failed = interrupter.finally(complete);
+		expect(interrupter.finishWithError(error)).toBe(interrupter);
+		interrupter.finish('ignored');
+		await expect(failed).rejects.toBe(error);
+		await expect(interrupter.next()).rejects.toBe(error);
+		await expect(interrupter.nextWithError()).rejects.toBe(error);
+		expect(complete).toHaveBeenCalledOnce();
+	});
+
 	it('next', async () => {
 		const interrupter = new Interrupter();
 		const next = vi.fn(interrupter.next);

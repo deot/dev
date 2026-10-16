@@ -86,7 +86,7 @@ export class Update {
 					}
 
 					resolve();
-				} catch (e) {
+				} catch {
 					delete packageNames[packageName];
 					resolve();
 				}
@@ -181,6 +181,7 @@ export class Update {
 
 		if (!test) {
 			Logger.log(chalk.magenta(`Test: `) + 'Disabled.');
+			return;
 		} else if (dryRun) {
 			Logger.log(chalk.yellow('Skipping Test'));
 			return;
