@@ -73,7 +73,7 @@ export const run = async (options: Build) => {
 
 	try {
 		await tsc(false);
-	} catch (e) {
+	} catch {
 		await tsc(true);
 	}
 

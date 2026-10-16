@@ -23,9 +23,9 @@ import { input, select, search, checkbox } from '@inquirer/prompts';
 		packageName = await search({
 			message: 'Select Package To Install:',
 			source: () => {
-				return new Promise((($resolve) => {
+				return new Promise(($resolve) => {
 					$resolve(['index', 'test']);
-				}));
+				});
 			}
 		});
 		dependentName = await input({

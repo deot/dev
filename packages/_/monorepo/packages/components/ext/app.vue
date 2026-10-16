@@ -5,5 +5,5 @@
 <script lang="ts" setup>
 const handleClick = () => {
 	// any
-}
+};
 </script>

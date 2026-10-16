@@ -106,8 +106,8 @@ export class Build {
 
 		const files = fs.existsSync(srcDir)
 			? fs
-				.readdirSync(srcDir)
-				.filter((i: string) => /^index(.*)\.(ts|js|s?css)$/.test(i))
+					.readdirSync(srcDir)
+					.filter((i: string) => /^index(.*)\.(ts|js|s?css)$/.test(i))
 			: [];
 		if (!files.length) return;
 

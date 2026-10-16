@@ -10,7 +10,7 @@ export const getOptions = async () => {
 	const packages$ = [ALL_PACKAGE, ...packageFolderNames] as string[];
 	const packageFolderName = await search({
 		message: `Select Package To ${isDev ? 'Develop' : 'Test'}:`,
-		source: async (term, _) => {
+		source: async (term) => {
 			const input = typeof term === 'undefined' ? 'cli' : term;
 			const filter = input
 				? packages$.filter(item => item.includes(input))
@@ -25,7 +25,7 @@ export const getOptions = async () => {
 	if (subpackagesMap[packageFolderName as string]?.length) {
 		subpackageFolderName = await search({
 			message: `Select Subpackage To ${isDev ? 'Develop' : 'Test'}:`,
-			source: async (term, _) => {
+			source: async (term) => {
 				const input = typeof term === 'undefined' ? '' : term;
 				const subpackages = [ALL_PACKAGE, ...subpackagesMap[packageFolderName as string]];
 				const filter = input

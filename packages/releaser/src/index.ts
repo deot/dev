@@ -28,7 +28,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 		);
 	}
 
-	let inputs: string[] = [];
+	let inputs: string[];
 	if (locals.workspace) {
 		inputs = locals.normalizePackageFolderNames;
 	} else {

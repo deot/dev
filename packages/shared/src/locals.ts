@@ -146,18 +146,18 @@ export const impl = (cwd?: string) => {
 	const packageFolderNames: string[] = !isMonorepo
 		? []
 		: fs
-			.readdirSync(packageDir)
-			.reduce((pre: string[], file: string) => {
-				const fullpath = path.resolve(packageDir, file);
-				// 获取文件信息
-				const stat = fs.statSync(fullpath);
-				if (!(/(^_|tpl)/.test(file))
-					&& stat.isDirectory()
-				) {
-					pre.push(file);
-				}
-				return pre;
-			}, []);
+				.readdirSync(packageDir)
+				.reduce((pre: string[], file: string) => {
+					const fullpath = path.resolve(packageDir, file);
+					// 获取文件信息
+					const stat = fs.statSync(fullpath);
+					if (!(/(^_|tpl)/.test(file))
+						&& stat.isDirectory()
+					) {
+						pre.push(file);
+					}
+					return pre;
+				}, []);
 
 	// 所有包的package.json
 	const packageOptionsMap = packageFolderNames.reduce((pre, packageFolderName$) => {
@@ -185,13 +185,13 @@ export const impl = (cwd?: string) => {
 		const dir = path.resolve(packageDir, packageFolderName$);
 		pre[packageFolderName$] = workspace && fs.existsSync(`${dir}/index.ts`) && !fs.existsSync(`${dir}/src`)
 			? fs.readdirSync(dir).filter((file: string) => {
-				const fullpath = path.join(dir, file);
-				const stat = fs.statSync(fullpath);
-				if (stat.isDirectory()) {
-					return fs.existsSync(`${fullpath}/__tests__`);
-				}
-				return false;
-			})
+					const fullpath = path.join(dir, file);
+					const stat = fs.statSync(fullpath);
+					if (stat.isDirectory()) {
+						return fs.existsSync(`${fullpath}/__tests__`);
+					}
+					return false;
+				})
 			: [];
 		return pre;
 	}, {});

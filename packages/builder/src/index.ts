@@ -25,7 +25,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 
 	const packageFolderName = Locals.getPackageFolderName(options.packageName || '*');
 
-	let inputs: string[] = [];
+	let inputs: string[];
 	if (locals.workspace && packageFolderName === '*') {
 		inputs = locals.normalizePackageFolderNames;
 	} else {
@@ -44,9 +44,9 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			});
 		};
 
-		(options.packageName.split(',')).forEach(((packageName$: string) => {
+		(options.packageName.split(',')).forEach((packageName$: string) => {
 			walk(locals.packageRelation[packageName$]);
-		}));
+		});
 
 		relations = relations
 			.filter((i, index, source) => source.indexOf(i) === index)
@@ -54,7 +54,7 @@ export const run = (options: Options) => Utils.autoCatch(async () => {
 			.filter((i) => {
 				try {
 					return options.dryRun || !fs.existsSync(path.resolve(locals.packageDir, i, 'dist'));
-				} catch (e) {
+				} catch {
 					return false;
 				}
 			});

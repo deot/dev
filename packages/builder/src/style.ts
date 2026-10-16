@@ -15,8 +15,8 @@ export const run = async (options: Build) => {
 	const { packageSourceDir: srcDir, packageOutDir: outDir } = options || {};
 	const styles = fs.existsSync(srcDir)
 		? fs
-			.readdirSync(srcDir)
-			.filter((i: string) => /^index\.(.*)\.?s?css$/.test(i))
+				.readdirSync(srcDir)
+				.filter((i: string) => /^index\.(.*)\.?s?css$/.test(i))
 		: [];
 	const stats: Array<{ size: number; file: string }> = [];
 	await styles

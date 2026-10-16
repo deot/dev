@@ -18,6 +18,6 @@ Release.run({
 		`style(index,shared): mutiple changed`,
 		`chore(builder,cli,deps,dever,eslint): deps updated`
 	].map((i, index) => {
-		return i += `\n\n-hash-\n${String(index).repeat(5)}`;
+		return i + `\n\n-hash-\n${String(index).repeat(5)}`;
 	})
 });
