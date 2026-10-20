@@ -6,10 +6,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-client/dist/index.style.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-renderer/dist/index.style.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-markdown/dist/index.style.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@deot/docs-playground/dist/index.style.css">
 </head>
 <body>
 	<div id="app"></div>
@@ -84,7 +80,7 @@
 				...packageGroups.map(group => ({
 					label: group.label[lang],
 					children: group.items.map(item => ({
-						label: item.label,
+						label: item.label.replace(/^@deot\/dev-/, ''),
 						value: `/packages/${item.value}`
 					}))
 				}))
@@ -93,23 +89,19 @@
 
 		const createHomeDocument = (lang) => {
 			const t = (zh, en) => (lang === 'zh-CN' ? zh : en);
-			const accent = '#2563eb';
-			const accentSecondary = '#14b8a6';
-			const accents = [accent, accentSecondary, '#8b5cf6'];
+			const stepAccents = ['#2563eb', '#14b8a6', '#8b5cf6'];
 			const action = {
 				label: t('开始使用', 'Quick Start'),
 				to: `/${lang}/packages/guide`,
 				variant: 'solid',
-				size: 'large',
-				color: accent,
-				textColor: '#ffffff'
+				size: 'large'
 			};
 			const stack = {
 				marginTop: 0,
-				marginBottom: 80,
+				marginBottom: 64,
 				paddingTop: 0,
 				paddingBottom: 0,
-				maxWidth: 1200
+				maxWidth: 1536
 			};
 			const block = (id, type, props, appearance = stack) => ({
 				id,
@@ -119,7 +111,7 @@
 			const cards = items => items.map((item, index) => ({
 				...item,
 				icon: item.icon || String(index + 1).padStart(2, '0'),
-				accent: item.accent || accents[index % accents.length]
+				accent: item.accent || stepAccents[index % stepAccents.length]
 			}));
 
 			return {
@@ -129,105 +121,192 @@
 					mode: 'sortable',
 					maxWidth: 1920,
 					minHeight: 600,
+					contentWidth: 1536,
+					sidePattern: true,
 					background: '#ffffff'
 				},
 				blocks: [
 					block('home-hero', 'hero', {
 						eyebrow: '@deot/dev',
-						title: t('统一 JavaScript / TypeScript 库的开发工作流', 'One workflow for JavaScript / TypeScript libraries'),
+						title: t('JavaScript / TypeScript 库的统一开发环境', 'One development environment for JavaScript / TypeScript libraries'),
 						description: t(
-							'用一套 CLI 和共享配置完成开发、测试、构建、依赖更新与发布。',
-							'Use one CLI and shared configuration for development, testing, builds, dependency updates and releases.'
+							[
+								'为你的库提供仓库约定、共享配置与统一命令，',
+								'覆盖示例开发、测试、构建、依赖更新和发布，',
+								'让精力回到库本身。'
+							].join('\n'),
+							'Equip your library with repository conventions, shared configuration and commands for examples, tests, builds, dependency updates and releases. Focus on the library itself.'
 						),
 						align: 'left',
-						accent,
-						accentSecondary,
-						background: '',
 						showVisual: true,
-						minHeight: 500,
+						visual: {
+							type: 'code',
+							title: 'package.json',
+							language: 'json',
+							content: JSON.stringify({
+								scripts: {
+									link: 'ddc link',
+									add: 'ddc add',
+									dev: 'ddc dev',
+									build: 'ddc build',
+									test: 'ddc test',
+									update: 'ddc update',
+									release: 'ddc release'
+								}
+							}, null, 2)
+						},
+						minHeight: 520,
 						highlights: [
-							{ value: '17', label: t('发布包', 'Published packages') },
-							{ value: 'CLI', label: t('统一指令', 'Unified commands') },
-							{ value: 'Vue / React', label: t('框架集成', 'Framework integrations') }
+							{ value: t('单包 / 多包', 'Single / Mono'), label: t('仓库组织', 'Repository layouts') },
+							{ value: 'ddc', label: t('工作流入口', 'Workflow entry') },
+							{ value: 'TS / JS', label: t('共享规范与配置', 'Shared conventions') }
 						],
 						actions: [action]
-					}, { ...stack, marginBottom: 64, fullWidth: true }),
+					}, { ...stack, marginBottom: 40, fullWidth: true }),
 					block('home-features', 'features', {
 						eyebrow: t('能力', 'Capabilities'),
-						title: t('从本地开发到稳定发布', 'From local development to reliable releases'),
+						title: t('从示例开发到发布，共用一套环境', 'One environment from examples to releases'),
 						description: t(
-							'既可直接使用聚合包，也可按职责安装独立子包。',
-							'Use the aggregate package or install focused packages by responsibility.'
+							'工具库、样式库与组件库都能复用基础工程能力，再通过包配置和项目配置满足各自的需求。',
+							'Utility, style and component libraries can reuse the same engineering tools, then adapt package settings and project configuration to their needs.'
 						),
+						align: 'center',
 						columns: 3,
 						gap: 24,
-						items: cards([
+						items: [
 							{
-								title: t('统一工作流', 'Unified workflow'),
-								description: t('ddc 统一 dev、build、test、link、add、update 与 release。', 'ddc unifies dev, build, test, link, add, update and release.'),
-								badge: 'CLI',
-								icon: 'link'
-							},
-							{
-								title: t('仓库结构兼容', 'Repository-aware'),
-								description: t('自动识别 Monorepo、Single Repo、包依赖和组件式子包。', 'Discover monorepos, single repositories, package relations and component subpackages.'),
+								title: t('一致的仓库约定', 'Repository conventions'),
+								description: t('识别 packages/index 聚合包、内部包依赖与组件子包，也支持根目录 src 的单包项目。', 'Recognize packages/index, internal dependencies and component subpackages, or use a single package with a root src directory.'),
 								badge: 'Workspace',
 								icon: 'grid'
 							},
 							{
-								title: t('可扩展配置', 'Extensible configuration'),
-								description: t('通过置底配置文件扩展 Vite、Vitest、Vue、React 和 Lint。', 'Extend Vite, Vitest, Vue, React and linting through project configuration.'),
-								badge: 'Config',
+								title: t('面向示例的开发', 'Example-driven development'),
+								description: t('发现 examples 中的 JS、TS、JSX、Vue 与 HTML 入口，通过 Vite 预览各包的实际用法。', 'Discover JS, TS, JSX, Vue and HTML entries in examples, then preview package usage with Vite.'),
+								badge: 'Vite',
+								icon: 'file'
+							},
+							{
+								title: t('按包组织构建', 'Package-aware builds'),
+								description: t('按内部依赖顺序构建，默认输出 ESM 与类型声明；按包选择 CJS、UMD、IIFE 或 Bundle。', 'Build in internal dependency order. Emit ESM and declarations by default, with CJS, UMD, IIFE or bundled output selected per package.'),
+								badge: 'Build',
+								icon: 'upload'
+							},
+							{
+								title: t('统一测试入口', 'One testing entry'),
+								description: t('通过 Vitest 运行单包、组件子包或全部包的测试，支持覆盖率、文件筛选与持续监听。', 'Run Vitest for a package, component subpackage or all packages, with coverage, file filters and watch mode.'),
+								badge: 'Vitest',
+								icon: 'link'
+							},
+							{
+								title: t('共享规范与配置', 'Shared standards and config'),
+								description: t('复用 TypeScript、ESLint、Stylelint 与提交校验，按需接入 Vue / React，并通过项目配置扩展。', 'Reuse TypeScript, ESLint, Stylelint and commit checks. Add Vue or React support and extend configuration per project.'),
+								badge: 'Conventions',
 								icon: 'setting'
+							},
+							{
+								title: t('依赖更新与发布', 'Dependency updates and releases'),
+								description: t('统一依赖升级、版本与 Changelog，以及 npm 发布和 Git 标签；update / release 默认先预演。', 'Coordinate dependency updates, versions, changelogs, npm publishing and Git tags. Update and release commands default to a dry run.'),
+								badge: 'Release',
+								icon: 'again'
 							}
-						])
+						].map((item, index) => ({
+							...item,
+							accent: [
+								'var(--docs-color-primary)',
+								'light-dark(#089bb5, #67d5e8)',
+								'light-dark(#a247db, #d6a0ff)',
+								'light-dark(#14966b, #75dcb0)',
+								'light-dark(#dc8721, #f5c177)',
+								'light-dark(#d74e86, #f1a2c6)'
+							][index]
+						}))
+					}),
+					block('home-code', 'code', {
+						eyebrow: t('工作流', 'Workflow'),
+						title: t('日常开发与交付，使用统一入口', 'One entry for development and delivery'),
+						description: t(
+							'在根 package.json 中声明 ddc 脚本后，从仓库根目录运行。构建与测试可用 --package-name 选择包。',
+							'Declare ddc scripts in the root package.json and run them from the repository root. Select packages for builds and tests with --package-name.'
+						),
+						align: 'center',
+						filename: t('日常开发', 'Daily workflow'),
+						language: 'bash',
+						content: [
+							`# ${t('启动示例开发', 'Start example development')}`,
+							'npm run dev',
+							'',
+							`# ${t('构建全部包 / 测试全部包', 'Build all packages / test all packages')}`,
+							"npm run build -- --package-name '*'",
+							"npm run test -- --package-name '*' --no-coverage",
+							'',
+							`# ${t('预演依赖更新与发布', 'Preview dependency updates and releases')}`,
+							'npm run update',
+							'npm run release'
+						].join('\n')
 					}),
 					block('home-steps', 'steps', {
 						eyebrow: t('开始', 'Start'),
-						title: t('三步接入开发工具链', 'Adopt the toolchain in three steps'),
+						title: t('为你的库接入开发环境', 'Set up the environment for your library'),
+						align: 'center',
+						accent: '#2563eb',
 						columns: 3,
 						items: cards([
 							{ title: t('安装', 'Install'), description: 'pnpm add -D @deot/dev' },
-							{ title: t('配置', 'Configure'), description: t('复用共享配置并声明项目脚本。', 'Reuse shared configuration and declare project scripts.') },
-							{ title: t('执行', 'Run'), description: t('通过 ddc 或 npm scripts 运行工作流。', 'Run the workflow through ddc or npm scripts.') }
+							{ title: t('遵循约定', 'Follow conventions'), description: t('组织 src、examples 与 __tests__；多包项目使用 packages/ 与 packages/index。', 'Organize src, examples and __tests__. Use packages/ and packages/index for a monorepo.') },
+							{ title: t('接入工作流', 'Connect the workflow'), description: t('声明 ddc 脚本、复用规范配置，再通过 z.*.config.ts 扩展开发、构建与测试。', 'Declare ddc scripts, reuse shared standards and extend development, builds and tests through z.*.config.ts.') }
 						])
 					}),
-					block('home-ecosystem', 'cta', {
-						eyebrow: t('生态', 'Ecosystem'),
-						title: t('基于 @deot/dev 的项目', 'Projects built on @deot/dev'),
+					block('home-faq', 'faq', {
+						eyebrow: t('说明', 'Details'),
+						title: t('共用底座，也保留项目自己的选择', 'A shared foundation with room for each project'),
+						align: 'center',
+						items: [
+							{
+								question: t('适用于哪些库项目？', 'Which library projects can use it?'),
+								answer: t('适用于 JavaScript / TypeScript 工具库、样式库及 Vue / React 组件库等项目。通过开发依赖安装 @deot/dev，可接入整套工作流，也可按需使用独立子包。', 'Use it for JavaScript / TypeScript utilities, style libraries, Vue / React component libraries and more. Install @deot/dev as a development dependency for the full workflow, or use individual packages as needed.')
+							},
+							{
+								question: t('项目有特殊开发或构建需求怎么办？', 'How can a project customize its workflow?'),
+								answer: t('使用 z.dev.config.ts、z.build.config.ts 与 z.test.config.ts 扩展共享配置；多包项目中的包也可声明自己的 dev、build、test 脚本，由对应命令转交执行。', 'Extend shared settings with z.dev.config.ts, z.build.config.ts and z.test.config.ts. Packages in a monorepo can also define their own dev, build and test scripts, which the matching command delegates to.')
+							},
+							{
+								question: t('单包与多包仓库都能使用吗？', 'Does it support single-package repositories and monorepos?'),
+								answer: t('可以。单包项目以根目录 src 组织源码；多包项目使用 packages/，并以 packages/index 作为聚合包。开发、构建与测试按仓库结构处理，add 和 link 用于多包仓库的包与依赖管理。', 'Yes. Single-package projects keep source in the root src directory. Monorepos use packages/ with packages/index as the aggregate package. Development, builds and tests follow the repository layout; add and link manage packages and dependencies in monorepos.')
+							}
+						]
+					}),
+					block('home-cta', 'cta', {
+						eyebrow: t('下一步', 'Next'),
+						title: t('从你的下一个库开始', 'Start with your next library'),
 						description: t(
-							'工具、请求、样式、Vue 组件与 Vue/Vite 环境共享同一套基础架构。',
-							'Helpers, HTTP, styles, Vue components and Vue/Vite environments share the same foundation.'
+							'安装开发依赖，接入共享配置与命令，为你的库建立从本地开发到发布的完整流程。',
+							'Install the development dependency, connect shared configuration and commands, and give your library a workflow from local development to release.'
 						),
 						align: 'center',
-						accent,
-						accentSecondary,
-						background: '',
-						actions: [
-							{ label: '@deot/helper', to: 'https://github.com/deot/helper', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
-							{ label: '@deot/http', to: 'https://github.com/deot/http', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
-							{ label: '@deot/style', to: 'https://github.com/deot/style', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
-							{ label: '@deot/vc', to: 'https://github.com/deot/vc', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' },
-							{ label: '@deot/env', to: 'https://github.com/deot/env', variant: 'outline', size: 'medium', color: accent, textColor: accent, target: '_blank' }
-						]
+						actions: [action]
 					}, { ...stack, marginBottom: 0, fullWidth: true })
 				]
 			};
 		};
 
-		const pathSegments = location.pathname.split('/');
-		const localeIndex = pathSegments.findIndex(segment => Boolean(locales[segment]));
-		const basePath = localeIndex >= 0
-			? `${pathSegments.slice(0, localeIndex).join('/')}/`
-			: location.pathname.endsWith('/')
-				? location.pathname
-				: new URL('./', location.href).pathname;
-
+		const logo = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#6250e8"/><path d="m23 22-10 10 10 10m18-20 10 10-10 10m-5-25-8 30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>')}`;
 		window.$docs = {
-			base: new URL(basePath, location.origin).href,
 			namespace: '@deot/dev-site',
 			repository: 'https://github.com/deot/dev',
-			theme: { default: 'system' },
+			theme: {
+				default: 'system',
+				colors: {
+					'color-primary': { light: '#6250e8', dark: '#b9aaff' },
+					'color-secondary': { light: '#8a6cfa', dark: '#d1baff' },
+					'color-contrast-light': { light: '#ffffff', dark: '#282236' }
+				}
+			},
+			layout: {
+				header: {
+					brand: { logo, label: '@deot/dev', value: '/' }
+				}
+			},
 			locales,
 			routes: Object.fromEntries([
 				['/', {
@@ -276,6 +355,29 @@
 			modules: {}
 		};
 	</script>
-	<script type="module" src="https://cdn.jsdelivr.net/npm/@deot/docs-client/+esm"></script>
+	<script>
+		const entries = [
+			'https://cdn.jsdelivr.net/npm/@deot/docs-launch/+esm',
+			'https://esm.unpkg.com/@deot/docs-launch/dist/index.js'
+		];
+		const controller = new AbortController();
+		const timer = setTimeout(() => controller.abort(), 15000);
+		const fail = () => {
+			document.querySelector('#app').textContent = '文档入口加载失败，请刷新重试。';
+		};
+		Promise.any(entries.map(async (src) => {
+			const response = await fetch(src, { signal: controller.signal });
+			if (!response.ok || !/(?:java|ecma)script/i.test(response.headers.get('content-type'))) {
+				throw new Error(`Invalid launch response: ${src}`);
+			}
+			return { cdn: src.match(/^https?:.*?(?=@deot\/docs-launch)/)?.[0], source: await response.text() };
+		})).finally(() => {
+			clearTimeout(timer);
+			controller.abort();
+		}).then(({ cdn, source }) => {
+			window.$docs.runtime = { mode: 'production', ...window.$docs.runtime, cdn };
+			document.body.appendChild(Object.assign(document.createElement('script'), { type: 'module', textContent: source, onerror: fail }));
+		}).catch(fail);
+	</script>
 </body>
 </html>
