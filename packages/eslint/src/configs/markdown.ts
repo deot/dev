@@ -1,6 +1,10 @@
-import pluginMarkdown from '@eslint/markdown';
+import markdownPlugin from '@eslint/markdown';
 import { Options, FlatConfig } from '../types';
 import { pickOptions } from './_helper';
+
+const pluginMarkdown = (
+	'default' in markdownPlugin ? markdownPlugin.default : markdownPlugin
+) as typeof markdownPlugin;
 
 export const markdown = async (options$?: Options): Promise<FlatConfig[]> => {
 	const options = await pickOptions('markdown', options$);
