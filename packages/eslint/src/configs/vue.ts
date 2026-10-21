@@ -1,5 +1,6 @@
 import pluginVue from 'eslint-plugin-vue';
 import parserVue from 'vue-eslint-parser';
+import * as parserTs from '@typescript-eslint/parser';
 import { Options, FlatConfig, Rules } from '../types';
 import { pickOptions, cleanRules } from './_helper';
 
@@ -8,6 +9,7 @@ export const vue = async (options$?: Options): Promise<FlatConfig[]> => {
 	if (!options.enable) {
 		return [];
 	}
+	const typescriptOptions = await pickOptions('typescript', options$);
 
 	const essentialRules = pluginVue.configs['essential'].rules as Rules;
 	const rules: Rules = {
@@ -31,11 +33,18 @@ export const vue = async (options$?: Options): Promise<FlatConfig[]> => {
 			languageOptions: {
 				parser: parserVue as any,
 				parserOptions: {
-					sourceType: 'module'
+					sourceType: 'module',
+					...(typescriptOptions.enable && {
+						parser: parserTs
+					})
 				}
 			},
 			rules: {
 				...cleanRules('vue', essentialRules, essentialRules, rules),
+				...(typescriptOptions.enable && {
+					'no-unused-vars': 0,
+					'@typescript-eslint/no-unused-vars': 1
+				}),
 				...options.overrides
 			}
 		}

@@ -10,10 +10,14 @@ pnpm add -D @deot/dev-eslint eslint
 
 ```js
 // eslint.config.js
-export { default } from '@deot/dev-eslint';
+import { configure } from '@deot/dev-eslint';
+
+export default configure();
 ```
 
-默认导出是 `configure()` 返回的 Flat Config Promise。
+默认同时支持 Vue JavaScript 和 TypeScript，可在同一项目中混用 `<script>`、`<script setup>` 和 `lang="ts"`，无需额外配置 parser。
+
+也可使用 `export { default } from '@deot/dev-eslint'`，默认导出是 `configure()` 返回的 Flat Config Promise。
 
 ## 自定义
 

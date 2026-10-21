@@ -220,6 +220,47 @@ describe('index.ts', () => {
 		expect(data[0].ruleId).toBe(`vue/html-indent`);
 	});
 
+	it.each(['', ' lang="js"', ' lang="ts"'])('vue/script%s', async (attributes) => {
+		const annotation = attributes.includes('ts') ? ': number' : '';
+		const { data } = await lint(
+			`<script${attributes}>\nconst value${annotation} = 1;\nexport default { data: () => ({ value }) };\n</script>\n`
+			+ '<template>\n\t<div>{{ value }}</div>\n</template>\n',
+			'App.vue'
+		);
+		expect(data).toEqual([]);
+	});
+
+	it.each(['', ' lang="js"', ' lang="ts"'])('vue/script setup%s', async (attributes) => {
+		const declaration = attributes.includes('ts')
+			? 'interface Props { value: number }\nconst props = defineProps<Props>();\nconst value: number = props.value;'
+			: 'const props = defineProps({ value: Number });\nconst value = props.value;';
+		const { data } = await lint(
+			`<script setup${attributes}>\n${declaration}\n</script>\n`
+			+ '<template>\n\t<div>{{ value }}</div>\n</template>\n',
+			'./components/App.vue'
+		);
+		expect(data).toEqual([]);
+	});
+
+	it.each(['', ' lang="js"', ' lang="ts"'])('vue/unused variables%s', async (attributes) => {
+		const annotation = attributes.includes('ts') ? ': number' : '';
+		const { data } = await lint(
+			`<script setup${attributes}>\nconst unused${annotation} = 1;\n</script>\n`,
+			'./components/App.vue'
+		);
+		expect(data).toEqual([
+			expect.objectContaining({ ruleId: '@typescript-eslint/no-unused-vars', severity: 1 })
+		]);
+	});
+
+	it.each(['', ' lang="js"'])('vue/undefined JavaScript variables%s', async (attributes) => {
+		const { data } = await lint(
+			`<script setup${attributes}>\nconsole.log(missing);\n</script>\n`,
+			'./components/App.vue'
+		);
+		expect(data).toEqual([expect.objectContaining({ ruleId: 'no-undef', severity: 1 })]);
+	});
+
 	it('vue/require-v-for-key', async () => {
 		expect.hasAssertions();
 

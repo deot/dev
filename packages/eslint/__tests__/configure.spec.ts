@@ -49,4 +49,46 @@ describe('ESLint configuration customization', () => {
 			expect.objectContaining({ ruleId: 'no-debugger', severity: 2 })
 		]);
 	});
+
+	it('keeps Vue JavaScript linting available when TypeScript is disabled', async () => {
+		const config = await configure({ typescript: false });
+		const linter = new Linter();
+		expect(linter.verify('<script setup>\nconst unused = 1;\n</script>\n', config, 'App.vue')).toEqual([
+			expect.objectContaining({ ruleId: 'no-unused-vars', severity: 1 })
+		]);
+		expect(linter.verify('<script setup lang="ts">\nconst unused: number = 1;\n</script>\n', config, 'App.vue')).toEqual([
+			expect.objectContaining({ fatal: true })
+		]);
+	});
+
+	it.each([
+		[undefined, ''],
+		[undefined, ' lang="js"'],
+		[{ typescript: true }, ''],
+		[{ typescript: true }, ' lang="js"']
+	] as const)('supports Vue JavaScript template references (%j, script%s)', async (options, attributes) => {
+		const config = await configure(options);
+		const linter = new Linter();
+		const source = [
+			`<script setup${attributes}>`,
+			`import Child from './child.vue';`,
+			'',
+			'const visible = true;',
+			`const value = 'selected';`,
+			`const items = [{ id: 1, label: 'First' }];`,
+			'const handleSelect = selection => console.log(selection);',
+			'</script>',
+			'<template>',
+			'\t<Child v-if="visible" :value="value" @select="handleSelect">',
+			'\t\t<span v-for="item in items" :key="item.id">{{ item.label }}</span>',
+			'\t</Child>',
+			'</template>',
+			''
+		].join('\n');
+
+		expect(linter.verify(source, config, 'App.vue')).toEqual([]);
+		expect(linter.verify(source.replace('</script>', 'const unused = 1;\n</script>'), config, 'App.vue')).toEqual([
+			expect.objectContaining({ ruleId: '@typescript-eslint/no-unused-vars', severity: 1 })
+		]);
+	});
 });
