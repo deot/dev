@@ -1,6 +1,6 @@
 {
   "name": "@deot/dev",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "@deot/dev-cli": "^2.10.0",
     "@deot/dev-deps": "^2.10.0",
     "@deot/dev-dever": "^2.10.0",
-    "@deot/dev-eslint": "^2.10.0",
+    "@deot/dev-eslint": "^2.10.1",
     "@deot/dev-linker": "^2.10.0",
     "@deot/dev-shared": "^2.10.0",
     "@deot/dev-stylelint": "^2.10.0",

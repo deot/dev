@@ -1,5 +1,17 @@
 # @deot/dev ChangeLog
 
+## v2.10.1
+
+_2026-10-21_
+
+### Bugfixes
+
+- fix(eslint): normalize Markdown plugin imports for CJS ([0aca217](https://github.com/deot/dev/commit/0aca21733508f044345d0e10bb69aba4b6e2441f))
+
+### Features
+
+- feat(eslint): support Vue TypeScript by default ([8f0f392](https://github.com/deot/dev/commit/8f0f392f14f3f318d8ef82a744cb53f6559cc5f2))
+
 ## v2.10.0
 
 _2026-10-16_
